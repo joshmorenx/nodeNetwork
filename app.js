@@ -4,22 +4,16 @@ const User = require("./models/User.js");
 const Permission = require("./models/Permission.js");
 const authRoutes = require("./routes/auth.js");
 const jwt = require("jsonwebtoken");
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-const { createElement } = require('react');
-require('@babel/register')({
-  presets: ['@babel/preset-env', '@babel/preset-react']
-});
 
-const Hola = require('./views/hola.jsx').default;
+// const Hola = require('./views/hola.jsx').default;
 require('dotenv').config();
 
 // Configuración de Express.js
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.set("view engine", "ejs");
+app.set("view engine", "ejs");
 
-app.set('view engine', 'jsx');
+// app.set('view engine', 'jsx');
 
 // Rutas de autenticación
 app.use("/", authRoutes);

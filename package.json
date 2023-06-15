@@ -19,14 +19,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.0",
     "nodemon": "^2.0.22",
-    "npx": "^3.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "npx": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
-    "@babel/preset-react": "^7.22.5",
-    "@babel/register": "^7.22.5"
   }
 }
