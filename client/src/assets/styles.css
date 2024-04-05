@@ -29,3 +29,67 @@
     height: 25px;
     text-align: center;
 }
+
+/* Estilos para el contenedor del formulario */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Estilos para el formulario de inicio de sesión */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Estilos para los campos de entrada */
+.login-form input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Estilos para el botón de inicio de sesión */
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Estilos para el mensaje de estado */
+.login-message {
+    margin-top: 10px;
+    color: red;
+}
+
+/* Estilos para la información del usuario */
+.user-info {
+    margin-top: 10px;
+}
+
+/* Estilos para el enlace de registro */
+.register-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.register-link a {
+    color: #007bff;
+}
+
