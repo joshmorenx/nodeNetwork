@@ -1,0 +1,31 @@
+.PermissionContainer{
+    display: flex;
+}
+.myDiv {
+    border: 1px solid black;
+    width: 25%;
+    height: 70px;
+    overflow-y: scroll;
+}
+
+.btnContainer>button{
+    width: 25%;
+    height: 25%;
+    text-align: center;
+}
+
+.btnContainer{
+    width: 10%;
+    text-align: center;
+}
+
+.btnContainer>div{
+    position: relative;
+    top: 18%;
+}
+
+#btnAdd, #btnRemove{
+    width: 35%;
+    height: 25px;
+    text-align: center;
+}

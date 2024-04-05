@@ -5,6 +5,8 @@ import useGetAllUsers from '../hooks/useGetAllUsers';
 import ListaNombres from './ListaNombres';
 import PermissionDisplayer from './PermissionDisplayer';
 import { useNavigate } from 'react-router';
+import '../assets/styles.css';
+
 // import { useEffect } from 'react';
 // import { link } from 'react-router-dom';
 
