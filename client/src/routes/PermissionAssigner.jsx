@@ -3,6 +3,7 @@ import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import ListaNombres from './ListaNombres';
+import PermissionDisplayer from './PermissionDisplayer';
 import { useNavigate } from 'react-router';
 // import { useEffect } from 'react';
 // import { link } from 'react-router-dom';
@@ -38,10 +39,12 @@ export default function PermissionAssigner({ token }) {
                 <div> 
                 <p>user: {user.username} </p>
                 <p>puedes modificar permisos</p>
-                <ListaNombres nombres={nombres} />
+                <ListaNombres nombres={ nombres } /> <button> Consultar permismos del usuario </button>
                 </div>
             ):(
             <p>{cadena}</p>)}
+            <br />
+            <PermissionDisplayer />
             <br />
             <button onClick={goBackHome}>Volver</button>       
         </div>

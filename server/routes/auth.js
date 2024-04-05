@@ -9,6 +9,7 @@ const login = require("../controllers/login.js");
 const register = require("../controllers/register.js");
 const logout = require("../controllers/logout.js");
 const verificarToken = require("../controllers/verificarToken.js");
+const getAllUsers = require("../controllers/getAllUsers.js");
 const cors = require("cors");
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173']
@@ -90,8 +91,11 @@ app.get('/api/usuario', verificarToken, (req, res) => {
     res.json({ userId, username, email, permissions});
 });
 
-app.get('/api/usuarios', async (req, res) => {
-    const allUsernames = await User.find({}, { username: 1, _id: 0 });
-    return res.status(200).json({usernames : allUsernames});
-})
+// app.get('/api/usuarios', async (req, res) => {
+//     const allUsernames = await User.find({}, { username: 1, _id: 0 });
+//     return res.status(200).json({usernames : allUsernames});
+// })
+
+app.get("/api/usuarios", getAllUsers)
+
 module.exports = app;

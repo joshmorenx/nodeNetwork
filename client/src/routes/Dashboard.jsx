@@ -21,35 +21,7 @@ const Dashboard = ({ token }) => {
     // let hasAdminPermissions = false
     const handleLogout = () => {
         logout()
-        // if(logStatusRefresh){
-        //     window.location.reload();
-        // }
-        // window.location.reload();
     };
-    // const getPermissions = () => {
-    //     try {
-    //         let cadena = ''
-    //             for(let key in user.permissions){
-    //             let elem = user.permissions[key]
-    //                 if(key < user.permissions.length - 1){ 
-    //                     cadena += elem.permissionDescription+", "
-    //                 }else{
-    //                     cadena += elem.permissionDescription
-    //                 }
-
-    //                 if(elem.permissionId === 1){
-    //                     hasAdminPermissions = true
-    //                 }
-    //             }
-    //         // console.log(cadena)
-    //         if(user.permissions.length > 0) {
-    //             return cadena
-    //         }
-    //         return 'Sin permisos'
-    //     } catch (error) {
-    //         // console.log(error);
-    //     }
-    // }
     
     let { cadena, allAccess } = usePermissions(user)
     // console.log(cadena);

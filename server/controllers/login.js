@@ -28,7 +28,7 @@ const login = async (req = request, res = response) => {
         try {
             // Encuentra el usuario por su ID y actualiza el campo isLogged
             const resultado = await User.updateOne({ username: user.username }, { $set: { isLogged: isLogged } });
-            console.log("Actualización exitosa:", resultado);   
+            // console.log("Actualización exitosa:", resultado);   
         } catch (error) {
             console.error("Error al actualizar el usuario:", error);
         }
