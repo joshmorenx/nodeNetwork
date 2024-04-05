@@ -3,7 +3,7 @@ import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import ListaNombres from './ListaNombres';
-import PermissionDisplayer from './PermissionDisplayer';
+import PermissionDisplayer from '../components/PermissionDisplayer';
 import { useNavigate } from 'react-router';
 import '../assets/styles.css';
 
