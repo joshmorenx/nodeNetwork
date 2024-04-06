@@ -1,8 +1,13 @@
+body{
+    margin: 0;
+}
+*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 .PermissionContainer{
     display: flex;
 }
 .myDiv {
-    border: 1px solid black;
     width: 25%;
     height: 70px;
     overflow-y: scroll;
@@ -30,66 +35,62 @@
     text-align: center;
 }
 
-/* Estilos para el contenedor del formulario */
-.login-container {
+.login-container{
+    background-color: rgb(254, 249, 239);
+    box-shadow: 0 3px 10px -1px black;
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 7px;
+}
+
+.login-container>*{
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.login-title{
+    color: rgb(125, 106, 155);
+    text-align: center;
+    margin-top: 6%;
+}
+
+.login-form{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-/* Estilos para el formulario de inicio de sesión */
-.login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-/* Estilos para los campos de entrada */
-.login-form input {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-/* Estilos para el botón de inicio de sesión */
-.login-form button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
-
-/* Estilos para el mensaje de estado */
-.login-message {
-    margin-top: 10px;
-    color: red;
-}
-
-/* Estilos para la información del usuario */
-.user-info {
-    margin-top: 10px;
-}
-
-/* Estilos para el enlace de registro */
-.register-link {
-    margin-top: 10px;
+    margin-bottom: 3%;
     text-align: center;
 }
 
-.register-link a {
-    color: #007bff;
+.login-form>*{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    width: 90%;
+    height: 2.5vw !important;
+    /* border-radius: 5px; */
 }
 
+.login-form>button{
+    background-color: rgb(64, 53, 185);
+    color: #FFFFFF;
+}
+
+.register-link{
+    text-align: center;
+    margin-bottom: 6%;
+    display: flex;
+}
+.register-link>p{
+    margin: auto;
+}
+
+.login-background{
+    background-color: rgb(125, 106, 155);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
