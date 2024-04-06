@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import '../assets/styles.css';
+import '../assets/index.css';
 
 
 const Login = () => {

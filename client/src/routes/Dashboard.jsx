@@ -28,24 +28,28 @@ const Dashboard = ({ token }) => {
 
     return (
         <div>
-            <h1>Dashboard</h1>
             {error ? (
                 <p>Error al obtener el contenido del usuario: {error.message}</p>
             ) : (
-                <p>
-                    Hola, Bienvenido {user.username}
-                    <br />
-                    Correo: {user.email}
-                    <br />
-                    Permisos de usuario: {cadena}
-                </p>
+                <div class="flex h-screen">
+                    <div class="m-auto">
+                        <p>
+                            Hola, Bienvenido {user.username}
+                            <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img>
+                            <br />
+                            Correo: {user.email}
+                            <br />
+                            Permisos de usuario: {cadena}
+                        </p>
+                    </div>
+                </div>
             )}
             <br />
-            <button onClick={handleLogout}>Cerrar Sesión</button>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleLogout}>Cerrar Sesión</button>
             <br />
             <br />
             {allAccess ? (
-                <button onClick={() => navigate('/permissions')}>Asignador de permisos</button>
+                <button className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded' onClick={() => navigate('/permissions')}>Asignador de permisos</button>
             ):(
                 ""
             )}
