@@ -14,9 +14,13 @@ SECRET="WHATEVER YOU WANT TO BE YOUR PASSPHRASE"
 
 OPEN A NEW TERMINAL INTO AND RUN
 >/nodeNetwork/client/npm install
+
 #start the client
+
 >/nodeNetwork/client/npm run dev
 
 >/nodeNetwork/server/npm install
+
 #start the server
+
 >/nodeNetwork/client/npm start
