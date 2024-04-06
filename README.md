@@ -19,6 +19,8 @@ OPEN A NEW TERMINAL INTO AND RUN
 
 >/nodeNetwork/client/npm run dev
 
+###############################
+
 >/nodeNetwork/server/npm install
 
 #start the server
