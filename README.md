@@ -13,21 +13,21 @@ SECRET="WHATEVER YOU WANT TO BE YOUR PASSPHRASE"
 ...........................
 
 OPEN A NEW TERMINAL INTO AND RUN
->\nodeNetwork\client\>npm install
+>\nodeNetwork\client\> npm install
 
 #start the client
 
->\nodeNetwork\client\>npm run dev
+>\nodeNetwork\client\> npm run dev
 
 ###############################
 
->\nodeNetwork\server\>npm install
+>\nodeNetwork\server\> npm install
 
 #start the server
 
->\nodeNetwork\client\>npm start
+>\nodeNetwork\client\> npm start
 
 ###############################
 
 open a new terminal and run the folloing string to see the changes in the frontend
-\nodeNetwork\client>npx tailwindcss -i .\src\assets\input.css -o .\src\assets\output.css --watch
+\nodeNetwork\client> npx tailwindcss -i .\src\assets\input.css -o .\src\assets\output.css --watch
