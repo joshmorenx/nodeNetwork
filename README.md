@@ -30,4 +30,4 @@ OPEN A NEW TERMINAL INTO AND RUN
 ###############################
 
 open a new terminal and run the folloing string to see the changes in the frontend
-\nodeNetwork\client> npx tailwindcss -i .\src\assets\input.css -o .\src\assets\output.css --watch
+>\nodeNetwork\client> npx tailwindcss -i .\src\assets\input.css -o .\src\assets\output.css --watch
