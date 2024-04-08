@@ -78,17 +78,21 @@ body{
 .login-form>input{
     border: 1px solid rgb(125, 106, 155);
     border-radius: 5px;
+    font-size: 2vw;
 }
 
 .login-form>button{
     background-color: rgb(64, 53, 185);
     color: #FFFFFF;
+    font-size: 1.5vw;
+    text-align: center;
 }
 
 .register-link{
     text-align: center;
     margin-bottom: 6%;
     display: flex;
+    font-size: 1.5vw;
 }
 
 #register:hover,#recover:hover{
@@ -134,7 +138,7 @@ body{
 }
 
 .profile-card{
-    box-shadow: 0 3px 10px -1px black;
+    box-shadow: 0 3vw 10vw -1vw black;
     background-color: rgb(243, 230, 206);
     margin-top: 5%;
     padding-bottom: 5.1%;  
@@ -147,6 +151,8 @@ body{
 }
 .avatar-container>img{
     border: 5px solid rgb(96 165 250 / var(--tw-bg-opacity));
+    border-radius: 100%;
+    width: 10vw;
 }
 .user-data{
     margin-top: 5%;
@@ -158,8 +164,8 @@ body{
 }
 
 .user-data, .user-type{
-    margin-left: 5.1%;
-    margin-right: 5.1%;
+    margin-left: 1vw;
+    margin-right: 1vw;
 }
 
 .logout-button{

@@ -38,7 +38,7 @@ const Dashboard = ({ token }) => {
                                 <div className='profile-card m-auto rounded-3xl bg-gray-200'>
                                     {/* Hola, Bienvenido {user.username} */}
                                     <div className="avatar-container rounded-3xl">
-                                        <img className="avatar m-auto w-100 h-100 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img>
+                                        <img className="avatar m-auto" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img>
                                     </div>
 
                                     <div className='user-data'>
@@ -52,7 +52,7 @@ const Dashboard = ({ token }) => {
                                             <b>{ cadena ? ("Administrador"):(1) }</b>
                                         </div>
                                         ):(
-                                            <p>No tienes permisos de administrador</p>)}
+                                            <p>Sin permisos de administrador</p>)}
                                 </div>
                             </div>
                     )}
