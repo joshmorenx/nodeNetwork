@@ -4,7 +4,7 @@ import Login from '../routes/Login';
 import Register from '../routes/Register';
 import Forgot from '../routes/Forgot';
 import Dashboard from '../routes/Dashboard';
-import PermissionAssigner from '../routes/PermissionAssigner';
+// import PermissionAssigner from '../routes/PermissionAssigner';
 import Cookies from 'js-cookie';
 export const Approuter = () => {
     const [tokenState, setTokenState] = useState(null);
@@ -24,7 +24,7 @@ export const Approuter = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/dashboard" element={tokenState ? <Dashboard token={tokenState}/>: <Navigate to="/"/>} />
-            <Route path="/permissions" element={tokenState ? <PermissionAssigner token={tokenState}/>: <Navigate to="/permissions"/>} />
+            {/* <Route path="/permissions" element={tokenState ? <PermissionAssigner token={tokenState}/>: <Navigate to="/permissions"/>} /> */}
         </Routes>
     );
 };

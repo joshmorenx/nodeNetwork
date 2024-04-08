@@ -4,7 +4,7 @@ import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import ListaNombres from './ListaNombres';
 import PermissionDisplayer from '../components/PermissionDisplayer';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import '../assets/styles.css';
 
 // import { useEffect } from 'react';
@@ -12,8 +12,8 @@ import '../assets/styles.css';
 
 export default function PermissionAssigner({ token }) {
     const { user, error } = useGetUser({ token });
-    let { cadena, allAccess } = usePermissions(user);
-    const navigate = useNavigate();
+    let { allAccess } = usePermissions(user);
+    // const navigate = useNavigate();
     // const nombres = ['Juan', 'María', 'Pedro', 'Ana'];
     const nombres = [];
     const { userNames } = useGetAllUsers();
@@ -30,25 +30,28 @@ export default function PermissionAssigner({ token }) {
         console.log(error);
     }
     // console.log(cadena, allAccess);
-    const goBackHome = () => {
-        navigate('/');
-    }
+    // const goBackHome = () => {
+    //     navigate('/');
+    // }
     
     return (
         <div>
-            {error ? <p>{error.message}</p> :<h1>Asignador de permisos</h1>}
+            {error ? <p>{error.message}</p> :
+                <h1>Asignador de permisos</h1>}
             {allAccess ? (
                 <div> 
-                <p>user: {user.username} </p>
+                {/* <p>user: {user.username} </p> */}
                 <p>puedes modificar permisos</p>
                 <ListaNombres nombres={ nombres } /> <button> Consultar permismos del usuario </button>
                 </div>
             ):(
-            <p>{cadena}</p>)}
-            <br />
-            <PermissionDisplayer />
-            <br />
-            <button onClick={goBackHome}>Volver</button>       
+            <p></p>)}
+
+                <PermissionDisplayer token={ token } />
+
+            {/* <br /> */}
+            {/* <br /> */}
+            {/* <button className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded' onClick={goBackHome}>Volver</button>        */}
         </div>
     )
 }

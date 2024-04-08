@@ -39,8 +39,8 @@ const Login = () => {
                     <div className="login-message">{state}</div>
                     <div className="user-info">{userInfo.user}</div>
                     <div className="register-link">
-                        <p><Link to='/register'>Regístrate</Link></p>
-                        <p><Link to='/forgot'>Recuperar contraseña</Link></p>
+                        <p id="register"><Link to='/register'>Regístrate</Link></p>
+                        <p id="recover"><Link to='/forgot'>Recuperar contraseña</Link></p>
                     </div>
                 </div>
             </div>

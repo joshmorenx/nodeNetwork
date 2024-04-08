@@ -52,6 +52,8 @@ body{
 }
 
 .login-title{
+    font-size: 2.5vw;
+    font-weight: bold;
     color: rgb(125, 106, 155);
     text-align: center;
     margin-top: 6%;
@@ -73,6 +75,11 @@ body{
     height: 2.5vw !important;
 }
 
+.login-form>input{
+    border: 1px solid rgb(125, 106, 155);
+    border-radius: 5px;
+}
+
 .login-form>button{
     background-color: rgb(64, 53, 185);
     color: #FFFFFF;
@@ -83,6 +90,12 @@ body{
     margin-bottom: 6%;
     display: flex;
 }
+
+#register:hover,#recover:hover{
+    text-decoration: underline;
+    color: blueviolet;
+}
+
 .register-link>p{
     margin: auto;
 }
@@ -92,4 +105,63 @@ body{
     width: 100%;
     height: 100%;
     position: absolute;
+}
+
+.dashboard-container{
+    background-color: rgb(254, 249, 239);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.dashboard-container>*{
+    border: 1px solid black;
+}
+
+.permission-container{
+    padding-top: 0.5%;
+    padding-left: 0.5%;
+    width: 100%;
+    margin-left: 0.5%;
+}
+
+.profile-container{
+    width: 25%;
+    display: block;
+    font-size: 1vw;
+    background: rgb(201, 200, 225);
+}
+
+.profile-card{
+    box-shadow: 0 3px 10px -1px black;
+    background-color: rgb(243, 230, 206);
+    margin-top: 5%;
+    padding-bottom: 5.1%;  
+    width: 90%;
+}
+/*rgb(96 165 250 / var(--tw-bg-opacity))*/
+.avatar-container{
+    width: 100%;
+    background: linear-gradient(to bottom, rgb(96 165 250 / var(--tw-bg-opacity)) 60%, rgba(255, 255, 255, 0) 40%);
+}
+.avatar-container>img{
+    border: 5px solid rgb(96 165 250 / var(--tw-bg-opacity));
+}
+.user-data{
+    margin-top: 5%;
+    margin-bottom: 5%
+}
+.user-type{
+    font-weight: bold;
+    margin-bottom: 5.1%;
+}
+
+.user-data, .user-type{
+    margin-left: 5.1%;
+    margin-right: 5.1%;
+}
+
+.logout-button{
+    margin-top: 10%;
 }
