@@ -34,7 +34,7 @@ const login = async (req = request, res = response) => {
         }
         
 
-        const token = jwt.sign({ userId: user._id, username: user.username, email: user.email, isLogged: user.isLogged ,permissions: addedPermissions }, process.env.SECRET);
+        const token = jwt.sign({ userId: user._id, username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, isLogged: user.isLogged ,permissions: addedPermissions }, process.env.SECRET);
         req.session.token = token;
 
         return res.status(200).json({ msg: "Usuario encontrado, redirigiendo...", token, user: user.username });

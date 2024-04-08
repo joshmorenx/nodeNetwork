@@ -125,25 +125,25 @@ app.post("/users/:id/:permissionId", async (req, res) => {
   }
 });
 
-app.post("/api/permissions/:id/:description", async (req, res) => {
-  try {
-    let {id, description} = req.params
-    const ultimoPermiso = await Permission.findOne({}, { sort: { id: -1 } });
+// app.post("/api/permissions/:id/:description", async (req, res) => {
+//   try {
+//     let {id, description} = req.params
+//     const ultimoPermiso = await Permission.findOne({}, { sort: { id: -1 } });
     
-    if (ultimoPermiso) {
-      id = parseInt(ultimoPermiso.id) + 1; // Convertir a número
-    }
+//     if (ultimoPermiso) {
+//       id = parseInt(ultimoPermiso.id) + 1; // Convertir a número
+//     }
 
-    const permission = new Permission({
-      permissionId:id,
-      permissionDescription: description
-    })
-    await permission.save();
-    return res.status(200).json({message:"Permiso agregado correctamente"});
-  } catch (error) {
-    return res.json({ error: error.message });    
-  }
-});
+//     const permission = new Permission({
+//       permissionId:id,
+//       permissionDescription: description
+//     })
+//     await permission.save();
+//     return res.status(200).json({message:"Permiso agregado correctamente"});
+//   } catch (error) {
+//     return res.json({ error: error.message });    
+//   }
+// });
 
 // Iniciar el servidor
 const PORT = process.env.PORT || 3001;

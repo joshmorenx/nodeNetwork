@@ -86,9 +86,9 @@ app.get('/api/usuario', verificarToken, (req, res) => {
     const usuario = req.usuario;
 
     // Utiliza las propiedades del usuario según sea necesario
-    const { userId, username, email, permissions} = usuario;
+    const { userId, username, firstName, lastName, email, permissions } = usuario;
 
-    res.json({ userId, username, email, permissions});
+    res.json({ userId, username, firstName, lastName, email, permissions });
 });
 
 // app.get('/api/usuarios', async (req, res) => {
