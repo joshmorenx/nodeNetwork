@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import useLogout from '../hooks/useLogout';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
-// import { useNavigate } from 'react-router';
 import PermissionAssigner from '../routes/PermissionAssigner';
+// import { useNavigate } from 'react-router';
 
 const Dashboard = ({ token }) => {
     // let navigate = useNavigate();    

@@ -4,7 +4,7 @@ import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import ListaNombres from './ListaNombres';
 import PermissionDisplayer from '../components/PermissionDisplayer';
-import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
+// import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
 // import { useNavigate } from 'react-router';
 import '../assets/styles.css';
 
@@ -19,7 +19,7 @@ export default function PermissionAssigner({ token }) {
     // const nombres = ['Juan', 'María', 'Pedro', 'Ana'];
     const nombres = [];
     const { userNames } = useGetAllUsers();
-    const {} = useGetSelectedUserPermissions(selectedUserName); //hacer la funcion para obtener los permisos de un usuario
+    // const {} = useGetSelectedUserPermissions(selectedUserName); //hacer la funcion para obtener los permisos de un usuario
     
     try {
         if( userNames.length > 0 ){
