@@ -1,14 +1,15 @@
 
-export default function usePermissions(user){
+export default function usePermissions( user ){
     let allAccess = false
     let cadena = ''
     try {
             for(let key in user.permissions){
             let elem = user.permissions[key]
                 if(key < user.permissions.length - 1){ 
-                    cadena += elem.permissionDescription+", "
+                    // cadena += elem.permissionDescription+", "
+                    cadena += elem.permissionId+" : <"+ elem.permissionDescription+">, "
                 }else{
-                    cadena += elem.permissionDescription
+                    cadena += elem.permissionId+" : <"+ elem.permissionDescription+">"
                 }
 
                 if(elem.permissionId === 1){
