@@ -45,9 +45,12 @@ app.get('/api/usuario', verificarToken, (req, res) => {
 
 app.get("/api/usuarios", getAllUsers)
 
-// app.get("/api/permissions/", async (req, res) => {
-//     const username = req.params.username
-//     console.log(username);
-// })
+app.get("/api/permissions/", async (req, res) => {
+    const username = req.headers.username
+    const userInfo = await User.findOne({ username: username }) 
+    const permissions = await Permission.find({ _id: { $in: userInfo.permissions } })
+
+    res.status(200).json(permissions)
+})
 
 module.exports = app;   
