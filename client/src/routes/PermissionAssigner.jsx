@@ -2,25 +2,22 @@ import PropTypes from 'prop-types';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
-import ListaNombres from './ListaNombres';
+import ListaNombres from '../components/ListaNombres';
 import PermissionDisplayer from '../components/PermissionDisplayer';
 // import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
-// import { useNavigate } from 'react-router';
+import { useState } from 'react';   
 import '../assets/styles.css';
 
 // import { useEffect } from 'react';
 // import { link } from 'react-router-dom';
 
 export default function PermissionAssigner({ token }) {
-    let selectedUserName = ''
+    const [selectedUser, setSelectedUser] = useState('');
     const { user, error } = useGetUser({ token });
     let { allAccess } = usePermissions(user);
-    // const navigate = useNavigate();
-    // const nombres = ['Juan', 'María', 'Pedro', 'Ana'];
     const nombres = [];
     const { userNames } = useGetAllUsers();
-    // const {} = useGetSelectedUserPermissions(selectedUserName); //hacer la funcion para obtener los permisos de un usuario
-    
+
     try {
         if( userNames.length > 0 ){
             // console.log(userNames);
@@ -32,26 +29,30 @@ export default function PermissionAssigner({ token }) {
     } catch (error) {
         console.log(error);
     }
+    
     // console.log(cadena, allAccess);
     // const goBackHome = () => {
     //     navigate('/');
     // }
-    const setSelectedUserPermissions = () => {
-        selectedUserName = document.querySelector('select').value
+    const handleSelectChange = (selectedValue) => {
+        setSelectedUser(selectedValue);
+        console.log(selectedUser);
     }
 
     return (
         <div>
-            {error ? <p>{error.message}</p> :
-                <h1>Asignador de permisos</h1>}
-            {allAccess ? (
-                <div> 
-                {/* <p>user: {user.username} </p> */}
-                <p>puedes modificar permisos</p>
-                <ListaNombres nombres={ nombres } /> <button onClick={setSelectedUserPermissions} className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded'> Consultar permismos del usuario </button>
-                </div>
-            ):(
-            <p></p>)}
+            <div className="permission-assigner-container">
+                {error ? <p>{error.message}</p> :
+                    <h1>Asignador de permisos</h1>}
+                {allAccess ? (
+                    <div> 
+                    {/* <p>user: {user.username} </p> */}
+                    <p>puedes modificar permisos</p>
+                    <ListaNombres nombres={ nombres } onSelectChange={handleSelectChange} /> <button className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded'> Consultar permismos del usuario </button>
+                    </div>
+                ):(
+                <p></p>)}
+            </div>
 
                 <PermissionDisplayer token={ token } />
 

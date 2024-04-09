@@ -45,4 +45,9 @@ app.get('/api/usuario', verificarToken, (req, res) => {
 
 app.get("/api/usuarios", getAllUsers)
 
-module.exports = app;
+// app.get("/api/permissions/", async (req, res) => {
+//     const username = req.params.username
+//     console.log(username);
+// })
+
+module.exports = app;   

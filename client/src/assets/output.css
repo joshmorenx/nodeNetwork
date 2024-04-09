@@ -554,8 +554,16 @@ video {
   --tw-contain-style:  ;
 }
 
+.m-1 {
+  margin: 0.25rem;
+}
+
 .m-auto {
   margin: auto;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
 }
 
 .hidden {
@@ -568,6 +576,10 @@ video {
 
 .rounded-3xl {
   border-radius: 1.5rem;
+}
+
+.rounded-sm {
+  border-radius: 0.125rem;
 }
 
 .border {

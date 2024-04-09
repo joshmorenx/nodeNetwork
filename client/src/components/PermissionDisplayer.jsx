@@ -12,27 +12,28 @@ export default function PermissionDisplayer({ token }) {
     if(allAccess){
       return (
         <>
-          <div className="PermissionContainer">
+          <div className="available-permissions">
             <div className="unassigned-permissions border border-black">
-              <div>Permiso de ejemplo 1</div>
-              <div>Permiso de ejemplo 2</div>
-              <div>Permiso de ejemplo 3</div>
-              <div>Permiso de ejemplo 4</div>
-              <div>Permiso de ejemplo 5</div>
+              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
+              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
+              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
+              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
+              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
+              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
             </div>
     
             <div className="btnContainer">
               <div>
-                <button className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' id="btnAdd">+</button>
+                <button className='rounded-sm bg-blue-500 mb-1 text-white font-bold' id="btnAdd">+</button>
               </div>
-    
+                
               <div>
-                <button className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' id="btnRemove">-</button>
+                <button className='rounded-sm bg-blue-500 text-white' id="btnRemove">-</button>
               </div>
             </div>
             
             <div className="assigned-permissions border border-black">
-            { cadenaArray.map( (item, index) => <div className='' key={index}>{item}</div> ) }
+              { cadenaArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) }
             </div>
           </div>
         </>

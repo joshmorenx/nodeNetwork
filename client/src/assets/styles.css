@@ -4,14 +4,15 @@ body{
 *{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.PermissionContainer{
+.available-permissions{
+    margin-top: 5%;
     display: flex;
 }
 .assigned-permissions, .unassigned-permissions{
-    width: 50%;
-    height: 70px;
+    width: 35%;
+    height: 10vw;
     overflow-y: scroll;
-    font-size: 2vw;
+    font-size: 1vw;
 }
 
 .btnContainer>button{
@@ -120,10 +121,6 @@ body{
     display: flex;
 }
 
-.dashboard-container>*{
-    border: 1px solid black;
-}
-
 .permission-container{
     padding-top: 0.5%;
     padding-left: 0.5%;
@@ -139,7 +136,7 @@ body{
 }
 
 .profile-card{
-    box-shadow: 0 3vw 10vw -1vw black;
+    box-shadow: 0 3px 10px -1px black;
     background-color: rgb(243, 230, 206);
     margin-top: 5%;
     padding-bottom: 5.1%;  
@@ -174,4 +171,8 @@ body{
 
 .logout-button{
     margin-top: 10%;
+}
+
+.permission-assigner-container{
+    font-size: 1vw;
 }
