@@ -17,7 +17,7 @@ export default function usePermissions( user ){
                 }
             }
         // console.log(cadena)
-        if(user.permissions.length === 0 || !user.permissions) {
+        if(!allAccess) {
             cadena = 'No tienes permisos para modificar'
         }
         

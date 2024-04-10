@@ -48,9 +48,9 @@ app.get("/api/usuarios", getAllUsers)
 app.get("/api/permissions/", async (req, res) => {
     const username = req.headers.username
     const userInfo = await User.findOne({ username: username }) 
-    const permissions = await Permission.find({ _id: { $in: userInfo.permissions } })
-
-    res.status(200).json(permissions)
+    const assignedPermissions = await Permission.find({ _id: { $in: userInfo.permissions } })
+    const unassignedPermissions = await Permission.find({ _id: { $nin: userInfo.permissions } })
+    res.status(200).json({assignedPermissions:assignedPermissions, unassignedPermissions:unassignedPermissions})
 })
 
 module.exports = app;   

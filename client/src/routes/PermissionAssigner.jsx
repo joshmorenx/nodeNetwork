@@ -12,13 +12,13 @@ import '../assets/styles.css';
 // import { link } from 'react-router-dom';
 
 export default function PermissionAssigner({ token }) {
-    let permissions = [];
     const [selectedUser, setSelectedUser] = useState('');
     const { user, error } = useGetUser({ token });
     let { allAccess } = usePermissions(user);
     const nombres = [];
     const { userNames } = useGetAllUsers();
-    const { userData, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
+    const { UserAssignedPermissions, UserUnasignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
+    
 
     try {
         if( userNames.length > 0 ){
@@ -48,10 +48,10 @@ export default function PermissionAssigner({ token }) {
     }, [selectedUser])
     
     useEffect(() => {
-    if (userData) {
-        // console.log(userData);
+    if (UserAssignedPermissions) {
+        // console.log(UserAssignedPermissions);
     }
-    }, [userData])
+    }, [UserAssignedPermissions])
     return (
         <div>
             <div className="permission-assigner-container">
@@ -61,13 +61,13 @@ export default function PermissionAssigner({ token }) {
                     <div> 
                     {/* <p>user: {user.username} </p> */}
                     <p>puedes modificar permisos</p>
-                    <ListaNombres nombres={ nombres } handleSelectedChange={handleSelectedChange} userData={ userData } />
+                    <ListaNombres nombres={ nombres } handleSelectedChange={handleSelectedChange} UserAssignedPermissions={ UserAssignedPermissions } />
                     </div>
                 ):(
                 <p></p>)}
             </div>
 
-                <PermissionDisplayer token={ token } userData={ userData }/>
+                <PermissionDisplayer token={ token } UserAssignedPermissions={ UserAssignedPermissions } UserUnasignedPermissions={ UserUnasignedPermissions }/>
 
             {/* <br /> */}
             {/* <br /> */}

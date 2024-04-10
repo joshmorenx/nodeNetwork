@@ -3,7 +3,7 @@ import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import { useState, useEffect } from 'react';
 
-export default function PermissionDisplayer({ token, userData }) {
+export default function PermissionDisplayer({ token, UserAssignedPermissions, UserUnasignedPermissions }) {
 
   const { user } = useGetUser({ token });
   let { cadena, allAccess } = usePermissions( user );
@@ -11,9 +11,19 @@ export default function PermissionDisplayer({ token, userData }) {
   let cadenaArray = []
   let cArray = [];
 
-    for(let elem in userData){
-      cArray.push(userData[elem].permissionId +' : '+ '<'+userData[elem].permissionDescription+'>');
+  let aArray = [];
+  let bArray = [];
+
+
+    for(let elem in UserAssignedPermissions){
+      cArray.push(UserAssignedPermissions[elem].permissionId +' : '+ '<'+UserAssignedPermissions[elem].permissionDescription+'>');
     }
+
+    for(let elem in UserUnasignedPermissions){
+      bArray.push(UserUnasignedPermissions[elem].permissionId +' : '+ '<'+UserUnasignedPermissions[elem].permissionDescription+'>');
+    }
+
+    aArray = bArray
     cadenaArray = cArray;
   try {
     if(allAccess){
@@ -21,13 +31,8 @@ export default function PermissionDisplayer({ token, userData }) {
         <>
           <div className="available-permissions">
             <h1>Permisos Disponibles</h1>
-            <div className="unassigned-permissions border border-black">
-              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
-              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
-              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
-              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
-              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
-              <div className='m-1 border border-black'>Permiso de ejemplo 1</div>
+            <div className="assigned-permissions border border-black">
+              { aArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) }
             </div>
     
             <div className="btnContainer">

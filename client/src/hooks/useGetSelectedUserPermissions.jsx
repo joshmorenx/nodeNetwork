@@ -2,9 +2,10 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export default function useGetSelectedUserPermissions (selectedUserName){
-    const [userData, setUserData] = useState({});
+    const [UserAssignedPermissions, setUserAssignedPermissions] = useState({});
+    const [UserUnasignedPermissions, setUserUnasignedPermissions] = useState({});
 
-    const enviarSolicitud = async () => {
+    const enviarSolicitud = async (typeQuery) => {
         try {
             const response = await axios.get(`http://localhost:3000/api/permissions/`,{
                 headers: {
@@ -12,11 +13,12 @@ export default function useGetSelectedUserPermissions (selectedUserName){
                 }
             });
             if(response){
-                setUserData(response.data);
+                setUserAssignedPermissions(response.data.assignedPermissions);
+                setUserUnasignedPermissions(response.data.unassignedPermissions);
             }
         } catch (error) {
             console.error('Error al enviar la solicitud:', error.message);
         }
     }
-    return { userData, enviarSolicitud };
+    return { UserAssignedPermissions, UserUnasignedPermissions, enviarSolicitud };
 }
