@@ -5,7 +5,7 @@ export default function useGetSelectedUserPermissions (selectedUserName){
     const [UserAssignedPermissions, setUserAssignedPermissions] = useState({});
     const [UserUnasignedPermissions, setUserUnasignedPermissions] = useState({});
 
-    const enviarSolicitud = async (typeQuery) => {
+    const enviarSolicitud = async () => {
         try {
             const response = await axios.get(`http://localhost:3000/api/permissions/`,{
                 headers: {
