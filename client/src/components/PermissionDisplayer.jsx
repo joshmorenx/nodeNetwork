@@ -3,7 +3,7 @@ import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import { useState, useEffect } from 'react';
 
-export default function PermissionDisplayer({ token, UserAssignedPermissions, UserUnasignedPermissions }) {
+export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions}) {
 
   const { user } = useGetUser({ token });
   let { cadena, allAccess } = usePermissions( user );
@@ -13,14 +13,13 @@ export default function PermissionDisplayer({ token, UserAssignedPermissions, Us
 
   let aArray = [];
   let bArray = [];
-
-
+  
+    for(let elem in UserUnassignedPermissions){
+      bArray.push(UserUnassignedPermissions[elem].permissionId +' : '+ '<'+UserUnassignedPermissions[elem].permissionDescription+'>');
+    }
+    
     for(let elem in UserAssignedPermissions){
       cArray.push(UserAssignedPermissions[elem].permissionId +' : '+ '<'+UserAssignedPermissions[elem].permissionDescription+'>');
-    }
-
-    for(let elem in UserUnasignedPermissions){
-      bArray.push(UserUnasignedPermissions[elem].permissionId +' : '+ '<'+UserUnasignedPermissions[elem].permissionDescription+'>');
     }
 
     aArray = bArray

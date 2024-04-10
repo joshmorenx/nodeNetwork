@@ -570,16 +570,8 @@ video {
   margin-top: 1.25rem;
 }
 
-.flex {
-  display: flex;
-}
-
 .hidden {
   display: none;
-}
-
-.w-1\/2 {
-  width: 50%;
 }
 
 .rounded {

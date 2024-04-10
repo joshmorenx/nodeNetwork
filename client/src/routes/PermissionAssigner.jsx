@@ -17,7 +17,7 @@ export default function PermissionAssigner({ token }) {
     let { allAccess } = usePermissions(user);
     const nombres = [];
     const { userNames } = useGetAllUsers();
-    const { UserAssignedPermissions, UserUnasignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
+    const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
     
 
     try {
@@ -51,7 +51,7 @@ export default function PermissionAssigner({ token }) {
     if (UserAssignedPermissions) {
         // console.log(UserAssignedPermissions);
     }
-    }, [UserAssignedPermissions])
+    }, [UserUnassignedPermissions, UserAssignedPermissions])
     return (
         <div>
             <div className="permission-assigner-container">
@@ -67,7 +67,7 @@ export default function PermissionAssigner({ token }) {
                 <p></p>)}
             </div>
 
-                <PermissionDisplayer token={ token } UserAssignedPermissions={ UserAssignedPermissions } UserUnasignedPermissions={ UserUnasignedPermissions }/>
+                <PermissionDisplayer token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } />
 
             {/* <br /> */}
             {/* <br /> */}

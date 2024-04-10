@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export default function useGetSelectedUserPermissions (selectedUserName){
+    const [UserUnassignedPermissions, setUserUnasignedPermissions] = useState({});
     const [UserAssignedPermissions, setUserAssignedPermissions] = useState({});
-    const [UserUnasignedPermissions, setUserUnasignedPermissions] = useState({});
 
     const enviarSolicitud = async () => {
         try {
@@ -13,12 +13,12 @@ export default function useGetSelectedUserPermissions (selectedUserName){
                 }
             });
             if(response){
-                setUserAssignedPermissions(response.data.assignedPermissions);
                 setUserUnasignedPermissions(response.data.unassignedPermissions);
+                setUserAssignedPermissions(response.data.assignedPermissions);
             }
         } catch (error) {
             console.error('Error al enviar la solicitud:', error.message);
         }
     }
-    return { UserAssignedPermissions, UserUnasignedPermissions, enviarSolicitud };
+    return { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud };
 }
