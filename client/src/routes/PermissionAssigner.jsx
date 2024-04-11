@@ -43,7 +43,6 @@ export default function PermissionAssigner({ token }) {
     useEffect(()=>{
         if(selectedUser !== '' ){
             enviarSolicitud()
-        } else {
         }
     }, [selectedUser])
     
