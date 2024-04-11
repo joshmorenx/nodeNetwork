@@ -1,37 +1,43 @@
 import PropTypes from 'prop-types';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
-import { useState, useEffect } from 'react';
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions}) {
 
   const { user } = useGetUser({ token });
   let { cadena, allAccess } = usePermissions( user );
   // let cadenaArray = cadena.split(', ');  
-  let cadenaArray = []
+
+  // let bArray = [];
   let cArray = [];
 
-  let aArray = [];
-  let bArray = [];
-  
-    for(let elem in UserUnassignedPermissions){
-      bArray.push(UserUnassignedPermissions[elem].permissionId +' : '+ '<'+UserUnassignedPermissions[elem].permissionDescription+'>');
+  const getAllPermissions = (permissions) => {
+    let elem = 0
+    let bArray = [];
+
+    for(elem in permissions){
+      bArray.push(<div className='m-1 border border-black' key={elem}>{permissions[elem].permissionId} : {'<'}{permissions[elem].permissionDescription}{'>'}</div>);
     }
+    return bArray
+  }
+
+    // for(let elem in UserUnassignedPermissions){
+    //   bArray.push(UserUnassignedPermissions[elem].permissionId +' : '+ '<'+UserUnassignedPermissions[elem].permissionDescription+'>');
+    // }
     
     for(let elem in UserAssignedPermissions){
       cArray.push(UserAssignedPermissions[elem].permissionId +' : '+ '<'+UserAssignedPermissions[elem].permissionDescription+'>');
     }
 
-    aArray = bArray
-    cadenaArray = cArray;
   try {
-    if(allAccess){
+    if(allAccess){  
       return (
         <>
           <div className="available-permissions">
             <h1>Permisos Disponibles</h1>
-            <div className="assigned-permissions border border-black">
-              { aArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) }
+            <div className="unassigned-permissions border border-black">
+              {/* { bArray.map( (item, index) => <div className='m-1 border border-black' key={index} onClick={}>{item}</div> ) } */}
+              { getAllPermissions(UserUnassignedPermissions) }
             </div>
     
             <div className="btnContainer">
@@ -46,7 +52,8 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
             
             <h1>Permisos Asignados</h1>
             <div className="assigned-permissions border border-black">
-              { cadenaArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) }
+              {/* { cArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) } */}
+              { getAllPermissions(UserAssignedPermissions) }
             </div>
           </div>
         </>
