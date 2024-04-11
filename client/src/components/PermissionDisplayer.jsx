@@ -9,14 +9,18 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   // let cadenaArray = cadena.split(', ');  
 
   // let bArray = [];
-  let cArray = [];
+  // let cArray = [];
+  
+  const selectPermission = (event) => {
+    console.log(event.target.textContent);
 
+    //bg-gray-900 text-white
+  }
+  
   const getAllPermissions = (permissions) => {
-    let elem = 0
     let bArray = [];
-
-    for(elem in permissions){
-      bArray.push(<div className='m-1 border border-black' key={elem}>{permissions[elem].permissionId} : {'<'}{permissions[elem].permissionDescription}{'>'}</div>);
+    for(let elem in permissions){
+      bArray.push(<div className='cursor-pointer m-1 border border-black' key={elem} onClick={selectPermission}>{permissions[elem].permissionId} : {'<'}{permissions[elem].permissionDescription}{'>'}</div>);
     }
     return bArray
   }
@@ -25,9 +29,9 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     //   bArray.push(UserUnassignedPermissions[elem].permissionId +' : '+ '<'+UserUnassignedPermissions[elem].permissionDescription+'>');
     // }
     
-    for(let elem in UserAssignedPermissions){
-      cArray.push(UserAssignedPermissions[elem].permissionId +' : '+ '<'+UserAssignedPermissions[elem].permissionDescription+'>');
-    }
+    // for(let elem in UserAssignedPermissions){
+    //   cArray.push(UserAssignedPermissions[elem].permissionId +' : '+ '<'+UserAssignedPermissions[elem].permissionDescription+'>');
+    // }
 
   try {
     if(allAccess){  
