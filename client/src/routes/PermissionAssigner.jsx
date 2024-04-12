@@ -7,6 +7,7 @@ import PermissionDisplayer from '../components/PermissionDisplayer';
 import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
+// import '../assets/scripts/index.js';
 
 // import { useEffect } from 'react';
 // import { link } from 'react-router-dom';

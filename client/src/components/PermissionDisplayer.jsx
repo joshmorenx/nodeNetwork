@@ -20,7 +20,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const getAllPermissions = (permissions) => {
     let bArray = [];
     for(let elem in permissions){
-      bArray.push(<div className='cursor-pointer m-1 border border-black' key={elem} onClick={selectPermission}>{permissions[elem].permissionId} : {'<'}{permissions[elem].permissionDescription}{'>'}</div>);
+      bArray.push(<div className='permissions cursor-pointer m-1 border border-black' key={elem} onClick={selectPermission}>{permissions[elem].permissionId} : {'<'}{permissions[elem].permissionDescription}{'>'}</div>);
     }
     return bArray
   }

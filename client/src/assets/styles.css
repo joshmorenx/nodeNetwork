@@ -176,3 +176,12 @@ body{
 .permission-assigner-container{
     font-size: 1vw;
 }
+
+.rojo{
+    background-color: red;
+}
+
+.permissions, .permissions{
+    user-select: none;
+    cursor: pointer;
+}

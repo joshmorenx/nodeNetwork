@@ -570,16 +570,16 @@ video {
   margin-top: 1.25rem;
 }
 
+.block {
+  display: block;
+}
+
 .hidden {
   display: none;
 }
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.text-wrap {
-  text-wrap: wrap;
 }
 
 .rounded {
@@ -624,11 +624,6 @@ video {
 .bg-gray-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
-.bg-orange-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(253 186 116 / var(--tw-bg-opacity));
 }
 
 .bg-gray-900 {
