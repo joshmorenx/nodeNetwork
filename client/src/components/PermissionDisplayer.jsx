@@ -1,37 +1,36 @@
 import PropTypes from 'prop-types';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
+import { useState } from 'react';
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions}) {
 
   const { user } = useGetUser({ token });
   let { cadena, allAccess } = usePermissions( user );
-  // let cadenaArray = cadena.split(', ');  
+  const [selectedPermissionId, setSelectedPermissionId] = useState(null);
 
-  // let bArray = [];
-  // let cArray = [];
-  
-  const selectPermission = (event) => {
-    console.log(event.target.textContent);
-
-    //bg-gray-900 text-white
+  const selectPermission = (permissionId) => {
+    setSelectedPermissionId(permissionId);
   }
   
   const getAllPermissions = (permissions) => {
-    let bArray = [];
-    for(let elem in permissions){
-      bArray.push(<div className='permissions cursor-pointer m-1 border border-black' key={elem} onClick={selectPermission}>{permissions[elem].permissionId} : {'<'}{permissions[elem].permissionDescription}{'>'}</div>);
+    let permissionsArray = [];
+  
+    // Combinar permisos asignados y no asignados en un solo array
+    for (let key in permissions) {
+      permissionsArray = permissionsArray.concat(permissions[key]);
     }
-    return bArray
+  
+    return permissionsArray.map(permission => (
+      <div 
+        className={`permissions cursor-pointer m-1 border border-black ${selectedPermissionId === permission.permissionId ? 'bg-gray-400 text-white' : ''}`} 
+        key={permission.permissionId} 
+        onClick={() => selectPermission(permission.permissionId)}
+      >
+        {permission.permissionId} : {'<'}{permission.permissionDescription}{'>'}
+      </div>
+    ));
   }
-
-    // for(let elem in UserUnassignedPermissions){
-    //   bArray.push(UserUnassignedPermissions[elem].permissionId +' : '+ '<'+UserUnassignedPermissions[elem].permissionDescription+'>');
-    // }
-    
-    // for(let elem in UserAssignedPermissions){
-    //   cArray.push(UserAssignedPermissions[elem].permissionId +' : '+ '<'+UserAssignedPermissions[elem].permissionDescription+'>');
-    // }
 
   try {
     if(allAccess){  
