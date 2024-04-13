@@ -16,9 +16,9 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const getAllPermissions = (permissions) => {
     let permissionsArray = [];
   
-    // Combinar permisos asignados y no asignados en un solo array
     for (let key in permissions) {
-      permissionsArray = permissionsArray.concat(permissions[key]);
+      // permissionsArray = permissionsArray.concat(permissions[key]);
+      permissionsArray.push(permissions[key]);
     }
   
     return permissionsArray.map(permission => (
