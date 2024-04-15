@@ -9,19 +9,16 @@ export default function useUpdatePermissions(UserAssignedPermissions, selectedUs
 
     const sendRequest = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/permissions', {
-                params : {
-                    username : selectedUser,
-                    newPermissions : UserAssignedPermissions
-                }
+            const response = await axios.post('http://localhost:3000/api/update_permissions/', {
+                newPermissions : UserAssignedPermissions,
+                username : selectedUser,
             })
             if(response){
-                setMsg(response.data.msg)
-                setError(response.data.error)
+                setMsg(response.data.message)
                 setSuccess(response.data.success)
             }
         } catch (error) {
-            res.json({ error: error.message });
+            setError(response.data.error)
         }
     }
 

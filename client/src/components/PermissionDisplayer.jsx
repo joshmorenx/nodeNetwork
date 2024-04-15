@@ -17,6 +17,12 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [selectedPermissionId, setSelectedPermissionId] = useState(null);
   const [disabledAddPermission, setDisabledAddPermission] = useState(true);
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
+  const [ message , setMessage ] = useState('');
+  const [ err , setError ] = useState('');
+  const [ scc , setSuccess ] = useState(false);
+
+  const { sendRequest, msg, error, success } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
+  
   // const [getSelectedUser, setGetSelectedUser] = useState('');
   // const [assignationChanges, setAssignationChanges] = useState(0);
   // const [verifyAssignationChanges, setVerifyAssignationChanges] = useState(false);
@@ -72,13 +78,16 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   }
 
   const updatePermissions = () => {
-    const { sendRequest, msg, error, success } = useUpdatePermissions(UserAssignedPermissions, selectedUser)
     sendRequest()
   }
 
   useEffect(() => {
     factoryReset()    
   }, [UserUnassignedPermissions, UserAssignedPermissions])
+
+  useEffect(() => {
+    setMessage(msg);
+  }, [msg, error, success])
 
   try {
     if(allAccess){  
@@ -107,8 +116,8 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
               { getAllPermissions(UserAssignedPermissions, 2) }
             </div>
           </div>
-          <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" disabled>Guardar Cambios</button>
-          { msg && <p>{msg}</p> }
+          <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" >Guardar Cambios</button>
+          <p> {message} </p>
         </>
       ); 
     } else  {
