@@ -30,10 +30,11 @@ const Register = () => {
                 <br />
                 <input type="password" name="password" placeholder="Contraseña" required value={formData.password} onChange={handleInputChange} />
                 <input type="password" name="pwdConfirmation" placeholder="Confirmación Contraseña" required value={formData.pwdConfirmation} onChange={handleInputChange} />
-                <button type="submit" onClick={sendForm}>Registro</button>
+                <button type="submit" onClick={sendForm}> Registro </button>
             </form>
-            <p />Ya tienes una cuenta? <p /><Link to='/'>Inicia sesión</Link>
             { state }
+
+            <p />Ya tienes una cuenta? <p /><Link to='/'> Inicia sesión </Link>
         </>
     );
 };
