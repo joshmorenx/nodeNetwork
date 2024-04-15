@@ -34,17 +34,24 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   }
 
   const moveFromUnassignedToAssigned = () => {
-    //move from .unassigned-permissions to .assigned-permissions
     const permissionToAdd = UserUnassignedPermissions.find(permission => permission.permissionId === selectedPermissionId);
+    
     UserAssignedPermissions.push(permissionToAdd);
     UserUnassignedPermissions.splice(UserUnassignedPermissions.indexOf(permissionToAdd), 1);
+
+    UserUnassignedPermissions.sort((a, b) => (a.permissionId > b.permissionId) ? 1 : -1);
+    UserAssignedPermissions.sort((a, b) => (a.permissionId > b.permissionId) ? 1 : -1);
     factoryReset()
   }
 
   const moveFromAssignedToUnassigned = () => {
     const permissionToRemove = UserAssignedPermissions.find(permission => permission.permissionId === selectedPermissionId);
+
     UserUnassignedPermissions.push(permissionToRemove);
     UserAssignedPermissions.splice(UserAssignedPermissions.indexOf(permissionToRemove), 1);
+    
+    UserUnassignedPermissions.sort((a, b) => (a.permissionId > b.permissionId) ? 1 : -1);
+    UserAssignedPermissions.sort((a, b) => (a.permissionId > b.permissionId) ? 1 : -1);
     factoryReset()
   }
 
