@@ -10,6 +10,7 @@ const register = require("../controllers/register.js");
 const logout = require("../controllers/logout.js");
 const verificarToken = require("../controllers/verificarToken.js");
 const getAllUsers = require("../controllers/getAllUsers.js");
+const updatePermissionsForOneUser = require("../controllers/updatePermissionsForOneUser.js");
 const cors = require("cors");
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173']
@@ -56,5 +57,7 @@ app.get("/api/permissions/", async (req, res) => {
         res.json({ error: error })
     }
 })
+
+app.post("/api/update_permissions/", updatePermissionsForOneUser)
 
 module.exports = app;   

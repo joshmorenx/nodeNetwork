@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
-// import useUpdatePermissions from '../hooks/useUpdatePermissions';
+import useUpdatePermissions from '../hooks/useUpdatePermissions';
 import { useState, useEffect } from 'react';
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
@@ -9,7 +9,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   useEffect(() => {
     // I need to get the selectedUser and then set the modified permissions for that user using the useUpdatePermissions hook
     // For now and not to show errors im just showing the selectedUser in the console
-    console.log(selectedUser);
+    // console.log(selectedUser);
   })
 
   const { user } = useGetUser({ token });
@@ -17,6 +17,9 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [selectedPermissionId, setSelectedPermissionId] = useState(null);
   const [disabledAddPermission, setDisabledAddPermission] = useState(true);
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
+  // const [getSelectedUser, setGetSelectedUser] = useState('');
+  // const [assignationChanges, setAssignationChanges] = useState(0);
+  // const [verifyAssignationChanges, setVerifyAssignationChanges] = useState(false);
 
   const selectPermission = (permissionId) => {
     setSelectedPermissionId(permissionId);
@@ -61,16 +64,20 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     factoryReset()
   }
 
-  // const { updatePermissionsResponse } = useUpdatePermissions(selectedUser);
-
+  
   const factoryReset = () => {
     setSelectedPermissionId(null); 
     setDisabledAddPermission(true);
     setDisabledRemovePermission(true);
   }
 
+  const updatePermissions = () => {
+    const { sendRequest, msg, error, success } = useUpdatePermissions(UserAssignedPermissions, selectedUser)
+    sendRequest()
+  }
+
   useEffect(() => {
-    factoryReset()
+    factoryReset()    
   }, [UserUnassignedPermissions, UserAssignedPermissions])
 
   try {
@@ -100,7 +107,8 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
               { getAllPermissions(UserAssignedPermissions, 2) }
             </div>
           </div>
-          <button className='p-2 rounded-sm bg-slate-500 text-white mt-10' id="btnSave" disabled>Guardar Cambios</button>
+          <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" disabled>Guardar Cambios</button>
+          { msg && <p>{msg}</p> }
         </>
       ); 
     } else  {
