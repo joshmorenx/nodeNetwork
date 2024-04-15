@@ -6,6 +6,12 @@ import { useState, useEffect } from 'react';
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
 
+  useEffect(() => {
+    // I need to get the selectedUser and then set the modified permissions for that user using the useUpdatePermissions hook
+    // For now and not to show errors im just showing the selectedUser in the console
+    console.log(selectedUser);
+  })
+
   const { user } = useGetUser({ token });
   let { cadena, allAccess } = usePermissions( user );
   const [selectedPermissionId, setSelectedPermissionId] = useState(null);
