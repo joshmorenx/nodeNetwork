@@ -33,10 +33,6 @@ export default function PermissionAssigner({ token }) {
         console.error(error);
     }
     
-    // console.log(cadena, allAccess);
-    // const goBackHome = () => {
-    //     navigate('/');
-    // }
     const handleSelectedChange = (selectedValue) => {
         setSelectedUser(selectedValue)
     }
