@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
+// import useUpdatePermissions from '../hooks/useUpdatePermissions';
 import { useState, useEffect } from 'react';
 
-export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions}) {
+export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
 
   const { user } = useGetUser({ token });
   let { cadena, allAccess } = usePermissions( user );
@@ -33,17 +34,30 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   }
 
   const moveFromUnassignedToAssigned = () => {
-    
+    //move from .unassigned-permissions to .assigned-permissions
+    const permissionToAdd = UserUnassignedPermissions.find(permission => permission.permissionId === selectedPermissionId);
+    UserAssignedPermissions.push(permissionToAdd);
+    UserUnassignedPermissions.splice(UserUnassignedPermissions.indexOf(permissionToAdd), 1);
+    factoryReset()
   }
 
   const moveFromAssignedToUnassigned = () => {
-    
+    const permissionToRemove = UserAssignedPermissions.find(permission => permission.permissionId === selectedPermissionId);
+    UserUnassignedPermissions.push(permissionToRemove);
+    UserAssignedPermissions.splice(UserAssignedPermissions.indexOf(permissionToRemove), 1);
+    factoryReset()
+  }
+
+  // const { updatePermissionsResponse } = useUpdatePermissions(selectedUser);
+
+  const factoryReset = () => {
+    setSelectedPermissionId(null); 
+    setDisabledAddPermission(true);
+    setDisabledRemovePermission(true);
   }
 
   useEffect(() => {
-    setSelectedPermissionId(null); //se deselecciona el permiso al cambiar de usuario seleccionado
-    setDisabledAddPermission(true);
-    setDisabledRemovePermission(true);
+    factoryReset()
   }, [UserUnassignedPermissions, UserAssignedPermissions])
 
   try {

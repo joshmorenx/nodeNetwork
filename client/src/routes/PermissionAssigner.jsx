@@ -67,7 +67,7 @@ export default function PermissionAssigner({ token }) {
                 <p></p>)}
             </div>
 
-                <PermissionDisplayer token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } />
+                <PermissionDisplayer token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } />
 
             {/* <br /> */}
             {/* <br /> */}
