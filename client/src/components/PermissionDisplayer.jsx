@@ -80,13 +80,16 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const updatePermissions = () => {
     sendRequest()
   }
-
+  
   useEffect(() => {
     factoryReset()    
   }, [UserUnassignedPermissions, UserAssignedPermissions])
 
   useEffect(() => {
     setMessage(msg);
+    setTimeout(() => {
+      setMessage('');
+    }, 3000);
   }, [msg, error, success])
 
   try {
