@@ -57,9 +57,11 @@ const Dashboard = ({ token }) => {
                             </div>
                     )}
                         <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button>
+
+                        <div onClick={() => document.querySelector('.permission-container').classList.remove('hidden')} className='bg-gray-200 text-center mt-5 mb-5 text-2xl font-bold text-gray-800 dark:text-white cursor-pointer'> Asignador de permisos </div>
                 </div>
                 
-                <div className='permission-container'>
+                <div className='permission-container hidden'>
                     <PermissionAssigner token={token} />
                 </div>
             </div>
