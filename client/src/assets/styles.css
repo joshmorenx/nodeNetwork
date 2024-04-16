@@ -121,7 +121,7 @@ body{
     display: flex;
 }
 
-.permission-container{
+.permission-container, .feed-container, .content-container{
     padding-top: 0.5%;
     padding-left: 0.5%;
     width: 100%;

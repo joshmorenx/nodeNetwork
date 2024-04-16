@@ -27,6 +27,22 @@ const Dashboard = ({ token }) => {
     let { cadena, allAccess } = usePermissions(user)
     // console.log(cadena);
 
+    const showClickedContent = (event) => {
+        const index = Array.from(event.currentTarget.parentNode.children).indexOf(event.currentTarget);
+        const contentContainer = document.querySelector('.content-container');
+        for(let elem in contentContainer.children){
+            try {
+                if(index == elem){
+                    contentContainer.children[elem].classList.remove('hidden');
+                }else{
+                    contentContainer.children[elem].classList.add('hidden');
+                }
+            } catch (error) {
+                //console.log(error);
+            }
+        }
+    }
+
     return (
         <>
             <div className="dashboard-container">
@@ -58,12 +74,29 @@ const Dashboard = ({ token }) => {
                     )}
                         <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button>
 
-                        <div onClick={() => document.querySelector('.permission-container').classList.remove('hidden')} className='bg-gray-200 text-center mt-5 mb-5 text-2xl font-bold text-gray-800 dark:text-white cursor-pointer'> Asignador de permisos </div>
+                        <div className='sections-container mt-5'>
+                            <div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Feed </div>
+                            {allAccess ? (<div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Asignador de permisos </div>):(<p></p>) }
+                        </div>
                 </div>
-                
-                <div className='permission-container hidden'>
-                    <PermissionAssigner token={token} />
+
+                <div className="content-container">
+
+                    <div className='feed-container hidden' id='feed-container'>
+                        <p>Feed</p>
+                    </div>
+
+                    {allAccess ? (
+                        <div className='permission-container hidden' id='permission-container'>
+                            <PermissionAssigner token={token} />
+                        </div>
+                    ) : (
+                        <p></p>
+                    )}                    
+                    
+                    
                 </div>
+
             </div>
         </> 
     );

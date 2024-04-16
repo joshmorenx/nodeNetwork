@@ -18,8 +18,6 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [disabledAddPermission, setDisabledAddPermission] = useState(true);
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
   const [ message , setMessage ] = useState('');
-  const [ err , setError ] = useState('');
-  const [ scc , setSuccess ] = useState(false);
 
   const { sendRequest, msg, error, success } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
   
