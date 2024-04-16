@@ -4,6 +4,8 @@ import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import '../assets/styles.css';
 import '../assets/index.css';
+import { Button, Input, TextField } from '@mui/material/'
+
 
 
 const Login = () => {
@@ -30,11 +32,42 @@ const Login = () => {
                     <h1 className="login-title">Iniciar sesión</h1>
                     <form className="login-form" method="post" action="/">
                         
-                        <input type="text" id="username" name="username" placeholder="Nombre de usuario" required value={formData.username} onChange={handleInputChange}/>
+                        {/* <input type="text" id="username" name="username" placeholder="Nombre de usuario" required value={formData.username} onChange={handleInputChange}/>
 
                         <input type="password" id="password" name="password" placeholder="Contraseña" required value={formData.password} onChange={handleInputChange}/>
                         
-                        <button type="submit" onClick={sendForm}>Iniciar sesión</button>
+                        <button type="submit" onClick={sendForm}>Iniciar sesión</button> */}
+
+                        <TextField 
+                        sx={{ mt : 5, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Nombre de usuario"
+                        required
+                        value={formData.username}
+                        onChange={handleInputChange}/>
+
+                        <TextField 
+                        sx={{ mt : 5, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Contraseña"
+                        required
+                        value={formData.password}
+                        onChange={handleInputChange}/>
+                        
+                        <Button 
+                            sx={{ mt : 5, width: '25vw', ml: 'auto', mr: 'auto' }}
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            onClick={sendForm}
+                        >
+                            Iniciar sesión
+                        </Button>
+                        
                     </form>
                     <div className="login-message">{state}</div>
                     <div className="user-info">{userInfo.user}</div>
