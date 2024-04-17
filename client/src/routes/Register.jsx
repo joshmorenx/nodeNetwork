@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import useRegisterForm from '../hooks/useRegisterForm';
 import { Link } from 'react-router-dom'
 import { TextField, Button } from '@mui/material';
+import '../assets/styles.css';
+import '../assets/index.css';
+
 const Register = () => {
     const navigate = useNavigate();
     const { handleInputChange, sendForm, registryCompletion, state, ...formData } = useRegisterForm({
@@ -25,7 +28,7 @@ const Register = () => {
             <div className='register-background'>
                 <div className="register-container">
                     <h1 className="register-title">Registro Nuevo</h1>
-                    <form method="post" action="/register">
+                    <form className="register-form" method="post" action="/register">
                         
                         {/* <input type="text" name="firstName" placeholder="Nombre" required value={formData.firstName} onChange={handleInputChange} />
                         <input type="text" name="lastName" placeholder="Apellido" required value={formData.lastName} onChange={handleInputChange} />

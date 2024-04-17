@@ -94,6 +94,13 @@ body{
     text-align: center;
 }
 
+.register-form>button{
+    background-color: rgb(64, 53, 185);
+    color: #FFFFFF;
+    font-size: 1.5vw;
+    text-align: center;
+}
+
 .register-link{
     text-align: center;
     margin-bottom: 6%;

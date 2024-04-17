@@ -1,10 +1,10 @@
 import useLoginForm from '../hooks/useLoginForm';
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Button, TextField } from '@mui/material/'
 import Cookies from 'js-cookie'
 import '../assets/styles.css';
 import '../assets/index.css';
-import { Button, TextField } from '@mui/material/'
 
 
 
@@ -60,8 +60,8 @@ const Login = () => {
                         
                         <Button 
                             sx={{ mt : 4, width: '25vw', ml: 'auto', mr: 'auto' }}
-                        size='small'
-                        variant="contained"
+                            size='small'
+                            variant="contained"
                             color="primary"
                             type="submit"
                             onClick={sendForm}
