@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import '../assets/styles.css';
 import '../assets/index.css';
-import { Button, Input, TextField } from '@mui/material/'
+import { Button, TextField } from '@mui/material/'
 
 
 
@@ -39,7 +39,8 @@ const Login = () => {
                         <button type="submit" onClick={sendForm}>Iniciar sesión</button> */}
 
                         <TextField 
-                        sx={{ mt : 5, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        sx={{ mt : 4, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        size='small'
                         type="text"
                         id="username"
                         name="username"
@@ -49,7 +50,8 @@ const Login = () => {
                         onChange={handleInputChange}/>
 
                         <TextField 
-                        sx={{ mt : 5, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        sx={{ mt : 4, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        size='small'
                         type="password"
                         id="password"
                         name="password"
@@ -59,8 +61,9 @@ const Login = () => {
                         onChange={handleInputChange}/>
                         
                         <Button 
-                            sx={{ mt : 5, width: '25vw', ml: 'auto', mr: 'auto' }}
-                            variant="contained"
+                            sx={{ mt : 4, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        size='small'
+                        variant="contained"
                             color="primary"
                             type="submit"
                             onClick={sendForm}
