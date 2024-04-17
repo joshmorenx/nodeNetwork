@@ -108,7 +108,13 @@ const Register = () => {
                             onChange={handleInputChange}/>
                         </div>
 
-                        <Button sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }} onClick={sendForm} fullWidth variant="contained" color="primary">
+                        <Button 
+                        sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                        onClick={sendForm}
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        type=''>
                             Registrar
                         </Button>
                     </form>
