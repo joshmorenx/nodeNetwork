@@ -33,9 +33,7 @@ const Login = () => {
                     <form className="login-form" method="post" action="/">
                         
                         {/* <input type="text" id="username" name="username" placeholder="Nombre de usuario" required value={formData.username} onChange={handleInputChange}/>
-
-                        <input type="password" id="password" name="password" placeholder="Contraseña" required value={formData.password} onChange={handleInputChange}/>
-                        
+                        <input type="password" id="password" name="password" placeholder="Contraseña" required value={formData.password} onChange={handleInputChange}/>                        
                         <button type="submit" onClick={sendForm}>Iniciar sesión</button> */}
 
                         <TextField 
