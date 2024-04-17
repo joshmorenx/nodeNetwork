@@ -95,10 +95,13 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
       return (
         <>
           <div className="available-permissions">
-            <h1>Permisos Disponibles</h1>
-            <div className="unassigned-permissions border border-black">
-              {/* { bArray.map( (item, index) => <div className='m-1 border border-black' key={index} onClick={}>{item}</div> ) } */}
-              { getAllPermissions(UserUnassignedPermissions, 1) }
+            
+            <div style={{ width: '100%'}}>
+              <h1>Permisos Disponibles</h1>
+              <div className="unassigned-permissions border border-black" style={{ width: '100%'}}>
+                {/* { bArray.map( (item, index) => <div className='m-1 border border-black' key={index} onClick={}>{item}</div> ) } */}
+                { getAllPermissions(UserUnassignedPermissions, 1) }
+              </div>
             </div>
     
             <div className="btnContainer">
@@ -111,11 +114,14 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
               </div>
             </div>
             
-            <h1>Permisos Asignados</h1>
-            <div className="assigned-permissions border border-black">
-              {/* { cArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) } */}
-              { getAllPermissions(UserAssignedPermissions, 2) }
+            <div style={{ width: '100%'}}>
+              <h1>Permisos Asignados</h1>
+              <div className="assigned-permissions border border-black " style={{ width: '100%'}} id="assigned">
+                {/* { cArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) } */}
+                { getAllPermissions(UserAssignedPermissions, 2) }
+              </div>
             </div>
+
           </div>
           <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" >Guardar Cambios</button>
           <p> {message} </p>

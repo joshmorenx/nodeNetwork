@@ -45,7 +45,7 @@ const Dashboard = ({ token }) => {
 
     return (
         <>
-            <div className="dashboard-container">
+            <div className="dashboard-container" style={{ paddingRight: '2vw' }}>
                 <div className="profile-container text-center">
                     {error ? (
                         <p>Error al obtener el contenido del usuario: {error.message}</p>

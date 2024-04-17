@@ -9,7 +9,7 @@ export default function ListaNombres({ nombres, handleSelectedChange }) {
   return (
     <>
       <h2 className='mt-5 text-2xl'>Lista de usuarios</h2>
-      <select onChange={handlingSelectedChange} name="" id="">
+      <select style={{ fontSize: '1.5vw', border: '1px solid black', borderRadius: '5px' }} className='w-full text-center h-10 bg-transparent' onChange={handlingSelectedChange} name="" id="">
         <option hidden value="">-- Seleccione --</option>
         {nombres.map((nombre, index) => (
           <option key={index}>{nombre}</option>
