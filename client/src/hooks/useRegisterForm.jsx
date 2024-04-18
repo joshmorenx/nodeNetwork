@@ -24,8 +24,8 @@ const useRegisterForm = (initialForm = {}) => {
                 password: formData.password,
                 pwdConfirmation: formData.pwdConfirmation,
             }).then((response) => {
-                console.log(response.data.msg);
-                console.log(response.data.regState);
+                // console.log(response.data.msg);
+                // console.log(response.data.regState);
                 setState(response.data.msg);
                 setRegistryCompletion(response.data.regState)
             }).catch(error => {

@@ -41,7 +41,7 @@ export default function PermissionAssigner({ token }) {
         if(selectedUser !== '' ){
             enviarSolicitud()
         }
-    }, [enviarSolicitud, selectedUser]) //warning fixed, added enviarSolicitud function
+    }, [selectedUser]) //error fixed enviarSolicitud function not be added to the array
     
     useEffect(() => {
     if (UserAssignedPermissions) {
