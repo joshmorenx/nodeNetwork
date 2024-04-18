@@ -1,14 +1,14 @@
 // import { handleInputChange, sendForm, state, formData } from './hooks/useForm.jsx'
-import { useNavigate } from 'react-router-dom';
 import useRegisterForm from '../hooks/useRegisterForm';
+import { useNavigate } from 'react-router-dom';
+import { Button, TextField, Alert, Snackbar } from '@mui/material/'
 import { Link } from 'react-router-dom'
-import { TextField, Button } from '@mui/material';
 import '../assets/styles.css';
 import '../assets/index.css';
 
 const Register = () => {
     const navigate = useNavigate();
-    const { handleInputChange, sendForm, registryCompletion, state, ...formData } = useRegisterForm({
+    const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, ...formData } = useRegisterForm({
         firstName: '',
         lastName: '',
         email: '',
@@ -20,7 +20,11 @@ const Register = () => {
     if (registryCompletion) {
         setTimeout(() => {
             navigate('/');
-        }, 3000);
+        }, 1000 + 5000 * Math.random());
+    }
+
+    const preHandleClose = (event, reason) => {
+        handleClose(event, reason);
     }
 
     return (
@@ -41,6 +45,7 @@ const Register = () => {
                         <button type="submit" onClick={sendForm}> Registro </button> */}
 
                         <TextField
+                        autoFocus={true}
                         sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }}
                         label='Primer Nombre'
                         size='small'         
@@ -118,10 +123,15 @@ const Register = () => {
                             Registrar
                         </Button>
                     </form>
-                    { state }
-
+                    {/* { state } */}
+                    <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  open={open} autoHideDuration={5000} onClose={preHandleClose}>
+                        <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
+                            { state }
+                        </Alert>
+                    </Snackbar>
                     <p className='mt-5 mb-5'>Ya tienes una cuenta? <Link id="register" to='/'> Inicia sesión </Link></p>
                 </div>
+                
             </div>
         </>
     );

@@ -9,6 +9,10 @@ const login = async (req = request, res = response) => {
         const { username, password, isLogged } = req.body;
         const user = await User.findOne({ username });
         const addedPermissions = []
+
+        if (!user || !password) {
+            return res.status(401).json({ error: "Faltan campos por rellenar" });
+        }
         
         if (!user) {
             return res.status(401).json({ error: "Usuario no encontrado" });
@@ -16,7 +20,7 @@ const login = async (req = request, res = response) => {
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            return res.status(401).json({ error: "Contraseña incorrecta" });
+            return res.status(401).json({ error: "Contraseña usuario o contraseña incorrecta" });
         }
         //se puede buscar por el objectId del usuario ya que esta referenciada la coleccion usuarios y permisos aqui por ejemplo un for que mande los objectIds del array de permisos del usuario y busque uno a uno el objectId que coincida con el de la coleccion de permisos.
         for(elem of user.permissions){

@@ -3,10 +3,11 @@ import axios from "axios";
 
 const useLoginForm = (initialForm = {}) => {
     const [formData, setFormData] = useState(initialForm);
-
-    const [state, setState] = useState('')
+    const [loginData, setLoginData] = useState('')
     const [tokenState, setToken] = useState('')
     const [userInfo, setUserInfo] = useState('')
+    const [open, setOpen] = useState(false);
+
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -15,20 +16,28 @@ const useLoginForm = (initialForm = {}) => {
 
     const sendForm = async (event) => {
         event.preventDefault();
+        setOpen(true)
         await axios.post(`http://localhost:3000/`,
             {
                 username: formData.username,
                 password: formData.password,
                 isLogged: true
             }).then((response) => {
-                setState(response.data.msg)
+                setLoginData(response.data.msg)
                 setToken(response.data.token)
                 setUserInfo(response.data.user)
             }).catch(error => {
-                console.log(error.response.data.error);
-                setState(error.response.data.error);
+                // console.log(error.response.data.error);
+                setLoginData(error.response.data.error);
             });
     };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    }
 
     // const getToken = async (token) => {
     //     await axios.get(`http://localhost:3000/`,
@@ -40,11 +49,13 @@ const useLoginForm = (initialForm = {}) => {
     return {
         handleInputChange,
         sendForm,
-        state,
+        handleClose,
+        loginData,
         ...formData,
         formData,
         tokenState,
-        userInfo
+        userInfo,
+        open
     }
 }
 

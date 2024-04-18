@@ -83,7 +83,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     factoryReset()    
   }, [UserUnassignedPermissions, UserAssignedPermissions])
 
-  useEffect(() => {
+  useEffect(() => { //issue a PR to fix this it causes to show the message only once then it disappears and you have to reload the page in order to see it again
     setMessage(msg);
     setTimeout(() => {
       setMessage('');

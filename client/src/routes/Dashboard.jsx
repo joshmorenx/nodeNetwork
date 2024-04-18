@@ -77,6 +77,7 @@ const Dashboard = ({ token }) => {
                         <div className='sections-container mt-5'>
                             <div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Feed </div>
                             {allAccess ? (<div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Asignador de permisos </div>):(<p></p>) }
+                            <div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Pages </div>
                         </div>
                 </div>
 
@@ -92,7 +93,11 @@ const Dashboard = ({ token }) => {
                         </div>
                     ) : (
                         <p></p>
-                    )}                    
+                    )}
+
+                    <div className='pages-container hidden' id='pages-container'>
+                        <p>Pages</p>
+                    </div>      
                     
                     
                 </div>

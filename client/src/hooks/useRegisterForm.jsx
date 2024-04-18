@@ -5,7 +5,8 @@ const useRegisterForm = (initialForm = {}) => {
     const [formData, setFormData] = useState(initialForm);
     const [state, setState] = useState('')
     const [registryCompletion, setRegistryCompletion] = useState(false)
-
+    const [open, setOpen] = useState(false);
+    
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
@@ -13,6 +14,7 @@ const useRegisterForm = (initialForm = {}) => {
 
     const sendForm = async (event) => {
         event.preventDefault();
+        setOpen(true)
         await axios.post(`http://localhost:3000/register`,
             {
                 firstName: formData.firstName,
@@ -27,17 +29,27 @@ const useRegisterForm = (initialForm = {}) => {
                 setState(response.data.msg);
                 setRegistryCompletion(response.data.regState)
             }).catch(error => {
-                console.log(error.response.data.error);
+                // console.log(error.response.data.error);
                 setState(error.response.data.error);
             });
     };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    }
+
     return {
         handleInputChange,
         sendForm,
+        handleClose,
         state,
         registryCompletion,
         ...formData,
-        formData
+        formData,
+        open
     }
 }
 

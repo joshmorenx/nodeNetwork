@@ -16,9 +16,11 @@ export default function useUpdatePermissions(UserAssignedPermissions, selectedUs
             if(response){
                 setMsg(response.data.message)
                 setSuccess(response.data.success)
+            } else {
+                setError(response.data.error)
             }
         } catch (error) {
-            setError(response.data.error)
+            // setError(error)
         }
     }
 
