@@ -11,7 +11,7 @@ const login = async (req = request, res = response) => {
         const addedPermissions = []
 
         if (!user || !password) {
-            return res.status(401).json({ error: "Faltan campos por rellenar" });
+            return res.status(401).json({ error: "Faltan campos por rellenar" }); // If any of the required fields are missing, return an error
         }
         
         if (!user) {
