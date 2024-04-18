@@ -12,8 +12,8 @@ const useLogout = (token) => {
         await axios.post('http://localhost:3000/logout', {
             token: token
         }).then((response) => {
-            console.log(response.data.msg);
-            console.log(response.data.logStatusRefresh);
+            // console.log(response.data.msg);
+            // console.log(response.data.logStatusRefresh);
             setLogStatusRefresh(response.data.logStatusRefresh)
         })
     }

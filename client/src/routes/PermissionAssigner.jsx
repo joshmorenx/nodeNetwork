@@ -19,7 +19,7 @@ export default function PermissionAssigner({ token }) {
     const nombres = [];
     const { userNames } = useGetAllUsers();
     const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
-    
+    let previousPermissions = {};
 
     try {
         if( userNames.length > 0 ){
@@ -33,8 +33,16 @@ export default function PermissionAssigner({ token }) {
         console.error(error);
     }
     
-    const handleSelectedChange = (selectedValue) => {
-        setSelectedUser(selectedValue)
+    const handleSelectedChange = async (selectedValue) => {
+        await setSelectedUser(selectedValue)
+    }
+
+    const permissionDiff = async (prev, next) => {
+        if (await prev !== await next) {
+            return true
+        } else {
+            return false
+        }
     }
 
     useEffect(()=>{
@@ -42,12 +50,23 @@ export default function PermissionAssigner({ token }) {
             enviarSolicitud()
         }
     }, [selectedUser]) //error fixed enviarSolicitud function not be added to the array
+
+    useEffect(() => {
+        if (selectedUser !== '') {
+            if (UserAssignedPermissions) {
+                previousPermissions = UserAssignedPermissions;
+                // console.log(previousPermissions);
+                // console.log(UserAssignedPermissions);
+            }
+        }
+    },[selectedUser, UserAssignedPermissions])
     
     useEffect(() => {
     if (UserAssignedPermissions) {
         // console.log(UserAssignedPermissions);
     }
     }, [UserUnassignedPermissions, UserAssignedPermissions])
+
     return (
         <div>
             <div className="permission-assigner-container">
@@ -63,7 +82,7 @@ export default function PermissionAssigner({ token }) {
                 <p></p>)}
             </div>
 
-                <PermissionDisplayer token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } />
+                <PermissionDisplayer token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />
 
             {/* <br /> */}
             {/* <br /> */}
