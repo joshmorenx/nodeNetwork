@@ -10,7 +10,7 @@ const login = async (req = request, res = response) => {
         const user = await User.findOne({ username });
         const addedPermissions = []
 
-        if (!user || !password) {
+        if (!username || !password) {
             return res.status(401).json({ error: "Faltan campos por rellenar" }); // If any of the required fields are missing, return an error
         }
         
@@ -34,7 +34,7 @@ const login = async (req = request, res = response) => {
             const resultado = await User.updateOne({ username: user.username }, { $set: { isLogged: isLogged } });
             // console.log("Actualización exitosa:", resultado);   
         } catch (error) {
-            console.error("Error al actualizar el usuario:", error);
+            console.error("Error al loguear el usuario:", error);
         }
         
 
