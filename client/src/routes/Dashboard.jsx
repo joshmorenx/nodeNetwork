@@ -4,6 +4,7 @@ import useLogout from '../hooks/useLogout';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import PermissionAssigner from '../routes/PermissionAssigner';
+import ContentContainer from '../components/ContentContainer';
 // import { useNavigate } from 'react-router';
 
 const Dashboard = ({ token }) => {
@@ -47,60 +48,45 @@ const Dashboard = ({ token }) => {
         <>
             <div className="dashboard-container" style={{ paddingRight: '2vw' }}>
                 <div className="profile-container text-center">
-                    {error ? (
-                        <p>Error al obtener el contenido del usuario: {error.message}</p>
-                    ) : (
-                            <div className="m-auto">
-                                <div className='profile-card m-auto rounded-3xl bg-gray-200'>
-                                    {/* Hola, Bienvenido {user.username} */}
-                                    <div className="avatar-container rounded-3xl">
-                                        <img className="avatar m-auto" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img>
-                                    </div>
-
-                                    <div className='user-data'>
-                                        <p>{user.firstName} {user.lastName}</p>
-                                        <p><a href={`mailto:${user.email}`}>{user.email}</a></p>
-                                    </div>
-
-                                    {allAccess ?
-                                        (
-                                        <div className="user-type bg-blue-500 text-white font-bold py-1 px-2 border-blue-700 rounded">
-                                            <b>{ cadena ? ("Administrador"):(1) }</b>
+                    <div>
+                        {error ? (
+                            <p>Error al obtener el contenido del usuario: {error.message}</p>
+                        ) : (
+                                <div className="m-auto">
+                                    <div className='profile-card m-auto rounded-3xl bg-gray-200'>
+                                        {/* Hola, Bienvenido {user.username} */}
+                                        <div className="avatar-container rounded-3xl">
+                                            <img className="avatar m-auto" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img>
                                         </div>
-                                        ):(
-                                            <p>Sin permisos de administrador</p>)}
+
+                                        <div className='user-data'>
+                                            <p>{user.firstName} {user.lastName}</p>
+                                            <p><a href={`mailto:${user.email}`}>{user.email}</a></p>
+                                        </div>
+
+                                        {allAccess ?
+                                            (
+                                            <div className="user-type bg-blue-500 text-white font-bold py-1 px-2 border-blue-700 rounded">
+                                                <b>{ cadena ? ("Administrador"):(1) }</b>
+                                            </div>
+                                            ):(
+                                                <p>Sin permisos de administrador</p>)}
+                                    </div>
                                 </div>
-                            </div>
-                    )}
+                        )}
+
                         <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button>
 
-                        <div className='sections-container mt-5'>
-                            <div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Feed </div>
-                            {allAccess ? (<div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Asignador de permisos </div>):(<p></p>) }
-                            <div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Pages </div>
-                        </div>
-                </div>
-
-                <div className="content-container">
-
-                    <div className='feed-container hidden' id='feed-container'>
-                        <p>Feed</p>
                     </div>
 
-                    {allAccess ? (
-                        <div className='permission-container hidden' id='permission-container'>
-                            <PermissionAssigner token={token} />
-                        </div>
-                    ) : (
-                        <p></p>
-                    )}
-
-                    <div className='pages-container hidden' id='pages-container'>
-                        <p>Pages</p>
-                    </div>      
-                    
-                    
+                    <div className='sections-container mt-5'>
+                        <div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Feed </div>
+                        {allAccess ? (<div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Asignador de permisos </div>):(<p></p>) }
+                        <div onClick={showClickedContent} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Pages </div>
+                    </div>
                 </div>
+                
+                <ContentContainer token={token} allAccess={allAccess} PermissionAssigner={PermissionAssigner}/>
 
             </div>
         </> 

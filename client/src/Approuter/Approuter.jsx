@@ -16,7 +16,7 @@ export const Approuter = () => {
 
     return (
         <Routes>
-            <Route path="/" element={tokenState != null ? <Navigate to="/dashboard" /> : <Login />} />
+            <Route path="/" element={tokenState ? <Navigate to="/dashboard" /> : <Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/dashboard" element={tokenState ? <Dashboard token={tokenState}/>: <Navigate to="/"/>} />
