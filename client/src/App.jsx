@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Login from '../routes/Login';
-import Register from '../routes/Register';
-import Forgot from '../routes/Forgot';
-import Dashboard from '../routes/Dashboard';
+import Login from './routes/Login';
+import Register from './routes/Register';
+import Forgot from './routes/Forgot';
+import Dashboard from './routes/Dashboard';
 // import PermissionAssigner from '../routes/PermissionAssigner';
 import Cookies from 'js-cookie';
-export const Approuter = () => {
+export const App = () => {
     const [tokenState, setTokenState] = useState(null);
 
     useEffect(() => {

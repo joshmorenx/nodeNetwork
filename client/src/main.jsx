@@ -1,7 +1,7 @@
-// import React from 'react'
 // entrypoint
+import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Approuter } from './Approuter/Approuter'
+import { App } from './App'
 import { BrowserRouter } from 'react-router-dom'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -9,13 +9,11 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <BrowserRouter>
-      <Approuter>
-
-      </Approuter>
+      <App/>
     </BrowserRouter>
-  // </React.StrictMode>
+  </React.StrictMode>
 )
 
 // endpoint
