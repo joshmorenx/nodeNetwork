@@ -10,10 +10,6 @@ export const Approuter = () => {
     const [tokenState, setTokenState] = useState(null);
 
     useEffect(() => {
-        // Aquí podrías realizar la lógica para verificar si existe un token almacenado,
-        // por ejemplo, consultando el token desde el almacenamiento local (localStorage).
-        // Actualiza el estado del token en función del resultado.
-        // const token = localStorage.getItem('token');
         const cookieToken = Cookies.get('token');
         setTokenState(cookieToken);
     }, []);

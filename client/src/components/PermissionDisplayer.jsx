@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import useUpdatePermissions from '../hooks/useUpdatePermissions';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
 
@@ -18,8 +18,8 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [disabledAddPermission, setDisabledAddPermission] = useState(true);
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
   const [ message , setMessage ] = useState('');
-  const unassignedRef = useRef(null); 
-  const { sendRequest, msg, error, success } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
+
+  const { sendRequest, msg } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
   
   // const [getSelectedUser, setGetSelectedUser] = useState('');
   // const [assignationChanges, setAssignationChanges] = useState(0);
@@ -88,12 +88,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     setTimeout(() => {
       setMessage('');
     }, 3000);
-  }, [msg, error, success])
-
-    // const myRefValue = unassignedRef.current
-    // console.log( myRefValue ? myRefValue.children.length : 0 ); 
-
-  // count the elements in the ref
+  }, [msg])
 
   try {
     if(allAccess){  
@@ -103,7 +98,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
             
             <div style={{ width: '100%'}}>
               <h1>Permisos Disponibles</h1>
-              <div ref={unassignedRef} className="unassigned-permissions border border-black" style={{ width: '100%'}}>
+              <div className="unassigned-permissions border border-black" style={{ width: '100%'}}>
                 {/* { bArray.map( (item, index) => <div className='m-1 border border-black' key={index} onClick={}>{item}</div> ) } */}
                 { getAllPermissions(UserUnassignedPermissions, 1) }
               </div>

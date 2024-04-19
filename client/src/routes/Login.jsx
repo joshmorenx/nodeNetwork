@@ -23,8 +23,8 @@ const Login = () => {
             if (tokenState) {
                 Cookies.set('token', tokenState, { expires: 7, secure: true, sameSite: 'Strict' });
                 setTimeout(() => {
-                    window.location.href = '/';
-                }, 1000 + 5000 * Math.random());
+                    window.location.href = '/dashboard';
+                }, 1000 + 3000 * Math.random());
             }
         } catch (error) {
             console.error(error);

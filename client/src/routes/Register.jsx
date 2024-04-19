@@ -20,7 +20,7 @@ const Register = () => {
     if (registryCompletion) {
         setTimeout(() => {
             navigate('/');
-        }, 1000 + 5000 * Math.random());
+        }, 1000 + 3000 * Math.random());
     }
 
     const preHandleClose = (event, reason) => {

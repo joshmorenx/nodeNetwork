@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 
 export default function ListaNombres({ nombres, handleSelectedChange }) {
   const handlingSelectedChange = (event) => {
@@ -21,4 +21,5 @@ export default function ListaNombres({ nombres, handleSelectedChange }) {
 
 ListaNombres.propTypes = {
   nombres: PropTypes.array.isRequired,
+  handleSelectedChange: PropTypes.func.isRequired
 }
