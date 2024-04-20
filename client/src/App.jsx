@@ -6,6 +6,14 @@ import Forgot from './routes/Forgot';
 import Dashboard from './routes/Dashboard';
 // import PermissionAssigner from '../routes/PermissionAssigner';
 import Cookies from 'js-cookie';
+
+export const NotFound = () => {
+    return(
+        <>
+            <h1>Te perdiste? La pagina que ingresaste no existe 🤣🤣🤣🤣🤣</h1>
+        </>
+    );
+};
 export const App = () => {
     const [tokenState, setTokenState] = useState(null);
 
@@ -20,6 +28,7 @@ export const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/dashboard" element={tokenState ? <Dashboard token={tokenState}/>: <Navigate to="/"/>} />
+            <Route path="*" element={<NotFound />} />
             {/* <Route path="/permissions" element={tokenState ? <PermissionAssigner token={tokenState}/>: <Navigate to="/permissions"/>} /> */}
         </Routes>
     );
