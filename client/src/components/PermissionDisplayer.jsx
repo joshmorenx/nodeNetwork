@@ -38,7 +38,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     }
   
     return permissionsArray.map(permission => (
-      <div className={`permissions cursor-pointer m-1 border border-black ${selectedPermissionId === permission.permissionId ? 'bg-gray-400 text-white' : ''}`} key={permission.permissionId} onClick={() => {selectPermission(permission.permissionId); 
+      <div className={`permissions cursor-pointer m-1 border border-black ${selectedPermissionId === permission.permissionId ? 'bg-orange-500 text-white' : ''}`} key={permission.permissionId} onClick={() => {selectPermission(permission.permissionId); 
         assignationChoosen == 1 ? setDisabledAddPermission(false):setDisabledAddPermission(true); 
         assignationChoosen == 2 ? setDisabledRemovePermission(false):setDisabledRemovePermission(true)}}>
         {permission.permissionId} : {'<'}{permission.permissionDescription}{'>'}
@@ -98,7 +98,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
             
             <div style={{ width: '100%'}}>
               <h1>Permisos Disponibles</h1>
-              <div className="unassigned-permissions border border-black" style={{ width: '100%'}}>
+              <div className="unassigned-permissions border border-black bg-white" style={{ width: '100%'}}>
                 {/* { bArray.map( (item, index) => <div className='m-1 border border-black' key={index} onClick={}>{item}</div> ) } */}
                 { getAllPermissions(UserUnassignedPermissions, 1) }
               </div>
@@ -116,7 +116,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
             
             <div style={{ width: '100%'}}>
               <h1>Permisos Asignados</h1>
-              <div className="assigned-permissions border border-black " style={{ width: '100%'}} id="assigned">
+              <div className="assigned-permissions border border-black bg-white" style={{ width: '100%'}} id="assigned">
                 {/* { cArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) } */}
                 { getAllPermissions(UserAssignedPermissions, 2) }
               </div>

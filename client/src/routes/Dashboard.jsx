@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import useLogout from '../hooks/useLogout';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
-import PermissionAssigner from '../routes/PermissionAssigner';
 import ContentContainer from '../components/ContentContainer';
 // import { useNavigate } from 'react-router';
 
@@ -86,7 +85,7 @@ const Dashboard = ({ token }) => {
                     </div>
                 </div>
                 
-                <ContentContainer token={token} allAccess={allAccess} PermissionAssigner={PermissionAssigner}/>
+                <ContentContainer token={token} allAccess={allAccess}/>
 
             </div>
         </> 
