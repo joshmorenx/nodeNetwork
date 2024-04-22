@@ -4,13 +4,11 @@ import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import ListaNombres from '../components/ListaNombres';
 import PermissionDisplayer from '../components/PermissionDisplayer';
+import PermissionAssigner from '../components/PermissionAssigner';
+import PermissionModifier from '../components/PermissionModifier';
 import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
-// import '../assets/scripts/index.js';
-
-// import { useEffect } from 'react';
-// import { link } from 'react-router-dom';
 
 export default function PermissionManager({ token }) {
     const [selectedUser, setSelectedUser] = useState('');
@@ -37,6 +35,25 @@ export default function PermissionManager({ token }) {
         await setSelectedUser(selectedValue)
     }
 
+    const handleTabClick = async (event) => {
+        const index = Array.from(event.currentTarget.parentNode.parentNode.children).indexOf(event.currentTarget.parentNode);
+        const permTabContainer = document.querySelector('.permission-tabs');
+        const permContent = document.querySelector('.permission-content');
+        for(let elem in permTabContainer.children){
+            try {
+                if(index == elem){
+                    permTabContainer.children[elem].children[0].classList = 'inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500'
+                    permContent.children[elem].classList.remove('hidden');
+                }else{
+                    permTabContainer.children[elem].children[0].classList = 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300'
+                    permContent.children[elem].classList.add('hidden');
+                }
+            } catch (error) {
+                //console.log(error);
+            }
+        }
+    }
+
     const permissionDiff = async (prev, next) => {
         if (await prev !== await next) {
             return true
@@ -47,12 +64,12 @@ export default function PermissionManager({ token }) {
 
     const PermissionTabs = () => {
         return(
-            <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+            <ul className="permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
                 <li className="me-2">
-                    <a href="#" aria-current="page" className="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500">Asignar Permisos</a>
+                    <a onClick={handleTabClick} href="#" aria-current="page" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300">Asignar Permisos</a>
                 </li>
                 <li className="me-2">
-                    <a href="#" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300">Creador de permisos</a>
+                    <a onClick={handleTabClick} href="#" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300">Creador de permisos</a>
                 </li>
             </ul>
         )
@@ -64,41 +81,24 @@ export default function PermissionManager({ token }) {
         }
     }, [selectedUser]) //error fixed enviarSolicitud function not be added to the array
 
-    // useEffect(() => {
-    //     if (selectedUser !== '') {
-    //         if (UserAssignedPermissions) {
-    //             previousPermissions = UserAssignedPermissions;
-    //             // console.log(previousPermissions);
-    //             // console.log(UserAssignedPermissions);
-    //         }
-    //     }
-    // },[selectedUser, UserAssignedPermissions])
-    
-    // useEffect(() => {
-    // if (UserAssignedPermissions) {
-    //     // console.log(UserAssignedPermissions);
-    // }
-    // }, [UserUnassignedPermissions, UserAssignedPermissions])
-
     return (
         <div>
-            <div className="permission-assigner-container">
+            <div className="permission-manager-container">
                 {error ? <p>{error.message}</p> :
                     <PermissionTabs />}
                 {allAccess ? (
-                    <div> 
-                    {/* <p>user: {user.username} </p> */}
-                    <ListaNombres nombres={ nombres } handleSelectedChange={handleSelectedChange} UserAssignedPermissions={ UserAssignedPermissions } />
-                    </div>
+                    <div className="permission-content"> 
+                        {/* <p>user: {user.username} </p> */}                    
+                        <div className='hidden'>
+                            <PermissionAssigner ListaNombres={ ListaNombres } nombres={ nombres } handleSelectedChange={handleSelectedChange} PermissionDisplayer={ PermissionDisplayer } token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />
+                        </div>
+                        <div className='hidden'>
+                            <PermissionModifier />
+                        </div>
+                    </div>                    
                 ):(
                 <p></p>)}
             </div>
-
-                <PermissionDisplayer token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />
-
-            {/* <br /> */}
-            {/* <br /> */}
-            {/* <button className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded' onClick={goBackHome}>Volver</button>        */}
         </div>
     )
 }
