@@ -12,14 +12,14 @@ import '../assets/styles.css';
 // import { useEffect } from 'react';
 // import { link } from 'react-router-dom';
 
-export default function PermissionAssigner({ token }) {
+export default function PermissionManager({ token }) {
     const [selectedUser, setSelectedUser] = useState('');
     const { user, error } = useGetUser({ token });
     let { allAccess } = usePermissions(user);
     const nombres = [];
     const { userNames } = useGetAllUsers();
     const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
-    let previousPermissions = {};
+    // let previousPermissions = {};
 
     try {
         if( userNames.length > 0 ){
@@ -51,6 +51,9 @@ export default function PermissionAssigner({ token }) {
                 <li className="me-2">
                     <a href="#" aria-current="page" className="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500">Asignar Permisos</a>
                 </li>
+                <li className="me-2">
+                    <a href="#" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300">Creador de permisos</a>
+                </li>
             </ul>
         )
     }
@@ -61,21 +64,21 @@ export default function PermissionAssigner({ token }) {
         }
     }, [selectedUser]) //error fixed enviarSolicitud function not be added to the array
 
-    useEffect(() => {
-        if (selectedUser !== '') {
-            if (UserAssignedPermissions) {
-                previousPermissions = UserAssignedPermissions;
-                // console.log(previousPermissions);
-                // console.log(UserAssignedPermissions);
-            }
-        }
-    },[selectedUser, UserAssignedPermissions])
+    // useEffect(() => {
+    //     if (selectedUser !== '') {
+    //         if (UserAssignedPermissions) {
+    //             previousPermissions = UserAssignedPermissions;
+    //             // console.log(previousPermissions);
+    //             // console.log(UserAssignedPermissions);
+    //         }
+    //     }
+    // },[selectedUser, UserAssignedPermissions])
     
-    useEffect(() => {
-    if (UserAssignedPermissions) {
-        // console.log(UserAssignedPermissions);
-    }
-    }, [UserUnassignedPermissions, UserAssignedPermissions])
+    // useEffect(() => {
+    // if (UserAssignedPermissions) {
+    //     // console.log(UserAssignedPermissions);
+    // }
+    // }, [UserUnassignedPermissions, UserAssignedPermissions])
 
     return (
         <div>
@@ -100,6 +103,6 @@ export default function PermissionAssigner({ token }) {
     )
 }
 
-PermissionAssigner.propTypes = {
+PermissionManager.propTypes = {
     token: PropTypes.string.isRequired,
 };

@@ -4,7 +4,7 @@ import Login from './routes/Login';
 import Register from './routes/Register';
 import Forgot from './routes/Forgot';
 import Dashboard from './routes/Dashboard';
-// import PermissionAssigner from '../routes/PermissionAssigner';
+// import PermissionManager from '../routes/PermissionManager';
 import Cookies from 'js-cookie';
 
 export const NotFound = () => {
@@ -29,7 +29,7 @@ export const App = () => {
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/dashboard" element={tokenState ? <Dashboard token={tokenState}/>: <Navigate to="/"/>} />
             <Route path="*" element={<NotFound />} />
-            {/* <Route path="/permissions" element={tokenState ? <PermissionAssigner token={tokenState}/>: <Navigate to="/permissions"/>} /> */}
+            {/* <Route path="/permissions" element={tokenState ? <PermissionManager token={tokenState}/>: <Navigate to="/permissions"/>} /> */}
         </Routes>
     );
 };
