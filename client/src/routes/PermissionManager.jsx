@@ -19,13 +19,10 @@ export default function PermissionManager({ token }) {
     const { userNames } = useGetAllUsers();
     const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
     const [selectedTab, setSelectedTab] = useState('');
-    // let previousPermissions = {};
 
     try {
         if( userNames.length > 0 ){
-            // console.log(userNames);
             userNames.map((user) => {
-                // console.log(user.username);
                 nombres.push(user.username)
             })            
         }
@@ -53,13 +50,13 @@ export default function PermissionManager({ token }) {
         return(
             <ul className="permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
                 <li className="me-2">
-                    <a onClick={()=>handleTabClick('assign')} href="#" aria-current="page" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300">Asignar Permisos</a>
+                    <a onClick={()=>handleTabClick('assign')} href="#" className={ selectedTab === 'assign' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Asignar Permisos</a>
                 </li>
                 <li className="me-2">
-                    <a onClick={()=>handleTabClick('modify')} href="#" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300">Modificar Permisos</a>
+                    <a onClick={()=>handleTabClick('modify')} href="#" className={ selectedTab === 'modify' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Modificar Permisos</a>
                 </li>
                 <li>
-                    <a onClick={()=>handleTabClick('create')} href="#" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300">Crear/Eliminar Permisos</a>
+                    <a onClick={()=>handleTabClick('create')} href="#" className={ selectedTab === 'create' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Crear/Eliminar Permisos</a>
                 </li>
             </ul>
         )
