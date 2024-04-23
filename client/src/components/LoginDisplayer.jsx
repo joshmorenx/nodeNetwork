@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, TextField, Alert, Snackbar } from '@mui/material/';
 import { Link } from 'react-router-dom';
 
@@ -64,4 +64,14 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
             </div>
         </>
     )
+}
+
+LoginDisplayer.propTypes = {
+    handleInputChange: PropTypes.func.isRequired,
+    formData: PropTypes.object.isRequired,
+    sendForm: PropTypes.func.isRequired,
+    userInfo: PropTypes.string.isRequired,
+    open: PropTypes.bool.isRequired,
+    preHandleClose: PropTypes.func.isRequired,
+    loginData: PropTypes.string.isRequired
 }

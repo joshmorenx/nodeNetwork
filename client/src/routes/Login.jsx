@@ -20,6 +20,7 @@ const Login = () => {
             if (tokenState) {
                 Cookies.set('token', tokenState, { expires: 7, secure: true, sameSite: 'Strict' });
                 setTimeout(() => {
+                    // useSetExpiryTimeServerSide(tokenState); just to make sure that i will develop this in the future
                     window.location.reload();
                 }, 1000 + 3000 * Math.random());
             }

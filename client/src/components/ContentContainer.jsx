@@ -1,12 +1,25 @@
-import React from "react"
+import PropTypes from 'prop-types';
+import { useState, useEffect } from "react";
 import PermissionManager from "../routes/PermissionManager";
 
-export default function ContentContainer({ token, allAccess }) {
+export default function ContentContainer({ token, allAccess, selectedSection }) {
+    const [choosenSection, setChoosenSection] = useState('');
+
+    useEffect(() => {
+        setChoosenSection(selectedSection)
+    }, [selectedSection])
+
     return (
         <div className="content-container">
-            <div className='feed-container' id='feed-container'><p>Feed</p></div>
-            {allAccess ? (<div className='permission-container hidden' id='permission-container'><PermissionManager token={token} /></div>) : (<p></p>)}
-            <div className='pages-container hidden' id='pages-container'><p>Pages</p></div>      
+            { choosenSection === 'feed' && (<div className='feed-container' id='feed-container'><p>Feed</p></div>) }
+            { allAccess && (choosenSection === 'assign' && <PermissionManager token={token} /> ) }
+            { choosenSection === 'pages' && (<div className='pages-container' id='pages-container'><p>Pages</p></div>) }
         </div>
     )
+}
+
+ContentContainer.propTypes = {
+    token: PropTypes.string.isRequired,
+    allAccess: PropTypes.bool.isRequired,
+    selectedSection: PropTypes.string.isRequired
 }
