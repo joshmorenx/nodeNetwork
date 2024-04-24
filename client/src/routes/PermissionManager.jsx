@@ -8,6 +8,8 @@ import PermissionAssigner from '../components/PermissionAssigner';
 import PermissionModifier from '../components/PermissionModifier';
 import PermissionCreation from '../components/PermissionCreation';
 import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
+import ListaPermisos from '../components/ListaPermisos';
+import PermissionDetails from '../components/PermissionDetails';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
 
@@ -83,7 +85,9 @@ export default function PermissionManager({ token }) {
                     <div className="permission-content"> 
                         {/* <p>user: {user.username} </p> */}
                         { selectedTab === 'assign' && (<PermissionAssigner ListaNombres={ ListaNombres } nombres={ nombres } handleSelectedChange={handleSelectedChange} PermissionDisplayer={ PermissionDisplayer } token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />)}
-                        { selectedTab === 'modify' && (<PermissionModifier />) }
+
+                        { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } handleSelectedChange={handleSelectedChange} PermissionDetails={ PermissionDetails } token={ token } />) }
+                        
                         { selectedTab === 'create' && (<PermissionCreation />) }
                         { selectedTab === '' && (<NonSelectedTab />) }
                     </div>                    
