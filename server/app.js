@@ -136,7 +136,7 @@ app.post("/users/:id/:permissionId", async (req, res) => {
 
 //     const permission = new Permission({
 //       permissionId:id,
-//       permissionDescription: description
+//       permissionName: description
 //     })
 //     await permission.save();
 //     return res.status(200).json({message:"Permiso agregado correctamente"});

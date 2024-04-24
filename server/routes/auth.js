@@ -10,7 +10,9 @@ const register = require("../controllers/register.js");
 const logout = require("../controllers/logout.js");
 const verificarToken = require("../controllers/verificarToken.js");
 const getAllUsers = require("../controllers/getAllUsers.js");
+const getSelectedUserPermissions = require("../controllers/getSelectedUserPermissions.js");
 const updatePermissionsForOneUser = require("../controllers/updatePermissionsForOneUser.js");
+const getAllPermissions = require("../controllers/getAllPermissions.js");
 const cors = require("cors");
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173']
@@ -45,19 +47,9 @@ app.get('/api/usuario', verificarToken, (req, res) => {
 });
 
 app.get("/api/usuarios", getAllUsers)
-
-app.get("/api/permissions/", async (req, res) => {
-    const username = req.headers.username
-    try {
-        const userInfo = await User.findOne({ username: username }) 
-        const assignedPermissions = await Permission.find({ _id: { $in: userInfo.permissions } })
-        const unassignedPermissions = await Permission.find({ _id: { $nin: userInfo.permissions } })
-        res.status(200).json({assignedPermissions:assignedPermissions, unassignedPermissions:unassignedPermissions})
-    } catch (error) {
-        res.json({ error: error })
-    }
-})
-
+app.get("/api/permissions/", getSelectedUserPermissions)
 app.post("/api/update_permissions/", updatePermissionsForOneUser)
+
+app.get('/api/getAllPermissions/', getAllPermissions);
 
 module.exports = app;   

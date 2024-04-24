@@ -21,7 +21,8 @@ mongoose
 // Definición del modelo de permisos
 const PermissionSchema = new Schema({
     permissionId: { type: Number, unique: true },
-    permissionDescription: { type: String }
+    permissionName: { type: String },
+    permissionDescription: { type: String },
 });
 
 const Permission = mongoose.model("Permission", PermissionSchema);
