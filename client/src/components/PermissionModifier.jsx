@@ -1,12 +1,12 @@
-export default function PermissionModifier({ ListaPermisos, handleSelectedChange, PermissionDetails, token }) { //provissionel parameters for this function
+
+export default function PermissionModifier({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionDescriptionDetails, token, selectedPermission }) { //provissionel parameters for this function
     return (
         <>
-            <h1>AVISO: ESTE COMPONENTE ESTA EN DESARROLLO</h1>
             <div>
-                <ListaPermisos handleSelectedChange={ handleSelectedChange } />
+                <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } />
             </div>
             <div>
-                <PermissionDetails token={ token } />
+                <PermissionDescriptionDetails token={ token } selectedPermission={ selectedPermission } permissionDetails={ permissionDetails } />
             </div>     
         </>   
     )  

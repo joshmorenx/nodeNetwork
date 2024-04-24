@@ -41,7 +41,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
       <div className={`permissions cursor-pointer m-1 border border-black ${selectedPermissionId === permission.permissionId ? 'bg-orange-500 text-white' : ''}`} key={permission.permissionId} onClick={() => {selectPermission(permission.permissionId); 
         assignationChoosen == 1 ? setDisabledAddPermission(false):setDisabledAddPermission(true); 
         assignationChoosen == 2 ? setDisabledRemovePermission(false):setDisabledRemovePermission(true)}}>
-        {permission.permissionId} : {'<'}{permission.permissionDescription}{'>'}
+        {permission.permissionId} : {'<'}{permission.permissionName}{'>'}
       </div>
     ));
   }

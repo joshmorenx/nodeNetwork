@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
+import useGetAllPermissions from '../hooks/useGetAllPermissions';
 import ListaNombres from '../components/ListaNombres';
 import PermissionDisplayer from '../components/PermissionDisplayer';
 import PermissionAssigner from '../components/PermissionAssigner';
@@ -9,16 +10,19 @@ import PermissionModifier from '../components/PermissionModifier';
 import PermissionCreation from '../components/PermissionCreation';
 import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
 import ListaPermisos from '../components/ListaPermisos';
-import PermissionDetails from '../components/PermissionDetails';
+import PermissionDescriptionDetails from '../components/PermissionDescriptionDetails';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
 
 export default function PermissionManager({ token }) {
     const [selectedUser, setSelectedUser] = useState('');
+    const [selectedPermission, setSelectedPermission] = useState('');
+    const [selectedPermissionDetails, setSelectedPermissionDetails] = useState('');
     const { user, error } = useGetUser({ token });
     let { allAccess } = usePermissions(user);
     const nombres = [];
     const { userNames } = useGetAllUsers();
+    const { permissionDetails } = useGetAllPermissions();
     const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
     const [selectedTab, setSelectedTab] = useState('');
 
@@ -32,8 +36,13 @@ export default function PermissionManager({ token }) {
         console.error(error);
     }
     
-    const handleSelectedChange = async (selectedValue) => {
-        await setSelectedUser(selectedValue)
+    const handleSelectedChange = async (selectedValue, type) => {
+        if(type === 'user') {
+            await setSelectedUser(selectedValue)
+        }
+        else if(type === 'permission') {
+            await setSelectedPermission(selectedValue)
+        }
     }
 
     const handleTabClick = async (tab) => {
@@ -86,7 +95,7 @@ export default function PermissionManager({ token }) {
                         {/* <p>user: {user.username} </p> */}
                         { selectedTab === 'assign' && (<PermissionAssigner ListaNombres={ ListaNombres } nombres={ nombres } handleSelectedChange={handleSelectedChange} PermissionDisplayer={ PermissionDisplayer } token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />)}
 
-                        { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } handleSelectedChange={handleSelectedChange} PermissionDetails={ PermissionDetails } token={ token } />) }
+                        { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDescriptionDetails={ PermissionDescriptionDetails } token={ token } selectedPermission={ selectedPermission } />) }
                         
                         { selectedTab === 'create' && (<PermissionCreation />) }
                         { selectedTab === '' && (<NonSelectedTab />) }
