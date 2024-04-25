@@ -7,6 +7,10 @@ export default function PermissionDescriptionDetails({ token, selectedPermission
     const [auxP, setAuxP] = useState([])
     let [permDesc, setPermDesc] = useState('')
 
+    const handleSubmit = (id, newDesc) => {
+        console.log(id, newDesc);
+    }
+
     useEffect(() => {
         setAuxP(selectedPermission.split(" : "))
     }, [selectedPermission])
@@ -31,8 +35,8 @@ export default function PermissionDescriptionDetails({ token, selectedPermission
                 sx={{ width: '100%', height: '100%', bgcolor: '#f0f0f0' }}
                 
             />
-            <Button onClick={ () => console.log(permDesc) } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
-                Guardar Cambios
+            <Button onClick={ () => handleSubmit(auxP[0], permDesc) } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                Guardar Cambios 
             </Button>
             <p>aun falta la funcionalidad del boton de guardar</p>
         </div>
