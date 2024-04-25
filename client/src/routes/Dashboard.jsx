@@ -5,6 +5,7 @@ import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import UserCard from '../components/UserCard';
 import ContentContainer from '../components/ContentContainer';
+import { Button, Box } from '@mui/material/'
 // import { useNavigate } from 'react-router';
 
 const Dashboard = ({ token }) => {
@@ -40,15 +41,40 @@ const Dashboard = ({ token }) => {
                             <UserCard user={user} allAccess={allAccess} cadena={cadena} />
                         )}
 
-                        <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button>
+                        {/* <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button> */}
 
                     </div>
 
-                    <div className='sections-container mt-5'>
+                    {/* <div className='sections-container mt-5'>
                         <div onClick={()=>showClickedContent('feed')} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Feed </div>
                         {allAccess ? (<div onClick={()=>showClickedContent('assign')} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Asignador de permisos </div>):(<p></p>) }
                         <div onClick={()=>showClickedContent('pages')} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Pages </div>
-                    </div>
+                    </div> */}
+                    
+                    <Box className='sections-container mt-5' sx={{ mt: 4 }}>
+                        <Box 
+                            className={selectedSection === 'feed' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
+                            onClick={()=>showClickedContent('feed')}>
+                            Feed
+                        </Box>
+
+                        {allAccess ? (
+                        <Box 
+                            className={selectedSection === 'assign' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
+                            onClick={()=>showClickedContent('assign')}>
+                                Asignador de permisos
+                            </Box>):(<p></p>) }
+
+                        <Box
+                            className={selectedSection === 'pages' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
+                            onClick={()=>showClickedContent('pages')}>
+                                Pages
+                        </Box>
+                    </Box>
+
+                    <Button sx={{ mt: 4 }} variant="contained" size='small' onClick={handleLogout} color="primary">
+                        Cerrar Sesión
+                    </Button>
                 </div>
                 
                 <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection}/>
