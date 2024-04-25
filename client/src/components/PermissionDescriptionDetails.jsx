@@ -31,8 +31,8 @@ export default function PermissionDescriptionDetails({ token, selectedPermission
                 sx={{ width: '100%', height: '100%', bgcolor: '#f0f0f0' }}
                 
             />
-            <Button onClick={ () => console.log(permDesc) } variant="text" color="primary" sx={{ mt: 2, bgcolor: '#f0f0f0'  }}>
-                Guardar
+            <Button onClick={ () => console.log(permDesc) } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                Guardar Cambios
             </Button>
             <p>aun falta la funcionalidad del boton de guardar</p>
         </div>

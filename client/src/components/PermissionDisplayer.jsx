@@ -3,6 +3,7 @@ import useGetUser from '../hooks/useGetUser';
 import usePermissions from '../hooks/usePermissions';
 import useUpdatePermissions from '../hooks/useUpdatePermissions';
 import { useState, useEffect } from 'react';
+import Button from '@mui/material/Button'
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
 
@@ -123,8 +124,15 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
             </div>
 
           </div>
-          <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" >Guardar Cambios</button>
-          <p> {message} </p>
+          
+          {/* <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" >Guardar Cambios</button> */}
+
+          <Button onClick={ updatePermissions } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                Guardar Cambios
+          </Button>
+
+          <p className='mt-10 bg-black text-white'> {message} </p>
+          
         </>
       ); 
     } else  {
