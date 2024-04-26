@@ -15,8 +15,10 @@ const updatePermissionsForOneUser = async (req = request, res = response) => {
             return res.json({ error: "Usuario no encontrado", message: "Usuario no encontrado" })
         }
         user.permissions = newPermissions
-        await user.save()
-        res.status(200).json({ message: "Permisos actualizados correctamente", success: true })
+        const result = await user.save()
+        if(result) {
+            return res.status(200).json({ message: "Permisos actualizados correctamente para este usuario", success: true })
+        }
     } catch (error) {
         res.json({ error: error })
     }

@@ -13,6 +13,8 @@ const getAllUsers = require("../controllers/getAllUsers.js");
 const getSelectedUserPermissions = require("../controllers/getSelectedUserPermissions.js");
 const updatePermissionsForOneUser = require("../controllers/updatePermissionsForOneUser.js");
 const getAllPermissions = require("../controllers/getAllPermissions.js");
+const updatePermissions = require("../controllers/modifyPermissions.js");
+const getPermissionDescription = require("../controllers/getPermissionDescription.js");
 const cors = require("cors");
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173']
@@ -51,5 +53,7 @@ app.get("/api/permissions/", getSelectedUserPermissions)
 app.post("/api/update_permissions/", updatePermissionsForOneUser)
 
 app.get('/api/getAllPermissions/', getAllPermissions);
+app.post('/api/modifyPermissions/', updatePermissions);
+app.get("/api/getPermissionDescription", getPermissionDescription)
 
 module.exports = app;   
