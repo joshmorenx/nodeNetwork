@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import useLogout from '../hooks/useLogout';
-import useGetUser from '../hooks/useGetUser';
+import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import usePermissions from '../hooks/usePermissions';
 import UserCard from '../components/UserCard';
 import ContentContainer from '../components/ContentContainer';
@@ -19,7 +19,7 @@ const Dashboard = ({ token }) => {
     if(logStatusRefresh){
         window.location.reload();
     }
-    const { user, error } = useGetUser({ token });
+    const { user, error } = useGetCurrentUser({ token });
     const handleLogout = () => {
         logout()
     };

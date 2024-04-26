@@ -4,7 +4,7 @@ import Login from './routes/Login';
 import Register from './routes/Register';
 import Forgot from './routes/Forgot';
 import Dashboard from './routes/Dashboard';
-// import PermissionManager from '../routes/PermissionManager';
+// import PermissionManager from '../src/components/PermissionManager'
 import Cookies from 'js-cookie';
 
 export const NotFound = () => {

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import useGetUser from '../hooks/useGetUser';
+import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import usePermissions from '../hooks/usePermissions';
 import useUpdatePermissions from '../hooks/useUpdatePermissions';
 import { useState, useEffect } from 'react';
@@ -13,7 +13,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     // console.log(selectedUser);
   })
 
-  const { user } = useGetUser({ token });
+  const { user } = useGetCurrentUser({ token });
   let { cadena, allAccess } = usePermissions( user );
   const [selectedPermissionId, setSelectedPermissionId] = useState(null);
   const [disabledAddPermission, setDisabledAddPermission] = useState(true);

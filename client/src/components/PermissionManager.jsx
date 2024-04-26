@@ -1,24 +1,23 @@
 import PropTypes from 'prop-types';
-import useGetUser from '../hooks/useGetUser';
+import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import useGetAllPermissions from '../hooks/useGetAllPermissions';
-import ListaNombres from '../components/ListaNombres';
-import PermissionDisplayer from '../components/PermissionDisplayer';
-import PermissionAssigner from '../components/PermissionAssigner';
-import PermissionModifier from '../components/PermissionModifier';
-import PermissionCreation from '../components/PermissionCreation';
+import ListaNombres from './ListaNombres';
+import PermissionDisplayer from './PermissionDisplayer';
+import PermissionAssigner from './PermissionAssigner';
+import PermissionModifier from './PermissionModifier';
+import PermissionCreation from './PermissionCreation';
 import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
-import ListaPermisos from '../components/ListaPermisos';
-import PermissionDescriptionDetails from '../components/PermissionDescriptionDetails';
+import ListaPermisos from './ListaPermisos';
+import PermissionDescriptionDetails from './PermissionDescriptionDetails';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
 
 export default function PermissionManager({ token }) {
     const [selectedUser, setSelectedUser] = useState('');
     const [selectedPermission, setSelectedPermission] = useState('');
-    const [selectedPermissionDetails, setSelectedPermissionDetails] = useState('');
-    const { user, error } = useGetUser({ token });
+    const { user, error } = useGetCurrentUser({ token });
     let { allAccess } = usePermissions(user);
     const nombres = [];
     const { userNames } = useGetAllUsers();
@@ -83,7 +82,7 @@ export default function PermissionManager({ token }) {
         if(selectedUser !== '' ){
             enviarSolicitud()
         }
-    }, [selectedUser]) //error fixed enviarSolicitud function not be added to the array
+    }, [selectedUser]) 
 
     return (
         <div>
@@ -92,13 +91,15 @@ export default function PermissionManager({ token }) {
                     <PermissionTabs />}
                 {allAccess ? (
                     <div className="permission-content"> 
-                        {/* <p>user: {user.username} </p> */}
+
                         { selectedTab === 'assign' && (<PermissionAssigner ListaNombres={ ListaNombres } nombres={ nombres } handleSelectedChange={handleSelectedChange} PermissionDisplayer={ PermissionDisplayer } token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />)}
 
                         { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDescriptionDetails={ PermissionDescriptionDetails } token={ token } selectedPermission={ selectedPermission } />) }
                         
                         { selectedTab === 'create' && (<PermissionCreation />) }
+
                         { selectedTab === '' && (<NonSelectedTab />) }
+
                     </div>                    
                 ):(
                 <p></p>)}

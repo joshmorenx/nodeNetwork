@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from "react";
-import PermissionManager from "../routes/PermissionManager";
+import PermissionManager from "../components/PermissionManager";
 
 export default function ContentContainer({ token, allAccess, selectedSection }) {
     const [choosenSection, setChoosenSection] = useState('');

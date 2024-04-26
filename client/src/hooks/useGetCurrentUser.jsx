@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-const useGetUser = ({ token }) => {
+const useGetCurrentUser = ({ token }) => {
     const [user, setUser] = useState({});
     const [error, setError] = useState(null);
 
@@ -29,4 +29,4 @@ const useGetUser = ({ token }) => {
     return { user, error };
 };
 
-export default useGetUser;
+export default useGetCurrentUser;
