@@ -2,10 +2,14 @@ const {request, response} = require("express")
 const Permission = require("../models/Permission.js");
 
 const getPermissionDescription = async (req=request, res = response) => {
-    const { id } = req.body
+    const { id } = req.headers
     try {
-        const permission = await Permission.findOne({ permissionId: id })
-        res.json({ permissionDescription: permission.permissionDescription })
+        if(id) {
+            const permission = await Permission.findOne({ permissionId: id })
+            res.json({ description: permission.permissionDescription })
+        } else {
+            res.json({ description: "" })
+        }
     } catch (error) {
         res.json({ mess: error })
     }
