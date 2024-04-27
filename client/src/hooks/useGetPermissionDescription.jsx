@@ -6,18 +6,19 @@ export default function useGetPermissionDescription(id) {
 
     useEffect(() => {
         const sendRequest = async () => {
-            await axios.get('http://localhost:3000/api/getPermissionDescription/', {
-                id: id
+            await axios.get('http://localhost:3000/api/getPermissionDescription/', { 
+                headers: {
+                    id: id,
+                },
             })
             .then((response) => {
-                setPermissionDescription(response.data.permissionDescription);
-                console.log(response.data);
+                setPermissionDescription(response.data.description);
             })
             .catch((error) => {
-                console.log(error);
+                console.log('error: ', error);
             })
         }
         sendRequest();
-    }, [id]);
+    }, [ id ]);
     return { permissionDescription }
 }
