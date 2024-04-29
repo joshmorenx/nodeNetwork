@@ -32,16 +32,17 @@ export default function PermissionDescriptionDetails({ token, selectedPermission
     // console.log(permDesc);
 
     return (
-        <div onLoad={ () => setPermDesc('')}>
+        <div>
             <h1>Descripción del permiso</h1>
             <TextField
+                disabled={ !permDesc }
                 id=""
                 label=""
                 value={ permDesc && permDesc }
                 onChange={ (e) => setPermDesc(e.target.value) }
                 sx={{ width: '100%', height: '100%', bgcolor: '#f0f0f0' }}/>
 
-            <Button onClick={ handleSubmit } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+            <Button disabled={ !permDesc } onClick={ handleSubmit } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                 Guardar Cambios 
             </Button>
             <p>{ msg ? msg : '' }</p>
