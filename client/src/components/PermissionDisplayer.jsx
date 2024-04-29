@@ -7,18 +7,13 @@ import Button from '@mui/material/Button'
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
 
-  useEffect(() => {
-    // I need to get the selectedUser and then set the modified permissions for that user using the useUpdatePermissions hook
-    // For now and not to show errors im just showing the selectedUser in the console
-    // console.log(selectedUser);
-  })
-
   const { user } = useGetCurrentUser({ token });
   let { cadena, allAccess } = usePermissions( user );
   const [selectedPermissionId, setSelectedPermissionId] = useState(null);
   const [disabledAddPermission, setDisabledAddPermission] = useState(true);
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
   const [ message , setMessage ] = useState('');
+  const [permissionAmount, setPermissionAmount] = useState(0);
 
   const { sendRequest, msg } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
   
@@ -91,6 +86,12 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     }, 3000);
   }, [msg])
 
+  useEffect(() => {
+    if(UserAssignedPermissions.length !== undefined && UserUnassignedPermissions.length !== undefined){
+      setPermissionAmount(UserAssignedPermissions.length + UserUnassignedPermissions.length);
+    }
+  },[UserAssignedPermissions, UserUnassignedPermissions])
+
   try {
     if(allAccess){  
       return (
@@ -127,7 +128,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
           
           {/* <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" >Guardar Cambios</button> */}
 
-          <Button onClick={ updatePermissions } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+          <Button disabled={!permissionAmount} onClick={ updatePermissions } size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                 Guardar Cambios
           </Button>
 
@@ -141,7 +142,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
       )
     } 
   } catch (error) {
-    console.error(error);
+    //console.error(error);
   }
 }
 
