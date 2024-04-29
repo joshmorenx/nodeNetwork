@@ -7,10 +7,11 @@ import ListaNombres from './ListaNombres';
 import PermissionDisplayer from './PermissionDisplayer';
 import PermissionAssigner from './PermissionAssigner';
 import PermissionModifier from './PermissionModifier';
-import PermissionCreation from './PermissionCreation';
+import PermissionCreateOrDelete from './PermissionCreateOrDelete';
 import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
 import ListaPermisos from './ListaPermisos';
 import PermissionDescriptionDetails from './PermissionDescriptionDetails';
+import PermissionAddOrDel from './PermissionAddOrDel';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
 
@@ -96,7 +97,7 @@ export default function PermissionManager({ token }) {
 
                         { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDescriptionDetails={ PermissionDescriptionDetails } token={ token } selectedPermission={ selectedPermission } />) }
                         
-                        { selectedTab === 'create' && (<PermissionCreation />) }
+                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionAddOrDel={ PermissionAddOrDel } token={ token } selectedPermission={ selectedPermission } />) }
 
                         { selectedTab === '' && (<NonSelectedTab />) }
 
