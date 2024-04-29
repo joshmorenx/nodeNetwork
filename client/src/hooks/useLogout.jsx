@@ -9,7 +9,7 @@ const useLogout = (token) => {
     // };
 
     const logout = async () => {
-        await axios.post('http://localhost:3000/logout', {
+        await axios.post('http://localhost:3000/logout/', {
             token: token
         }).then((response) => {
             // console.log(response.data.msg);

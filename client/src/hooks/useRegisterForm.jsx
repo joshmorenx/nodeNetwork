@@ -15,7 +15,7 @@ const useRegisterForm = (initialForm = {}) => {
     const sendForm = async (event) => {
         event.preventDefault();
         setOpen(true)
-        await axios.post(`http://localhost:3000/register`,
+        await axios.post('http://localhost:3000/register/',
             {
                 firstName: formData.firstName,
                 lastName: formData.lastName,

@@ -7,7 +7,7 @@ export default function useGetAllUsers() {
 
     useEffect(() => {
         const sendRequest = async () =>{
-            await axios.get('http://localhost:3000/api/usuarios')
+            await axios.get('http://localhost:3000/api/usuarios/')
             .then((response) => {
                 // setUsers(response.data);
                 setUserNames(response.data.usernames);

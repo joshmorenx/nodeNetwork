@@ -8,7 +8,7 @@ const useGetCurrentUser = ({ token }) => {
     useEffect(() => {
         const enviarSolicitud = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/usuario', {
+                const response = await axios.get('http://localhost:3000/api/usuario/', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
