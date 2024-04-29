@@ -57,16 +57,19 @@ app.post('/api/modifyPermissions/', updatePermissions);
 app.get("/api/getPermissionDescription", getPermissionDescription)
 
 app.post('/api/lastPermission/',async (req, res) => {
-    // const { typeUpdate, permId, permName } = req.body
+    const { typeUpdate, permId, permName } = req.body
     // console.log(typeUpdate, permId, permName);
     //check if that permission is being used by another user if not delete it
-    let perm_Id = await Permission.findOne({},{_id:1},{ permissionId: 2 });
-    let filteredUser = await User.find({ permissions: perm_Id._id });
 
-    console.log(perm_Id);
-    // filteredUser.map((user) => {
-    //     console.log(user);
-    // })
+    let perm_Id = await Permission.findOne({ permissionId: permId });
+    let filteredUser = await User.find({ permissions: perm_Id._id });
+    
+    // console.log(perm_Id._id);
+    // console.log(filteredUser);
+
+    filteredUser.map((user) => {
+        console.log(user.username);
+    })
 
     // try {
     //     const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
