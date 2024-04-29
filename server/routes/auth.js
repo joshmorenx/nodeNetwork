@@ -37,9 +37,9 @@ app.use(
 );
 
 app.post("/", login);
-app.post("/logout", logout);
-app.post("/register", register);
-app.get('/api/usuario', verificarToken, (req, res) => {
+app.post("/logout/", logout);
+app.post("/register/", register);
+app.get('/api/usuario/', verificarToken, (req, res) => {
     const usuario = req.usuario;
 
     // Utiliza las propiedades del usuario según sea necesario
@@ -55,5 +55,49 @@ app.post("/api/update_permissions/", updatePermissionsForOneUser)
 app.get('/api/getAllPermissions/', getAllPermissions);
 app.post('/api/modifyPermissions/', updatePermissions);
 app.get("/api/getPermissionDescription", getPermissionDescription)
+
+app.post('/api/lastPermission/',async (req, res) => {
+    // const { typeUpdate, permId, permName } = req.body
+    // console.log(typeUpdate, permId, permName);
+    //check if that permission is being used by another user if not delete it
+    let perm_Id = await Permission.findOne({},{_id:1},{ permissionId: 2 });
+    let filteredUser = await User.find({ permissions: perm_Id._id });
+
+    console.log(perm_Id);
+    // filteredUser.map((user) => {
+    //     console.log(user);
+    // })
+
+    // try {
+    //     const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
+    //     if(typeUpdate === 'add') {
+    //         const newPermission = new Permission({
+    //             permissionId: lastPermissionRegistry.permissionId + 1,
+    //             permissionName: permName,
+    //             permissionDescription: permDescription
+    //         })
+        
+    //         const result = await newPermission.save();
+
+    //     if(result) {
+    //         res.json({message:"Permiso creado correctamente"});
+    //     }
+
+    //     }
+
+    //     else if(typeUpdate === 'remove') {
+            
+    //         if(result) {
+    //             return res.json({message:"Permiso eliminado correctamente"});
+    //         }
+    //     }
+    // } catch (error) {
+    //     return res.json({ message: error });
+    // }
+    
+    // const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
+    // const lastP = await Permission.find({},{permissionId:1},{sort:{ permissionId: -1 }}).limit(1);
+    // res.json(lastPermissionRegistry.permissionId);
+})
 
 module.exports = app;   
