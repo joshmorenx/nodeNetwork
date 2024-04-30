@@ -1,27 +1,26 @@
-import React from "react";
-import { useState, useEffect } from "react";
 import axios from 'axios';
+import { useState, useEffect } from "react";
 
 export default function useAddOrDelPermission(typeUpdate, permId, permName) {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const [msg, setMsg] = useState(null);
+    const [usersThatUseThisPermission, setUsersThatUseThisPermission] = useState([])
 
     const sendRequest = async () => {
-        try {
-            const response = axios.post('http://localhost:3000/api/lastPermission/',{
-                typeUpdate: typeUpdate,
-                permId: permId,
-                permName: permName
-            })
-            if (response) {
-                // setSuccess(response.data.success);
-                // setMsg(response.data.message);
-            }
-        } catch (error) {
-            // setError(error);            
-        }
+        await axios.post('http://localhost:3000/api/lastPermission/', {
+            typeUpdate: typeUpdate,
+            permId: permId,
+            permName: permName
+        }).then((response) => {
+            setMsg(response.data.message);
+            setUsersThatUseThisPermission(response.data.usersThatUseThisPermission);
+            // setSuccess(response.data.success);
+            // console.log(response.data);
+        }).catch((error) => {
+            // setError(error);
+        })
     }
-    return { sendRequest, msg, error, success }
+    return { sendRequest, msg, error, success, usersThatUseThisPermission }
 
 }
