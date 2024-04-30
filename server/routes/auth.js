@@ -58,49 +58,51 @@ app.get("/api/getPermissionDescription", getPermissionDescription)
 
 app.post('/api/lastPermission/',async (req, res) => {
     const { typeUpdate, permId, permName } = req.body
-    // console.log(typeUpdate, permId, permName);
-    //check if that permission is being used by another user if not delete it
-
-    let perm_Id = await Permission.findOne({ permissionId: permId });
-    let filteredUser = await User.find({ permissions: perm_Id._id });
     
-    // console.log(perm_Id._id);
-    // console.log(filteredUser);
+    
+    const usersThatUseThisPermission = []
+    // check if that permission is being used by another user if not delete it
 
+    const perm_Id = await Permission.findOne({ permissionId: permId });
+    const filteredUser = await User.find({ permissions: perm_Id._id });
+
+    const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
+    
     filteredUser.map((user) => {
-        console.log(user.username);
+        usersThatUseThisPermission.push(user.username)
     })
 
-    // try {
-    //     const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
-    //     if(typeUpdate === 'add') {
-    //         const newPermission = new Permission({
-    //             permissionId: lastPermissionRegistry.permissionId + 1,
-    //             permissionName: permName,
-    //             permissionDescription: permDescription
-    //         })
+    try {
+        const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
+        if(typeUpdate === 'add') {
+            const newPermission = new Permission({
+                permissionId: lastPermissionRegistry.permissionId + 1,
+                permissionName: permName,
+                permissionDescription: permDescription
+            })
         
-    //         const result = await newPermission.save();
+            const result = await newPermission.save();
 
-    //     if(result) {
-    //         res.json({message:"Permiso creado correctamente"});
-    //     }
+        if(result) {
+            res.json({message:"Permiso creado correctamente"});
+        }
 
-    //     }
+        }
 
-    //     else if(typeUpdate === 'remove') {
-            
-    //         if(result) {
-    //             return res.json({message:"Permiso eliminado correctamente"});
-    //         }
-    //     }
-    // } catch (error) {
-    //     return res.json({ message: error });
-    // }
+        else if(typeUpdate === 'remove') {
+            if(usersThatUseThisPermission.length > 0) {
+                res.json({message:"No se puede borrar el permiso ya que esta siendo usado por otro usuario.", usersThatUseThisPermission: usersThatUseThisPermission});
+            } else {
+                const result = await Permission.deleteOne({ permissionId: permId });
+                if(result) {
+                    res.json({message:"Permiso borrado correctamente"});
+                }
+            }
+        }
+    } catch (error) {
+        return res.json({ message: error });
+    }
     
-    // const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
-    // const lastP = await Permission.find({},{permissionId:1},{sort:{ permissionId: -1 }}).limit(1);
-    // res.json(lastPermissionRegistry.permissionId);
 })
 
 module.exports = app;   
