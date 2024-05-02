@@ -47,7 +47,6 @@ const useRegisterForm = (initialForm = {}) => {
         handleClose,
         state,
         registryCompletion,
-        ...formData,
         formData,
         open
     }

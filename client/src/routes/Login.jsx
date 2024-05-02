@@ -6,7 +6,7 @@ import '../assets/index.css';
 import LoginDisplayer from '../components/LoginDisplayer'
 
 const Login = () => {
-    const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, ...formData } = useLoginForm({
+    const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, formData } = useLoginForm({
         username: '',
         password: '',
     });

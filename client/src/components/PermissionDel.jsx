@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button'
 import useAddOrDelPermission from '../hooks/useAddOrDelPermission'
 
-export default function PermissionAddOrDel({ token, selectedPermission }) {
+export default function PermissionDel({ token, selectedPermission }) {
     
     const [auxP, setAuxP] = useState([])
     let [permDesc, setPermDesc] = useState('')
@@ -27,7 +27,7 @@ export default function PermissionAddOrDel({ token, selectedPermission }) {
             <p>{ msg ? msg : '' }</p>
             <p>{ error ? error.message : '' }</p>
             <p>{ success ? success : '' }</p>   
-            { usersThatUseThisPermission.length > 0 ? usersThatUseThisPermission.map((user,index) => <p key={index}>{user}</p>) : '' }
+            { usersThatUseThisPermission && usersThatUseThisPermission.length > 0 ? usersThatUseThisPermission.map((user,index) => <p key={index}>{user}</p>) : '' }
         </div>
     )
 }

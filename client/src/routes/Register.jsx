@@ -8,7 +8,7 @@ import '../assets/index.css';
 
 const Register = () => {
     const navigate = useNavigate();
-    const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, ...formData } = useRegisterForm({
+    const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, formData } = useRegisterForm({
         firstName: '',
         lastName: '',
         email: '',

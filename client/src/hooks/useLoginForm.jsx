@@ -51,7 +51,6 @@ const useLoginForm = (initialForm = {}) => {
         sendForm,
         handleClose,
         loginData,
-        ...formData,
         formData,
         tokenState,
         userInfo,

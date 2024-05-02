@@ -3,15 +3,16 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import useGetAllPermissions from '../hooks/useGetAllPermissions';
+import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
 import ListaNombres from './ListaNombres';
 import PermissionDisplayer from './PermissionDisplayer';
 import PermissionAssigner from './PermissionAssigner';
 import PermissionModifier from './PermissionModifier';
 import PermissionCreateOrDelete from './PermissionCreateOrDelete';
-import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
 import ListaPermisos from './ListaPermisos';
 import PermissionDescriptionDetails from './PermissionDescriptionDetails';
-import PermissionAddOrDel from './PermissionAddOrDel';
+import PermissionDel from './PermissionDel';
+import PermissionAdd from './PermissionAdd';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
 
@@ -97,7 +98,7 @@ export default function PermissionManager({ token }) {
 
                         { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDescriptionDetails={ PermissionDescriptionDetails } token={ token } selectedPermission={ selectedPermission } />) }
                         
-                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionAddOrDel={ PermissionAddOrDel } token={ token } selectedPermission={ selectedPermission } />) }
+                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDel={ PermissionDel } PermissionAdd={ PermissionAdd } token={ token } selectedPermission={ selectedPermission } />) }
 
                         { selectedTab === '' && (<NonSelectedTab />) }
 
