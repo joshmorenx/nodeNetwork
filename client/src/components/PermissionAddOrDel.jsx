@@ -26,8 +26,8 @@ export default function PermissionAddOrDel({ token, selectedPermission }) {
             </Button>
             <p>{ msg ? msg : '' }</p>
             <p>{ error ? error.message : '' }</p>
-            <p>{ success ? success : '' }</p>
-            <p>{ usersThatUseThisPermission.length > 0 ? usersThatUseThisPermission.map((user) => <p>{user}</p>) : '' }</p>
+            <p>{ success ? success : '' }</p>   
+            { usersThatUseThisPermission.length > 0 ? usersThatUseThisPermission.map((user,index) => <p key={index}>{user}</p>) : '' }
         </div>
     )
 }

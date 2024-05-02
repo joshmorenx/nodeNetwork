@@ -1,18 +1,10 @@
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box, FormControl, FormLabel, FormHelperText, InputLabel, Input, MenuItem, Select, TextField, Button } from '@mui/material/'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl'
-import FormLabel from '@mui/material/FormLabel'
-import FormHelperText from '@mui/material/FormHelperText'
-
 
 export default function PermissionCreateOrDelete({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionAddOrDel, token, selectedPermission }) {
     return (
         <>
+        {/* permission deletion section begins */}
         <Accordion color='primary'>
             <AccordionSummary
             expandIcon={<ArrowDropDownIcon />}
@@ -33,26 +25,29 @@ export default function PermissionCreateOrDelete({ ListaPermisos, permissionDeta
             </Box>
             </AccordionDetails>
         </Accordion>
+        {/* permission deletion section ends */}
 
+        {/* permission creation section begins */}
         <Accordion color='primary'>
             <AccordionSummary
             expandIcon={<ArrowDropDownIcon />}
             aria-controls="panel2-content"
             id="panel2-header"
-            sx={{ mt: 2, bgcolor: '#faf1de' }}
+            sx={{ mt: 1, bgcolor: '#faf1de' }}
             >
             <Typography>Crear Permisos</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
-            <Box>
-                <FormControl>
-                    <FormLabel></FormLabel>
-                    <Typography variant="body1" color="initial">WORK IN PROGRESS</Typography>
-                    <FormHelperText></FormHelperText>
-                </FormControl>
-            </Box>
+                <FormControl fullWidth>
+                    <TextField sx={{ mt : 4 }} id="permissionName" label="Nombre del permiso" variant="outlined" />
+                    <TextField sx={{ mt : 4 }} id="permissionDescription" label="Descripción del permiso" variant="outlined" />
+                    <Button size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                        Crear permiso
+                    </Button>
+                </FormControl>                
             </AccordionDetails>
         </Accordion>
+        {/* permission creation section ends */}
         
         </>   
     )  
