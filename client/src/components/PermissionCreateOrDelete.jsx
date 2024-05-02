@@ -5,8 +5,27 @@ export default function PermissionCreateOrDelete({ ListaPermisos, permissionDeta
     
     return (
         <>
+
+        {/* permission creation section begins */}
+        <Accordion defaultExpanded={true} color='primary'>
+            <AccordionSummary
+            expandIcon={<ArrowDropDownIcon />}
+            aria-controls="panel2-content"
+            id="panel2-header"
+            sx={{ mt: 1, bgcolor: '#faf1de' }}
+            >
+            <Typography>Crear Permisos</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ bgcolor: '#faf1de' }}> 
+            
+                <PermissionAdd />
+            
+            </AccordionDetails>
+        </Accordion>
+        {/* permission creation section ends */}
+
         {/* permission deletion section begins */}
-        <Accordion color='primary'>
+        <Accordion defaultExpanded={true} color='primary'>
             <AccordionSummary
             expandIcon={<ArrowDropDownIcon />}
             aria-controls="panel2-content"
@@ -27,24 +46,6 @@ export default function PermissionCreateOrDelete({ ListaPermisos, permissionDeta
             </AccordionDetails>
         </Accordion>
         {/* permission deletion section ends */}
-
-        {/* permission creation section begins */}
-        <Accordion color='primary'>
-            <AccordionSummary
-            expandIcon={<ArrowDropDownIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
-            sx={{ mt: 1, bgcolor: '#faf1de' }}
-            >
-            <Typography>Crear Permisos</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: '#faf1de' }}> 
-            
-                <PermissionAdd />
-            
-            </AccordionDetails>
-        </Accordion>
-        {/* permission creation section ends */}
         
         </>   
     )  
