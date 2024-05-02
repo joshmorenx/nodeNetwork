@@ -1,7 +1,7 @@
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material/'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-export default function PermissionCreateOrDelete({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionDel, PermissionAdd, token, selectedPermission }) {
+export default function PermissionCreateOrDelete({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionDeletion, PermissionAdd, token, selectedPermission }) {
     
     return (
         <>
@@ -21,7 +21,7 @@ export default function PermissionCreateOrDelete({ ListaPermisos, permissionDeta
                     <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } />
                 </Box>
                 <Box>
-                    <PermissionDel token={ token } selectedPermission={ selectedPermission } permissionDetails={ permissionDetails } />
+                    <PermissionDeletion token={ token } selectedPermission={ selectedPermission } permissionDetails={ permissionDetails } />
                 </Box> 
             </Box>
             </AccordionDetails>

@@ -17,7 +17,10 @@ export default function useGetAllPermissions() {
                 // console.log(errorDetails);
             })
         }
-        sendRequest();
+        //keep alive conection to permissions
+        setInterval(() => {
+            sendRequest();
+        }, 1000);
     }, [])
     return { permissionDetails, errorDetails }
 }

@@ -102,7 +102,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
               <h1>Permisos Disponibles</h1>
               <div className="unassigned-permissions border border-black bg-white" style={{ width: '100%'}}>
                 {/* { bArray.map( (item, index) => <div className='m-1 border border-black' key={index} onClick={}>{item}</div> ) } */}
-                { getAllPermissions(UserUnassignedPermissions, 1) }
+                { selectedUser ? getAllPermissions(UserUnassignedPermissions, 1) : null }
               </div>
             </div>
     

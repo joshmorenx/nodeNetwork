@@ -11,7 +11,7 @@ import PermissionModifier from './PermissionModifier';
 import PermissionCreateOrDelete from './PermissionCreateOrDelete';
 import ListaPermisos from './ListaPermisos';
 import PermissionDescriptionDetails from './PermissionDescriptionDetails';
-import PermissionDel from './PermissionDel';
+import PermissionDeletion from './PermissionDeletion';
 import PermissionAdd from './PermissionAdd';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
@@ -48,6 +48,8 @@ export default function PermissionManager({ token }) {
 
     const handleTabClick = async (tab) => {
         setSelectedTab(tab)
+        setSelectedPermission('')
+        setSelectedUser('')
     }
 
     const permissionDiff = async (prev, next) => {
@@ -98,7 +100,7 @@ export default function PermissionManager({ token }) {
 
                         { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDescriptionDetails={ PermissionDescriptionDetails } token={ token } selectedPermission={ selectedPermission } />) }
                         
-                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDel={ PermissionDel } PermissionAdd={ PermissionAdd } token={ token } selectedPermission={ selectedPermission } />) }
+                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDeletion={ PermissionDeletion } PermissionAdd={ PermissionAdd } token={ token } selectedPermission={ selectedPermission } />) }
 
                         { selectedTab === '' && (<NonSelectedTab />) }
 
