@@ -8,9 +8,9 @@ import ListaNombres from './ListaNombres';
 import PermissionDisplayer from './PermissionDisplayer';
 import PermissionAssigner from './PermissionAssigner';
 import PermissionModifier from './PermissionModifier';
-import PermissionCreateOrDelete from './PermissionCreateOrDelete';
 import ListaPermisos from './ListaPermisos';
 import PermissionDescriptionDetails from './PermissionDescriptionDetails';
+import PermissionCreateOrDelete from './PermissionCreateOrDelete';
 import PermissionDeletion from './PermissionDeletion';
 import PermissionAdd from './PermissionAdd';
 import { useState, useEffect } from 'react';   
@@ -23,19 +23,20 @@ export default function PermissionManager({ token }) {
     let { allAccess } = usePermissions(user);
     const nombres = [];
     const { userNames } = useGetAllUsers();
-    const { permissionDetails } = useGetAllPermissions();
+    const { permissionDetails, errorDetails, sendRequestedPermissions } = useGetAllPermissions();
     const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
     const [selectedTab, setSelectedTab] = useState('');
     const [delBtnClicked, setDelBtnClicked] = useState(false);
 
     // let's make a trigger when delBtnClicked is true useGetAllPermissions will be called again (PREPARATION)
-    useEffect(() => {
-        console.log(delBtnClicked);
-        if(delBtnClicked) {
-            alert('Se ha eliminado el permiso correctamente')
-        }
-        setDelBtnClicked(false)
-    }, [delBtnClicked])
+    // useEffect(() => {
+    //     console.log(delBtnClicked);
+    //     if(delBtnClicked) {
+    //         alert('deletion button clicked');
+    //         sendRequestedPermissions()
+    //     }
+    //     setDelBtnClicked(false)
+    // }, [delBtnClicked])
 
     try {
         if( userNames.length > 0 ){
@@ -58,9 +59,14 @@ export default function PermissionManager({ token }) {
 
     const handleTabClick = async (tab) => {
         setSelectedTab(tab)
-        setSelectedPermission('')
-        setSelectedUser('')
+        if(tab === 'modify' || tab === 'create') {
+            setSelectedPermission('')
+        }
     }
+
+    useEffect(() => {
+        (selectedTab === 'assign' ? setSelectedUser('') : ((selectedTab === 'modify' || selectedTab === 'create') ? sendRequestedPermissions() : null))
+    }, [selectedTab])
 
     const permissionDiff = async (prev, next) => {
         if (await prev !== await next) {
@@ -110,7 +116,7 @@ export default function PermissionManager({ token }) {
 
                         { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDescriptionDetails={ PermissionDescriptionDetails } token={ token } selectedPermission={ selectedPermission } />) }
                         
-                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDeletion={ PermissionDeletion } PermissionAdd={ PermissionAdd } token={ token } selectedPermission={ selectedPermission } setDelBtnClicked={ setDelBtnClicked } />) }
+                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDeletion={ PermissionDeletion } PermissionAdd={ PermissionAdd } token={ token } selectedPermission={ selectedPermission } setDelBtnClicked={ setDelBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } delBtnClicked={ delBtnClicked } />) }
 
                         { selectedTab === '' && (<NonSelectedTab />) }
 

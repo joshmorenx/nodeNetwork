@@ -2,13 +2,20 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
 
-export default function ListaPermisos({ permissionDetails, handleSelectedChange }) {
+export default function ListaPermisos({ permissionDetails, handleSelectedChange, delBtnClicked, sendRequestedPermissions }) {
     const [selectedValue, setSelectedValue] = useState('');
     const handlingSelectedChange = (event) => {
         const value = event.target.value
         setSelectedValue(value)
         handleSelectedChange(value, 'permission')
     }
+
+    useEffect(() => {
+        if(delBtnClicked) {
+            setSelectedValue('')
+            sendRequestedPermissions() //it's refreshing the permission details but it's delayed
+        }
+    }, [delBtnClicked,permissionDetails])
 
     return (
         <div>

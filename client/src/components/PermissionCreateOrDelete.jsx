@@ -1,7 +1,8 @@
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material/'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useEffect } from 'react';
 
-export default function PermissionCreateOrDelete({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionDeletion, PermissionAdd, token, selectedPermission, setDelBtnClicked }) {
+export default function PermissionCreateOrDelete({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionDeletion, PermissionAdd, token, selectedPermission, setDelBtnClicked, sendRequestedPermissions, delBtnClicked }) {
     
     return (
         <>
@@ -18,7 +19,7 @@ export default function PermissionCreateOrDelete({ ListaPermisos, permissionDeta
             </AccordionSummary>
             <AccordionDetails sx={{ bgcolor: '#faf1de' }}> 
             
-                <PermissionAdd />
+                <PermissionAdd sendRequestedPermissions={ sendRequestedPermissions } />
             
             </AccordionDetails>
         </Accordion>
@@ -37,10 +38,10 @@ export default function PermissionCreateOrDelete({ ListaPermisos, permissionDeta
             <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
             <Box>
                 <Box>
-                    <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } />
+                    <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } delBtnClicked={ delBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } />
                 </Box>
                 <Box>
-                    <PermissionDeletion token={ token } selectedPermission={ selectedPermission } permissionDetails={ permissionDetails } setDelBtnClicked={ setDelBtnClicked } />
+                    <PermissionDeletion token={ token } selectedPermission={ selectedPermission } permissionDetails={ permissionDetails } setDelBtnClicked={ setDelBtnClicked } delBtnClicked={ delBtnClicked }/>
                 </Box> 
             </Box>
             </AccordionDetails>

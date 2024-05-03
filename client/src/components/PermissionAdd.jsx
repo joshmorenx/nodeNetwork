@@ -1,8 +1,9 @@
 import { Box, Button, TextField } from '@mui/material';
 import useAddOrDelPermission from '../hooks/useAddOrDelPermission'
+import { useEffect } from 'react';
 
-export default function PermissionAdd() {
-    const { sendRequest, msg, error, formData, handleInputChange } = useAddOrDelPermission('add','','',{
+export default function PermissionAdd({ sendRequestedPermissions }) {
+    const { sendRequest, msg, error, success, formData, handleInputChange, setSuccess } = useAddOrDelPermission('add','','',{
         newPermName: '',
         newPermDesc: ''
     })
@@ -13,6 +14,15 @@ export default function PermissionAdd() {
             formData.newPermDesc = ''
         }
     }
+
+    useEffect(() => {
+        (success) && sendRequestedPermissions()
+        setSuccess(false)
+    }, [success])
+
+    // useEffect(() => {
+    //     console.log(success);
+    // }, [success])
 
     return(
         <>

@@ -30,6 +30,6 @@ export default function useAddOrDelPermission(typeUpdate, permId, permName, init
             setError(error);
         })
     }
-    return { sendRequest, msg, error, success, usersThatUseThisPermission, formData, handleInputChange }
+    return { sendRequest, msg, error, success, usersThatUseThisPermission, formData, handleInputChange, setSuccess }
 
 }

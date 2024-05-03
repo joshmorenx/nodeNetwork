@@ -5,8 +5,8 @@ export default function useGetAllPermissions() {
     const [permissionDetails, setPermissionDetails] = useState([]);
     const [errorDetails, setErrorDetails] = useState('');
 
-    useEffect(() => {
-        const sendRequest = async () => {
+    // useEffect(() => {
+        const sendRequestedPermissions = async () => {
             await axios.get('http://localhost:3000/api/getAllPermissions/')
             .then((response) => {
                 setPermissionDetails(response.data.allPermissionDetails);
@@ -18,9 +18,9 @@ export default function useGetAllPermissions() {
             })
         }
         //keep alive conection to permissions
-        setInterval(() => {
-            sendRequest();
-        }, 1000);
-    }, [])
-    return { permissionDetails, errorDetails }
+        // setInterval(() => {
+            // sendRequestedPermissions();
+        // }, 1000);
+    // }, [])
+    return { permissionDetails, errorDetails, sendRequestedPermissions }
 }
