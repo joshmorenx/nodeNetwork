@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button'
 import useAddOrDelPermission from '../hooks/useAddOrDelPermission'
 
-export default function PermissionDeletion({ token, selectedPermission }) {
+export default function PermissionDeletion({ token, selectedPermission, permissionDetails, setDelBtnClicked }) {
     
     const [auxP, setAuxP] = useState([])
     let [permDesc, setPermDesc] = useState('')
@@ -13,6 +13,7 @@ export default function PermissionDeletion({ token, selectedPermission }) {
     const handleSubmit = () => {
         sendRequest()
         selectedPermission = ''
+        setDelBtnClicked(true)
         // console.log(auxP[1]);
     }
 
