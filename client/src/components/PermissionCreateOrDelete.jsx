@@ -1,9 +1,19 @@
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material/'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function PermissionCreateOrDelete({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionDeletion, PermissionAdd, token, selectedPermission, setDelBtnClicked, sendRequestedPermissions, delBtnClicked }) {
+    const [succeed, setSucceed] = useState(false)
+    const [gatheredValue, setGatheredValue] = useState('')
     
+    const gatherSuccess = (success) => {
+        setSucceed(success)
+    }
+
+    const gatherSelectedValue = (value) => {
+        setGatheredValue(value)
+    }
+
     return (
         <>
 
@@ -38,10 +48,10 @@ export default function PermissionCreateOrDelete({ ListaPermisos, permissionDeta
             <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
             <Box>
                 <Box>
-                    <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } delBtnClicked={ delBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } />
+                    <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } delBtnClicked={ delBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } succeed={ succeed } setSucceed={ setSucceed } gatherSelectedValue={ gatherSelectedValue }/>
                 </Box>
                 <Box>
-                    <PermissionDeletion token={ token } selectedPermission={ selectedPermission } permissionDetails={ permissionDetails } setDelBtnClicked={ setDelBtnClicked } delBtnClicked={ delBtnClicked }/>
+                    <PermissionDeletion token={ token } selectedPermission={ selectedPermission } permissionDetails={ permissionDetails } setDelBtnClicked={ setDelBtnClicked } delBtnClicked={ delBtnClicked } gatherSuccess={ gatherSuccess } gatheredValue={ gatheredValue }/>
                 </Box> 
             </Box>
             </AccordionDetails>
