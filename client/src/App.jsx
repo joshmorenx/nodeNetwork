@@ -16,12 +16,12 @@ export const NotFound = () => {
     );
 };
 export const App = () => {
+    const cookieToken = Cookies.get('token');
     const [tokenState, setTokenState] = useState(null);
 
     useEffect(() => {
-        const cookieToken = Cookies.get('token');
         setTokenState(cookieToken);
-    }, []);
+    }, [ cookieToken ]);
 
     return (
         <Routes>
