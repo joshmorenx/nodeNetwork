@@ -4,6 +4,7 @@ import Login from './routes/Login';
 import Register from './routes/Register';
 import Forgot from './routes/Forgot';
 import Dashboard from './routes/Dashboard';
+import Feed from './routes/Feed';
 // import PermissionManager from '../src/components/PermissionManager'
 import Cookies from 'js-cookie';
 
@@ -28,6 +29,7 @@ export const App = () => {
             <Route path="/register" element={tokenState ? <Navigate to="/dashboard" /> : <Register />} />
             <Route path="/forgot" element={<Forgot />} />
             <Route path="/dashboard" element={tokenState ? <Dashboard token={tokenState}/>: <Navigate to="/"/>} />
+            <Route path="/feed" element={<Feed token={tokenState ? tokenState : null}/>} />
             <Route path="*" element={<NotFound />} />
             {/* <Route path="/permissions" element={tokenState ? <PermissionManager token={tokenState}/>: <Navigate to="/permissions"/>} /> */}
         </Routes>

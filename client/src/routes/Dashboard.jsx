@@ -6,19 +6,24 @@ import usePermissions from '../hooks/usePermissions';
 import UserCard from '../components/UserCard';
 import ContentContainer from '../components/ContentContainer';
 import { Button, Box } from '@mui/material/'
+import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router';
 
 const Dashboard = ({ token }) => {
-    const [selectedSection, setSelectedSection] = useState('feed');
+    const navigate = useNavigate();
+    const [selectedSection, setSelectedSection] = useState('assign');
     useEffect(() => {
-        // console.log('Token:', token);
+        // console.log('Token:', token);||
     }, [token]);
 
     const { logout, logStatusRefresh } = useLogout(token);
 
-    if(logStatusRefresh){
-        window.location.reload();
-    }
+    useEffect(() => {
+        if(logStatusRefresh){
+            window.location.reload();
+        }
+    }, [logStatusRefresh]);
+
     const { user, error } = useGetCurrentUser({ token });
     const handleLogout = () => {
         logout()
@@ -54,7 +59,8 @@ const Dashboard = ({ token }) => {
                     <Box className='sections-container mt-5' sx={{ mt: 4 }}>
                         <Box 
                             className={selectedSection === 'feed' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
-                            onClick={()=>showClickedContent('feed')}>
+                            // onClick={()=>showClickedContent('feed')}>
+                            onClick={()=>navigate('/feed')}>
                             Feed
                         </Box>
 
