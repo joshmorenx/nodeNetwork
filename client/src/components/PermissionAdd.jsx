@@ -1,8 +1,10 @@
 import { Box, Button, TextField } from '@mui/material';
 import useAddOrDelPermission from '../hooks/useAddOrDelPermission'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function PermissionAdd({ sendRequestedPermissions }) {
+    const [messageContent, setMessageContent] = useState('')
+    const [errorContent, setErrorContent] = useState('')
     const { sendRequest, msg, error, success, formData, handleInputChange, setSuccess } = useAddOrDelPermission('add','','',{
         newPermName: '',
         newPermDesc: ''
@@ -16,9 +18,32 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
     }
 
     useEffect(() => {
-        (success) && sendRequestedPermissions()
+        if(success){
+            sendRequestedPermissions()
+            setMessageContent(msg)
+        }
         setSuccess(false)
     }, [success])
+
+    useEffect(() => {
+        if(messageContent){
+            alert(messageContent)
+        }
+        setMessageContent('')
+    }, [messageContent])
+
+    useEffect(() => {
+        if(error){
+            setErrorContent(error)
+        }
+    }, [error])
+
+    useEffect(() => {
+        if(errorContent){
+            alert(errorContent)
+        }
+        setErrorContent('')
+    }, [errorContent])
 
     // useEffect(() => {
     //     console.log(success);
@@ -67,7 +92,7 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
                     Crear permiso
                 </Button>
             </Box>
-            <p>{ msg ? msg : error }</p>
+            {/* <p>{ msg ? msg : error }</p> */}
         </>
     )
 }

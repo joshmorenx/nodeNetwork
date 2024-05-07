@@ -13,7 +13,7 @@ export default function ContentContainer({ token, allAccess, selectedSection }) 
         <div className="content-container">
             {/* { choosenSection === 'feed' && (<div className='feed-container' id='feed-container'><p>Feed</p></div>) } */}
             { allAccess && (choosenSection === 'assign' && <PermissionManager token={token} /> ) }
-            { choosenSection === 'pages' && (<div className='pages-container' id='pages-container'><p>Pages</p></div>) }
+            { choosenSection === 'profile_settings' && (<div className='profile-settings-container' id='profile-settings-container'><p>profile settings</p></div>) }
         </div>
     )
 }

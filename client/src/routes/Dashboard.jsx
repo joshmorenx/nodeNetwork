@@ -72,9 +72,9 @@ const Dashboard = ({ token }) => {
                             </Box>):(<p></p>) }
 
                         <Box
-                            className={selectedSection === 'pages' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
-                            onClick={()=>showClickedContent('pages')}>
-                                Pages
+                            className={selectedSection === 'profile_settings' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
+                            onClick={()=>showClickedContent('profile_settings')}>
+                                Profile Settings
                         </Box>
                     </Box>
 

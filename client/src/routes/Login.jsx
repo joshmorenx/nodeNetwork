@@ -1,11 +1,13 @@
 import useLoginForm from '../hooks/useLoginForm';
-import { useEffect } from 'react'
+import { useEffect, useState, useContext } from 'react'
+// import AppContext from '../contexts/AppContext';
 import Cookies from 'js-cookie'
 import '../assets/styles.css';
 import '../assets/index.css';
 import LoginDisplayer from '../components/LoginDisplayer'
 
 export default function Login(){
+    // const { data, setData } = useContext(AppContext);
     const cookieToken = Cookies.get('token');
     const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, formData } = useLoginForm({
         username: '',
