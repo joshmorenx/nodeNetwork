@@ -1,43 +1,86 @@
 {
-    // Use IntelliSense para saber los atributos posibles.
-    // Mantenga el puntero para ver las descripciones de los existentes atributos.
-    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
-        {
-            "type": "firefox",
+        { //CLIENT
+            "name": "Launch Client",
+            "type": "node",
             "request": "launch",
-            "reAttach": true,
-            "name": "Launch add-on",
-            "addonPath": "${workspaceFolder}"
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ],
+            "cwd": "${workspaceFolder}/client", // Specify the project path here
+            "restart": true,
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         },
-        {
-            "type": "firefox",
+        { //TAILWIND
+            "name": "Launch Tailwind CSS",
+            "type": "node",
             "request": "launch",
-            "reAttach": true,
-            "name": "Launch localhost",
-            "url": "http://localhost/index.html",
-            "webRoot": "${workspaceFolder}"
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "runtimeExecutable": "npx",
+            "runtimeArgs": [
+                "tailwindcss",
+                "-i",
+                "${workspaceFolder}/client/src/assets/input.css",
+                "-o",
+                "${workspaceFolder}/client/src/assets/output.css",
+                "--watch"
+            ],
+            "cwd": "${workspaceFolder}/client", // Specify the project path here
+            "restart": true,
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         },
-        {
-            "type": "firefox",
+        { //SERVER
+            "type": "node",
             "request": "launch",
-            "reAttach": true,
-            "name": "Launch index.html",
-            "file": "${workspaceFolder}/index.html"
+            "name": "Launch Server",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "start",
+            ],
+            "cwd": "${workspaceFolder}/server", // Specify the project path here
+            "restart": true,
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         },
-        {
-            "type": "firefox",
-            "request": "attach",
-            "name": "Attach"
-        },
-        {
+        { //CHROME
+            "name": "Launch Chrome against localhost",
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/client/src",
+        },
+    ],
+    "compounds": [
+        {
+            "name": "debug all",
+            "configurations": [
+                "Launch Client",
+                "Launch Tailwind CSS",
+                "Launch Server",
+                "Launch Chrome against localhost",
+            ]
         }
     ]
 }
