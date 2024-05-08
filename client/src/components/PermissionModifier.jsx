@@ -1,5 +1,7 @@
+import ListaPermisos from "./ListaPermisos"
+import PermissionDescriptionDetails from "./PermissionDescriptionDetails"
 
-export default function PermissionModifier({ ListaPermisos, permissionDetails, handleSelectedChange, PermissionDescriptionDetails, token, selectedPermission }) { //provissionel parameters for this function
+export default function PermissionModifier({ permissionDetails, handleSelectedChange, token, selectedPermission }) { //provissionel parameters for this function
     return (
         <>
             <div>

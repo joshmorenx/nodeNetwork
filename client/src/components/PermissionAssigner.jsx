@@ -1,5 +1,8 @@
+import ListaNombres from "./ListaNombres"
+import PermissionDisplayer from "./PermissionDisplayer"
 
-export default function PermissionAssigner({ ListaNombres, nombres, handleSelectedChange, PermissionDisplayer, token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser, permissionDiff }) {
+
+export default function PermissionAssigner({ nombres, handleSelectedChange, token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser, permissionDiff }) {
     return (
         <>
             <div>

@@ -4,15 +4,9 @@ import usePermissions from '../hooks/usePermissions';
 import useGetAllUsers from '../hooks/useGetAllUsers';
 import useGetAllPermissions from '../hooks/useGetAllPermissions';
 import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermissions';
-import ListaNombres from './ListaNombres';
-import PermissionDisplayer from './PermissionDisplayer';
 import PermissionAssigner from './PermissionAssigner';
 import PermissionModifier from './PermissionModifier';
-import ListaPermisos from './ListaPermisos';
-import PermissionDescriptionDetails from './PermissionDescriptionDetails';
 import PermissionCreateOrDelete from './PermissionCreateOrDelete';
-import PermissionDeletion from './PermissionDeletion';
-import PermissionAdd from './PermissionAdd';
 import { useState, useEffect } from 'react';   
 import '../assets/styles.css';
 
@@ -112,11 +106,11 @@ export default function PermissionManager({ token }) {
                 {allAccess ? (
                     <div className="permission-content"> 
 
-                        { selectedTab === 'assign' && (<PermissionAssigner ListaNombres={ ListaNombres } nombres={ nombres } handleSelectedChange={handleSelectedChange} PermissionDisplayer={ PermissionDisplayer } token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />)}
+                        { selectedTab === 'assign' && (<PermissionAssigner nombres={ nombres } handleSelectedChange={handleSelectedChange} token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />)}
 
-                        { selectedTab === 'modify' && (<PermissionModifier ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDescriptionDetails={ PermissionDescriptionDetails } token={ token } selectedPermission={ selectedPermission } />) }
+                        { selectedTab === 'modify' && (<PermissionModifier permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} token={ token } selectedPermission={ selectedPermission } />) }
                         
-                        { selectedTab === 'create' && (<PermissionCreateOrDelete ListaPermisos={ ListaPermisos } permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} PermissionDeletion={ PermissionDeletion } PermissionAdd={ PermissionAdd } token={ token } selectedPermission={ selectedPermission } setDelBtnClicked={ setDelBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } delBtnClicked={ delBtnClicked } />) }
+                        { selectedTab === 'create' && (<PermissionCreateOrDelete permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} token={ token } selectedPermission={ selectedPermission } setDelBtnClicked={ setDelBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } delBtnClicked={ delBtnClicked } />) }
 
                         { selectedTab === '' && (<NonSelectedTab />) }
 
