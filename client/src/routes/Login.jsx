@@ -23,10 +23,10 @@ export default function Login(){
             if (tokenState) {
                 //if there's cookie token, it means that the user is already logged in
                 if (cookieToken) {
-                    window.location.href = '/dashboard';
+                    window.location.href = '/feed'; //must have to find out the way to use useNavigate instead of window.location.href
                 } else {
                     Cookies.set('token', tokenState, { expires: 7, secure: true, sameSite: 'Strict' }); // useSetExpiryTimeServerSide(tokenState); just to make sure that i will develop this in the future
-                    window.location.href = '/dashboard';
+                    window.location.href = '/feed'; //must have to find out the way to use useNavigate instead of window.location.href
                 }
             }
         } catch (error) {

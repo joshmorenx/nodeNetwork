@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
+import { Box } from '@mui/material';
 
 export default function Feed ({ token }) {
     try {
@@ -12,9 +13,11 @@ export default function Feed ({ token }) {
             }
         
             return (
-                <Button onClick={ gotoDashboard } variant="contained" color="primary">
-                    <SettingsIcon></SettingsIcon>
-                </Button>
+                <Box>
+                    <Button onClick={ gotoDashboard } variant="contained" color="primary">
+                        <SettingsIcon></SettingsIcon>
+                    </Button>
+                </Box>                
             )
         }
     } catch (error) {
