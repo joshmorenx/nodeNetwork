@@ -17,19 +17,14 @@ export const NotFound = () => {
 };
 export const App = () => {
     const cookieToken = Cookies.get('token');
-    const [tokenState, setTokenState] = useState(null);
-
-    useEffect(() => {
-        setTokenState(cookieToken);
-    }, [ cookieToken ]);
 
     return (
         <Routes>
-            <Route path="/" element={tokenState ? <Navigate to="/dashboard" /> : <Login />} />
-            <Route path="/register" element={tokenState ? <Navigate to="/dashboard" /> : <Register />} />
+            <Route path="/" element={cookieToken ? <Navigate to="/feed" /> : <Login />} />
+            <Route path="/register" element={cookieToken ? <Navigate to="/dashboard" /> : <Register />} />
             <Route path="/forgot" element={<Forgot />} />
-            <Route path="/dashboard" element={tokenState ? <Dashboard token={tokenState}/>: <Navigate to="/"/>} />
-            <Route path="/feed" element={<Feed token={tokenState ? tokenState : null}/>} />
+            <Route path="/dashboard" element={cookieToken ? <Dashboard token={cookieToken}/>: <Navigate to="/"/>} />
+            <Route path="/feed" element={cookieToken ? <Feed token={cookieToken}/>: <Navigate to="/"/>} />
             <Route path="*" element={<NotFound />} />
             {/* <Route path="/permissions" element={tokenState ? <PermissionManager token={tokenState}/>: <Navigate to="/permissions"/>} /> */}
         </Routes>
