@@ -7,6 +7,7 @@ import UserCard from '../components/UserCard';
 import ContentContainer from '../components/ContentContainer';
 import { Button, Box } from '@mui/material/'
 import { useNavigate } from 'react-router-dom';
+import FeedNavbar from '../components/FeedNavbar';
 // import { useNavigate } from 'react-router';
 
 const Dashboard = ({ token }) => {
@@ -16,13 +17,13 @@ const Dashboard = ({ token }) => {
         // console.log('Token:', token);||
     }, [token]);
 
-    const { logout, logStatusRefresh } = useLogout(token);
+    const { logout } = useLogout(token);
 
-    useEffect(() => {
-        if(logStatusRefresh){
-            window.location.reload();
-        }
-    }, [logStatusRefresh]);
+    // useEffect(() => {
+    //     if(logStatusRefresh){
+    //         window.location.reload();
+    //     }
+    // }, [logStatusRefresh]);
 
     const { user, error } = useGetCurrentUser({ token });
     const handleLogout = () => {
@@ -37,6 +38,7 @@ const Dashboard = ({ token }) => {
 
     return (
         <>
+        <FeedNavbar token={token} />
             <div className="dashboard-container" style={{ paddingRight: '2vw' }}>
                 <div className="profile-container text-center">
                     <div>

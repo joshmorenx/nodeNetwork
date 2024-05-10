@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export default function UserCard({ user, allAccess, cadena }) {
     return (
-        <div className="m-auto">
+        <div style={{ position: 'relative' }} className="m-auto">
             <div className='profile-card m-auto rounded-3xl bg-gray-200'>
                 {/* Hola, Bienvenido {user.username} */}
                 <div className="avatar-container rounded-3xl">

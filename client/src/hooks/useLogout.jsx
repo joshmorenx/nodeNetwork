@@ -1,13 +1,10 @@
 // useLogout.js
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 const useLogout = (token) => {
     const [logStatusRefresh, setLogStatusRefresh] = useState(false);
-    // const logout = () => {
-    //     console.log('Cerrando sesión...');
-    // };
-
+    
     const logout = async () => {
         await axios.post('http://localhost:3000/logout/', {
             token: token
@@ -22,7 +19,14 @@ const useLogout = (token) => {
     if (logStatusRefresh) {
         Cookies.remove('token')
     }
-    return { logout, logStatusRefresh };
+
+    useEffect(() => {
+        if(logStatusRefresh){
+            window.location.reload();
+        }
+    }, [logStatusRefresh]);
+    
+    return { logout };
 };
 
 export default useLogout;
