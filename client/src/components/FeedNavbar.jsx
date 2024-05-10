@@ -8,6 +8,8 @@ import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 export default function FeedNavbar() {
     const navigate = useNavigate()
@@ -19,13 +21,13 @@ export default function FeedNavbar() {
     const carBrandOptions = ['ford','kia','mercedes','bmw','audi','volkswagen','porsche']
         
     return (
-        <Box>
+        <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1 }}>
             {/* we'll build a nav bar with search bar in the middle and a button to go to dashboard and a notification button and a messages button in the right */}
-            <Box bgcolor={'aquamarine'} p={2} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box bgcolor={'#7fbfff'} p={1} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 {/* config section */}
                 <Box className="config-section">
                     <Button onClick={ gotoDashboard } variant="text" color="primary">
-                        <SettingsIcon></SettingsIcon>
+                        <SettingsIcon sx={{ color: 'white' }}></SettingsIcon>
                     </Button>
                 </Box>
                 <Box className="search-section">
@@ -33,15 +35,16 @@ export default function FeedNavbar() {
                         disablePortal
                         id="combo-box-demo"
                         options={carBrandOptions}
-                        sx={{ width: 300 }}
+                        sx={{ width: '50vw' }}
                         renderInput={(params) => (
                             <TextField 
+                                sx={{ bgcolor: 'white' }}
                                 {...params} 
                                 label="Search" 
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
-                                        <SearchIcon style={{ cursor: 'pointer' }} />
+                                        <SearchIcon style={{  cursor: 'pointer' }} />
                                     ),
                                 }}
                             />
@@ -50,10 +53,13 @@ export default function FeedNavbar() {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
                     <Button>
-                        <MessageIcon></MessageIcon>
+                        <LogoutIcon sx={{ color: 'white' }} />
                     </Button>
                     <Button>
-                        <NotificationsIcon></NotificationsIcon>
+                        <MessageIcon sx={{ color: 'white' }}></MessageIcon>
+                    </Button>
+                    <Button>
+                        <NotificationsIcon sx={{ color: 'white' }}></NotificationsIcon>
                     </Button>
                     <Button>
                         <Stack direction="row" spacing={2}>
