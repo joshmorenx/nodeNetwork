@@ -9,7 +9,7 @@ const register = async (req = request, res = response) => {
         const { firstName, lastName, email, username, password, pwdConfirmation } = req.body;
     
         const userUploadsPath = path.resolve(__dirname, '../public', 'uploads', 'users', username);
-        const userProfileImgPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'profile', 'profile.jpg');
+        const userProfileImgPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'profile');
         const userPicturesPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'pictures');
 
         const existingUser = await User.findOne({ username });
@@ -19,7 +19,7 @@ const register = async (req = request, res = response) => {
         };
         if (firstName=='' || lastName=='' || email=='' || username=='' || password=='' || pwdConfirmation=='') {
             errExisting("Aún faltan datos por llenar");          
-        } else if (existingUser && existingEmail) {
+        } else if (existingUser && existingEmail) {z
             errExisting("El usuario y el correo ya existen");
         } else if (existingUser || existingEmail) {
             errExisting("El usuario o el correo ya existen");
@@ -43,7 +43,10 @@ const register = async (req = request, res = response) => {
             if(result) {
                 if(!fs.existsSync(userUploadsPath)) {
                     fs.mkdirSync(userUploadsPath, { recursive: true });
+
                     fs.mkdirSync(userProfileImgPath, { recursive: true });
+                    fs.writeFileSync(path.join(userProfileImgPath, 'profile.jpg'), Buffer.from(''), { encoding: 'base64' });
+                    
                     fs.mkdirSync(userPicturesPath, { recursive: true });
                 }
                 return res.status(200).json({ msg: " Usuario registrado con éxito, redirigiendo al inicio de sesión", regState: true });
