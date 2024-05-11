@@ -1,10 +1,13 @@
 const { request, response } = require("express")
 const bcrypt = require("bcrypt");
+const fs = require("node:fs");
+const path = require("path");
 const User = require("../models/User.js");
 
 const register = async (req = request, res = response) => {
     try {
         const { firstName, lastName, email, username, password, pwdConfirmation } = req.body;
+        const userUploadsPath = path.resolve(__dirname, '../public', 'uploads', 'users', username);
         const existingUser = await User.findOne({ username });
         const existingEmail = await User.findOne({ email });
         errExisting = (err) => {
@@ -31,9 +34,14 @@ const register = async (req = request, res = response) => {
                 password: hashedPassword,
             });
             
-            await user.save();
+            const result = await user.save();
 
-            return res.status(200).json({ msg: " Usuario registrado con éxito, redirigiendo al inicio de sesión", regState: true });
+            if(result) {
+                if(!fs.existsSync(userUploadsPath)) {
+                    fs.mkdirSync(userUploadsPath, { recursive: true });
+                }
+                return res.status(200).json({ msg: " Usuario registrado con éxito, redirigiendo al inicio de sesión", regState: true });
+            }
         }
     } catch (error) {
         return res.status(500).json({ error: "Ha ocurrido un error en el servidor" });

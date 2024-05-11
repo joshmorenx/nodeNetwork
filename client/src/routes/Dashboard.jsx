@@ -7,7 +7,7 @@ import UserCard from '../components/UserCard';
 import ContentContainer from '../components/ContentContainer';
 import { Button, Box } from '@mui/material/'
 import { useNavigate } from 'react-router-dom';
-import FeedNavbar from '../components/FeedNavbar';
+// import FeedNavbar from '../components/FeedNavbar';
 // import { useNavigate } from 'react-router';
 
 const Dashboard = ({ token }) => {
@@ -25,7 +25,7 @@ const Dashboard = ({ token }) => {
     //     }
     // }, [logStatusRefresh]);
 
-    const { user, error } = useGetCurrentUser({ token });
+    const { user, error } = useGetCurrentUser({ token }); // must gather the profile image here
     const handleLogout = () => {
         logout()
     };
@@ -38,14 +38,14 @@ const Dashboard = ({ token }) => {
 
     return (
         <>
-        <FeedNavbar token={token} />
+        {/* <FeedNavbar token={token} /> */}
             <div className="dashboard-container" style={{ paddingRight: '2vw' }}>
                 <div className="profile-container text-center">
                     <div>
                         {error ? (
                             <p>Error al obtener el contenido del usuario: {error.message}</p>
                         ) : (
-                            <UserCard user={user} allAccess={allAccess} cadena={cadena} />
+                            <UserCard user={user} allAccess={allAccess} cadena={cadena} /> //must send the profile image here
                         )}
 
                         {/* <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button> */}
