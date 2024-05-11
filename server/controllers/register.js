@@ -7,7 +7,11 @@ const User = require("../models/User.js");
 const register = async (req = request, res = response) => {
     try {
         const { firstName, lastName, email, username, password, pwdConfirmation } = req.body;
+    
         const userUploadsPath = path.resolve(__dirname, '../public', 'uploads', 'users', username);
+        const userProfileImgPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'profile', 'profile.jpg');
+        const userPicturesPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'pictures');
+
         const existingUser = await User.findOne({ username });
         const existingEmail = await User.findOne({ email });
         errExisting = (err) => {
@@ -39,6 +43,8 @@ const register = async (req = request, res = response) => {
             if(result) {
                 if(!fs.existsSync(userUploadsPath)) {
                     fs.mkdirSync(userUploadsPath, { recursive: true });
+                    fs.mkdirSync(userProfileImgPath, { recursive: true });
+                    fs.mkdirSync(userPicturesPath, { recursive: true });
                 }
                 return res.status(200).json({ msg: " Usuario registrado con éxito, redirigiendo al inicio de sesión", regState: true });
             }
