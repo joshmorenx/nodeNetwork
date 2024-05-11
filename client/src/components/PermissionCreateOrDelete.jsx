@@ -21,12 +21,14 @@ export default function PermissionCreateOrDelete({ permissionDetails, handleSele
         <>
 
         {/* permission creation section begins */}
-        <Accordion defaultExpanded={true} color='primary'>
+        <Accordion expanded={true} color='primary'>
+        {/* <Accordion defaultExpanded={true} color='primary'> */}
             <AccordionSummary
-            expandIcon={<ArrowDropDownIcon />}
+            // expandIcon={<ArrowDropDownIcon />}
             aria-controls="panel2-content"
             id="panel2-header"
-            sx={{ mt: 1, bgcolor: '#faf1de' }}
+            sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
+            // sx={{ mt: 1, bgcolor: '#faf1de' }}
             >
             <Typography>Crear Permisos</Typography>
             </AccordionSummary>
@@ -39,12 +41,15 @@ export default function PermissionCreateOrDelete({ permissionDetails, handleSele
         {/* permission creation section ends */}
 
         {/* permission deletion section begins */}
-        <Accordion defaultExpanded={true} color='primary'>
+
+        <Accordion expanded={true} color='primary'>
+        {/* <Accordion defaultExpanded={true} color='primary'>*/}
             <AccordionSummary
-            expandIcon={<ArrowDropDownIcon />}
+            // expandIcon={<ArrowDropDownIcon />}
             aria-controls="panel2-content"
             id="panel2-header"
-            sx={{ mt: 2, bgcolor: '#faf1de' }}
+            sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
+            // sx={{ mt: 2, bgcolor: '#faf1de' }}
             >
             <Typography>Eliminar Permisos</Typography>
             </AccordionSummary>
@@ -59,6 +64,7 @@ export default function PermissionCreateOrDelete({ permissionDetails, handleSele
             </Box>
             </AccordionDetails>
         </Accordion>
+
         {/* permission deletion section ends */}
         
         </>   

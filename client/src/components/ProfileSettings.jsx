@@ -175,10 +175,10 @@ export default function ProfileSettings({ token }) {
                             <Link href="#" onClick={() => handleEdit('Email', 4)}><EditIcon /></Link>
                         </Box>
                     </Box>
-                    <Button variant="contained">
-                        Guardar
-                    </Button>
                 </Box>
+                <Button size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                    Guardar
+                </Button>
             </AccordionDetails>
         </Accordion>
         </>
