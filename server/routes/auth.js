@@ -15,6 +15,7 @@ const updatePermissionsForOneUser = require("../controllers/updatePermissionsFor
 const getAllPermissions = require("../controllers/getAllPermissions.js");
 const updatePermissions = require("../controllers/modifyPermissions.js");
 const getPermissionDescription = require("../controllers/getPermissionDescription.js");
+const lastPermission = require("../controllers/lastPermission.js");
 const cors = require("cors");
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173']
@@ -56,54 +57,6 @@ app.get('/api/getAllPermissions/', getAllPermissions);
 app.post('/api/modifyPermissions/', updatePermissions);
 app.get("/api/getPermissionDescription/", getPermissionDescription)
 
-app.post('/api/lastPermission/',async (req, res) => {
-    const { typeUpdate, permId, permName, newPermName, newPermDesc } = req.body
-    // const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
-    
-    try {
-        if(typeUpdate === 'add') {
-            const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
-            if(newPermName && newPermDesc){
-                const newPermission = new Permission({
-                    permissionId: lastPermissionRegistry.permissionId + 1,
-                    permissionName: newPermName,
-                    permissionDescription: newPermDesc
-                })
-            
-                const result = await newPermission.save();
-
-                if(result) {
-                    res.json({message:"Permiso creado correctamente"});
-                }
-            } else {
-                res.json({message:"Faltan datos por llenar"});
-            }
-        }
-
-        else if(typeUpdate === 'remove') {
-            
-            const usersThatUseThisPermission = []
-            // check if that permission is being used by another user if not delete it
-            const perm_Id = await Permission.findOne({ permissionId: permId });
-            const filteredUser = await User.find({ permissions: perm_Id._id });
-
-            filteredUser.map((user) => {
-                usersThatUseThisPermission.push(user.username)
-            })
-
-            if(usersThatUseThisPermission.length > 0) {
-                res.json({message:"No se puede borrar el permiso ya que esta siendo usado por otro usuario.", usersThatUseThisPermission: usersThatUseThisPermission});
-            } else {
-                const result = await Permission.deleteOne({ permissionId: permId });
-                if(result) {
-                    res.json({message:"Permiso borrado correctamente"});
-                }
-            }
-        }
-    } catch (error) {
-        return res.json({ message: error });
-    }
-    
-})
+app.post('/api/lastPermission/', lastPermission)
 
 module.exports = app;   
