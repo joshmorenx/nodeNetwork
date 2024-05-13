@@ -10,7 +10,9 @@ const register = async (req = request, res = response) => {
     
         const userUploadsPath = path.resolve(__dirname, '../public', 'uploads', 'users', username);
         const userProfileImgPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'profile');
-        const userPicturesPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'pictures');
+        const userGalleryPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'gallery');
+
+        const assetsPath = path.resolve(__dirname, '../public', 'assets')
 
         const existingUser = await User.findOne({ username });
         const existingEmail = await User.findOne({ email });
@@ -31,11 +33,13 @@ const register = async (req = request, res = response) => {
             const newId = lastUser ? lastUser.id + 1 : 1;
             const user = new User({ 
                 id: newId,
-                firstName,
-                lastName,
-                email,
-                username,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                username: username,
                 password: hashedPassword,
+                profilePicture: path.join(userProfileImgPath, 'profile.jpg'),
+                gallery: userGalleryPath
             });
             
             const result = await user.save();
@@ -43,11 +47,11 @@ const register = async (req = request, res = response) => {
             if(result) {
                 if(!fs.existsSync(userUploadsPath)) {
                     fs.mkdirSync(userUploadsPath, { recursive: true });
-
                     fs.mkdirSync(userProfileImgPath, { recursive: true });
-                    fs.writeFileSync(path.join(userProfileImgPath, 'profile.jpg'), Buffer.from(''), { encoding: 'base64' });
-                    
-                    fs.mkdirSync(userPicturesPath, { recursive: true });
+
+                    fs.copyFileSync(path.join(assetsPath, 'default_avatar.jpg'), path.join(userProfileImgPath, 'profile.jpg'));
+
+                    fs.mkdirSync(userGalleryPath, { recursive: true });
                 }
                 return res.status(200).json({ msg: " Usuario registrado con éxito, redirigiendo al inicio de sesión", regState: true });
             }

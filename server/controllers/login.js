@@ -38,7 +38,15 @@ const login = async (req = request, res = response) => {
         }
         
 
-        const token = jwt.sign({ userId: user._id, username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, isLogged: user.isLogged ,permissions: addedPermissions }, process.env.SECRET);
+        const token = jwt.sign({ userId: user._id, username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, isLogged: user.isLogged ,permissions: addedPermissions, profilePicture: user.profilePicture }, process.env.SECRET);
+
+        // jwt.verify(token.replace('Bearer ', ''), process.env.SECRET, (error, decodedToken) => {
+        //     if (error) {
+        //         //
+        //     }
+        //     console.log(decodedToken);
+        // }); //just to verify that the token is valid debug purposes
+
         req.session.token = token;
 
         return res.status(200).json({ msg: "Usuario encontrado, redirigiendo...", token, user: user.username });
