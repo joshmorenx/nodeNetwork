@@ -7,10 +7,10 @@ export default function UserCard({ user, allAccess, cadena }) {
             <div className='profile-card m-auto rounded-3xl bg-gray-200'>
                 {/* Hola, Bienvenido {user.username} */}
                 <div className="avatar-container rounded-3xl">
-                    <img className="avatar m-auto" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img>
+                    {/* <img className="avatar m-auto" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img> */}
+                    {/* must erase the previous created users in order to initially create their profile picture and gallery pictures folders*/}
+                    <img className="avatar m-auto" src={ user.username && `http://localhost:3000/api/public/uploads/users/${user.username}/profile/profile.jpg`}></img>
                     {/* `http://localhost:3000/api/public/uploads/users/${user.username}/profile/profile.jpg` must fetch with axios */}
-
-                    {/* <img className="avatar m-auto" src={profilePicture} alt="Rounded avatar"></img> */}
                 </div>
 
                 <div className='user-data'>
@@ -26,6 +26,7 @@ export default function UserCard({ user, allAccess, cadena }) {
                     ):(
                         <p>Sin permisos de administrador</p>)}
             </div>
+            
         </div>
     )
 }
