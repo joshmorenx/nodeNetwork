@@ -39,7 +39,7 @@ const register = async (req = request, res = response) => {
                 username: username,
                 password: hashedPassword,
                 profilePicture: path.join(userProfileImgPath, 'profile.jpg'),
-                gallery: userGalleryPath
+                galleryPictures: []
             });
             
             const result = await user.save();
