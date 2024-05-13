@@ -8,6 +8,8 @@ export default function UserCard({ user, allAccess, cadena }) {
                 {/* Hola, Bienvenido {user.username} */}
                 <div className="avatar-container rounded-3xl">
                     <img className="avatar m-auto" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img>
+                    {/* `http://localhost:3000/api/public/uploads/users/${user.username}/profile/profile.jpg` must fetch with axios */}
+
                     {/* <img className="avatar m-auto" src={profilePicture} alt="Rounded avatar"></img> */}
                 </div>
 
