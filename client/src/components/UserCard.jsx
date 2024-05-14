@@ -1,21 +1,19 @@
 import PropTypes from 'prop-types';
 
 export default function UserCard({ user, allAccess, cadena }) {
-    // const profilePicture = user.profilePicture // must make it work it throws an error not allowing to use it
+    
     return (
         <div style={{ position: 'relative' }} className="m-auto">
-            <div className='profile-card m-auto rounded-3xl bg-gray-200'>
-                {/* Hola, Bienvenido {user.username} */}
-                <div className="avatar-container rounded-3xl">
-                    {/* <img className="avatar m-auto" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar"></img> */}
-                    {/* must erase the previous created users in order to initially create their profile picture and gallery pictures folders*/}
-                    <img className="avatar m-auto" src={ user.username && `http://localhost:3000/api/public/uploads/users/${user.username}/profile/profile.jpg`}></img>
-                    {/* `http://localhost:3000/api/public/uploads/users/${user.username}/profile/profile.jpg` must fetch with axios */}
+            <div className='profile-card m-auto rounded-2xl bg-gray-200'>
+
+                <div className="avatar-container rounded-2xl">
+                    <img className="avatar m-auto" src={`http://localhost:3000${user.profilePicture}`}></img>
                 </div>
 
                 <div className='user-data'>
+                    <strong>{user.username ? user.username:<></>}</strong>
                     <p>{user.firstName} {user.lastName}</p>
-                    <p><a href={`mailto:${user.email}`}>{user.email}</a></p>
+                    <p><a href={`mailto:${user.email}`}>{user.email}</a></p>    
                 </div>
 
                 {allAccess ?

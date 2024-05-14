@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,6 +13,10 @@ export default function ProfileSettings({ token }) {
     const [noEditEmail, setNoEditEmail] = useState(true);
     const [selectedImage, setSelectedImage] = useState('https://flowbite.com/docs/images/people/profile-picture-5.jpg'); // Default image URL
     const { user } = useGetCurrentUser({ token });
+
+    useEffect(() => {
+        setSelectedImage(`http://localhost:3000${user.profilePicture}`)
+    }, [user]);
 
     const handleEdit = (section, editNum) => {
         const result = window.confirm(`¿Seguro que quieres editar ${section}?`);

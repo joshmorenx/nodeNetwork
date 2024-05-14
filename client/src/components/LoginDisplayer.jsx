@@ -16,8 +16,8 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
 
                         <TextField
                         autoFocus={true}
-                        sx={{ mt : 4, width: '25vw', ml: 'auto', mr: 'auto' }}
-                        size='small'
+                        sx={{ mt : 4, mb : 3, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        size='large'
                         type="text"
                         id="username"
                         name="username"
@@ -27,8 +27,8 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
                         onChange={handleInputChange}/>
 
                         <TextField 
-                        sx={{ mt : 4, width: '25vw', ml: 'auto', mr: 'auto' }}
-                        size='small'
+                        sx={{ mt :2, mb : 3, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        size='large'
                         type="password"
                         id="password"
                         name="password"
@@ -38,7 +38,7 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
                         onChange={handleInputChange}/>
                         
                         <Button 
-                            sx={{ mt : 4, width: '25vw', ml: 'auto', mr: 'auto' }}
+                            sx={{ mt : 4, mb : 1, width: '25vw', ml: 'auto', mr: 'auto' }}
                             size='small'
                             variant="contained"
                             color="primary"
