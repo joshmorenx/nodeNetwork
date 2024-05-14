@@ -14,6 +14,8 @@ const register = async (req = request, res = response) => {
 
         const assetsPath = path.resolve(__dirname, '../public', 'assets')
 
+        const relativePath = `/api/public/uploads/users/${username}/profile/profile.jpg`
+
         const existingUser = await User.findOne({ username });
         const existingEmail = await User.findOne({ email });
         errExisting = (err) => {
@@ -21,7 +23,7 @@ const register = async (req = request, res = response) => {
         };
         if (firstName=='' || lastName=='' || email=='' || username=='' || password=='' || pwdConfirmation=='') {
             errExisting("Aún faltan datos por llenar");          
-        } else if (existingUser && existingEmail) {z
+        } else if (existingUser && existingEmail) {
             errExisting("El usuario y el correo ya existen");
         } else if (existingUser || existingEmail) {
             errExisting("El usuario o el correo ya existen");
@@ -38,7 +40,7 @@ const register = async (req = request, res = response) => {
                 email: email,
                 username: username,
                 password: hashedPassword,
-                profilePicture: path.join(userProfileImgPath, 'profile.jpg'),
+                profilePicture: relativePath,
                 galleryPictures: []
             });
             
