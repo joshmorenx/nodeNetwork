@@ -4,6 +4,7 @@ import usePermissions from '../hooks/usePermissions';
 import useUpdatePermissions from '../hooks/useUpdatePermissions';
 import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
 
@@ -34,11 +35,11 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     }
   
     return permissionsArray.map(permission => (
-      <div className={`permissions cursor-pointer m-1 border border-black ${selectedPermissionId === permission.permissionId ? 'bg-orange-500 text-white' : ''}`} key={permission.permissionId} onClick={() => {selectPermission(permission.permissionId); 
+      <Box className={`permissions cursor-pointer m-1 border border-black ${selectedPermissionId === permission.permissionId ? 'bg-orange-500 text-white' : ''}`} key={permission.permissionId} onClick={() => {selectPermission(permission.permissionId); 
         assignationChoosen == 1 ? setDisabledAddPermission(false):setDisabledAddPermission(true); 
         assignationChoosen == 2 ? setDisabledRemovePermission(false):setDisabledRemovePermission(true)}}>
         {permission.permissionId} : {'<'}{permission.permissionName}{'>'}
-      </div>
+      </Box>
     ));
   }
 
@@ -96,35 +97,35 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     if(allAccess){  
       return (
         <>
-          <div className="available-permissions">
+          <Box className="available-permissions">
             
-            <div style={{ width: '100%'}}>
+            <Box style={{ width: '100%'}}>
               <h1>Permisos Disponibles</h1>
-              <div className="unassigned-permissions border border-black bg-white" style={{ width: '100%'}}>
-                {/* { bArray.map( (item, index) => <div className='m-1 border border-black' key={index} onClick={}>{item}</div> ) } */}
+              <Box className="rounded-lg unassigned-permissions border border-black bg-white" style={{ width: '100%'}}>
+                {/* { bArray.map( (item, index) => <Box className='m-1 border border-black' key={index} onClick={}>{item}</Box> ) } */}
                 { selectedUser && getAllPermissions(UserUnassignedPermissions, 1) }
-              </div>
-            </div>
+              </Box>
+            </Box>
     
-            <div className="btnContainer">
-              <div>
+            <Box className="btnContainer">
+              <Box>
                 <button onClick={ moveFromUnassignedToAssigned } className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id="btnAdd" disabled={disabledAddPermission}> + </button>
-              </div>
+              </Box>
                 
-              <div>
+              <Box>
                 <button onClick={ moveFromAssignedToUnassigned } className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id="btnRemove" disabled={disabledRemovePermission}> - </button>
-              </div>
-            </div>
+              </Box>
+            </Box>
             
-            <div style={{ width: '100%'}}>
+            <Box style={{ width: '100%'}}>
               <h1>Permisos Asignados</h1>
-              <div className="assigned-permissions border border-black bg-white" style={{ width: '100%'}} id="assigned">
-                {/* { cArray.map( (item, index) => <div className='m-1 border border-black' key={index}>{item}</div> ) } */}
+              <Box className="rounded-lg assigned-permissions border border-black bg-white" style={{ width: '100%'}} id="assigned">
+                {/* { cArray.map( (item, index) => <Box className='m-1 border border-black' key={index}>{item}</Box> ) } */}
                 { selectedUser && getAllPermissions(UserAssignedPermissions, 2) }
-              </div>
-            </div>
+              </Box>
+            </Box>
 
-          </div>
+          </Box>
           
           {/* <button onClick={updatePermissions} className='p-2 rounded-sm bg-blue-500 font-bold disabled:p-2 disabled:rounded-sm disabled:bg-slate-500 text-white mt-10' id="btnSave" >Guardar Cambios</button> */}
 
@@ -132,7 +133,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
                 Guardar Cambios
           </Button>
 
-          <p className='mt-10 bg-black text-white'> {message} </p>
+          <p className='bg-black text-white'> {message} </p>
           
         </>
       ); 

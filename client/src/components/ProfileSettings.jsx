@@ -5,7 +5,7 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Link, Button } from '@mui/material';
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material/'
-// import useUpdateProfile from '../hooks/useUpdateProfile';
+import useUpdateProfile from '../hooks/useUpdateProfile';
 
 export default function ProfileSettings({ token }) {
     const [noEditFirstName, setNoEditFirstName] = useState(true);
@@ -15,7 +15,11 @@ export default function ProfileSettings({ token }) {
     const [selectedImage, setSelectedImage] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
 
-    // const { sendRequest, msg } = useUpdateProfile ( selectedImage, user.firstName, user.lastName ); //must make it work
+    const { formData, error, success, msg, handleInputChange, sendRequest } = useUpdateProfile ({ token }, {
+        firstName: '',
+        lastName: '',
+        email: ''
+    })
 
     useEffect(() => {
         setSelectedImage(`http://localhost:3000${user.profilePicture}`)
@@ -126,11 +130,13 @@ export default function ProfileSettings({ token }) {
                             <TextField
                                 disabled={noEditFirstName}
                                 autoFocus={true}
+                                label={user.firstName}
                                 size='small'
                                 type="text"
-                                id="username"
-                                name="username"
-                                value={user.firstName ? user.firstName : ''}
+                                id="firstName"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleInputChange}
                                 required
                             />
                             <Link href="#" onClick={() => handleEdit('Nombre de pila', 1)}><EditIcon /></Link>
@@ -142,10 +148,11 @@ export default function ProfileSettings({ token }) {
                                 disabled={noEditLastName}
                                 autoFocus={true}
                                 size='small'
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={user.lastName ? user.lastName : ''}
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleInputChange}
                                 required
                             />
                             <Link href="#" onClick={() => handleEdit('Apellido', 2)}><EditIcon /></Link>
@@ -176,18 +183,20 @@ export default function ProfileSettings({ token }) {
                                 type="email"
                                 id="email"
                                 name="email"
-                                value={user.email ? user.email : ''}
+                                value={formData.email}
+                                onChange={handleInputChange}
                                 required
                             />
                             <Link href="#" onClick={() => handleEdit('Email', 4)}><EditIcon /></Link>
                         </Box>
                     </Box>
                 </Box>
-                <Button size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                <Button onClick={sendRequest} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                     Guardar
                 </Button>
             </AccordionDetails>
         </Accordion>
+        <p>{msg?msg:''}</p>
         </>
     );
 }
