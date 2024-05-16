@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import ListaPermisos from "./ListaPermisos"
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from "@mui/material/"
 import PermissionDescriptionDetails from "./PermissionDescriptionDetails"
@@ -25,4 +26,11 @@ export default function PermissionModifier({ permissionDetails, handleSelectedCh
             </Accordion>   
         </>   
     )  
+}
+
+PermissionModifier.propTypes = {
+    permissionDetails: PropTypes.array.isRequired,
+    handleSelectedChange: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
+    selectedPermission: PropTypes.string
 }

@@ -5,14 +5,17 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Link, Button } from '@mui/material';
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material/'
+// import useUpdateProfile from '../hooks/useUpdateProfile';
 
 export default function ProfileSettings({ token }) {
     const [noEditFirstName, setNoEditFirstName] = useState(true);
     const [noEditLastName, setNoEditLastName] = useState(true);
-    const [noEditUsername, setNoEditUsername] = useState(true);
+    // const [noEditUsername, setNoEditUsername] = useState(true);
     const [noEditEmail, setNoEditEmail] = useState(true);
-    const [selectedImage, setSelectedImage] = useState('https://flowbite.com/docs/images/people/profile-picture-5.jpg'); // Default image URL
+    const [selectedImage, setSelectedImage] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
+
+    // const { sendRequest, msg } = useUpdateProfile ( selectedImage, user.firstName, user.lastName ); //must make it work
 
     useEffect(() => {
         setSelectedImage(`http://localhost:3000${user.profilePicture}`)
@@ -30,11 +33,11 @@ export default function ProfileSettings({ token }) {
                 setNoEditLastName(false);
             }
         }
-        else if (editNum === 3) {
-            if (result) {
-                setNoEditUsername(false);
-            }
-        }
+        // else if (editNum === 3) {
+        //     if (result) {
+        //         setNoEditUsername(false);
+        //     }
+        // }
         else if (editNum === 4) {
             if (result) {
                 setNoEditEmail(false);
@@ -149,7 +152,7 @@ export default function ProfileSettings({ token }) {
                         </Box>
                     </Box>
                     <Box>
-                        <Box>
+                        {/* <Box>
                             <p>Nombre de usuario</p>
                             <TextField
                                 disabled={noEditUsername}
@@ -162,7 +165,7 @@ export default function ProfileSettings({ token }) {
                                 required
                             />
                             <Link href="#" onClick={() => handleEdit('Nombre de usuario', 3)}><EditIcon /></Link>
-                        </Box>
+                        </Box> */}
 
                         <Box>
                             <p>Email</p>
