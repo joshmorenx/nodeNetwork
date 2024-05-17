@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function useUpdateProfile({ token }, initialForm = {}) {
+export default function useUpdateProfile({ token, initialForm = {}}) {
     const [formData, setFormData] = useState(initialForm);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -22,7 +22,7 @@ export default function useUpdateProfile({ token }, initialForm = {}) {
             email: formData.email
         }).then((response) => {
             setMsg(response.data.message);
-            // setSuccess(response.data.success);
+            setSuccess(response.data.success);
         }).catch((error) => {
             setError(error);
         })

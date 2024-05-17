@@ -15,11 +15,11 @@ export default function ProfileSettings({ token }) {
     const [selectedImage, setSelectedImage] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
 
-    const { formData, error, success, msg, handleInputChange, sendRequest } = useUpdateProfile ({ token }, {
+    const { formData, error, success, msg, handleInputChange, sendRequest } = useUpdateProfile ({ token , initialForm : {
         firstName: '',
         lastName: '',
         email: ''
-    })
+    }})
 
     useEffect(() => {
         setSelectedImage(`http://localhost:3000${user.profilePicture}`)
