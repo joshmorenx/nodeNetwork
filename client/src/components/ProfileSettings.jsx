@@ -147,6 +147,7 @@ export default function ProfileSettings({ token }) {
                             <TextField
                                 disabled={noEditLastName}
                                 autoFocus={true}
+                                label={user.lastName}
                                 size='small'
                                 type="text"
                                 id="lastName"
@@ -179,6 +180,7 @@ export default function ProfileSettings({ token }) {
                             <TextField
                                 disabled={noEditEmail}
                                 autoFocus={true}
+                                label={user.email}
                                 size='small'
                                 type="email"
                                 id="email"
