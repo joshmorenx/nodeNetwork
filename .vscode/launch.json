@@ -55,7 +55,7 @@
             "runtimeExecutable": "npm",
             "runtimeArgs": [
                 "run",
-                "dev", //change to "start" for nodemon to work
+                "start", //change to "start" for nodemon to work
             ],
             "cwd": "${workspaceFolder}/server", // Specify the project path here
             "restart": true,
