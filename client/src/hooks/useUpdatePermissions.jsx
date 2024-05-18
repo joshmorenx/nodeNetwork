@@ -9,7 +9,7 @@
 
         const sendRequest = async () => {
             try {
-                const response = await axios.post('http://localhost:3000/api/update_permissions/', {
+                const response = await axios.post('http://localhost:3000/api/updatePermissions/', {
                     newPermissions : UserAssignedPermissions,
                     username : selectedUser,
                 })
