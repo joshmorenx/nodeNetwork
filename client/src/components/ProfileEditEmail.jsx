@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export default function ProfileEditEmail({ formData, handleInputChange, sendRequest, user, noEditEmail, handleEdit }) {
     return (
-        <Accordion expanded={true}>
+        <Accordion defaultExpanded={true}>
             <AccordionSummary
                 expandIcon={<ExpandMore />}
                 aria-label="Expand"

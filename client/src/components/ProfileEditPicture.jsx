@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export default function ProfileEditPicture({ selectedImage, openFilePicker, sendRequest }) {
     return (
-        <Accordion expanded={true}>
+        <Accordion defaultExpanded={true}>
             <AccordionSummary
                 expandIcon={<ExpandMore />}
                 aria-label="Expand"
