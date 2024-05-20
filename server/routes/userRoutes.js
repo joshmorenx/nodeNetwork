@@ -6,7 +6,7 @@ const getAllUsers = require("../controllers/getAllUsers.js");
 const updateProfile = require("../controllers/updateProfile.js");
 
 app.get('/api/usuario/', verificarToken, returnUserData);
-app.get("/api/usuarios", getAllUsers)
+app.get('/api/usuarios/', getAllUsers)
 app.post('/api/updateProfile/', verificarToken, updateProfile);
 
 module.exports = app
