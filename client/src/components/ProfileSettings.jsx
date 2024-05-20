@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Link, Button } from '@mui/material';
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material/'
+import { Box, Link, Button, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import useUpdateProfile from '../hooks/useUpdateProfile';
+import { ExpandMore } from '@mui/icons-material'
+import ProfileEditPicture from './ProfileEditPicture.jsx';
+import ProfileEditNames from './ProfileEditNames.jsx';
+import ProfileEditEmail from './ProfileEditEmail.jsx';
 
 export default function ProfileSettings({ token }) {
     const [noEditFirstName, setNoEditFirstName] = useState(true);
@@ -15,11 +18,13 @@ export default function ProfileSettings({ token }) {
     const [selectedImage, setSelectedImage] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
 
-    const { formData, error, success, msg, handleInputChange, sendRequest } = useUpdateProfile ({ token , initialForm : {
-        firstName: '',
-        lastName: '',
-        email: ''
-    }})
+    const { formData, error, success, msg, handleInputChange, sendRequest } = useUpdateProfile({
+        token, initialForm: {
+            firstName: '',
+            lastName: '',
+            email: ''
+        }
+    })
 
     useEffect(() => {
         setSelectedImage(`http://localhost:3000${user.profilePicture}`)
@@ -47,23 +52,23 @@ export default function ProfileSettings({ token }) {
                 setNoEditEmail(false);
             }
         }
-        
+
     };
 
     const handleFileSelect = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
-    
+
         reader.onload = function (event) {
             const img = new Image();
             img.onload = function () {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-    
+
                 const maxSize = 150;
                 let width = img.width;
                 let height = img.height;
-    
+
                 if (width > height) {
                     if (width > maxSize) {
                         height *= maxSize / width;
@@ -75,24 +80,24 @@ export default function ProfileSettings({ token }) {
                         height = maxSize;
                     }
                 }
-    
+
                 canvas.width = width;
                 canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
-    
+
                 // Convert canvas to data URL
                 const resizedImage = canvas.toDataURL('image/jpeg');
-    
+
                 setSelectedImage(resizedImage);
             };
-    
+
             img.src = event.target.result;
         };
-    
+
         // Read the image file as a data URL
         reader.readAsDataURL(file);
     };
-    
+
 
     const openFilePicker = () => {
         const fileInput = document.createElement('input');
@@ -105,62 +110,24 @@ export default function ProfileSettings({ token }) {
 
     return (
         <>
-        <Accordion expanded={true} color='primary'>
-            <AccordionSummary
-            // expandIcon={<ArrowDropDownIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
-            sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
-            >
-            <Typography>Modificar detalles de perfil</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: '#faf1de' }}> 
-                <Box className="avatar-container" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Box>
-                        <p>Foto de perfil</p>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <img onClick={() => openFilePicker()} width={'150vw'} height={'150vw'} className="avatar m-auto cursor-pointer" src={selectedImage} alt="Rounded avatar" />
-                            <Link href="#" onClick={() => openFilePicker()}><EditIcon /></Link>
-                        </Box>
-                    </Box>
+            <Accordion sx={{ overflowY: 'auto', height: '98%', bgcolor: '#f9f0ce' }} expanded={true} color='primary'>
+                <AccordionSummary
+                    // expandIcon={<ArrowDropDownIcon />}
+                    aria-controls="panel2-content"
+                    id="panel2-header"
+                    sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
+                >
+                    <Typography>Modificar detalles de perfil</Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
+                    <Box className="avatar-container" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                        <ProfileEditPicture selectedImage={selectedImage} openFilePicker={openFilePicker} sendRequest={sendRequest} />
+                        
+                        <ProfileEditNames user={user} formData={formData} handleInputChange={handleInputChange} handleEdit={handleEdit} noEditFirstName={noEditFirstName} noEditLastName={noEditLastName}/>
 
-                    <Box>
+                        <ProfileEditEmail user={user} formData={formData} handleInputChange={handleInputChange} sendRequest={sendRequest} handleEdit={handleEdit} noEditEmail={noEditEmail} />
                         <Box>
-                            <p>Nombre de pila</p>
-                            <TextField
-                                disabled={noEditFirstName}
-                                autoFocus={true}
-                                label={user.firstName}
-                                size='small'
-                                type="text"
-                                id="firstName"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <Link href="#" onClick={() => handleEdit('Nombre de pila', 1)}><EditIcon /></Link>
-                        </Box>
-
-                        <Box>
-                            <p>Apellido</p>
-                            <TextField
-                                disabled={noEditLastName}
-                                autoFocus={true}
-                                label={user.lastName}
-                                size='small'
-                                type="text"
-                                id="lastName"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <Link href="#" onClick={() => handleEdit('Apellido', 2)}><EditIcon /></Link>
-                        </Box>
-                    </Box>
-                    <Box>
-                        {/* <Box>
+                            {/* <Box>
                             <p>Nombre de usuario</p>
                             <TextField
                                 disabled={noEditUsername}
@@ -174,31 +141,14 @@ export default function ProfileSettings({ token }) {
                             />
                             <Link href="#" onClick={() => handleEdit('Nombre de usuario', 3)}><EditIcon /></Link>
                         </Box> */}
-
-                        <Box>
-                            <p>Email</p>
-                            <TextField
-                                disabled={noEditEmail}
-                                autoFocus={true}
-                                label={user.email}
-                                size='small'
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <Link href="#" onClick={() => handleEdit('Email', 4)}><EditIcon /></Link>
                         </Box>
                     </Box>
-                </Box>
-                <Button onClick={sendRequest} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                    {/* <Button onClick={sendRequest} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                     Guardar
-                </Button>
-            </AccordionDetails>
-        </Accordion>
-        <p>{msg?msg:''}</p>
+                </Button> */}
+                </AccordionDetails>
+            </Accordion>
+            <p>{msg ? msg : ''}</p>
         </>
     );
 }
