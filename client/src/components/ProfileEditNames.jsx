@@ -3,7 +3,7 @@ import { ExpandMore } from '@mui/icons-material'
 import EditIcon from '@mui/icons-material/Edit';
 
 
-export default function ProfileEditNames({ user, formData, handleInputChange, handleEdit, noEditFirstName, noEditLastName }) {
+export default function ProfileEditNames({ user, formData, handleInputChange, handleEdit, noEditFirstName, noEditLastName, sendRequest }) {
     return (
         <Accordion defaultExpanded={true}>
             <AccordionSummary
@@ -51,7 +51,7 @@ export default function ProfileEditNames({ user, formData, handleInputChange, ha
                         <Link href="#" onClick={() => handleEdit('Apellido', 2)}><EditIcon /></Link>
                     </Box>
                 </Box>
-                <Button /*onClick={sendRequest}*/ size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                <Button onClick={()=>{sendRequest("name")}} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                     Guardar
                 </Button>
             </AccordionDetails>

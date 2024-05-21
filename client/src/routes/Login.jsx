@@ -42,4 +42,4 @@ export default function Login(){
             {!cookieToken && <LoginDisplayer handleInputChange={handleInputChange} formData={formData} sendForm={sendForm} userInfo={userInfo} open={open} preHandleClose={preHandleClose} loginData={loginData} />}
         </>
     );
-};
+}

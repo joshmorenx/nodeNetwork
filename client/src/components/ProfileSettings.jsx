@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import TextField from '@mui/material/TextField';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
-import EditIcon from '@mui/icons-material/Edit';
-import { Box, Link, Button, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Box, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import useUpdateProfile from '../hooks/useUpdateProfile';
-import { ExpandMore } from '@mui/icons-material'
 import ProfileEditPicture from './ProfileEditPicture.jsx';
 import ProfileEditNames from './ProfileEditNames.jsx';
 import ProfileEditEmail from './ProfileEditEmail.jsx';
+import { useNavigate } from 'react-router';
+import Cookies from 'js-cookie';
+
 
 export default function ProfileSettings({ token }) {
+    const navigate = useNavigate();
     const [noEditFirstName, setNoEditFirstName] = useState(true);
     const [noEditLastName, setNoEditLastName] = useState(true);
     // const [noEditUsername, setNoEditUsername] = useState(true);
@@ -18,13 +19,20 @@ export default function ProfileSettings({ token }) {
     const [selectedImage, setSelectedImage] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
 
-    const { formData, error, success, msg, handleInputChange, sendRequest } = useUpdateProfile({
+    const { formData, error, success, msg, handleInputChange, sendRequest, newToken } = useUpdateProfile({
         token, initialForm: {
             firstName: '',
             lastName: '',
             email: ''
         }
     })
+    
+    if(newToken){
+        Cookies.remove('token')
+        Cookies.set('token', newToken, { expires: 7, secure: true, sameSite: 'Strict' });
+        // window.location.reload();
+        navigate(0)
+    }
 
     useEffect(() => {
         setSelectedImage(`http://localhost:3000${user.profilePicture}`)
@@ -123,7 +131,7 @@ export default function ProfileSettings({ token }) {
                     <Box className="avatar-container" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <ProfileEditPicture selectedImage={selectedImage} openFilePicker={openFilePicker} sendRequest={sendRequest} />
                         
-                        <ProfileEditNames user={user} formData={formData} handleInputChange={handleInputChange} handleEdit={handleEdit} noEditFirstName={noEditFirstName} noEditLastName={noEditLastName}/>
+                        <ProfileEditNames user={user} formData={formData} handleInputChange={handleInputChange} handleEdit={handleEdit} noEditFirstName={noEditFirstName} noEditLastName={noEditLastName} sendRequest={sendRequest}/>
 
                         <ProfileEditEmail user={user} formData={formData} handleInputChange={handleInputChange} sendRequest={sendRequest} handleEdit={handleEdit} noEditEmail={noEditEmail} />
                         <Box>
@@ -143,9 +151,6 @@ export default function ProfileSettings({ token }) {
                         </Box> */}
                         </Box>
                     </Box>
-                    {/* <Button onClick={sendRequest} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
-                    Guardar
-                </Button> */}
                 </AccordionDetails>
             </Accordion>
             <p>{msg ? msg : ''}</p>
@@ -154,5 +159,5 @@ export default function ProfileSettings({ token }) {
 }
 
 ProfileSettings.propTypes = {
-    token: PropTypes.string
+    token: PropTypes.string.isRequired
 };

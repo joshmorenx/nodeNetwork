@@ -8,24 +8,17 @@ import ContentContainer from '../components/ContentContainer';
 import { Button, Box } from '@mui/material/'
 import { useNavigate } from 'react-router-dom';
 import ImageViewer from '../components/ImageViewer';
-// import FeedNavbar from '../components/FeedNavbar';
-// import { useNavigate } from 'react-router';
 
 const Dashboard = ({ token }) => {
     const navigate = useNavigate();
     const [selectedSection, setSelectedSection] = useState('assign');
     const [imgClickedPath, setImgClickedPath] = useState(null);
+    
     useEffect(() => {
         // console.log('Token:', token);||
     }, [token]);
 
     const { logout } = useLogout(token);
-
-    // useEffect(() => {
-    //     if(logStatusRefresh){
-    //         window.location.reload();
-    //     }
-    // }, [logStatusRefresh]);
 
     const { user, error } = useGetCurrentUser({ token }); // must gather the profile image here
     const handleLogout = () => {

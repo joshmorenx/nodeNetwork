@@ -33,7 +33,7 @@ export default function ProfileEditEmail({ formData, handleInputChange, sendRequ
                     />
                     <Link href="#" onClick={() => handleEdit('Email', 4)}><EditIcon /></Link>
                 </Box>
-                <Button /*onClick={sendRequest}*/ size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                <Button onClick={()=>{sendRequest("email")}} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                     Guardar
                 </Button>
             </AccordionDetails>

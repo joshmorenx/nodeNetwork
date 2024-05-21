@@ -22,7 +22,7 @@ export default function ProfileEditPicture({ selectedImage, openFilePicker, send
                         <Link href="#" onClick={() => openFilePicker()}><EditIcon /></Link>
                     </Box>
                 </Box>
-                <Button /*onClick={sendRequest}*/ size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                <Button onClick={()=>{sendRequest("picture")}} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                     Guardar
                 </Button>
             </AccordionDetails>
