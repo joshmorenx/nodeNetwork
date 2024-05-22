@@ -3,14 +3,16 @@ const jwt = require("jsonwebtoken");
 const verificarToken = (req, res, next) => {
     let token = undefined;
     
-    switch (req.method) {
-        case 'POST':
-            token = req.body.headers.Authorization;
-        break;
-        case 'GET':
-            token = req.headers.authorization;
-        break;
-    }
+    // switch (req.method) {
+    //     case 'POST':
+    //         token = req.body.headers.Authorization;
+    //     break;
+    //     case 'GET':
+    //         token = req.headers.authorization;
+    //     break;
+    // }
+
+    token = req.headers.authorization;
 
     if (!token) {
         return res.status(401).json({ mensaje: 'Token no proporcionado' });
