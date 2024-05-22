@@ -586,6 +586,10 @@ video {
   margin-inline-end: 0.5rem;
 }
 
+.ml-48 {
+  margin-left: 12rem;
+}
+
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -604,6 +608,10 @@ video {
 
 .flex {
   display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
 }
 
 .hidden {

@@ -16,7 +16,8 @@ export default function ProfileSettings({ token }) {
     const [noEditLastName, setNoEditLastName] = useState(true);
     // const [noEditUsername, setNoEditUsername] = useState(true);
     const [noEditEmail, setNoEditEmail] = useState(true);
-    const [selectedImage, setSelectedImage] = useState(null); // Default image URL
+    const [selectedImage, setSelectedImage] = useState(null); // Default image file
+    const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
 
     const { formData, error, success, msg, handleInputChange, sendRequest, newToken } = useUpdateProfile({
@@ -35,7 +36,7 @@ export default function ProfileSettings({ token }) {
     }
 
     useEffect(() => {
-        setSelectedImage(`http://localhost:3000${user.profilePicture}`)
+        setSelectedImageUrl(`http://localhost:3000${user.profilePicture}`)
     }, [user]);
 
     const handleEdit = (section, editNum) => {
@@ -60,61 +61,12 @@ export default function ProfileSettings({ token }) {
                 setNoEditEmail(false);
             }
         }
-
     };
 
-    const handleFileSelect = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-            const img = new Image();
-            img.onload = function () {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-
-                const maxSize = 150;
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                    if (width > maxSize) {
-                        height *= maxSize / width;
-                        width = maxSize;
-                    }
-                } else {
-                    if (height > maxSize) {
-                        width *= maxSize / height;
-                        height = maxSize;
-                    }
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-
-                // Convert canvas to data URL
-                const resizedImage = canvas.toDataURL('image/jpeg');
-
-                setSelectedImage(resizedImage);
-            };
-
-            img.src = event.target.result;
-        };
-
-        // Read the image file as a data URL
-        reader.readAsDataURL(file);
+    const handleImageChange = (event) => {
+        setSelectedImage(event.target.files[0]);
+        setSelectedImageUrl(URL.createObjectURL(event.target.files[0]));
     };
-
-
-    const openFilePicker = () => {
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/jpeg, image/png';
-        fileInput.multiple = false;
-        fileInput.addEventListener('change', handleFileSelect);
-        fileInput.click();
-    }
 
     return (
         <>
@@ -129,7 +81,7 @@ export default function ProfileSettings({ token }) {
                 </AccordionSummary>
                 <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
                     <Box className="avatar-container" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <ProfileEditPicture selectedImage={selectedImage} openFilePicker={openFilePicker} sendRequest={sendRequest} />
+                        <ProfileEditPicture selectedImage={selectedImage} selectedImageUrl={selectedImageUrl} handleImageChange={handleImageChange} sendRequest={sendRequest} />
                         
                         <ProfileEditNames user={user} formData={formData} handleInputChange={handleInputChange} handleEdit={handleEdit} noEditFirstName={noEditFirstName} noEditLastName={noEditLastName} sendRequest={sendRequest}/>
 

@@ -13,7 +13,10 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
         setFormData({ ...formData, [name]: value });
     }
 
-    const sendRequest = async (opt) => {
+    const sendRequest = async (opt, image) => {
+        if(image) {
+            formData.append('image', image)
+        }
         await axios.post('http://localhost:3000/api/updateProfile/',{
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -22,7 +25,6 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
-            // picture: formData.picture
         }).then((response) => {
             setMsg(response.data.message);
             setSuccess(response.data.success);
