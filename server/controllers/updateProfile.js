@@ -9,7 +9,7 @@ const updateProfile = async (req = request, res = response) => {
     
     const addedPermissions = []
     const { username } = req.usuario
-    const { option, firstName, lastName, email /*, picture*/ } = req.body // updating personal data
+    const { option, firstName, lastName, email, image } = req.body // updating personal data
     const user = await User.findOne({ username: username })
     let token = null
 
@@ -51,7 +51,7 @@ const updateProfile = async (req = request, res = response) => {
                 break;
         }
         
-        req.session.token = token;
+        if(token) req.session.token = token;
 
         // jwt.verify(token.replace('Bearer ', ''), process.env.SECRET, (error, decodedToken) => {
         //     if (error) {
