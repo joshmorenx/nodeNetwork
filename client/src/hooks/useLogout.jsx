@@ -12,7 +12,7 @@ const useLogout = (token) => {
             // console.log(response.data.msg);
             // console.log(response.data.logStatusRefresh);
             setLogStatusRefresh(response.data.logStatusRefresh)
-        }).catch(error => {
+        }).catch((error) => {
             // console.log(error.response.data.error);
         })
     }
