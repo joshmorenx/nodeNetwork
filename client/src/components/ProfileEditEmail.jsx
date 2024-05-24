@@ -2,7 +2,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography, Box, Link, B
 import { ExpandMore } from '@mui/icons-material'
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function ProfileEditEmail({ formData, handleInputChange, sendRequest, user, noEditEmail, handleEdit }) {
+export default function ProfileEditEmail({ formUserData, handleInputChange, sendRequest, user, noEditEmail, handleEdit }) {
     return (
         <Accordion defaultExpanded={true}>
             <AccordionSummary
@@ -27,7 +27,7 @@ export default function ProfileEditEmail({ formData, handleInputChange, sendRequ
                         type="email"
                         id="email"
                         name="email"
-                        value={formData.email}
+                        value={formUserData.email}
                         onChange={handleInputChange}
                         required
                     />

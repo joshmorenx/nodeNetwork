@@ -20,7 +20,7 @@ export default function ProfileSettings({ token }) {
     const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
 
-    const { formData, error, success, msg, handleInputChange, sendRequest, newToken } = useUpdateProfile({
+    const { formUserData, error, success, msg, handleInputChange, sendRequest, newToken } = useUpdateProfile({
         token, initialForm: {
             firstName: '',
             lastName: '',
@@ -83,9 +83,9 @@ export default function ProfileSettings({ token }) {
                     <Box className="avatar-container" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <ProfileEditPicture selectedImage={selectedImage} selectedImageUrl={selectedImageUrl} handleImageChange={handleImageChange} sendRequest={sendRequest} />
                         
-                        <ProfileEditNames user={user} formData={formData} handleInputChange={handleInputChange} handleEdit={handleEdit} noEditFirstName={noEditFirstName} noEditLastName={noEditLastName} sendRequest={sendRequest}/>
+                        <ProfileEditNames user={user} formUserData={formUserData} handleInputChange={handleInputChange} handleEdit={handleEdit} noEditFirstName={noEditFirstName} noEditLastName={noEditLastName} sendRequest={sendRequest}/>
 
-                        <ProfileEditEmail user={user} formData={formData} handleInputChange={handleInputChange} sendRequest={sendRequest} handleEdit={handleEdit} noEditEmail={noEditEmail} />
+                        <ProfileEditEmail user={user} formUserData={formUserData} handleInputChange={handleInputChange} sendRequest={sendRequest} handleEdit={handleEdit} noEditEmail={noEditEmail} />
                         <Box>
                             {/* <Box>
                             <p>Nombre de usuario</p>

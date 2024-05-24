@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function useUpdateProfile({ token, initialForm = {}}) {
-    const [formData, setFormData] = useState(initialForm);
+    const [formUserData, setFormUserData] = useState(initialForm);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const [msg, setMsg] = useState(null);
@@ -10,21 +10,24 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        setFormUserData({ ...formUserData, [name]: value });
     }
 
     const sendRequest = async (opt, image) => {
-        if(image) {
-            formData.append('image', image)
+        const formData = new FormData();
+        formData.append('option', opt);
+        formData.append('firstName', formUserData.firstName);
+        formData.append('lastName', formUserData.lastName);
+        formData.append('email', formUserData.email);
+
+        if (image) {
+            formData.append('image', image);
         }
-        await axios.post('http://localhost:3000/api/updateProfile/',{
-            option: opt,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-        }, {
+        
+        await axios.post('http://localhost:3000/api/updateProfile/', formData, {
             headers: {
                 Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
             },
         }).then((response) => {
             setMsg(response.data.message);
@@ -37,7 +40,7 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
     }
     
     return{
-        formData,
+        formUserData,
         error,
         success,
         msg,

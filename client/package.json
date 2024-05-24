@@ -22,6 +22,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-image-file-resizer": "^0.4.8",
     "react-jwt": "^1.2.0",
     "react-router": "^6.14.0",
     "react-router-dom": "^6.22.2"

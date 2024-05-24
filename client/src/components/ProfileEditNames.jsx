@@ -3,7 +3,7 @@ import { ExpandMore } from '@mui/icons-material'
 import EditIcon from '@mui/icons-material/Edit';
 
 
-export default function ProfileEditNames({ user, formData, handleInputChange, handleEdit, noEditFirstName, noEditLastName, sendRequest }) {
+export default function ProfileEditNames({ user, formUserData, handleInputChange, handleEdit, noEditFirstName, noEditLastName, sendRequest }) {
     return (
         <Accordion defaultExpanded={true}>
             <AccordionSummary
@@ -28,7 +28,7 @@ export default function ProfileEditNames({ user, formData, handleInputChange, ha
                             type="text"
                             id="firstName"
                             name="firstName"
-                            value={formData.firstName}
+                            value={formUserData.firstName}
                             onChange={handleInputChange}
                         />
                         <Link href="#" onClick={() => handleEdit('Nombre de pila', 1)}><EditIcon /></Link>
@@ -45,7 +45,7 @@ export default function ProfileEditNames({ user, formData, handleInputChange, ha
                             type="text"
                             id="lastName"
                             name="lastName"
-                            value={formData.lastName}
+                            value={formUserData.lastName}
                             onChange={handleInputChange}
                         />
                         <Link href="#" onClick={() => handleEdit('Apellido', 2)}><EditIcon /></Link>
