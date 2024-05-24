@@ -1,12 +1,17 @@
 const express = require("express");
-const app = express();
 const verificarToken = require("../controllers/verificarToken.js");
 const returnUserData = require("../controllers/returnUserData.js");
 const getAllUsers = require("../controllers/getAllUsers.js");
 const updateProfile = require("../controllers/updateProfile.js");
 
-app.get('/api/usuario/', verificarToken, returnUserData);
-app.get('/api/usuarios/', getAllUsers)
-app.post('/api/updateProfile/', verificarToken, updateProfile);
+const userRoutes = (upload) => {
+    const router = express.Router();
 
-module.exports = app
+    router.get('/api/usuario/', verificarToken, returnUserData);
+    router.get('/api/usuarios/', getAllUsers);
+    router.post('/api/updateProfile/', verificarToken, upload.single('image'), updateProfile);
+
+    return router;
+};
+
+module.exports = userRoutes;
