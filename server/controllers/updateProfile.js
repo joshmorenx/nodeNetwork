@@ -45,22 +45,34 @@ const updateProfile = async (req = request, res = response) => {
             case "picture":
                 if (req.file) {
                     const profileFolderPath = path.join(__dirname, `../public/uploads/users/${username}/profile/`);
+                    const galleryFolderPath = path.join(__dirname, `../public/uploads/users/${username}/gallery/`);
+
                     if (!fs.existsSync(profileFolderPath)) {
                         fs.mkdirSync(profileFolderPath, { recursive: true });
                     }
-                    const imagePath = path.join(profileFolderPath, 'profile.jpg');
 
-                    let buffer = await sharp(req.file.path)
+                    if (!fs.existsSync(galleryFolderPath)) {
+                        fs.mkdirSync(galleryFolderPath, { recursive: true });
+                    }
+
+                    const imagePath = path.join(profileFolderPath, 'profile.jpg');
+                    const buffer = await sharp(req.file.path)
                         .resize({ width: 736, height: 736 })
                         .toBuffer();
 
+                    // Guardar la imagen en el perfil
                     fs.writeFileSync(imagePath, buffer);
 
-                    sharp.cache(false);
+                    // Generar un nombre de archivo único para la galería
+                    const uniqueFileName = `${uuidv4()}.jpg`;
+                    const galleryImagePath = path.join(galleryFolderPath, uniqueFileName);
 
-                    fs.unlinkSync(req.file.path);
+                    // Guardar la imagen en la galería
+                    fs.writeFileSync(galleryImagePath, buffer);
 
-                    // fs.renameSync(req.file.path, imagePath);
+                    sharp.cache(false); // Limpiar el cache de Sharp
+
+                    fs.unlinkSync(req.file.path);                    
 
                     token = jwt.sign({ userId: user._id, username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, isLogged: user.isLogged, permissions: addedPermissions, profilePicture: user.profilePicture }, process.env.SECRET);
                     res.status(200).json({ message: "Imagen actualizada correctamente", success: true, token: token });
