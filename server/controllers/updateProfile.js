@@ -5,6 +5,7 @@ const User = require("../models/User.js");
 const Permission = require("../models/Permission.js");
 const fs = require("fs");
 const path = require("path");
+const sharp = require("sharp");
 
 const updateProfile = async (req = request, res = response) => {
     const addedPermissions = [];
@@ -47,7 +48,14 @@ const updateProfile = async (req = request, res = response) => {
                         fs.mkdirSync(profileFolderPath, { recursive: true });
                     }
                     const imagePath = path.join(profileFolderPath, 'profile.jpg');
-                    fs.renameSync(req.file.path, imagePath);
+
+                    await sharp(req.file.path)
+                        .resize({ width: 300, height: 300 })
+                        .toFile(imagePath);
+
+                    fs.unlinkSync(req.file.path);
+
+                    // fs.renameSync(req.file.path, imagePath);
 
                     token = jwt.sign({ userId: user._id, username: user.username, firstName: user.firstName, lastName: user.lastName, email: user.email, isLogged: user.isLogged, permissions: addedPermissions, profilePicture: user.profilePicture }, process.env.SECRET);
                     res.status(200).json({ message: "Imagen actualizada correctamente", success: true, token: token });
