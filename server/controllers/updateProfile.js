@@ -6,6 +6,7 @@ const Permission = require("../models/Permission.js");
 const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
+const { v4: uuidv4 } = require('uuid');
 
 const updateProfile = async (req = request, res = response) => {
     const addedPermissions = [];
@@ -49,9 +50,13 @@ const updateProfile = async (req = request, res = response) => {
                     }
                     const imagePath = path.join(profileFolderPath, 'profile.jpg');
 
-                    await sharp(req.file.path)
-                        .resize({ width: 300, height: 300 })
-                        .toFile(imagePath);
+                    let buffer = await sharp(req.file.path)
+                        .resize({ width: 736, height: 736 })
+                        .toBuffer();
+
+                    fs.writeFileSync(imagePath, buffer);
+
+                    sharp.cache(false);
 
                     fs.unlinkSync(req.file.path);
 
