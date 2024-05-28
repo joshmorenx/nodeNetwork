@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const permissionRoutes = require("./routes/permissionRoutes.js");
 const staticRoutes = require("./routes/staticRoutes.js");
+const postRoutes = require("./routes/postRoutes.js");
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use("/", authRoutes);
 app.use("/", userRoutes(upload));
 app.use("/", permissionRoutes);
 app.use("/", staticRoutes);
+app.use("/", postRoutes);
 
 // Server start
 const PORT = process.env.PORT || 3001;
