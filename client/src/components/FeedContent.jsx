@@ -8,6 +8,7 @@ export default function FeedContent({ token }) {
         return (
             <>
                 <Box>
+                    <PostingBox token={token} />
                     <Box sx={{ bgcolor: 'pink', p: 10, border: '1px solid black'}}>
                         {/* Content */}
                             <p>
