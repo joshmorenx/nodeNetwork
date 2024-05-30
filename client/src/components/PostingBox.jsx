@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Box, Button, TextField } from "@mui/material";
 
 export default function PostingBox({ token }) {
@@ -14,4 +15,8 @@ export default function PostingBox({ token }) {
             </Box>
         )
     )
+}
+
+PostingBox.propTypes = {
+    token: PropTypes.string
 }

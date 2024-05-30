@@ -30,7 +30,7 @@ export default function FeedNavbar({token}) {
         
     return (
         <Box sx={{ mb: 9 }}>
-            <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1 }}>
+            <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}>
                 {/* we'll build a nav bar with search bar in the middle and a button to go to dashboard and a notification button and a messages button in the right */}
                 <Box bgcolor={'#7fbfff'} p={1} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {/* config section */}
