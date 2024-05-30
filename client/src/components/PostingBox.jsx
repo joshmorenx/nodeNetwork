@@ -1,18 +1,34 @@
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import { Box, Button, TextField } from "@mui/material";
+import PopUpPostingBox from './PopUpPostingBox.jsx'
 
 export default function PostingBox({ token }) {
+    const [showPostingBox, setShowPostingBox] = useState(false);
+
+    const handleOpenPostingBoxPopUp = () => {
+        setShowPostingBox(true)
+    }
+
+    const handleClosePostingBoxPopUp = () => {
+        setShowPostingBox(false)
+    }
+
     return (
         (token && 
-            <Box sx={{ margin : '20px', display: 'flex'}}>
-                <h1></h1>
-                <TextField
-                size="small"
-                label="Publica algo..."
-                sx={{ width: '100%' }}
-                />
-                <Button variant="contained" size="medium" sx={{ ml: 2}}>Publicar</Button>
-            </Box>
+            <>  
+                {showPostingBox && <PopUpPostingBox token={token} handleClosePostingBoxPopUp={handleClosePostingBoxPopUp} />}
+                
+                <Box sx={{ margin : '20px', display: 'flex'}}>
+                    <TextField
+                    aria-readonly
+                    size="small"
+                    label="Publica algo..."
+                    sx={{ width: '100%' }}
+                    onClick={handleOpenPostingBoxPopUp}
+                    />
+                </Box>
+            </>
         )
     )
 }
