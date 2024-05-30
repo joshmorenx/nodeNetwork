@@ -47,7 +47,7 @@ const login = async (req = request, res = response) => {
         //     console.log(decodedToken);
         // }); //just to verify that the token is valid debug purposes
 
-        req.session.token = token;
+        // req.session.token = token;
 
         return res.status(200).json({ msg: "Usuario encontrado, redirigiendo...", token, user: user.username });
     } catch (error) {

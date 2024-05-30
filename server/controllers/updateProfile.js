@@ -88,7 +88,7 @@ const updateProfile = async (req = request, res = response) => {
 
         if (token) {
             try {
-                req.session.token = token;
+                // req.session.token = token;
             } catch (error) {
                 console.log(error);
             }
