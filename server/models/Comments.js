@@ -4,7 +4,7 @@ const UserSchema = require("./User.js");
 
 // Definición del modelo de comentarios
 const CommentSchema = new Schema({
-    author: { type: Schema.Types.ObjectId, ref: "UserSchema" },
+    author: { type: Schema.Types.ObjectId, ref: UserSchema },
     content: { type: String },
     image: { type: String },
     likes: { type: Number, default: 0 },

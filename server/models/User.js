@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     username: { type: String, unique: true },
     password: { type: String },
     isLogged: { type: Boolean, default: false },
-    permissions: [{ type: Schema.Types.ObjectId, ref: "PermissionSchema" }],
+    permissions: [{ type: Schema.Types.ObjectId, ref: PermissionSchema }],
     profilePicture: { type: String },
     galleryPictures: [{ type: String }],
     createdAt: { type: Date, default: Date.now },
