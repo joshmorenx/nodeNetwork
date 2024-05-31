@@ -23,7 +23,7 @@ export default function PostingBox({ token }) {
                     <TextField
                     aria-readonly
                     size="small"
-                    label="Publica algo..."
+                    label="Escribe lo que piensas..."
                     sx={{ width: '100%' }}
                     onClick={handleOpenPostingBoxPopUp}
                     />

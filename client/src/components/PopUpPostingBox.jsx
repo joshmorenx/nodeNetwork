@@ -37,6 +37,22 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
                     rows={10}
                     />
                 </Box>
+
+                <Box sx={{ display : 'none', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+                    <TextField
+                    type='number'
+                    name="latitude"
+                    id="latitude"
+                    label="Latitud"
+                    />
+
+                    <TextField
+                    type='number'
+                    name="longitude"
+                    id="longitude"
+                    label="Longitud"
+                    />
+                </Box>
                 
                 <Box sx={{ display : 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                     <Link sx={{ color: 'blueviolet' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon/> Añadir una imagen/video</Link>
