@@ -3,22 +3,7 @@ const Schema = mongoose.Schema;
 const PermissionSchema = require("./Permission.js");
 require('dotenv').config();
 
-// Conexión a la base de datos
-mongoose
-    .connect(
-        process.env.MONGO_URL,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        }
-    )
-    .then(() => {
-        console.log("Conectado a MongoDB USUARIOS");
-    })
-    .catch((error) => {
-        console.error("Error al conectar a MongoDB:", error);
-    });
-
+// Definición del modelo de usuarios
 const UserSchema = new Schema({
     id: { type: Number, unique: true },
     firstName: { type: String },

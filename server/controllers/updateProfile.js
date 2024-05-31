@@ -70,7 +70,7 @@ const updateProfile = async (req = request, res = response) => {
                     // Guardar la imagen en la galería
                     fs.writeFileSync(galleryImagePath, buffer);
 
-                    sharp.cache(false); // Limpiar el cache de Sharp
+                    sharp.cache(false); // Dejar de usar la imagen para poder eliminarla del lugar temporal
 
                     fs.unlinkSync(req.file.path);                    
 

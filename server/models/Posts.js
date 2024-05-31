@@ -1,28 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const UserSchema = require("./User.js");
+const CommentSchema = require("./Comments.js");
 
-// Conexión a la base de datos
-mongoose
-    .connect(
-        process.env.MONGO_URL,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        }
-    )
-    .then(() => {
-        console.log("Conectado a MongoDB POSTS");
-    })
-    .catch((error) => {
-        console.error("Error al conectar a MongoDB:", error);
-    });
-
+// Definición del modelo de publicaciones
 const PostSchema = new Schema({
-    postId: { type: Number, unique: true },
-    title: { type: String },
-    content: { type: String },
     author: { type: Schema.Types.ObjectId, ref: "UserSchema" },
+    content: { type: String },
+    image: { type: String },
+    likes: { type: Number, default: 0 },
+    dislikes: { type: Number, default: 0 },
+    comments: [{ type: Schema.Types.ObjectId, ref: "CommentSchema" }],
+    date_created: { type: Date, default: Date.now() },
+    date_updated: { type: Date, default: Date.now() },
 });
 
 const Post = mongoose.model("Post", PostSchema);

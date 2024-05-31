@@ -1,3 +1,4 @@
+const connectDB = require("./connectDB.js");
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
@@ -10,6 +11,9 @@ const staticRoutes = require("./routes/staticRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
 
 const app = express();
+
+// Conectarse a la base de datos
+connectDB();
 
 // Middleware
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173'];
