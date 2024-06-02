@@ -6,6 +6,10 @@ import { Box, Button, Link, TextField, Typography } from "@mui/material";
 
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
 
+    const handleChange = (event) => {
+        console.log(event.target.value);
+    }
+
     const handleKeyPress = (event) => {
         if (event.key === 'Escape') {
             handleClosePostingBoxPopUp()
@@ -35,6 +39,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
                     label="Escribe lo que piensas..."
                     sx={{ width: '100%' }}
                     rows={10}
+                    onChange={handleChange}
                     />
                 </Box>
 
