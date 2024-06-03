@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
 
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
-
-    const handleChange = (event) => {
-        console.log(event.target.value);
-    }
+    const { sendRequest, msg, error, success, handleInputChange, postForm } = useCreateNewPost({ token, initialForm: {
+        content: '',
+        latitude: '',
+        longitude: ''
+    }})
 
     const handleKeyPress = (event) => {
         if (event.key === 'Escape') {
@@ -35,11 +37,13 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
                     multiline
                     variant="filled"
                     size="small"
-                    // placeholder='Escribe lo que piensas...'
                     label="Escribe lo que piensas..."
                     sx={{ width: '100%' }}
                     rows={10}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
+                    value={postForm.content}
+                    id="content"
+                    name="content"
                     />
                 </Box>
 
@@ -49,6 +53,8 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
                     name="latitude"
                     id="latitude"
                     label="Latitud"
+                    onChange={handleInputChange}
+                    value={postForm.latitude}
                     />
 
                     <TextField
@@ -56,6 +62,8 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
                     name="longitude"
                     id="longitude"
                     label="Longitud"
+                    onChange={handleInputChange}
+                    value={postForm.longitude}
                     />
                 </Box>
                 
@@ -65,7 +73,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
                 </Box>
                 
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
-                    <Button variant="contained" size="small" fullWidth>
+                    <Button onClick={() => sendRequest()} variant="contained" size="small" fullWidth>
                         Publicar
                     </Button>
                 </Box>
