@@ -51,7 +51,7 @@ app.use("/", authRoutes);
 app.use("/", userRoutes(upload));
 app.use("/", permissionRoutes);
 app.use("/", staticRoutes);
-app.use("/", postRoutes);
+app.use("/", postRoutes(upload));
 
 // Server start
 const PORT = process.env.PORT || 3001;

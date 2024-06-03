@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const verificarToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
     let token = undefined;
     
     // switch (req.method) {
@@ -29,4 +29,4 @@ const verificarToken = (req, res, next) => {
     });
 };
 
-module.exports = verificarToken;
+module.exports = verifyToken;
