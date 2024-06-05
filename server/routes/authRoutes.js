@@ -1,18 +1,17 @@
 const express = require("express");
-// const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
-// const session = require("express-session");
-const app = express();
-// const User = require("../models/User.js");
-// const Permission = require("../models/Permission.js");
+const router = express.Router();
 const login = require("../controllers/login.js");
 const register = require("../controllers/register.js");
 const logout = require("../controllers/logout.js");
-const path = require("path");
 
 // auth routes
-app.post("/", login);
-app.post("/logout/", logout);
-app.post("/register/", register);
+const authRoutes = () => {
 
-module.exports = app;   
+    router.post("/", login);
+    router.post("/logout/", logout);
+    router.post("/register/", register);
+
+    return router
+}
+
+module.exports = authRoutes

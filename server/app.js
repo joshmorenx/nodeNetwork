@@ -47,10 +47,10 @@ app.use(
 );
 
 // Routes
-app.use("/", authRoutes);
+app.use("/", authRoutes());
 app.use("/", userRoutes(upload));
-app.use("/", permissionRoutes);
-app.use("/", staticRoutes);
+app.use("/", permissionRoutes());
+app.use("/", staticRoutes());
 app.use("/", postRoutes(upload));
 
 // Server start

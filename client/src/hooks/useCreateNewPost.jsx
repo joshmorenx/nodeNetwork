@@ -13,7 +13,7 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
     };
 
     useEffect(() => {
-        console.log(msg);
+        if(msg) console.log(msg);
     }, [msg]);
 
     const sendRequest = async (image) => {

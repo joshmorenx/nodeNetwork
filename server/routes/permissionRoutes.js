@@ -1,5 +1,5 @@
 const express = require("express");
-const app = express();
+const router = express.Router()
 const getSelectedUserPermissions = require("../controllers/getSelectedUserPermissions.js");
 const updatePermissionsForOneUser = require("../controllers/updatePermissionsForOneUser.js");
 const getAllPermissions = require("../controllers/getAllPermissions.js");
@@ -8,14 +8,20 @@ const getPermissionDescription = require("../controllers/getPermissionDescriptio
 const lastPermission = require("../controllers/lastPermission.js");
 const updatePermissionsForOneUserViaCli = require("../controllers/updatePermissionsForOneUserViaCli.js");
 
-app.get("/api/permissions/", getSelectedUserPermissions)
-app.post("/api/updatePermissions/", updatePermissionsForOneUser)
-app.get("/api/getAllPermissions/", getAllPermissions);
-app.post("/api/modifyPermissions/", updatePermissions);
-app.get("/api/getPermissionDescription/", getPermissionDescription)
-app.post("/api/lastPermission/", lastPermission)
+const permissionRoutes = () => {
 
-// via cli
-app.post("/api/updatePermissionsViaCli/cli/:username/:permissionid/", updatePermissionsForOneUserViaCli)
+    router.get("/api/permissions/", getSelectedUserPermissions)
+    router.post("/api/updatePermissions/", updatePermissionsForOneUser)
+    router.get("/api/getAllPermissions/", getAllPermissions);
+    router.post("/api/modifyPermissions/", updatePermissions);
+    router.get("/api/getPermissionDescription/", getPermissionDescription)
+    router.post("/api/lastPermission/", lastPermission)
 
-module.exports = app
+    // via cli
+    router.post("/api/updatePermissionsViaCli/cli/:username/:permissionid/", updatePermissionsForOneUserViaCli)
+
+    return router    
+}
+
+
+module.exports = permissionRoutes
