@@ -22,6 +22,12 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
         document.addEventListener('keydown', handleKeyPress)
     }, [])
 
+    useEffect(() => {
+        if (success) {
+            handleClosePostingBoxPopUp()
+        }
+    }, [success])   
+
 
     return (
         <Box className="posting-box-popup">
@@ -44,6 +50,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
                     value={postForm.content}
                     id="content"
                     name="content"
+                    inputProps={{ autoFocus : true }}
                     />
                 </Box>
 

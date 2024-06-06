@@ -1,37 +1,63 @@
-const {request, response} = require("express")
+const { request, response } = require("express");
 const Posts = require("../models/Posts.js");
+const User = require("../models/User.js");
 const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
+const { v4: uuidv4 } = require("uuid");
 
 const createPost = async (req = request, res = response) => {
-    const { username } = req.usuario
-    const { content, latitude, longitude } = req.body
-    
-    if(req.file) {
-        const galleryFolderPath = path.join(__dirname, `../public/uploads/users/${username}/gallery/`);
+    try {
+        const { username } = req.usuario;
+        const { content, latitude, longitude } = req.body;
+        const user = await User.findOne({ username: username });
+        const lastPostId = await Posts.findOne({}, {}, { sort: { postId: -1 } });
+        const newPostId = lastPostId ? lastPostId.postId + 1 : 1;
+        const post = new Posts({
+            postId: newPostId,
+            author: user._id,
+            content: content,
+            latitude: latitude ? latitude : 0,
+            longitude: longitude ? longitude : 0,
+            images: [],
+        });
 
-        if (!fs.existsSync(galleryFolderPath)) {
-            fs.mkdirSync(galleryFolderPath, { recursive: true });
+        if (content) {
+            const result = await post.save();
+            if (result) {
+                res.status(200).json({ message: "post creado correctamente", success: true });
+            }
+        } else {
+            res.json({ message: "Faltan datos" });
         }
 
-        const buffer = await sharp(req.file.path)
-            .resize({ width: 736, height: 736 })
-            .toBuffer();
+        if (req.file) {
+            const galleryFolderPath = path.join(__dirname,`../public/uploads/users/${username}/gallery/`);
 
-        const uniqueFileName = `${uuidv4()}.jpg`;
-        const galleryImagePath = path.join(galleryFolderPath, uniqueFileName);
+            if (!fs.existsSync(galleryFolderPath)) {
+                fs.mkdirSync(galleryFolderPath, { recursive: true });
+            }
 
-        // Guardar la imagen en la galería
-        fs.writeFileSync(galleryImagePath, buffer);
+            const buffer = await sharp(req.file.path)
+                .resize({ width: 736, height: 736 })
+                .toBuffer();
 
-        sharp.cache(false); // Dejar de usar la imagen para poder eliminarla del lugar temporal
+            const uniqueFileName = `${uuidv4()}.jpg`;
+            const galleryImagePath = path.join(galleryFolderPath, uniqueFileName);
 
-        fs.unlinkSync(req.file.path);        
+            // Guardar la imagen en la galería
+            fs.writeFileSync(galleryImagePath, buffer);
+
+            sharp.cache(false); // Dejar de usar la imagen para poder eliminarla del lugar temporal
+
+            fs.unlinkSync(req.file.path);
+
+            // Actualizar el post con la ruta de la imagen en la galería
+            post.images.push(galleryImagePath);
+            await post.save();
+        }
+    } catch (error) {
+        res.status(500).json({ error: error });
     }
-
-    if (content) {
-        res.status(200).json({message: `post creado correctamente (aun no implementado pero esta respuesta es desde el backend), esto fue lo que escribiste: ${content}, informacion del usuario: ${username}`});
-    }
-}
-module.exports = createPost
+};
+module.exports = createPost;

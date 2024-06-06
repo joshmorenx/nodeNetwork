@@ -5,9 +5,12 @@ const CommentSchema = require("./Comments.js");
 
 // Definición del modelo de publicaciones
 const PostSchema = new Schema({
+    postId: { type: Number, unique: true },
     author: { type: Schema.Types.ObjectId, ref: UserSchema },
     content: { type: String },
-    image: { type: String },
+    latitude: { type: Number },
+    longitude: { type: Number },
+    images: [{ type: String }],
     likes: [{ type: Schema.Types.ObjectId, ref: UserSchema }],
     dislikes: [{ type: Schema.Types.ObjectId, ref: UserSchema }],
     comments: [{ type: Schema.Types.ObjectId, ref: CommentSchema }],

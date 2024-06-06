@@ -21,11 +21,11 @@ export default function PostingBox({ token }) {
                 
                 <Box sx={{ margin : '20px', display: 'flex'}}>
                     <TextField
-                    aria-readonly
                     size="small"
-                    label="Escribe lo que piensas..."
+                    placeholder="Escribe lo que piensas..."
                     sx={{ width: '100%' }}
                     onClick={handleOpenPostingBoxPopUp}
+                    inputProps={{ readOnly : true }}
                     />
                 </Box>
             </>
