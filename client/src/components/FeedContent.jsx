@@ -1,4 +1,4 @@
-import PropTypes, { array } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Box } from "@mui/material";
 import PostingBox from './PostingBox.jsx';
 import PostedContent from './PostedContent.jsx';

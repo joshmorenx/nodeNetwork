@@ -38,13 +38,13 @@ const upload = multer({ storage: storage });
 app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-    session({
-        secret: process.env.SECRET,
-        resave: true,
-        saveUninitialized: true,
-    })
-);
+// app.use(
+//     session({
+//         secret: process.env.SECRET,
+//         resave: true,
+//         saveUninitialized: true,
+//     })
+// );
 
 // Routes
 app.use("/", authRoutes());

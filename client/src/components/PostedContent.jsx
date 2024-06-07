@@ -50,8 +50,8 @@ export default function PostedContent() {
 
                 <Box>
                     <Button
-                        id="demo-positioned-button"
-                        aria-controls={open ? 'demo-positioned-menu' : undefined}
+                        id="right-top-btn"
+                        aria-controls={open ? 'btn-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
@@ -60,18 +60,18 @@ export default function PostedContent() {
                     </Button>
                     {/* menu desplegable */}
                     <Menu
-                        id="demo-positioned-menu"
-                        aria-labelledby="demo-positioned-button"
+                        id="btn-menu"
+                        aria-labelledby="right-top-btn"
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
+                        slotProps={{
+                            paper: {
+                                sx: {
+                                    backgroundColor: 'pink',
+                                    border: '1px solid black',
+                                },
+                            },
                         }}
                     >
                         <MenuItem onClick={handleClose}>Editar</MenuItem>
