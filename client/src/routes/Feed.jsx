@@ -12,11 +12,11 @@ export default function Feed ({ token }) {
                     <Box sx={{ position:'relative', width: '100%', height: '100%', bgcolor: 'plum', pt: '9px'}}>
                         <Box className='inline-flex'>
                             <Box className='bg-pink-500' style={{width: '70%', marginRight: '10px'}}>
-                                <p>Feed</p>
+                                <p>Eventos</p>
                             </Box>
                                 <FeedContent token={token} />
                             <Box className='bg-red-500' style={{width: '70%', marginLeft: '10px'}}>
-                                <p>Feed</p>
+                                <p>Trends</p>
                             </Box>
                         </Box>
                     </Box>
