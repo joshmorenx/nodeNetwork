@@ -4,17 +4,16 @@ import PostingBox from './PostingBox.jsx';
 import PostedContent from './PostedContent.jsx';
 
 export default function FeedContent({ token }) {
-    const variousPosts = () => {
-        return Array.from({ length: 10 }).map((_, index) => (
-            <PostedContent key={index} token={token} />
-        ));
-    }
 
     return (
         <>
             <Box>
                 <PostingBox token={token} />
-                { variousPosts() }
+                <PostedContent token={token} />
+                <PostedContent token={token} />
+                <PostedContent token={token} />
+                <PostedContent token={token} />
+                <PostedContent token={token} />
             </Box>
         </>
     )
