@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const PermissionSchema = require("./Permission.js");
-require('dotenv').config();
 
 // Definición del modelo de usuarios
 const UserSchema = new Schema({

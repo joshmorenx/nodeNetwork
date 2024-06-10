@@ -18,6 +18,6 @@ const PostSchema = new Schema({
     date_updated: { type: Date, default: Date.now() },
 });
 
-const Post = mongoose.model("Post", PostSchema);
+const Posts = mongoose.model("Post", PostSchema);
 
-module.exports = Post;
+module.exports = Posts;

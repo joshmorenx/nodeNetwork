@@ -12,14 +12,14 @@ const postRoutes = require("./routes/postRoutes.js");
 
 const app = express();
 
+// Configuración
+require('dotenv').config();
+
 // Conectarse a la base de datos
 connectDB();
 
 // Middleware
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173'];
-
-// Configuración
-require('dotenv').config();
 
 // Configuración de Multer
 const storage = multer.diskStorage({

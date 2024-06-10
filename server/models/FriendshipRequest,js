@@ -1,0 +1,20 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const UserSchema = require("./User.js");
+
+// Definicion del esquema de solicitud de amistad
+const FriendshipRequestSchema = new Schema({
+    from: { type: Schema.Types.ObjectId, ref: UserSchema },
+    to: { type: Schema.Types.ObjectId, ref: UserSchema },
+    status : { 
+        type: String,
+        enum: ['pending', 'accepted', 'rejected'],
+        default: 'pending'
+     },
+    date_created: { type: Date, default: Date.now() },
+    date_updated: { type: Date, default: Date.now() },
+})
+
+const FriendshipRequest = mongoose.model("FriendshipRequest", FriendshipRequestSchema);
+
+module.exports = FriendshipRequest

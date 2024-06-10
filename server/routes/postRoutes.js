@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../controllers/verifyToken.js");
 const createPost = require("../controllers/createPost.js");
+const getPosts = require("../controllers/getPosts.js");
 
 // const getPosts = require("../controllers/getPosts.js");
 // const getPost = require("../controllers/getPost.js");
@@ -10,7 +11,10 @@ const createPost = require("../controllers/createPost.js");
 
 const postRoutes = (upload) => {
 
-    router.post('/api/createNewPost/', verifyToken, upload.single('image'), createPost);
+    router.use(verifyToken);
+
+    router.post('/api/createNewPost/', upload.single('image'), createPost);
+    router.get('/api/getPosts/', getPosts);
 
     return router;
 };
