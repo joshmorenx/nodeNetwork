@@ -9,7 +9,19 @@ const getPosts = async (req = request, res = response) => {
         const userData = await User.findOne({ username: username });
         const friends = await Friendship.find({ user: userData._id })
 
-        const posts = await Posts.find({ $or: [{ author: { $in: friends.friend } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } })
+        const postsQuery = await Posts.find({ $or: [{ author: { $in: friends.friend } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } }).lean();
+
+        const posts = await Promise.all(postsQuery.map(async (post) => {
+            const user = await User.findOne({ _id: post.author })
+            return {
+                ...post,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                createdAt: user.createdAt
+            }
+        }))
 
         if(posts.length === 0) {
             res.json({ posts: [], success: true, message: "No hay publicaciones." })
