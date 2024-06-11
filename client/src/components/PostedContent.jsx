@@ -86,8 +86,8 @@ export default function PostedContent({ token, post }) {
                 </Box>
 
             </Box>
-            <Box sx={{ bgcolor: 'black', color: 'white', p: 1, width: '30%' }}>
-                {new Date(post.date_created).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+            <Box sx={{ bgcolor: 'black', color: 'white', p: 1, width: '35%' }}>
+                {new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })}
             </Box>
 
             <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', padding: '8px' }}>

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Box, Button, TextField } from "@mui/material";
 import PopUpPostingBox from './PopUpPostingBox.jsx'
 
-export default function PostingBox({ token }) {
+export default function PostingBox({ token, handleFeedReload }) {
     const [showPostingBox, setShowPostingBox] = useState(false);
 
     const handleOpenPostingBoxPopUp = () => {
@@ -17,7 +17,7 @@ export default function PostingBox({ token }) {
     return (
         (token && 
             <>  
-                {showPostingBox && <PopUpPostingBox token={token} handleClosePostingBoxPopUp={handleClosePostingBoxPopUp} />}
+                {showPostingBox && <PopUpPostingBox token={token} handleClosePostingBoxPopUp={handleClosePostingBoxPopUp} handleFeedReload={handleFeedReload} />}
                 
                 <Box sx={{ margin : '20px', display: 'flex'}}>
                     <TextField

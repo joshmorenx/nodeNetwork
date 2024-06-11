@@ -5,7 +5,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
 
-export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
+export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, handleFeedReload }) {
     const { sendRequest, msg, error, success, handleInputChange, postForm } = useCreateNewPost({ token, initialForm: {
         content: '',
         latitude: '',
@@ -25,6 +25,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp }) {
     useEffect(() => {
         if (success) {
             handleClosePostingBoxPopUp()
+            handleFeedReload()
         }
     }, [success])   
 
