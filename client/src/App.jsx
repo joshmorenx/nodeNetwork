@@ -5,8 +5,10 @@ import Register from './routes/Register';
 import Forgot from './routes/Forgot';
 import Dashboard from './routes/Dashboard';
 import Feed from './routes/Feed';
+import Profile from './routes/Profile.jsx';
 // import PermissionManager from '../src/components/PermissionManager'
 import Cookies from 'js-cookie';
+import { element } from 'prop-types';
 
 export const NotFound = () => {
     return(
@@ -26,7 +28,7 @@ export const App = () => {
             <Route path="/dashboard" element={cookieToken ? <Dashboard token={cookieToken}/>: <Navigate to="/"/>} />
             <Route path="/feed" element={cookieToken ? <Feed token={cookieToken}/>: <Navigate to="/"/>} />
             <Route path="*" element={<NotFound />} />
-            {/* <Route path="/permissions" element={tokenState ? <PermissionManager token={tokenState}/>: <Navigate to="/permissions"/>} /> */}
+            <Route path="/profile/:username?" element={cookieToken ? <Profile token={cookieToken} />: <Navigate to="/"/>} />
         </Routes>
     );
 };
