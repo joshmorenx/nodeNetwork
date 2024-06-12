@@ -11,28 +11,37 @@ export default function Profile({ token }) {
     const { username } = useParams();
     const { user, error } = useGetCurrentUser({ token });
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
+    const [currentUsername, setCurrentUsername] = useState('');
+
+    useEffect(() =>{
+        if(user.username){
+            setCurrentUsername(user.username);
+        }
+    },[user.username])
 
     useEffect(() => {
         sendRequest();
     }, []);
 
+    useEffect(() => {
+        if(currentUsername && !username){
+            window.location.href = '/profile/' + currentUsername;
+        } 
+    }, [currentUsername, username]);
+
     return (
         <>
             <FeedNavbar token={token} />
-            {!username ?
+            { username && 
                 <Box>
-                    {user.username}
-                </Box>
-                :
+                <Box>{ userData.username }</Box>
+                <Box>{ userData.firstName }</Box>
+                <Box>{ userData.lastName }</Box>
+                <Box>{ userData.email }</Box>
                 <Box>
-                    <Box>{ userData.username }</Box>
-                    <Box>{ userData.firstName }</Box>
-                    <Box>{ userData.lastName }</Box>
-                    <Box>{ userData.email }</Box>
-                    <Box>
-                        <img src={`http://localhost:3000${userData.profilePicture}`} alt="profile picture" />
-                    </Box>
+                    <img src={`http://localhost:3000${userData.profilePicture}`} alt="profile picture" />
                 </Box>
+        </Box>
             }
 
         </>
