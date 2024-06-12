@@ -28,6 +28,9 @@ export default function PostedContent({ token, post }) {
 
     return (
         <Box sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
+            
+            <Box id="postId" className="postId hidden" name="postId">{post.postId}</Box> {/* for post handling and content manipulation eg. delete, edit, like, dislike, comment */}
+            
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <HtmlTooltip
@@ -103,6 +106,7 @@ export default function PostedContent({ token, post }) {
                     label="comentar en la publicacion"
                     fullWidth
                     inputProps={{ readOnly: true }}
+                    onClick={() => { alert('not yet implemented') }}
                 />
             </Box>
         </Box>

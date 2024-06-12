@@ -54,16 +54,25 @@ export default function FeedContent({ token }) {
         setLoadedPostsCount(5);
         sendRequest();
     };
-    
+
     return (
         <Box>
             <PostingBox token={token} handleFeedReload={handleFeedReload} />
             <Box>
-                {allPosts.slice(0, loadedPostsCount).map((post, index) => (
-                    <PostedContent token={token} key={index} post={post} />
-                ))}
+                {allPosts.length === 0 ? (
+                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <>
+                        {allPosts.slice(0, loadedPostsCount).map((post, index) => (
+                            <PostedContent token={token} key={index} post={post} />
+                        ))}
+                    </>
+                )}
+
                 {loading && (
-                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                         <CircularProgress />
                     </Box>
                 )}
