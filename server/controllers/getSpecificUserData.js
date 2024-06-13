@@ -8,7 +8,7 @@ const getSpecificUserData = async (req = request, res = response) => {
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         } else {
-            return res.status(200).json({ user });
+            return res.status(200).json({ user, success: true });
         }
     } catch (error) {
         return res.status(500).json({ error: error.message });

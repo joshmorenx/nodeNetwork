@@ -6,17 +6,11 @@ import Forgot from './routes/Forgot';
 import Dashboard from './routes/Dashboard';
 import Feed from './routes/Feed';
 import Profile from './routes/Profile.jsx';
+import NotFound from './routes/NotFound.jsx';
 // import PermissionManager from '../src/components/PermissionManager'
 import Cookies from 'js-cookie';
 import { element } from 'prop-types';
 
-export const NotFound = () => {
-    return(
-        <>
-            <h1>Te perdiste? La pagina que ingresaste no existe 🤣🤣🤣🤣🤣</h1>
-        </>
-    );
-};
 export const App = () => {
     const cookieToken = Cookies.get('token');
 
