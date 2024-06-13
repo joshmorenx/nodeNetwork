@@ -1,8 +1,11 @@
-import { Avatar, Box, Button, Link, Menu, MenuItem, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Link, Menu, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import { useState, useEffect } from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import AddCommentIcon from '@mui/icons-material/AddComment';
 
 export default function PostedContent({ token, post }) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -98,7 +101,19 @@ export default function PostedContent({ token, post }) {
                     {post.content}
                 </Typography>
             </Box>
-
+            <Box sx={{ color: 'white', p: 1, width: '100%' }}>
+                <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Button>
+                        <ThumbUpIcon /> <span style={{ marginLeft: '5px'}}> Me Gusta </span>
+                    </Button>
+                    <Button>
+                        <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px'}}> No Me Gusta </span>
+                    </Button>
+                    <Button>
+                        <AddCommentIcon color="warning" /> <span style={{ marginLeft: '5px'}}> Comentar </span>
+                    </Button>
+                </Stack>
+            </Box>
             <Box>
                 <TextField
                     variant="filled"

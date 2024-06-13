@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
-import NotFound from "./NotFound.jsx";
 import { Box } from "@mui/material";
 
 
