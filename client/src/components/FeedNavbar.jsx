@@ -75,7 +75,7 @@ export default function FeedNavbar({token}) {
                         <Button>
                             <Stack direction="row" spacing={2}>
                                 { user.username ? (
-                                    <Link to={`/profile/${user.username}`}><Avatar> { user.username.charAt(0).toUpperCase() } </Avatar></Link>
+                                    <Link to={`/profile/`}><Avatar> { user.username.charAt(0).toUpperCase() } </Avatar></Link>
                                 ) : (<></>) }
                             </Stack>              
                         </Button>
