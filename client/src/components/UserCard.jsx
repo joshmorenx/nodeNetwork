@@ -1,16 +1,23 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import ImageViewer from './ImageViewer';
 
-export default function UserCard({ user, allAccess, cadena, handleImageClick }) {
-    const handleProfileImageClick = (event) => {
-        handleImageClick(event.target.src)
+export default function UserCard({ user, allAccess, cadena }) {
+    const [imgClickedPath, setImgClickedPath] = useState(null)
+
+    const handleImageClick = (event) => {
+        if(event){
+            setImgClickedPath(event.target.src);
+        }
     }
     
     return (
+        <>
         <div style={{ position: 'relative' }} className="m-auto">
             <div className='profile-card m-auto rounded-2xl bg-gray-200'>
 
                 <div className="avatar-container rounded-2xl">
-                    <img onClick={(event)=>{handleProfileImageClick(event)}} className="avatar m-auto cursor-pointer" src={`http://localhost:3000${user.profilePicture}`}></img>
+                    <img onClick={(event)=>{handleImageClick(event)}} className="avatar m-auto cursor-pointer" src={`http://localhost:3000${user.profilePicture}`}></img>
                 </div>
 
                 <div className='user-data'>
@@ -29,6 +36,8 @@ export default function UserCard({ user, allAccess, cadena, handleImageClick }) 
             </div>
             
         </div>
+        <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
+        </>
     )
 }
 
@@ -36,5 +45,4 @@ UserCard.propTypes = {
     user: PropTypes.object.isRequired,
     allAccess: PropTypes.bool.isRequired,
     cadena: PropTypes.string.isRequired,
-    handleImageClick: PropTypes.func.isRequired
 }

@@ -1,10 +1,18 @@
 const { request, response } = require("express");
 const User = require("../models/User.js");
+const Permission = require("../models/Permission.js");
 
 const getSpecificUserData = async (req = request, res = response) => {
     const { username } = req.params;
     try {
-        const user = await User.findOne({ username }, { password: 0 }).lean();
+        const userQuery = await User.findOne({ username }, { password: 0 }).lean();
+        const permissionsQuery = await Permission.find({ _id: { $in: userQuery.permissions } }).lean();
+
+        const user = {
+            ...userQuery,
+            permissions: permissionsQuery
+        }
+
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         } else {

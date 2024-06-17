@@ -7,12 +7,10 @@ import UserCard from '../components/UserCard';
 import ContentContainer from '../components/ContentContainer';
 import { Button, Box } from '@mui/material/'
 import { useNavigate } from 'react-router-dom';
-import ImageViewer from '../components/ImageViewer';
 
 const Dashboard = ({ token }) => {
     const navigate = useNavigate();
     const [selectedSection, setSelectedSection] = useState('assign');
-    const [imgClickedPath, setImgClickedPath] = useState(null);
     
     useEffect(() => {
         // console.log('Token:', token);||
@@ -31,12 +29,6 @@ const Dashboard = ({ token }) => {
         setSelectedSection(section);
     }
 
-    const handleImageClick = (image) => {
-        if(image){
-            setImgClickedPath(image);
-        }
-    }
-
     return (
         <>
         {/* <FeedNavbar token={token} /> */}
@@ -46,7 +38,7 @@ const Dashboard = ({ token }) => {
                         {error ? (
                             <p>Error al obtener el contenido del usuario: {error.message}</p>
                         ) : (
-                            <UserCard user={user} allAccess={allAccess} cadena={cadena} handleImageClick={handleImageClick} /> //must send the profile image here
+                            <UserCard user={user} allAccess={allAccess} cadena={cadena} />
                         )}
 
                         {/* <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button> */}
@@ -87,7 +79,6 @@ const Dashboard = ({ token }) => {
                 </div>
                 
                 <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection}/>
-                <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
             </div>
         </> 
     );

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import { Box } from "@mui/material";
+import ProfileDisplayer from "../components/ProfileDisplayer.jsx";
 
 
 export default function Profile({ token }) {
@@ -12,6 +13,7 @@ export default function Profile({ token }) {
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
     const [currentUsername, setCurrentUsername] = useState('');
     const [getSuccess, setGetSuccess] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (user.username) {
@@ -32,25 +34,27 @@ export default function Profile({ token }) {
     useEffect(() => {
         if (success) {
             setGetSuccess(true);
+            setLoading(false);
         }
     }, [success]);
+
+    useEffect(() => {
+        if (err) {
+            setGetSuccess(false);
+            setLoading(false);
+        }
+    }, [err]);
 
     return (
         <>
             <FeedNavbar token={token} />
-            {getSuccess ?
+            { loading ? (<p>Cargando...</p>) : null }
+            {getSuccess &&
                 (<Box>
-                    <Box>{userData.username}</Box>
-                    <Box>{userData.firstName}</Box>
-                    <Box>{userData.lastName}</Box>
-                    <Box>{userData.email}</Box>
-                    <Box>
-                        <img src={`http://localhost:3000${userData.profilePicture}`} alt="profile picture" />
-                    </Box>
-                </Box>):
-                ( <p>El usuario no existe</p> )
+                    <ProfileDisplayer token={token} username={username} />
+                </Box>)
             }
-
+            { err ? (<p>error al cargar el usuario o el usuario no existe</p>) : null }
         </>
     )
 }
