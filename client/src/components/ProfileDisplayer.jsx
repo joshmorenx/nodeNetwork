@@ -15,7 +15,9 @@ export default function ProfileDisplayer({ token, username }) {
 
     return (
         <Box className="wrapper">
-            <UserCard user={userData} allAccess={allAccess} cadena={cadena} />
+            <Box>
+                <UserCard user={userData} allAccess={allAccess} cadena={cadena} />
+            </Box>
             <Box>
                 <Typography variant="h2" color="initial"> grid demo </Typography>
                 <Typography variant="h2" color="initial"> grid demo </Typography>
