@@ -22,10 +22,10 @@
 
 .wrapper {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(10px, auto);
 }
-.wrapper > *{
-    border: 1px solid #000000;
+.one{
+    grid-column: 1 / 100;
 }

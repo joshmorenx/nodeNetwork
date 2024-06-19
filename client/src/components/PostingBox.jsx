@@ -19,7 +19,7 @@ export default function PostingBox({ token, handleFeedReload }) {
             <>  
                 {showPostingBox && <PopUpPostingBox token={token} handleClosePostingBoxPopUp={handleClosePostingBoxPopUp} handleFeedReload={handleFeedReload} />}
                 
-                <Box sx={{ margin : '20px', display: 'flex'}}>
+                    <Box sx={{ margin : '20px', display: 'flex', bgcolor: 'wheat'}}>
                     <TextField
                     size="small"
                     placeholder="Escribe lo que piensas..."
