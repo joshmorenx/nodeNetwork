@@ -30,7 +30,7 @@ export default function ImageViewer({ image, setImgClickedPath }){
         (img ?
             (<>
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1000, bgcolor: '#00000099' }} onClick={handleClose} ></Box>
-            <Box sx={{ borderRadius: '5px', padding: '2%', bgcolor: '#fadea7', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1001 }}>
+            <Box sx={{ borderRadius: '5px', padding: '2%', bgcolor: '#fadea7', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1001 }}>
 
                 <Link onClick={handleClose} sx={{ position: 'absolute', top: 0, right: 0, bottom: '100%', cursor: 'pointer', zIndex: 102 }} href="#"><CloseIcon color='error'/></Link>
                 <img src={img} alt="" />
