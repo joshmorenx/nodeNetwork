@@ -10,7 +10,7 @@ const getSpecificPosts = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" })
         } else {
-            const postsQuery = await Posts.find({ author: user._id }).lean()
+            const postsQuery = await Posts.find({ author: user._id }, {}, { sort: { date_created: -1 } }).lean()
 
             const posts = await Promise.all(postsQuery.map(async (post) => {
                 const user = await User.findOne({ _id: post.author })
