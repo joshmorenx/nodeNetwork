@@ -6,7 +6,7 @@ import PostedContent from './PostedContent.jsx';
 import useGetSpecificPosts from "../hooks/useGetSpecificPosts.jsx";
 import { CircularProgress } from '@mui/material';
 
-export default function SpecificFeedContent({ token, username, currenUsername }) {
+export default function SpecificFeedContent({ token, username, currentUsername }) {
     const { sendRequest, error, success, msg, posts } = useGetSpecificPosts({ token, username });
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
@@ -57,7 +57,7 @@ export default function SpecificFeedContent({ token, username, currenUsername })
 
     return (
         <Box>
-            { currenUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
+            { currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
             <Box>
                 {allPosts.length === 0 ? (
                     <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
@@ -85,5 +85,5 @@ export default function SpecificFeedContent({ token, username, currenUsername })
 SpecificFeedContent.propTypes = {
     token: PropTypes.string,
     username: PropTypes.string,
-    currenUsername: PropTypes.string
+    currentUsername: PropTypes.string
 };

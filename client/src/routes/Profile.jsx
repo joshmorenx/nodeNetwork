@@ -50,7 +50,7 @@ export default function Profile({ token }) {
             <FeedNavbar token={token} />
             { loading ? (<p>Cargando...</p>) : null }
             {getSuccess &&
-                (<ProfileDisplayer token={token} username={username} currenUsername={user.username} />)
+                (<ProfileDisplayer token={token} username={username} currentUsername={user.username} />)
             }
             { err ? (<p>error al cargar el usuario o el usuario no existe</p>) : null }
         </Box>
