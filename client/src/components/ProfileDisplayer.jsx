@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy } from "react";
+import React, { useEffect, useState } from "react";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import { Box, Typography, Button } from "@mui/material";
 import UserCard from "./UserCard.jsx";
@@ -13,6 +13,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
 
+
     useEffect(() => {
         sendRequest();
     }, [])
@@ -21,6 +22,10 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
         if (event) {
             setImgClickedPath(event.target.src);
         }
+    }
+
+    const follow = (username) => {
+        alert("FALTA IMPLEMENTAR FOLLOW")
     }
 
     return (
@@ -35,7 +40,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                     
                     { currentUsername !== username && 
                         <Box sx={{ mt: 2 }}>
-                            <Button onClick={ () => {} } variant="contained"> Seguir a {username} </Button>
+                            <Button onClick={ () => follow(username) } variant="contained"> Seguir a {username} </Button>
                         </Box>
                     }
                     
