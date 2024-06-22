@@ -1,15 +1,15 @@
 const { request, response } = require("express");
 const Posts = require("../models/Posts.js");
 const User = require("../models/User.js");
-const Friendship = require("../models/Friendship.js");
+const Relationships = require("../models/Relationships.js");
 
 const getPosts = async (req = request, res = response) => {
     try {
         const { username } = req.usuario;
         const userData = await User.findOne({ username: username });
-        const friends = await Friendship.find({ user: userData._id })
+        const followings = await Relationships.find({ from: userData._id })
 
-        const postsQuery = await Posts.find({ $or: [{ author: { $in: friends.friend } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } }).lean();
+        const postsQuery = await Posts.find({ $or: [{ author: { $in: followings.to } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } }).lean();
 
         const posts = await Promise.all(postsQuery.map(async (post) => {
             const user = await User.findOne({ _id: post.author })

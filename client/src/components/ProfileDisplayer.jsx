@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy } from "react";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import { Box, Typography, Button } from "@mui/material";
 import UserCard from "./UserCard.jsx";
@@ -6,7 +6,6 @@ import usePermissions from "../hooks/usePermissions.jsx";
 import ImageGallery from "./ImageGallery.jsx";
 import SpecificFeedContent from "./SpecificFeedContent.jsx";
 import ImageViewer from "./ImageViewer.jsx";
-
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
 
@@ -36,7 +35,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                     
                     { currentUsername !== username && 
                         <Box sx={{ mt: 2 }}>
-                            <Button variant="contained"> Agregar a amigos </Button>
+                            <Button onClick={ () => {} } variant="contained"> Seguir a {username} </Button>
                         </Box>
                     }
                     
