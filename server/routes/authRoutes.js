@@ -14,4 +14,4 @@ const authRoutes = () => {
     return router
 }
 
-module.exports = authRoutes
+module.exports = authRoutes 

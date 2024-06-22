@@ -9,6 +9,7 @@ const userRoutes = require("./routes/userRoutes.js");
 const permissionRoutes = require("./routes/permissionRoutes.js");
 const staticRoutes = require("./routes/staticRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
+const relationshipRoutes = require("./routes/relationshipRoutes.js");
 
 const app = express();
 
@@ -52,6 +53,14 @@ app.use("/", userRoutes(upload));
 app.use("/", permissionRoutes());
 app.use("/", staticRoutes());
 app.use("/", postRoutes(upload));
+app.use("/", relationshipRoutes());
+
+
+// Middleware para manejar errores
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Error interno del servidor");
+});
 
 // Server start
 const PORT = process.env.PORT || 3001;

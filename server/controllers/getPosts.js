@@ -6,10 +6,10 @@ const Relationships = require("../models/Relationships.js");
 const getPosts = async (req = request, res = response) => {
     try {
         const { username } = req.usuario;
-        const userData = await User.findOne({ username: username });
-        const followings = await Relationships.find({ from: userData._id })
+        const userData = await User.findOne({ username: username })
+        const followings = await Relationships.find({ from: userData._id }).lean();
 
-        const postsQuery = await Posts.find({ $or: [{ author: { $in: followings.to } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } }).lean();
+        const postsQuery = await Posts.find({ $or: [{ author: { $in: followings.map(following => following.to) } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } }).lean();
 
         const posts = await Promise.all(postsQuery.map(async (post) => {
             const user = await User.findOne({ _id: post.author })

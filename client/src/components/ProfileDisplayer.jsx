@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import { Box, Typography, Button } from "@mui/material";
 import UserCard from "./UserCard.jsx";
+import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import usePermissions from "../hooks/usePermissions.jsx";
+import useFollowUser from "../hooks/useFollowUser.jsx";
+// import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
 import ImageGallery from "./ImageGallery.jsx";
 import SpecificFeedContent from "./SpecificFeedContent.jsx";
 import ImageViewer from "./ImageViewer.jsx";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
-
+    const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess } = useFollowUser({ token, username });
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
@@ -16,6 +18,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
 
     useEffect(() => {
         sendRequest();
+        checkFollowAlreadyExists();
     }, [])
 
     const handleImageClicked = (event) => {
@@ -24,8 +27,9 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
         }
     }
 
-    const follow = (username) => {
-        alert("FALTA IMPLEMENTAR FOLLOW")
+    const follow = async () => {
+        await sendFollowRequest()
+        await checkFollowAlreadyExists()
     }
 
     return (
@@ -40,7 +44,8 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                     
                     { currentUsername !== username && 
                         <Box sx={{ mt: 2 }}>
-                            <Button onClick={ () => follow(username) } variant="contained"> Seguir a {username} </Button>
+                            { isFollowing && <Button variant="contained"> Siguiendo a {username} </Button> }
+                            { !isFollowing && <Button variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button> }
                         </Box>
                     }
                     
