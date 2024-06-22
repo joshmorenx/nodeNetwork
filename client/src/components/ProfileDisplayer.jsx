@@ -4,6 +4,7 @@ import UserCard from "./UserCard.jsx";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import usePermissions from "../hooks/usePermissions.jsx";
 import useFollowUser from "../hooks/useFollowUser.jsx";
+import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
 // import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
 import ImageGallery from "./ImageGallery.jsx";
 import SpecificFeedContent from "./SpecificFeedContent.jsx";
@@ -11,6 +12,7 @@ import ImageViewer from "./ImageViewer.jsx";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess } = useFollowUser({ token, username });
+    const { sendUnfollowRequest, er, msj, suc } = useUnfollowUser({ token, username });
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
@@ -32,6 +34,28 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
         await checkFollowAlreadyExists()
     }
 
+    const unfollow = async () => {
+        await sendUnfollowRequest()
+        await checkFollowAlreadyExists()
+    }
+
+    useEffect(()=>{
+        if(isFollowing){
+            const alreadyFollowing = document.querySelector('.already-following')
+            alreadyFollowing.textContent = `Siguiendo a ${username}`
+            alreadyFollowing.addEventListener('mouseover', () => {
+                alreadyFollowing.setAttribute('style', 'background-color: red;')
+            })
+            
+            alreadyFollowing.addEventListener('click', unfollow)
+
+            alreadyFollowing.addEventListener('mouseout', () => {
+                alreadyFollowing.removeAttribute('style')
+                alreadyFollowing.removeAttribute('onClick')
+            })
+        }
+    },[isFollowing, username])
+
     return (
         <>
             <Box sx={{ position: 'fixed', backgroundColor: 'rgb(125, 106, 155)', width: '100%', height: '100%', zIndex: -1 }}></Box>
@@ -44,8 +68,8 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                     
                     { currentUsername !== username && 
                         <Box sx={{ mt: 2 }}>
-                            { isFollowing && <Button variant="contained"> Siguiendo a {username} </Button> }
-                            { !isFollowing && <Button variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button> }
+                            { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> }
+                            { !isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button> }
                         </Box>
                     }
                     
