@@ -16,6 +16,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
+    const [abletoUnfollow, setAbletoUnfollow] = useState(false)
 
 
     useEffect(() => {
@@ -39,23 +40,6 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
         await checkFollowAlreadyExists()
     }
 
-    useEffect(()=>{
-        if(isFollowing){
-            const alreadyFollowing = document.querySelector('.already-following')
-            alreadyFollowing.textContent = `Siguiendo a ${username}`
-            alreadyFollowing.addEventListener('mouseover', () => {
-                alreadyFollowing.setAttribute('style', 'background-color: red;')
-            })
-            
-            alreadyFollowing.addEventListener('click', unfollow)
-
-            alreadyFollowing.addEventListener('mouseout', () => {
-                alreadyFollowing.removeAttribute('style')
-                alreadyFollowing.removeAttribute('onClick')
-            })
-        }
-    },[isFollowing, username])
-
     return (
         <>
             <Box sx={{ position: 'fixed', backgroundColor: 'rgb(125, 106, 155)', width: '100%', height: '100%', zIndex: -1 }}></Box>
@@ -68,8 +52,30 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                     
                     { currentUsername !== username && 
                         <Box sx={{ mt: 2 }}>
-                            { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> }
+                            {/* { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> } */}
                             { !isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button> }
+
+                            { isFollowing && 
+                                <Button
+                                    variant="contained"
+                                    color="success"
+
+                                    onMouseOver={(event) => {
+                                        event.target.style.backgroundColor = 'rgb(200, 40, 30)'
+                                        event.target.innerText = 'Dejar de seguir a ' + username
+                                        setAbletoUnfollow(true)
+                                    }}
+
+                                    onMouseOut={(event) => {
+                                        event.target.style.backgroundColor = 'rgb(46, 125, 50)'
+                                        event.target.innerText = 'Ya sigues a ' + username
+                                        setAbletoUnfollow(false)
+                                    }}
+                                    onClick={ abletoUnfollow ? unfollow : null }
+                                > Ya sigues a {username}
+
+                                </Button>
+                            }
                         </Box>
                     }
                     

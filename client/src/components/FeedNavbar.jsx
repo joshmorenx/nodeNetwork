@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import LogoutIcon from '@mui/icons-material/Logout';
 import useLogout from '../hooks/useLogout'
 import useGetCurrentUser from '../hooks/useGetCurrentUser'
+import HomeIcon from '@mui/icons-material/Home';
 
 
 export default function FeedNavbar({token}) {
@@ -20,6 +21,10 @@ export default function FeedNavbar({token}) {
 
     const gotoDashboard = () => {
         navigate('/dashboard')
+    }
+
+    const gotoFeed = () => {
+        navigate('/feed')
     }
 
     const { logout } = useLogout(token);
@@ -65,6 +70,9 @@ export default function FeedNavbar({token}) {
                     <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
                         <Button onClick={ handleLogout }>
                             <LogoutIcon sx={{ color: 'white' }} />
+                        </Button>
+                        <Button onClick={ gotoFeed }>
+                            <HomeIcon sx={{ color: 'white' }} />
                         </Button>
                         <Button>
                             <MessageIcon sx={{ color: 'white' }}></MessageIcon>
