@@ -6,10 +6,17 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import AddCommentIcon from '@mui/icons-material/AddComment';
+import useGetPostLikesAndDislikes from '../hooks/useGetLikesAndDislikes.jsx';
 
 export default function PostedContent({ token, post }) {
+    const { getPostLikesAndDislikes, likes, dislikes, msgLD, successLD, errorLD } = useGetPostLikesAndDislikes({ post })
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    useEffect(()=>{
+        // getPostLikesAndDislikes()
+    }, [])
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };

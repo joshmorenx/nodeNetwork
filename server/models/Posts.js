@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const UserSchema = require("./User.js");
-const CommentSchema = require("./Comments.js");
 
 // Definición del modelo de publicaciones
 const PostSchema = new Schema({
@@ -11,13 +10,10 @@ const PostSchema = new Schema({
     latitude: { type: Number },
     longitude: { type: Number },
     images: [{ type: String }],
-    likes: [{ type: Schema.Types.ObjectId, ref: UserSchema }],
-    dislikes: [{ type: Schema.Types.ObjectId, ref: UserSchema }],
-    comments: [{ type: Schema.Types.ObjectId, ref: CommentSchema }],
     date_created: { type: Date, default: Date.now() },
     date_updated: { type: Date, default: Date.now() },
 });
 
-const Posts = mongoose.model("Post", PostSchema);
+const Posts = mongoose.model("Posts", PostSchema);
 
 module.exports = Posts;
