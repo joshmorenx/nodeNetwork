@@ -6,16 +6,13 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import AddCommentIcon from '@mui/icons-material/AddComment';
-import useGetPostLikesAndDislikes from '../hooks/useGetLikesAndDislikes.jsx';
+import useDoLikeOrDislike from '../hooks/useDoLikeOrDislike.jsx';
 
 export default function PostedContent({ token, post }) {
-    const { getPostLikesAndDislikes, likes, dislikes, msgLD, successLD, errorLD } = useGetPostLikesAndDislikes({ post })
+    const [currentPost, setCurrentPost] = useState(post);	
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-
-    useEffect(()=>{
-        // getPostLikesAndDislikes()
-    }, [])
+    const { checkIfAlreadyLikedOrDisliked, sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD } = useDoLikeOrDislike({ token })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -35,6 +32,10 @@ export default function PostedContent({ token, post }) {
             border: '1px solid #dadde9',
         },
     }));
+
+    const likeThePost = async () => {
+        checkIfAlreadyLikedOrDisliked(post.postId);
+    }
 
     return (
         <Box sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
@@ -110,11 +111,11 @@ export default function PostedContent({ token, post }) {
             </Box>
             <Box sx={{ color: 'white', p: 1, width: '100%' }}>
                 <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button>
-                        <ThumbUpIcon /> <span style={{ marginLeft: '5px'}}> Me Gusta </span>
+                    <Button onClick={ likeThePost }>
+                        <ThumbUpIcon /> <span style={{ marginLeft: '5px'}}> Me Gusta ({post.likesAuthors.length}) </span>
                     </Button>
                     <Button>
-                        <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px'}}> No Me Gusta </span>
+                        <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px'}}> No Me Gusta ({post.dislikesAuthors.length}) </span>
                     </Button>
                     <Button>
                         <AddCommentIcon color="warning" /> <span style={{ marginLeft: '5px'}}> Comentar </span>

@@ -2,6 +2,9 @@ const { request, response } = require("express");
 const Posts = require("../models/Posts.js");
 const User = require("../models/User.js");
 const Relationships = require("../models/Relationships.js");
+const Likes = require("../models/Likes.js");
+const Dislikes = require("../models/Dislikes.js");
+const Comments = require("../models/Comments.js");
 
 const getPosts = async (req = request, res = response) => {
     try {
@@ -13,13 +16,17 @@ const getPosts = async (req = request, res = response) => {
 
         const posts = await Promise.all(postsQuery.map(async (post) => {
             const user = await User.findOne({ _id: post.author })
+            const likes = await Likes.find({ postId: post._id }).lean();
+            const dislikes = await Dislikes.find({ postId: post._id }).lean();
             return {
                 ...post,
                 username: user.username,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
-                createdAt: user.createdAt
+                createdAt: user.createdAt,
+                likesAuthors: likes.map(like => like.author),
+                dislikesAuthors: dislikes.map(dislike => dislike.author)
             }
         }))
 

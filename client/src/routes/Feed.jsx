@@ -60,7 +60,7 @@ export default function Feed({ token }) {
                                 {
                                     nombres.map((nombre, index) => {
                                         return (
-                                        <Link href={`/profile/${nombre}`} key={index} sx={usernameLinkStyles[0]}>
+                                        <Link href={`/profile/${nombre}/`} key={index} sx={usernameLinkStyles[0]}>
                                             <Avatar>{nombre.charAt(0)}</Avatar><Typography sx={usernameLinkStyles[1]}>{nombre}</Typography>
                                         </Link>
                                         )

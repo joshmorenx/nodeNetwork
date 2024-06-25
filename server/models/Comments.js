@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const UserSchema = require("./User.js");
+const PostSchema = require("./Posts.js");
 
 // Definición del modelo de comentarios
 const CommentSchema = new Schema({
+    postId: { type: Schema.Types.ObjectId, ref: PostSchema },
     author: { type: Schema.Types.ObjectId, ref: UserSchema },
     content: { type: String },
     image: { type: String },
