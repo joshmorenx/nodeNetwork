@@ -4,7 +4,6 @@ const verifyToken = require("../controllers/verifyToken.js");
 const createPost = require("../controllers/createPost.js");
 const getPosts = require("../controllers/getPosts.js");
 const getSpecificPosts = require("../controllers/getSpecificPosts.js");
-const retrieveLikesDislikes = require("../controllers/retrieveLikesDislikes.js");
 const setLikeOrDislike = require("../controllers/setLikeOrDislike.js");
 
 // const getPosts = require("../controllers/getPosts.js");
@@ -20,7 +19,6 @@ const postRoutes = (upload) => {
     router.get('/api/getPosts/', getPosts);
     router.get ('/api/getSpecificPosts/:username/', getSpecificPosts)
 
-    router.get('/api/likeOrDislike/', retrieveLikesDislikes);
     router.post('/api/likeOrDislike/', setLikeOrDislike);
 
     return router;
