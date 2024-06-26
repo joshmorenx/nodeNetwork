@@ -10,9 +10,11 @@ import useDoLikeOrDislike from '../hooks/useDoLikeOrDislike.jsx';
 
 export default function PostedContent({ token, post }) {
     const [currentPost, setCurrentPost] = useState(post);	
+    const [currentLikes, setCurrentLikes] = useState(0);
+    const [currentDislikes, setCurrentDislikes] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const { checkIfAlreadyLikedOrDisliked, sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD } = useDoLikeOrDislike({ token })
+    const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -34,8 +36,25 @@ export default function PostedContent({ token, post }) {
     }));
 
     const likeThePost = async () => {
-        checkIfAlreadyLikedOrDisliked(post.postId);
+        sendDoUndo_Like(post.postId);
     }
+
+    const dislikeThePost = async () => {
+        sendDoUndo_Dislike(post.postId);
+    }
+
+    useEffect(() => {
+        setCurrentLikes(post.likesAuthors.length);
+        setCurrentDislikes(post.dislikesAuthors.length);
+    }, [post])
+
+    useEffect(() => {
+        if(successLD){
+            setCurrentLikes(likes)
+            setCurrentDislikes(dislikes);
+            setSuccessLD(false);
+        }
+    }, [successLD])
 
     return (
         <Box sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
@@ -112,10 +131,10 @@ export default function PostedContent({ token, post }) {
             <Box sx={{ color: 'white', p: 1, width: '100%' }}>
                 <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button onClick={ likeThePost }>
-                        <ThumbUpIcon /> <span style={{ marginLeft: '5px'}}> Me Gusta ({post.likesAuthors.length}) </span>
+                        <ThumbUpIcon /> <span style={{ marginLeft: '5px'}}> Me Gusta ({ currentLikes }) </span>
                     </Button>
-                    <Button>
-                        <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px'}}> No Me Gusta ({post.dislikesAuthors.length}) </span>
+                    <Button onClick={ dislikeThePost }>
+                        <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px'}}> No Me Gusta ({ currentDislikes }) </span>
                     </Button>
                     <Button>
                         <AddCommentIcon color="warning" /> <span style={{ marginLeft: '5px'}}> Comentar </span>
