@@ -1,18 +1,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const UserSchema = require("./User.js");
-const PostSchema = require("./Posts.js");
+const Posts = require("./Posts.js");
+const User = require("./User.js");
 
 // Definición del modelo de comentarios
 const CommentSchema = new Schema({
-    postId: { type: Schema.Types.ObjectId, ref: PostSchema },
-    author: { type: Schema.Types.ObjectId, ref: UserSchema },
+    commentId: { type: Number, unique: true },
+    postId: { type: Schema.Types.ObjectId, ref: Posts },
+    author: { type: Schema.Types.ObjectId, ref: User },
     content: { type: String },
-    image: { type: String },
-    likes: { type: Number, default: 0 },
-    dislikes: { type: Number, default: 0 },
     date_created: { type: Date, default: Date.now() },
-    date_updated: { type: Date, default: Date.now() },  
+    date_updated: { type: Date, default: Date.now() },
 });
 
 const Comments = mongoose.model("Comments", CommentSchema);

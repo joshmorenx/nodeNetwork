@@ -12,6 +12,7 @@ export default function PostedContent({ token, post }) {
     const [currentPost, setCurrentPost] = useState(post);	
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
+    const [currentComments, setCurrentComments] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
@@ -46,6 +47,8 @@ export default function PostedContent({ token, post }) {
     useEffect(() => {
         setCurrentLikes(post.likesAuthors.length);
         setCurrentDislikes(post.dislikesAuthors.length);
+        setCurrentComments(post.comments.map(comment => comment).length)
+        console.log(currentComments);
     }, [post])
 
     useEffect(() => {
@@ -55,6 +58,8 @@ export default function PostedContent({ token, post }) {
             setSuccessLD(false);
         }
     }, [successLD])
+
+
 
     return (
         <Box sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
@@ -141,6 +146,17 @@ export default function PostedContent({ token, post }) {
                     </Button>
                 </Stack>
             </Box>
+           
+            <Box sx={{ alignItems: 'center', border: '1px solid grey', margin: '8px', padding: '8px' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Avatar>H</Avatar> 
+                    <Typography> username </Typography>
+                </Box>
+                <Box sx={{ alignItems: 'center', border: '1px solid grey', margin: '8px', padding: '8px' }}>
+                    <Typography variant="body2"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit, quibusdam. Ullam recusandae iusto voluptatem. Sequi saepe dolores aut, molestias veritatis labore repellendus cupiditate consectetur eos, quia delectus quaerat harum fugiat. </Typography>
+                </Box>
+            </Box>
+
             <Box>
                 <TextField
                     variant="filled"
