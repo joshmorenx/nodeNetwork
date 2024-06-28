@@ -17,6 +17,7 @@ const getSpecificPosts = async (req, res) => {
 
             const posts = await Promise.all(postsQuery.map(async (post) => {
                 const user = await User.findOne({ _id: post.author })
+                const comments = await Comments.find({ postId: post._id }).lean();
                 const likes = await Likes.find({ postId: post._id }).lean();
                 const dislikes = await Dislikes.find({ postId: post._id }).lean();
                 return {
@@ -26,6 +27,15 @@ const getSpecificPosts = async (req, res) => {
                     lastName: user.lastName,
                     email: user.email,
                     createdAt: user.createdAt,
+                    comments: await Promise.all(comments.map(async (comment) => {
+                        const user = await User.findOne({ _id: comment.author }).lean()
+                        return {
+                            ...comment,
+                            username: user.username,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                        }
+                    })),
                     likesAuthors: likes.map(like => like.author),
                     dislikesAuthors: dislikes.map(dislike => dislike.author)
                 }
