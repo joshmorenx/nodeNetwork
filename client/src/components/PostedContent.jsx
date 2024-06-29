@@ -7,9 +7,13 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import useDoLikeOrDislike from '../hooks/useDoLikeOrDislike.jsx';
+import useCaptureAndSendComment from '../hooks/useCaptureAndSendComment.jsx';
 import Comments from "./Comments.jsx";
+import { InputAdornment } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function PostedContent({ token, post }) {
+    const [comment, setComment] = useState([]);
     const [currentPost, setCurrentPost] = useState(post);	
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
@@ -17,6 +21,7 @@ export default function PostedContent({ token, post }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
+    const { sendComment, handleCapture, newComment, messageComment, errorComment, successComment, setSuccessComment, newCurrentComments } = useCaptureAndSendComment({ token })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -45,6 +50,17 @@ export default function PostedContent({ token, post }) {
         sendDoUndo_Dislike(post.postId);
     }
 
+    const handleChangeCapture = (event) => {
+        setComment(event.target.value);
+        handleCapture(event);
+    }
+
+    const handleSubmitComment = async (event) => {
+        event.preventDefault();
+        sendComment(post.postId);
+        setComment('')
+    }
+
     useEffect(() => {
         setCurrentLikes(post.likesAuthors.length);
         setCurrentDislikes(post.dislikesAuthors.length);
@@ -59,7 +75,13 @@ export default function PostedContent({ token, post }) {
         }
     }, [successLD])
 
-
+    useEffect(() => {
+        if(successComment){
+            setCurrentComments(0);
+            setCurrentComments(newCurrentComments);
+            setSuccessComment(false);
+        }
+    }, [successComment])
 
     return (
         <Box sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
@@ -153,12 +175,20 @@ export default function PostedContent({ token, post }) {
 
             <Box>
                 <TextField
+                    required
                     variant="filled"
                     size="small"
                     label="comentar en la publicacion"
                     fullWidth
-                    inputProps={{ readOnly: true }}
-                    onClick={() => { alert('not yet implemented') }}
+                    value = { comment }
+                    onChange={ handleChangeCapture }
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment sx={{ cursor:"pointer" }} onClick={(event) => { handleSubmitComment(event) } } position="end">
+                                <SendIcon />
+                            </InputAdornment>
+                        ),
+                    }}      
                 />
             </Box>
         </Box>
