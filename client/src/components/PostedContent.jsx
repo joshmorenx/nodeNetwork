@@ -176,6 +176,7 @@ export default function PostedContent({ token, post }) {
             <Box>
                 <TextField
                     required
+                    multiline
                     variant="filled"
                     size="small"
                     label="comentar en la publicacion"
