@@ -8,26 +8,26 @@
             }
         },
         {
-            "src": "server/app.js",
+            "src": "server/index.js",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "/server/app.js"
+            "dest": "/server/index.js"
         },
         {
             "src": "/logout",
-            "dest": "/server/app.js"
+            "dest": "/server/index.js"
         },
         {
             "src": "/register",
-            "dest": "/server/app.js"
+            "dest": "/server/index.js"
         },
         {
             "src": "/",
-            "dest": "/server/app.js"
+            "dest": "/server/index.js"
         },
         {
             "src": "/(.*)",
