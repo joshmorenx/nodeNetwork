@@ -17,7 +17,7 @@ const useLoginForm = (initialForm = {}) => {
     const sendForm = async (event) => {
         event.preventDefault();
         setOpen(true)
-        await axios.post(`http://localhost:3000/`,
+        await axios.post(`http://localhost:3000/api/login/`,
             {
                 username: formData.username,
                 password: formData.password,

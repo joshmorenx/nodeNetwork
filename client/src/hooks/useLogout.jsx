@@ -6,7 +6,7 @@ const useLogout = (token) => {
     const [logStatusRefresh, setLogStatusRefresh] = useState(false);
     
     const logout = async () => {
-        await axios.post('http://localhost:3000/logout/', {
+        await axios.post('http://localhost:3000/api/logout/', {
             token: token
         }).then((response) => {
             // console.log(response.data.msg);
