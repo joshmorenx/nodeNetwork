@@ -46,7 +46,10 @@ app.use(express.urlencoded({ extended: true }));
 //         saveUninitialized: true,
 //     })
 // );
-
+//healthcheck
+app.get("/", (req, res) => {
+    res.send({ message: "Server OK" });
+});
 // Routes
 app.use("/", authRoutes());
 app.use("/", userRoutes(upload));
