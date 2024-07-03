@@ -12,8 +12,5 @@
             "src": "/(.*)",
             "dest": "/index.js"
         }
-    ],
-    "scripts": {
-        "start": "npm start"
-    }
+    ]
 }
