@@ -7,9 +7,9 @@ const logout = require("../controllers/logout.js");
 // auth routes
 const authRoutes = () => {
 
-    router.post("/", login);
-    router.post("/logout/", logout);
-    router.post("/register/", register);
+    router.post("/api/login/", login);
+    router.post("/api/logout/", logout);
+    router.post("/api/register/", register);
 
     return router
 }
