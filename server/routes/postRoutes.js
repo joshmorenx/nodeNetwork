@@ -6,6 +6,9 @@ const getPosts = require("../controllers/getPosts.js");
 const getSpecificPosts = require("../controllers/getSpecificPosts.js");
 const setLikeOrDislike = require("../controllers/setLikeOrDislike.js");
 const addComment = require("../controllers/addComment.js");
+const getCommentLikesAndDislikes = require("../controllers/getCommentLikesAndDislikes.js");
+const commentLike = require("../controllers/commentLike.js");
+const commentDislike = require("../controllers/commentDislike.js");
 
 // const getPosts = require("../controllers/getPosts.js");
 // const getPost = require("../controllers/getPost.js");
@@ -23,6 +26,10 @@ const postRoutes = (upload) => {
     router.post('/api/likeOrDislike/', setLikeOrDislike);
 
     router.post('/api/comment/', addComment)
+    router.get('/api/comment/', getCommentLikesAndDislikes);
+
+    router.post('/api/comment/like/', commentLike)
+    router.post('/api/comment/dislike/', commentDislike)
 
     return router;
 };

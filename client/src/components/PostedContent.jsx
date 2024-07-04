@@ -61,6 +61,11 @@ export default function PostedContent({ token, post }) {
         setComment('')
     }
 
+    const toggleCommentBox = () => {     
+        const element = document.querySelector('.comment-box-'+post.postId);
+        element.classList.toggle('hidden');
+    }
+
     useEffect(() => {
         setCurrentLikes(post.likesAuthors.length);
         setCurrentDislikes(post.dislikesAuthors.length);
@@ -163,17 +168,17 @@ export default function PostedContent({ token, post }) {
                     <Button onClick={ dislikeThePost }>
                         <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px'}}> No Me Gusta ({ currentDislikes }) </span>
                     </Button>
-                    <Button>
+                    <Button onClick={() => toggleCommentBox(post.postId) }>
                         <AddCommentIcon color="warning" /> <span style={{ marginLeft: '5px'}}> Comentar </span>
                     </Button>
                 </Stack>
             </Box>
 
             { currentComments.length > 0 && 
-                currentComments.map(comment => <Comments key={comment.commentId} comment={comment} />)
+                currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)
             }
 
-            <Box>
+            <Box id={"comment-box-"+post.postId} className={"hidden comment-box-"+post.postId}>
                 <TextField
                     required
                     multiline
