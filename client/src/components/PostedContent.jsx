@@ -11,10 +11,17 @@ import useCaptureAndSendComment from '../hooks/useCaptureAndSendComment.jsx';
 import Comments from "./Comments.jsx";
 import { InputAdornment } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import ReportIcon from '@mui/icons-material/Report';
+import useGetCurrentUser from '../hooks/useGetCurrentUser.jsx';
+import useDeletePost from '../hooks/useDeletePost.jsx';
+// import useEditPost from '../hooks/useEditPost.jsx';
 
 export default function PostedContent({ token, post }) {
+    const { user, error } = useGetCurrentUser({ token });
     const [comment, setComment] = useState([]);
-    const [currentPost, setCurrentPost] = useState(post);	
+    const [currentPost, setCurrentPost] = useState(post);
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
     const [currentComments, setCurrentComments] = useState({});
@@ -22,6 +29,7 @@ export default function PostedContent({ token, post }) {
     const open = Boolean(anchorEl);
     const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
     const { sendComment, handleCapture, newComment, messageComment, errorComment, successComment, setSuccessComment, newCurrentComments } = useCaptureAndSendComment({ token })
+    const { deletePost, msgDelPost, errDel, successDelete, setSuccessDelete } = useDeletePost({token, postId: post.postId})
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -61,9 +69,15 @@ export default function PostedContent({ token, post }) {
         setComment('')
     }
 
-    const toggleCommentBox = () => {     
-        const element = document.querySelector('.comment-box-'+post.postId);
+    const toggleCommentBox = () => {
+        const element = document.querySelector('.comment-box-' + post.postId);
         element.classList.toggle('hidden');
+    }
+
+    const handleDeletePost = () => {
+        const result = window.confirm('¿Seguro que quieres borrar este post?');
+        (result) && deletePost();
+        handleClose();
     }
 
     useEffect(() => {
@@ -73,7 +87,7 @@ export default function PostedContent({ token, post }) {
     }, [post])
 
     useEffect(() => {
-        if(successLD){
+        if (successLD) {
             setCurrentLikes(likes)
             setCurrentDislikes(dislikes);
             setSuccessLD(false);
@@ -81,18 +95,24 @@ export default function PostedContent({ token, post }) {
     }, [successLD])
 
     useEffect(() => {
-        if(successComment){
+        if (successComment) {
             setCurrentComments(0);
             setCurrentComments(newCurrentComments);
             setSuccessComment(false);
         }
     }, [successComment])
 
+    useEffect(() => {
+        if (successDelete) {
+            alert(msgDelPost);
+            document.querySelector('.post-container-id-' + post.postId).remove();
+            setSuccessDelete(false);
+        }
+    })
+
     return (
-        <Box sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
-            
-            <Box id="postId" className="postId hidden" name="postId">{post.postId}</Box> {/* for post handling and content manipulation eg. delete, edit, like, dislike, comment */}
-            
+        <Box className={"post-container-id-" + post.postId} sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
+
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
                 <HtmlTooltip
@@ -145,8 +165,12 @@ export default function PostedContent({ token, post }) {
                             },
                         }}
                     >
-                        <MenuItem onClick={handleClose}>Editar</MenuItem>
-                        <MenuItem onClick={handleClose}>Eliminar</MenuItem>
+                        {user.username === post.username &&
+                            (<Box><MenuItem onClick={handleClose}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
+                            <MenuItem onClick={handleDeletePost}><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem></Box>)
+                        }
+
+                        <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>
                     </Menu>
                 </Box>
 
@@ -162,23 +186,23 @@ export default function PostedContent({ token, post }) {
             </Box>
             <Box sx={{ color: 'white', p: 1, width: '100%' }}>
                 <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button onClick={ likeThePost }>
-                        <ThumbUpIcon /> <span style={{ marginLeft: '5px'}}> Me Gusta ({ currentLikes }) </span>
+                    <Button onClick={likeThePost}>
+                        <ThumbUpIcon /> <span style={{ marginLeft: '5px' }}> Me Gusta ({currentLikes}) </span>
                     </Button>
-                    <Button onClick={ dislikeThePost }>
-                        <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px'}}> No Me Gusta ({ currentDislikes }) </span>
+                    <Button onClick={dislikeThePost}>
+                        <ThumbDownIcon color="error" /> <span style={{ marginLeft: '5px' }}> No Me Gusta ({currentDislikes}) </span>
                     </Button>
-                    <Button onClick={() => toggleCommentBox(post.postId) }>
-                        <AddCommentIcon color="warning" /> <span style={{ marginLeft: '5px'}}> Comentar </span>
+                    <Button onClick={() => toggleCommentBox(post.postId)}>
+                        <AddCommentIcon color="warning" /> <span style={{ marginLeft: '5px' }}> Comentar </span>
                     </Button>
                 </Stack>
             </Box>
 
-            { currentComments.length > 0 && 
+            {currentComments.length > 0 &&
                 currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)
             }
 
-            <Box id={"comment-box-"+post.postId} className={"hidden comment-box-"+post.postId}>
+            <Box id={"comment-box-" + post.postId} className={"hidden comment-box-" + post.postId}>
                 <TextField
                     required
                     multiline
@@ -186,15 +210,15 @@ export default function PostedContent({ token, post }) {
                     size="small"
                     label="comentar en la publicacion"
                     fullWidth
-                    value = { comment }
-                    onChange={ handleChangeCapture }
+                    value={comment}
+                    onChange={handleChangeCapture}
                     InputProps={{
                         endAdornment: (
-                            <InputAdornment sx={{ cursor:"pointer" }} onClick={(event) => { handleSubmitComment(event) } } position="end">
+                            <InputAdornment sx={{ cursor: "pointer" }} onClick={(event) => { handleSubmitComment(event) }} position="end">
                                 <SendIcon />
                             </InputAdornment>
                         ),
-                    }}      
+                    }}
                 />
             </Box>
         </Box>
