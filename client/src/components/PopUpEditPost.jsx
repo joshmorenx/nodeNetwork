@@ -11,7 +11,9 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
         id: post.postId,
         content: post.content,
         latitude: post.latitude,
-        longitude: post.longitude        
+        longitude: post.longitude,
+        images: post.images,
+        date_updated: post.date_updated
     }})
     return (
         <Box className="posting-box-popup">

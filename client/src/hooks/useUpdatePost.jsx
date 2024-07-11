@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function useUpdatePost({ token, postId, initialForm = {} }) {
+export default function useUpdatePost({ token, initialForm = {} }) {
     const [postForm, setPostForm] = useState(initialForm);
     const [msg, setMsg] = useState('');
     const [error, setError] = useState('');
@@ -15,9 +15,17 @@ export default function useUpdatePost({ token, postId, initialForm = {} }) {
     const updatePost = async (event) => {
         event.preventDefault();
         const formData = new FormData();
+        formData.append('id', postForm.id);
         formData.append('content', postForm.content);
+        formData.append('latitude', postForm.latitude);
+        formData.append('longitude', postForm.longitude);
         formData.append('date_updated', postForm.date_updated);
-        await axios.put(`http://localhost:3000/api/updatePost/${postId}`, formData, { // provisional url (not working yet)
+
+        if (postForm.images) {
+            formData.append('image', postForm.images);
+        }
+
+        await axios.put(`http://localhost:3000/api/updatePost/`, formData, { // provisional url (not working yet)
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
