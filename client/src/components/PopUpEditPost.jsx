@@ -4,8 +4,15 @@ import PropTypes from 'prop-types';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import useUpdatePost from '../hooks/useUpdatePost.jsx';
 
 export default function PopUpEditPost({ token, post, setUpdatePost }) {
+    const { postForm, msg, error, success, handleInputChange, updatePost } = useUpdatePost({ token, initialForm: {
+        id: post.postId,
+        content: post.content,
+        latitude: post.latitude,
+        longitude: post.longitude        
+    }})
     return (
         <Box className="posting-box-popup">
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 101, bgcolor: '#00000050' }} onClick={() => setUpdatePost(false)}></Box>
@@ -23,9 +30,8 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
                     label="Escribe lo que piensas..."
                     sx={{ width: '100%' }}
                     rows={10}
-                    // onChange={handleInputChange}
-                    // value={postForm.content}
-                    value={post.content} // provisional para que funcione, aun no se puede editar, pero si trae el valor
+                    onChange={handleInputChange}
+                    value={postForm.content}
                     id="content"
                     name="content"
                     inputProps={{ autoFocus : true }}
