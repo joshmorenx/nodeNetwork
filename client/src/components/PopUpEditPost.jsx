@@ -67,7 +67,7 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
                 
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
                     <Button 
-                        // onClick={() => sendRequest()}
+                        onClick={() => updatePost()}
                         variant="contained" 
                         size="small" 
                         fullWidth>

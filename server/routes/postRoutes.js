@@ -11,7 +11,7 @@ const commentLike = require("../controllers/commentLike.js");
 const commentDislike = require("../controllers/commentDislike.js");
 
 const deletePost = require("../controllers/deletePost.js");
-// const updatePost = require("../controllers/updatePost.js");
+const updatePost = require("../controllers/updatePost.js");
 
 const postRoutes = (upload) => {
 
@@ -30,6 +30,7 @@ const postRoutes = (upload) => {
     router.post('/api/comment/dislike/', commentDislike)
 
     router.delete('/api/deletePost/', deletePost);
+    router.put('/api/updatePost/', upload.single('image'), updatePost);
 
     return router;
 };
