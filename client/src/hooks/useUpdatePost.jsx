@@ -14,7 +14,7 @@ export default function useUpdatePost({ token, initialForm = {} }) {
 
     const updatePost = async (image) => {
         const formData = new FormData();
-        formData.append('id', postForm.id);
+        formData.append('post_id', postForm.id);
         formData.append('content', postForm.content);
 
         if (postForm.latitude && postForm.longitude) {

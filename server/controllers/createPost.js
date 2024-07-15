@@ -1,4 +1,3 @@
-const { request, response } = require("express");
 const Posts = require("../models/Posts.js");
 const User = require("../models/User.js");
 const fs = require("fs");
@@ -6,7 +5,7 @@ const path = require("path");
 const sharp = require("sharp");
 const { v4: uuidv4 } = require("uuid");
 
-const createPost = async (req = request, res = response) => {
+const createPost = async (req, res) => {
     try {
         const { username } = req.usuario;
         const { content, latitude, longitude } = req.body;
