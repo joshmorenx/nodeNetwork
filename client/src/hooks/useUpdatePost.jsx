@@ -6,6 +6,7 @@ export default function useUpdatePost({ token, initialForm = {} }) {
     const [msg, setMsg] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [updatedPost, setUpdatedPost] = useState({});
 
     const handleInputChange = (event) => {  
         const { name, value } = event.target;
@@ -34,11 +35,12 @@ export default function useUpdatePost({ token, initialForm = {} }) {
         }).then((response)=>{
             setMsg(response.data.message);
             setSuccess(response.data.success);
+            setUpdatedPost(response.data.post)
         }).catch((error)=>{
             setError(error);
         })
     }
 
-    return { postForm, msg, error, success, handleInputChange, updatePost }
+    return { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost };
 
 }

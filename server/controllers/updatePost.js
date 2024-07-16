@@ -9,10 +9,17 @@ const updatePost = async (req, res) => {
     const { username } = req.usuario;
     const { post_id, content, latitude, longitude } = req.body;
 
-    console.log(post_id, id, content, latitude, longitude);
     try {
         const filter = { content: content, latitude: latitude, longitude: longitude };
         const post = await Posts.findOne({ postId: post_id });
+        const result = await Posts.findOneAndUpdate({ postId: post_id }, filter, {new: true})
+
+        if (!result) {
+            return res.status(404).json({ message: "Post no encontrado" });
+        } else {
+            return res.status(200).json({ message: "Post actualizado correctamente", success: true, post: result });
+        }
+
     } catch (error) {
         res.status(500).json({ error: error });
     }

@@ -7,7 +7,7 @@ import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import useUpdatePost from '../hooks/useUpdatePost.jsx';
 
 export default function PopUpEditPost({ token, post, setUpdatePost }) {
-    const { postForm, msg, error, success, handleInputChange, updatePost } = useUpdatePost({ token, initialForm: {
+    const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost }= useUpdatePost({ token, initialForm: {
         id: post.postId,
         content: post.content,
         latitude: post.latitude,
@@ -15,6 +15,14 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
         images: post.images,
         date_updated: post.date_updated
     }})
+
+    useEffect(()=>{
+        if(success){
+            post.content = updatedPost.content;
+            setUpdatePost(false);
+        }
+    }, [success])
+
     return (
         <Box className="posting-box-popup">
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 101, bgcolor: '#00000050' }} onClick={() => setUpdatePost(false)}></Box>
