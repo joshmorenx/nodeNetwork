@@ -7,29 +7,55 @@ to connect the db to the project it's needed an account for MongoDB, insert you 
 CONFIG YOUR FILES 
 .env:
 
+```
 MONGO_URL="YOUR MONGO CONNECTION"
 PORT=3000
 SECRET="WHATEVER YOU WANT TO BE YOUR PASSPHRASE"
+```
 
 ...........................
 
 OPEN A NEW TERMINAL INTO AND RUN
->\nodeNetwork\client\> npm install
+```
+cd \nodeNetwork\client\
+```
+```
+npm install
+```
 
 #start the client
-
->\nodeNetwork\client\> npm run dev
+```
+npm run dev
+```
 
 ###############################
 
->\nodeNetwork\server\> npm install
+go up one route...
+```
+cd..
+```
+
+then go to the server route
+```
+cd \nodeNetwork\server\
+```
+
+and then install the libraries
+```
+npm install
+```
 
 #start the server
-
->\nodeNetwork\client\> npm start
+```
+npm start
+```
 
 ###############################
 
-open a new terminal and run the folloing string to see the changes in the frontend
->\nodeNetwork\client> npx tailwindcss -i .\src\assets\input.css -o .\src\assets\output.css --watch
+then, open a new terminal and run the folloing string to see the changes in the frontend
+
+```
+cd ..\client\
+npx tailwindcss -i .\src\assets\input.css -o .\src\assets\output.css --watch
+```
 
