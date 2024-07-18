@@ -13,6 +13,8 @@ const commentDislike = require("../controllers/commentDislike.js");
 const deletePost = require("../controllers/deletePost.js");
 const updatePost = require("../controllers/updatePost.js");
 
+const getSinglePost = require("../controllers/getSinglePost.js");
+
 const postRoutes = (upload) => {
 
     router.use(verifyToken);
@@ -31,6 +33,8 @@ const postRoutes = (upload) => {
 
     router.delete('/api/deletePost/', deletePost);
     router.put('/api/updatePost/', upload.single('image'), updatePost);
+
+    router.get('/api/getSinglePost/', getSinglePost)
 
     return router;
 };
