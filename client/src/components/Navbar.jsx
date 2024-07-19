@@ -15,7 +15,7 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser'
 import HomeIcon from '@mui/icons-material/Home';
 
 
-export default function FeedNavbar({token}) {
+export default function Navbar({token}) {
     const navigate = useNavigate()
     const { user } = useGetCurrentUser({token});
 
@@ -74,10 +74,10 @@ export default function FeedNavbar({token}) {
                         <Button onClick={ gotoFeed }>
                             <HomeIcon sx={{ color: 'white' }} />
                         </Button>
-                        <Button>
-                            <MessageIcon sx={{ color: 'white' }}></MessageIcon>
-                        </Button>
-                        <Button>
+                        {/* <Button>
+                            <MessageIcon sx={{ color: 'white' }}></MessageIcon> //discarded
+                        </Button> */}
+                        <Button onClick={ () => alert }>
                             <NotificationsIcon sx={{ color: 'white' }}></NotificationsIcon>
                         </Button>
                         <Button>
@@ -94,6 +94,6 @@ export default function FeedNavbar({token}) {
     )
 }
 
-FeedNavbar.propTypes = {
+Navbar.propTypes = {
     token: PropTypes.string.isRequired
 }

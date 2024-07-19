@@ -1,4 +1,4 @@
-import FeedNavbar from "../components/FeedNavbar.jsx";
+import Navbar from "../components/Navbar.jsx";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ export default function Posts({ token }){
     return(
         <>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <FeedNavbar token={token} />
+                <Navbar token={token} />
                 <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1, bgcolor: '#220040' }}></Box>
                 <Box sx={{ width: '50vw' }}>
                     {success && <PostedContent token={token} post={post} />}

@@ -1,4 +1,4 @@
-import FeedNavbar from "../components/FeedNavbar";
+import Navbar from "../components/Navbar";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
@@ -47,7 +47,7 @@ export default function Profile({ token }) {
 
     return (
         <Box>
-            <FeedNavbar token={token} />
+            <Navbar token={token} />
             { loading ? (<p>Cargando...</p>) : null }
             {getSuccess &&
                 (<ProfileDisplayer token={token} username={username} currentUsername={user.username} />)

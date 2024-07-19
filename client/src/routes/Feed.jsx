@@ -1,4 +1,4 @@
-import FeedNavbar from '../components/FeedNavbar';
+import Navbar from '../components/Navbar';
 import FeedContent from '../components/FeedContent';
 import PropTypes from 'prop-types'
 import { Avatar, Box, Typography, Link } from '@mui/material';
@@ -35,7 +35,7 @@ export default function Feed({ token }) {
             ({ token } &&
                 <>
                     <Box>
-                        <FeedNavbar token={token} />
+                        <Navbar token={token} />
                     </Box>
                     <Box sx={{ position: 'relative', width: '100%', height: '100%', bgcolor: 'plum', pt: '9px' }}>
 

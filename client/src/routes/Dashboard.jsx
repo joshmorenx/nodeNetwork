@@ -39,7 +39,7 @@ const Dashboard = ({ token }) => {
 
     return (
         <>
-        {/* <FeedNavbar token={token} /> */}
+        {/* <Navbar token={token} /> */}
             <div className="dashboard-container" style={{ paddingRight: '2vw' }}>
                 <div className="profile-container text-center">
                     <div>
