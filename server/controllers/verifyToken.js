@@ -2,15 +2,6 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
     let token = undefined;
-    
-    // switch (req.method) {
-    //     case 'POST':
-    //         token = req.body.headers.Authorization;
-    //     break;
-    //     case 'GET':
-    //         token = req.headers.authorization;
-    //     break;
-    // }
 
     token = req.headers.authorization;
 
