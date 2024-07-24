@@ -8,26 +8,40 @@ import useGetFollows from '../hooks/useGetFollows.jsx'
 
 export default function FollowContent({ token, username }) {
     const { user, error } = useGetCurrentUser({ token });
-    const {messageFollows, successFollows, errorFollows, getFollows} = useGetFollows({ token })
+    const { messageFollows, successFollows, errorFollows, followers, following, getFollows } = useGetFollows({ token })
 
-    useEffect(()=>{
-        getFollows(username)
-    },[])
-    
+    useEffect(() => {
+        if (username) {
+            getFollows(username) //needs a rework
+        }
+    }, [username])
+
     return (
         <Box sx={{ width: '100%' }}>
-            <Typography>We are working on this section. Please come back later {user.username ? user.username : ''}</Typography>
-            <Box>
-                <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: '100%' }} className="follows">
-                    <Box>
-                        <Typography sx={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }} >
-                            <Avatar>H</Avatar>
-                            <span>{username}</span>
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <Button variant="contained">Seguir</Button>
-                    </Box>
+            <Typography>We are working on this section. Please come back later {username ? username : ''}</Typography>
+
+            <Box sx={{ display: 'flex', gap: '10px' }}>
+                <Box sx={{ display: 'block', alignItems: 'center', gap: '10px', border: '1px solid black' }}>
+                    <Typography>Siguiendo</Typography>
+                    {following.map((following, key) => (
+                        <Box key={key} sx={{ gap: '10px' }}>
+                            <Box sx={{ display: 'flex', gap: '10px', mb: '10px' }}>
+                                <Box>{following.username}</Box>
+                                <Button variant="contained">Quitar de seguidores</Button>
+                            </Box>
+                        </Box>
+                    ))}
+                </Box>
+                <Box sx={{ display: 'block', alignItems: 'center', gap: '10px', border: '1px solid black' }}>
+                    <Typography>Seguidores</Typography>
+                    {followers.map((follower, key) => (
+                        <Box key={key} sx={{ gap: '10px' }}>
+                            <Box sx={{ display: 'flex', gap: '10px', mb: '10px' }}>
+                                <Box>{follower.username}</Box>
+                                <Button variant="contained">Quitar de seguidores</Button>
+                            </Box>
+                        </Box>
+                    ))}
                 </Box>
             </Box>
         </Box>

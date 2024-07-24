@@ -23,5 +23,5 @@ export default function useGetFollows({ token }){
             setErrorFollows(response.data.error)
         })
     }
-    return {messageFollows, successFollows, errorFollows, getFollows}
+    return {messageFollows, successFollows, errorFollows, followers, following, getFollows}
 }
