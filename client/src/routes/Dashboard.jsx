@@ -39,7 +39,6 @@ const Dashboard = ({ token }) => {
 
     return (
         <>
-        {/* <Navbar token={token} /> */}
             <div className="dashboard-container" style={{ paddingRight: '2vw' }}>
                 <div className="profile-container text-center">
                     <div>
@@ -48,16 +47,7 @@ const Dashboard = ({ token }) => {
                         ) : (
                             <UserCard user={user} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
                         )}
-
-                        {/* <button className='logout-button bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-2 border-b-2 border-blue-700 rounded' onClick={handleLogout}>Cerrar Sesión</button> */}
-
                     </div>
-
-                    {/* <div className='sections-container mt-5'>
-                        <div onClick={()=>showClickedContent('feed')} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Feed </div>
-                        {allAccess ? (<div onClick={()=>showClickedContent('assign')} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Asignador de permisos </div>):(<p></p>) }
-                        <div onClick={()=>showClickedContent('pages')} className='bg-blue-500 mt-1 text-white cursor-pointer text-base'> Pages </div>
-                    </div> */}
                     
                     <Box className='sections-container mt-5' sx={{ mt: 4 }}>
                         <Box 
