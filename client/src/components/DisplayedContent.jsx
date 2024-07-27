@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react"
 import { Avatar, Button, Stack, Box, Typography } from '@mui/material';
+import FollowsButton from './FollowsButton.jsx';
 
-export default function DisplayedContent({ username, following, followers, selectedTab }) {
+export default function DisplayedContent({ token, username, following, followers, selectedTab }) {
     return (
         <>
-            { selectedTab == 0 && <Typography> Selecciona una pestaña para ver sus contenidos. </Typography> }
+            {selectedTab == 0 && <Typography> Selecciona una pestaña para ver sus contenidos. </Typography>}
 
             <Box sx={{ display: 'flex', alignContent: 'center', justifyContent: 'center', gap: '10px' }}>
 
@@ -15,7 +16,7 @@ export default function DisplayedContent({ username, following, followers, selec
                             <Box key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'flex', gap: '50vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
                                     <Box>{follower.username}</Box>
-                                    <Button variant="contained">Quitar de seguidores</Button>
+                                    {/* <Button variant="contained">Quitar de seguidores</Button> */}
                                 </Box>
                             </Box>
                         ))}
@@ -29,7 +30,10 @@ export default function DisplayedContent({ username, following, followers, selec
                             <Box key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'flex', gap: '50vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
                                     <Box>{following.username}</Box>
-                                    <Button variant="contained">Quitar de seguidores</Button>
+                                    <Box sx={{ marginLeft: 'auto' }}>
+                                        <FollowsButton token={token} username={following.username} />
+                                    </Box>
+                                    {/* <Button variant="contained">Quitar de seguidores</Button> */}
                                 </Box>
                             </Box>
                         ))}

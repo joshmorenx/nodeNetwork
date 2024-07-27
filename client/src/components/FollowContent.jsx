@@ -26,7 +26,7 @@ export default function FollowContent({ token, username }) {
     return (
         <Box sx={{ width: '100%' }}>
             <FollowTabs handleSelectedTab={handleSelectedTab} />
-            <DisplayedContent following={following} followers={followers} username={username} selectedTab={selectedTab} />
+            <DisplayedContent token={token} following={following} followers={followers} username={username} selectedTab={selectedTab} />
         </Box>
     )
 }

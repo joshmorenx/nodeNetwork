@@ -46,7 +46,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
             <Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-start' }}>
                 <Box className="fixed-profile" sx={{ position: 'sticky', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
 
-                    <Box sx={{  }}>
+                    <Box>
                         <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
                     </Box>
                     
