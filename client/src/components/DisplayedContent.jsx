@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Avatar, Button, Stack, Box, Typography } from '@mui/material';
+import { Avatar, Button, Stack, Box, Typography, Link } from '@mui/material';
 import FollowsButton from './FollowsButton.jsx';
 
 export default function DisplayedContent({ token, username, following, followers, selectedTab }) {
@@ -15,8 +15,7 @@ export default function DisplayedContent({ token, username, following, followers
                         {followers.map((follower, key) => (
                             <Box key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'flex', gap: '50vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
-                                    <Box>{follower.username}</Box>
-                                    {/* <Button variant="contained">Quitar de seguidores</Button> */}
+                                    <Link href={`/profile/${follower.username}`} style={{ textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}> {follower.username} </Link>
                                 </Box>
                             </Box>
                         ))}
@@ -29,11 +28,10 @@ export default function DisplayedContent({ token, username, following, followers
                         {following.map((following, key) => (
                             <Box key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'flex', gap: '50vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
-                                    <Box>{following.username}</Box>
+                                    <Link href={`/profile/${following.username}`} style={{ textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}> {following.username} </Link>
                                     <Box sx={{ marginLeft: 'auto' }}>
                                         <FollowsButton token={token} username={following.username} />
                                     </Box>
-                                    {/* <Button variant="contained">Quitar de seguidores</Button> */}
                                 </Box>
                             </Box>
                         ))}
