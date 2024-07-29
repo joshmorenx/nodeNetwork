@@ -58,9 +58,17 @@ export default function Feed({ token }) {
                                 </Box>
                                 <Box sx={{ display: 'flex', justifyContent: 'justify', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
-                                        <Link href={`/follows/${user.username}`} sx={usernameLinkStyles[0]}>
+                                        <Link href={`/follows/${user.username}#followers`} sx={usernameLinkStyles[0]}>
                                             <ThreePIcon sx={usernameLinkStyles[1]} />
-                                            <Typography sx={usernameLinkStyles[1]}>Seguidores y seguidos</Typography>
+                                            <Typography sx={usernameLinkStyles[1]}>Seguidores</Typography>
+                                        </Link>
+                                    </Stack>
+                                </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'justify', alignItems: 'center', pt: '10px' }}>
+                                    <Stack direction="row" spacing={2}>
+                                        <Link href={`/follows/${user.username}#following`} sx={usernameLinkStyles[0]}>
+                                            <HowToRegIcon sx={usernameLinkStyles[1]} />
+                                            <Typography sx={usernameLinkStyles[1]}>Siguiendo</Typography>
                                         </Link>
                                     </Stack>
                                 </Box>

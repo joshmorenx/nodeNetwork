@@ -11,10 +11,16 @@ export default function Follows({ token }) {
     const { username } = useParams()
     const { user, error } = useGetCurrentUser({ token });
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user.username && !username) {
+            navigate(`/follows/${user.username}`)
+        }
+    }, [username, user.username])
     return (
         <>
             <Navbar token={token} />
-            <FollowContent token={token} username={username ? username : navigate(`/follows/${user.username}`)} />
+            <FollowContent token={token} username={username && username} />
         </>
     )
 }

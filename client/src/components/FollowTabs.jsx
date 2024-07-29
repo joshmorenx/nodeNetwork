@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
-export default function FollowTabs({ handleSelectedTab }) {
-    const [selectedTab, setSelectedTab] = useState(0)
+export default function FollowTabs({ handleSelectedTab, selectedTab }) {
+    // const [selectedTab, setSelectedTab] = useState(0)
     const unselected = 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300'
     const selected = 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500'
 
     const handledSelectedTab = (selectedTab) => {
-        setSelectedTab(selectedTab)
+        // setSelectedTab(selectedTab)
         handleSelectedTab(selectedTab)
     }
 
