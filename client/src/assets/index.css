@@ -26,6 +26,19 @@
     grid-gap: 10px;
     grid-auto-rows: minmax(10px, auto);
 }
+
 .one{
     grid-column: 1 / 100;
+}
+
+.bgx-black{
+    background-color: black!important;
+    color: white!important;
+    border: 1px solid white!important;
+}
+
+.bgx-white{
+    background-color: white!important;
+    color: black!important;
+    border: 1px solid black!important;
 }

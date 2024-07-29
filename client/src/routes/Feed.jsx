@@ -41,11 +41,11 @@ export default function Feed({ token }) {
                     <Box>
                         <Navbar token={token} />
                     </Box>
-                    <Box sx={{ position: 'relative', width: '100%', height: '100%', bgcolor: 'plum', pt: '9px' }}>
+                    <Box className="bgx-black" sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
 
                         {/* Contenedor para los elementos fijos (Eventos) */}
                         <Box sx={{ position: 'fixed', top: '73px', left: '0', width: '20%', height: '100%' }}>
-                            <Box className='bg-red-500' style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
+                            <Box className="bgx-black" style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'justify', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (
@@ -82,7 +82,7 @@ export default function Feed({ token }) {
 
                         {/* Contenedor para los elementos fijos (usuarios mas recientes) */}
                         <Box sx={{ position: 'fixed', top: '73px', right: '0', width: '20%', height: '100%' }}>
-                            <Box className='bg-red-500' style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
+                            <Box className="bgx-black" style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Typography sx={{ color: 'white', mt: '10px' }}>Usuarios recien registrados</Typography>
                                 </Box>

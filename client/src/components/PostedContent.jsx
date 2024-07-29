@@ -129,7 +129,7 @@ export default function PostedContent({ token, post }) {
 
     return (
         <>
-            <Box className={"post-container-id-" + post.postId} sx={{ borderRadius: '5px', bgcolor: 'pink', p: 5, border: '1px solid black', mt: '2%' }}>
+            <Box className={"bgx-black post-container-id-" + post.postId} sx={{ borderRadius: '5px', p: 5, border: '1px solid black', mt: '2%' }}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
@@ -139,7 +139,7 @@ export default function PostedContent({ token, post }) {
                                 <Typography color="inherit"></Typography>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <Link href="#" sx={{ textDecoration: 'none' }}><Avatar>{post.username.substring(0, 1).toUpperCase()}</Avatar></Link>
-                                    <Link sx={{ color: 'black', textDecoration: 'none', ":hover": { color: 'black', textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p> {post.username} </p></Link>
+                                    <Link sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p> {post.username} </p></Link>
                                 </Box>
                                 <Typography variant="h6">
                                     <Box>nombre: {post.firstName}</Box>
@@ -153,7 +153,7 @@ export default function PostedContent({ token, post }) {
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <Link href="#" sx={{ textDecoration: 'none' }}><Avatar>{post.username.substring(0, 1).toUpperCase()}</Avatar></Link>
-                            <Link sx={{ color: 'black', textDecoration: 'none', ":hover": { color: 'black', textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p>{post.firstName}</p></Link>
+                            <Link sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p>{post.firstName}</p></Link>
                         </Box>
                     </HtmlTooltip>
 
@@ -176,10 +176,7 @@ export default function PostedContent({ token, post }) {
                             onClose={handleClose}
                             slotProps={{
                                 paper: {
-                                    sx: {
-                                        backgroundColor: 'pink',
-                                        border: '1px solid black',
-                                    },
+                                    className: 'bgx-black',
                                 },
                             }}
                         >
@@ -193,7 +190,7 @@ export default function PostedContent({ token, post }) {
                     </Box>
 
                 </Box>
-                <Box sx={{ bgcolor: 'black', color: 'white', p: 1, width: '35%' }}>
+                <Box sx={{ p: 1, width: '35%' }}>
                     {new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })}
                 </Box>
 
@@ -202,7 +199,7 @@ export default function PostedContent({ token, post }) {
                         {post.content}
                     </Typography>
                 </Box>
-                <Box sx={{ color: 'white', p: 1, width: '100%' }}>
+                <Box sx={{ p: 1, width: '100%' }}>
                     <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button onClick={likeThePost}>
                             <ThumbUpIcon /> <span style={{ marginLeft: '5px' }}> Me Gusta ({currentLikes}) </span>
@@ -228,6 +225,7 @@ export default function PostedContent({ token, post }) {
                         size="small"
                         label="comentar en la publicacion"
                         fullWidth
+                        className="bgx-white"
                         value={comment}
                         onChange={handleChangeCapture}
                         InputProps={{
