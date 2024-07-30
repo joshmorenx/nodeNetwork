@@ -42,7 +42,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
 
     return (
         <>
-            <Box sx={{ position: 'fixed', backgroundColor: 'rgb(125, 106, 155)', width: '100%', height: '100%', zIndex: -1 }}></Box>
+            <Box className="bgx-black" sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
             <Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-start' }}>
                 <Box className="fixed-profile" sx={{ position: 'sticky', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
 

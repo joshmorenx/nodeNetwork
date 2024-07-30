@@ -26,7 +26,7 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
     return (
         <Box className="posting-box-popup">
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 101, bgcolor: '#00000050' }} onClick={() => setUpdatePost(false)}></Box>
-            <Box sx={{ width: '50%', borderRadius: '5px', padding: '0.5%', bgcolor: '#fadea7', position: 'fixed', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 101 }}>
+            <Box className="bgx-black" sx={{ width: '50%', borderRadius: '5px', padding: '0.5%', bgcolor: '#fadea7', position: 'fixed', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 101 }}>
 
                 <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%' }}>
                     <Typography variant="h4" sx={{ fontWeight: 'bold' }} align='center' >Actualizar publicación</Typography>
@@ -34,6 +34,7 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
 
                 <Box sx={{ mr: 1, mb: 1, ml: 1 }}>
                     <TextField
+                    className="bgx-white"
                     multiline
                     variant="filled"
                     size="small"

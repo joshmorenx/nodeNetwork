@@ -9,7 +9,7 @@ export default function UserCard({ user, allAccess, cadena, handleImageClicked }
     return (
         <>
             <div style={{ position: 'relative' }} className="m-auto">
-                <div className='profile-card m-auto rounded-2xl bg-gray-200'>
+                <div className='bgx-black profile-card m-auto rounded-2xl bg-gray-200'>
 
                     <div className="avatar-container rounded-2xl">
                         <img onClick={(event) => { handleImageClick(event) }} className="avatar m-auto cursor-pointer" src={`http://localhost:3000${user.profilePicture}`}></img>
