@@ -27,8 +27,6 @@ const deletePost = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-
-    console.log(username);
 }
 
 module.exports = deletePost
