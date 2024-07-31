@@ -72,7 +72,7 @@ export default function PermissionManager({ token }) {
 
     const PermissionTabs = () => {
         return(
-            <ul className="permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+            <ul className="bgx-black permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
                 <li className="me-2">
                     <a onClick={()=>handleTabClick('assign')} href="#" className={ selectedTab === 'assign' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Asignar Permisos</a>
                 </li>

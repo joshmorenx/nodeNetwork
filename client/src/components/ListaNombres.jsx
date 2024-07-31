@@ -23,7 +23,7 @@ export default function ListaNombres({ nombres, handleSelectedChange }) {
           <option key={index}>{nombre}</option>
         ))}
       </select> */}
-      <FormControl fullWidth sx={{ mb: 2, mt: 2, minWidth: 120 }}>
+      <FormControl className="bgx-white" fullWidth sx={{ mb: 2, mt: 2, minWidth: 120 }}>
           <InputLabel id="permission-select-label">Seleccione</InputLabel>
           <Select
               labelId="permission-select-label"

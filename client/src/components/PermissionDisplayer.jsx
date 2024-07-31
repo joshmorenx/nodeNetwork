@@ -99,7 +99,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
         <>
           <Box className="available-permissions">
             
-            <Box style={{ width: '100%'}}>
+            <Box className="bgx-white" style={{ width: '100%'}}>
               <h1>Permisos Disponibles</h1>
               <Box className="rounded-lg unassigned-permissions border border-black bg-white" style={{ width: '100%'}}>
                 {/* { bArray.map( (item, index) => <Box className='m-1 border border-black' key={index} onClick={}>{item}</Box> ) } */}
@@ -107,7 +107,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
               </Box>
             </Box>
     
-            <Box className="btnContainer">
+            <Box className="bgx-black btnContainer">
               <Box>
                 <button onClick={ moveFromUnassignedToAssigned } className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id="btnAdd" disabled={disabledAddPermission}> + </button>
               </Box>
@@ -117,7 +117,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
               </Box>
             </Box>
             
-            <Box style={{ width: '100%'}}>
+            <Box className="bgx-white" style={{ width: '100%'}}>
               <h1>Permisos Asignados</h1>
               <Box className="rounded-lg assigned-permissions border border-black bg-white" style={{ width: '100%'}} id="assigned">
                 {/* { cArray.map( (item, index) => <Box className='m-1 border border-black' key={index}>{item}</Box> ) } */}
