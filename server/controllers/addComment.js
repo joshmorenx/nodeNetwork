@@ -10,8 +10,9 @@ const addComment = async (req, res) => {
     try {
         const user = await User.findOne({ username: username }).lean();
         const post = await Posts.findOne({ postId: postId }).lean();
+        const lastComment = await Comments.findOne({}, {}, { sort: { commentId: -1 } }).lean();
 
-        const result = await Comments.create({ commentId: await Comments.estimatedDocumentCount() + 1, postId: post._id, author: user._id, content: content });
+        const result = await Comments.create({ commentId: lastComment.commentId + 1, postId: post._id, author: user._id, content: content });
 
         if(result){
             const newCurrentComments = await Comments.find({ postId: post._id }).lean();
