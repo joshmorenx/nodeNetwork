@@ -152,8 +152,8 @@ export default function PostedContent({ token, post }) {
                         }
                     >
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <Link href="#" sx={{ textDecoration: 'none' }}><Avatar>{post.username.substring(0, 1).toUpperCase()}</Avatar></Link>
-                            <Link sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p>{post.firstName}</p></Link>
+                            <Link href={`http://localhost:5173/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar>{post.username.substring(0, 1).toUpperCase()}</Avatar></Link>
+                            <Link href={`http://localhost:5173/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}><p>{post.firstName}</p></Link>
                         </Box>
                     </HtmlTooltip>
 
