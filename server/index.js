@@ -20,7 +20,7 @@ require('dotenv').config();
 connectDB();
 
 // Middleware
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173'];
+// const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173'];
 
 // Configuración de Multer
 const storage = multer.diskStorage({
@@ -36,21 +36,16 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Configuración de Express.js
-app.use(cors({ origin: allowedOrigins }));
+// app.use(cors({ origin: allowedOrigins })); //debugging
+
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(
-//     session({
-//         secret: process.env.SECRET,
-//         resave: true,
-//         saveUninitialized: true,
-//     })
-// );
 
-//healthcheck
-// app.get("/", (req, res) => {
-//     res.send({ message: "Server OK" });
-// });
+// healthcheck
+app.get("/", (req, res) => {
+    res.send({ message: "Server OK" });
+});
 
 // Routes
 app.use("/", authRoutes());
@@ -69,6 +64,6 @@ app.use((err, req, res, next) => {
 
 // Server start
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Servidor iniciado en http://localhost:${PORT}/`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor iniciado en el puerto ${PORT}`);
 });
