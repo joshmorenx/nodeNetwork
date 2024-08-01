@@ -36,6 +36,7 @@ export default function FollowContent({ token, username }) {
 
     return (
         <Box sx={{ width: '100%' }}>
+            <Box className="bgx-black" sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1, bgcolor: '#00000099' }}></Box>
             <FollowTabs handleSelectedTab={handleSelectedTab} selectedTab={selectedTab} />
             <DisplayedContent token={token} following={following} followers={followers} username={username} selectedTab={selectedTab} />
         </Box>

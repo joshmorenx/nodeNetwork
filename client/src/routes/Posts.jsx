@@ -25,7 +25,7 @@ export default function Posts({ token }){
         <>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Navbar token={token} />
-                <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1, bgcolor: '#220040' }}></Box>
+                <Box className="bgx-black" sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }}></Box>
                 <Box sx={{ width: '50vw' }}>
                     {success && <PostedContent token={token} post={post} />}
                 </Box>

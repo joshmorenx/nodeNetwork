@@ -6,7 +6,8 @@ export default function ProfileEditEmail({ formUserData, handleInputChange, send
     return (
         <Accordion defaultExpanded={true}>
             <AccordionSummary
-                expandIcon={<ExpandMore />}
+                className="bgx-black"
+                expandIcon={<ExpandMore className="bgx-black" />}
                 aria-label="Expand"
                 aria-controls="-content"
                 id="-header"
@@ -14,11 +15,12 @@ export default function ProfileEditEmail({ formUserData, handleInputChange, send
             >
                 <Typography>Modificar Email</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
 
                 <Box>
                     <p style={{ marginLeft: '45px' }}>Email</p>
                     <TextField
+                        className="bgx-white"
                         sx={{ ml: 5, width: '90%' }}
                         disabled={noEditEmail}
                         autoFocus={true}

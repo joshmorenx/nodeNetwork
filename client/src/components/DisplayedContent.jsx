@@ -13,7 +13,7 @@ export default function DisplayedContent({ token, username, following, followers
                     <Box sx={{ display: 'block', alignItems: 'center', gap: '10px' }}>
                         <Typography>Seguidores</Typography>
                         {followers.map((follower, key) => (
-                            <Box key={key} sx={{ gap: '10px' }}>
+                            <Box className="bgx-black" key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'flex', gap: '50vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
                                     <Link href={`/profile/${follower.username}`} style={{ textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}> {follower.username} </Link>
                                 </Box>
@@ -26,7 +26,7 @@ export default function DisplayedContent({ token, username, following, followers
                     <Box sx={{ display: 'block', alignItems: 'center', gap: '10px' }}>
                         <Typography>Siguiendo</Typography>
                         {following.map((following, key) => (
-                            <Box key={key} sx={{ gap: '10px' }}>
+                            <Box className="bgx-black" key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'flex', gap: '50vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
                                     <Link href={`/profile/${following.username}`} style={{ textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}> {following.username} </Link>
                                     <Box sx={{ marginLeft: 'auto' }}>

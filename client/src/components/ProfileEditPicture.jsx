@@ -5,8 +5,9 @@ import EditIcon from '@mui/icons-material/Edit';
 export default function ProfileEditPicture({ selectedImage, selectedImageUrl, handleImageChange, sendRequest }) {
     return (
         <Accordion defaultExpanded={true}>
-            <AccordionSummary
-                expandIcon={<ExpandMore />}
+            <AccordionSummary 
+                className="bgx-black"
+                expandIcon={<ExpandMore className="bgx-black" />}
                 aria-label="Expand"
                 aria-controls="-content"
                 id="-header"
@@ -14,7 +15,7 @@ export default function ProfileEditPicture({ selectedImage, selectedImageUrl, ha
             >
                 <Typography>Modificar imagen de perfil</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
                 <Box>
                     <p>Foto de perfil</p>
                     <Box sx={{ display: 'inline-flex', justifyContent: 'space-between', alignItems: 'center' }}>

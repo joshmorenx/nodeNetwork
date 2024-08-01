@@ -42,3 +42,41 @@
     color: black!important;
     border: 1px solid black!important;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #000000;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+.error {
+    font-size: 10rem;
+    font-weight: bold;
+    color: #ff4d4d;
+    margin: 0;
+}
+.message {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+.link {
+    font-size: 1rem;
+    color: #007bff;
+    text-decoration: none;
+}
+.link:hover {
+    text-decoration: underline;
+}
+.image {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+}

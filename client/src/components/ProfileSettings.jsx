@@ -56,7 +56,7 @@ export default function ProfileSettings({ token }) {
         //         setNoEditUsername(false);
         //     }
         // }
-        else if (editNum === 4) {
+        else if (editNum === 4) { //do not change editNum to 3
             if (result) {
                 setNoEditEmail(false);
             }
@@ -70,16 +70,17 @@ export default function ProfileSettings({ token }) {
 
     return (
         <>
-            <Accordion sx={{ overflowY: 'auto', height: '98%', bgcolor: '#f9f0ce' }} expanded={true} color='primary'>
+            <Accordion className="bgx-black" sx={{ overflowY: 'auto', height: '98%', bgcolor: '#f9f0ce' }} expanded={true} color='primary'>
                 <AccordionSummary
                     // expandIcon={<ArrowDropDownIcon />}
+                    className="bgx-black"
                     aria-controls="panel2-content"
                     id="panel2-header"
                     sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
                 >
                     <Typography>Modificar detalles de perfil</Typography>
                 </AccordionSummary>
-                <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
+                <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
                     <Box className="avatar-container" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <ProfileEditPicture selectedImage={selectedImage} selectedImageUrl={selectedImageUrl} handleImageChange={handleImageChange} sendRequest={sendRequest} />
                         

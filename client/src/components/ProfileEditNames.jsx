@@ -7,7 +7,8 @@ export default function ProfileEditNames({ user, formUserData, handleInputChange
     return (
         <Accordion defaultExpanded={true}>
             <AccordionSummary
-                expandIcon={<ExpandMore />}
+                className="bgx-black"
+                expandIcon={<ExpandMore className="bgx-black" />}
                 aria-label="Expand"
                 aria-controls="-content"
                 id="-header"
@@ -15,11 +16,12 @@ export default function ProfileEditNames({ user, formUserData, handleInputChange
             >
                 <Typography>Modificar nombre y apellidos</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
                 <Box>
                     <Box>
                         <p style={{ marginLeft: '45px' }}>Nombre de pila</p>
                         <TextField
+                            className="bgx-white"
                             sx={{ ml: 5, width: '90%' }}
                             disabled={noEditFirstName}
                             autoFocus={true}
@@ -37,6 +39,7 @@ export default function ProfileEditNames({ user, formUserData, handleInputChange
                     <Box>
                         <p style={{ marginLeft: '45px' }}>Apellido</p>
                         <TextField
+                            className="bgx-white"
                             sx={{ ml: 5, width: '90%' }}
                             disabled={noEditLastName}
                             autoFocus={true}
