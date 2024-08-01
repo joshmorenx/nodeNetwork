@@ -1,6 +1,5 @@
 const connectDB = require("./connectDB.js");
 const express = require("express");
-const session = require("express-session");
 const path = require("path");
 const cors = require("cors");
 const multer = require("multer");
@@ -20,7 +19,7 @@ require('dotenv').config();
 connectDB();
 
 // Middleware
-// const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:5173'];
 
 // Configuración de Multer
 const storage = multer.diskStorage({
@@ -36,9 +35,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Configuración de Express.js
-// app.use(cors({ origin: allowedOrigins })); //debugging
+app.use(cors({ origin: allowedOrigins })); //debugging
 
-app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
