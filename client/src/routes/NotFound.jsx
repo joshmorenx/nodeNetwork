@@ -1,7 +1,12 @@
-export default function NotFound () {
-    return(
+export default function NotFound() {
+    return (
         <>
-            <h1>Te perdiste? La pagina que ingresaste no existe 🤣🤣🤣🤣🤣</h1>
+            <div className="background"></div>
+            <div className="container">
+                <div className="error">404</div>
+                <div className="message">¡Vaya! No encontramos la página que estás buscando.</div>
+                <a href="/" className="link">Regresar a la página principal</a>
+            </div>
         </>
     );
 };
