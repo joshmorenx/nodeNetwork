@@ -25,6 +25,7 @@ export default function PermissionCreateOrDelete({ permissionDetails, handleSele
         {/* <Accordion defaultExpanded={true} color='primary'> */}
             <AccordionSummary
             // expandIcon={<ArrowDropDownIcon />}
+            className="bgx-black"
             aria-controls="panel2-content"
             id="panel2-header"
             sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
@@ -32,7 +33,7 @@ export default function PermissionCreateOrDelete({ permissionDetails, handleSele
             >
             <Typography>Crear Permisos</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: '#faf1de' }}> 
+            <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}> 
             
                 <PermissionAdd sendRequestedPermissions={ sendRequestedPermissions } />
             
@@ -46,6 +47,7 @@ export default function PermissionCreateOrDelete({ permissionDetails, handleSele
         {/* <Accordion defaultExpanded={true} color='primary'>*/}
             <AccordionSummary
             // expandIcon={<ArrowDropDownIcon />}
+            className="bgx-black"
             aria-controls="panel2-content"
             id="panel2-header"
             sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
@@ -53,7 +55,7 @@ export default function PermissionCreateOrDelete({ permissionDetails, handleSele
             >
             <Typography>Eliminar Permisos</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
             <Box>
                 <Box>
                     <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } delBtnClicked={ delBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } succeed={ succeed } setSucceed={ setSucceed } gatherSelectedValue={ gatherSelectedValue }/>

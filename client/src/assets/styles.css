@@ -133,11 +133,16 @@ body{
     display: flex;
 }
 
-.permission-container, .feed-container, .content-container{
+.permission-container, .feed-container{
     padding-top: 0.5%;
     padding-left: 0.5%;
     width: 100%;
     margin-left: 0.5%;
+}
+
+.content-container{
+    padding: 0.5%;
+    width: 100%;
 }
 
 .profile-container{

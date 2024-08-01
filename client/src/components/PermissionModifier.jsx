@@ -9,13 +9,14 @@ export default function PermissionModifier({ permissionDetails, handleSelectedCh
             <Accordion expanded={true} color='primary'>
                 <AccordionSummary
                 // expandIcon={<ArrowDropDownIcon />}
+                className="bgx-black"
                 aria-controls="panel2-content"
                 id="panel2-header"
                 sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
                 >
                 <Typography>Modificar detalles de permisos</Typography>
                 </AccordionSummary>
-                <AccordionDetails sx={{ bgcolor: '#faf1de' }}> 
+                <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}> 
                     <Box>
                         <ListaPermisos permissionDetails={ permissionDetails } handleSelectedChange={ handleSelectedChange } />
                     </Box>

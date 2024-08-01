@@ -63,6 +63,7 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
                 variant="outlined" /> */}
 
                 <TextField
+                    className='bgx-white'
                     label='Nombre del permiso'
                     type="text"  
                     id="newPermName"
@@ -72,6 +73,7 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
                 />
 
                 <TextField
+                    className='bgx-white'
                     sx={{ mt : 4 }}
                     label="Descripcion del permiso"
                     type="text"

@@ -26,7 +26,7 @@ export default function ListaPermisos({ permissionDetails, handleSelectedChange,
     return (
         <div>
             <h2 className='mt-5 text-2xl'>Lista de permisos</h2>
-            <FormControl fullWidth sx={{ mb: 2, mt: 2, minWidth: 120 }}>
+            <FormControl className="bgx-white" fullWidth sx={{ mb: 2, mt: 2, minWidth: 120 }}>
                 <InputLabel id="permission-select-label">Seleccione</InputLabel>
                 <Select
                     labelId="permission-select-label"
