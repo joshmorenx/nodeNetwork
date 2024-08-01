@@ -27,7 +27,6 @@ const useLoginForm = (initialForm = {}) => {
                 setToken(response.data.token)
                 setUserInfo(response.data.user)
             }).catch(error => {
-                // console.log(error.response.data.error);
                 setLoginData(error.response.data.error);
             });
     };
@@ -38,13 +37,6 @@ const useLoginForm = (initialForm = {}) => {
         }
         setOpen(false);
     }
-
-    // const getToken = async (token) => {
-    //     await axios.get(`http://localhost:3000/`,
-    //     {
-
-    //     })
-    // }
 
     return {
         handleInputChange,

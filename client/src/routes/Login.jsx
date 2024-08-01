@@ -8,8 +8,6 @@ import LoginDisplayer from '../components/LoginDisplayer'
 import { useNavigate } from 'react-router-dom';
 
 export default function Login(){
-    const navigate = useNavigate();
-    // const { data, setData } = useContext(AppContext);
     const cookieToken = Cookies.get('token');
     const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, formData } = useLoginForm({
         username: '',

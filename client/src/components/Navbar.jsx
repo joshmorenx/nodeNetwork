@@ -75,11 +75,11 @@ export default function Navbar({token}) {
                             <HomeIcon sx={{ color: 'white' }} />
                         </Button>
                         {/* <Button>
-                            <MessageIcon sx={{ color: 'white' }}></MessageIcon> //discarded
+                            <MessageIcon sx={{ color: 'white' }}></MessageIcon> // pending
                         </Button> */}
-                        <Button onClick={ () => alert }>
-                            <NotificationsIcon sx={{ color: 'white' }}></NotificationsIcon>
-                        </Button>
+                        {/* <Button onClick={ () => alert }>
+                            <NotificationsIcon sx={{ color: 'white' }}></NotificationsIcon> // pending
+                        </Button> */}
                         <Button>
                             <Stack direction="row" spacing={2}>
                                 { user.username ? (
