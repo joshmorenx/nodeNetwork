@@ -7,7 +7,7 @@ export default function useGetAllPermissions() {
 
     // useEffect(() => {
         const sendRequestedPermissions = async () => {
-            await axios.get('http://localhost:3000/api/getAllPermissions/')
+            await axios.get('https://nodenetwork-backend.onrender.com/api/getAllPermissions/')
             .then((response) => {
                 setPermissionDetails(response.data.allPermissionDetails);
                 // console.log(permissionDetails);

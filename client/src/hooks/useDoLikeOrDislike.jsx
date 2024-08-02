@@ -12,7 +12,7 @@ export default function useDoLikeOrDislike({ token }) {
     const [dislikes, setDislikes] = useState(0);
 
     const sendDoUndo_Like = async (post_id) => {
-        await axios.post('http://localhost:3000/api/likeOrDislike/', { post_id: post_id, option: 'like' }, {
+        await axios.post('https://nodenetwork-backend.onrender.com/api/likeOrDislike/', { post_id: post_id, option: 'like' }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -26,7 +26,7 @@ export default function useDoLikeOrDislike({ token }) {
     }
 
     const sendDoUndo_Dislike = async (post_id) => {
-        await axios.post('http://localhost:3000/api/likeOrDislike/', { post_id: post_id, option: 'dislike' }, {
+        await axios.post('https://nodenetwork-backend.onrender.com/api/likeOrDislike/', { post_id: post_id, option: 'dislike' }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

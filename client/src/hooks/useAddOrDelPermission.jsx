@@ -14,7 +14,7 @@ export default function useAddOrDelPermission(typeUpdate, permId, permName, init
     };
 
     const sendRequest = async () => {
-        await axios.post('http://localhost:3000/api/lastPermission/', {
+        await axios.post('https://nodenetwork-backend.onrender.com/api/lastPermission/', {
             typeUpdate: typeUpdate,
             permId: permId,
             permName: permName,

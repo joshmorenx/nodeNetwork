@@ -16,7 +16,7 @@ export default function useCaptureAndSendComment({ token }) {
     const sendComment = async (postId) => {
         // console.log(newComment)
         // console.log(postId)
-        await axios.post('http://localhost:3000/api/comment/', 
+        await axios.post('https://nodenetwork-backend.onrender.com/api/comment/', 
             {
                 postId: postId,
                 content: newComment 

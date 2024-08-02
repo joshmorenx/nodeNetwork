@@ -27,7 +27,7 @@ export default function useUpdatePost({ token, initialForm = {} }) {
             formData.append('image', image);
         }
 
-        await axios.put('http://localhost:3000/api/updatePost/', formData,{
+        await axios.put('https://nodenetwork-backend.onrender.com/api/updatePost/', formData,{
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'

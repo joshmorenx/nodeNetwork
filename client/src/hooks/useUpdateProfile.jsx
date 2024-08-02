@@ -24,7 +24,7 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
             formData.append('image', image);
         }
         
-        await axios.post('http://localhost:3000/api/updateProfile/', formData, {
+        await axios.post('https://nodenetwork-backend.onrender.com/api/updateProfile/', formData, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'

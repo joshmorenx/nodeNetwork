@@ -9,7 +9,7 @@
 
         const sendRequest = async () => {
             try {
-                const response = await axios.post('http://localhost:3000/api/updatePermissions/', {
+                const response = await axios.post('https://nodenetwork-backend.onrender.com/api/updatePermissions/', {
                     newPermissions : UserAssignedPermissions,
                     username : selectedUser,
                 })

@@ -7,7 +7,7 @@ export default function useGetSelectedUserPermissions (selectedUserName){
 
     const enviarSolicitud = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/permissions/`,{
+            const response = await axios.get(`https://nodenetwork-backend.onrender.com/api/permissions/`,{
                 headers: {
                     username: selectedUserName
                 }

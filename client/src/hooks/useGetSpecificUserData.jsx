@@ -7,7 +7,7 @@ export default function useGetSpecificUserData({ token, username }) {
     const [err, setErr] = useState(null);
 
     const sendRequest = async () => {
-        await axios.get(`http://localhost:3000/api/getSpecificUserData/${username}`,{
+        await axios.get(`https://nodenetwork-backend.onrender.com/api/getSpecificUserData/${username}`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }

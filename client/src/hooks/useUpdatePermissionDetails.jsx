@@ -7,7 +7,7 @@ export default function useUpdatePermissionDetails(id, newDescription) {
     const [success, setSuccess] = useState(false);
 
     const sendRequest = async () => {
-        await axios.post("http://localhost:3000/api/modifyPermissions/", {
+        await axios.post("https://nodenetwork-backend.onrender.com/api/modifyPermissions/", {
             id: id,
             newDescription: newDescription
         }).then((response) => {

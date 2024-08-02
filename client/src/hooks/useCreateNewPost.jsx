@@ -29,7 +29,7 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
             formData.append('image', image);
         }
 
-        await axios.post('http://localhost:3000/api/createNewPost/', formData,{
+        await axios.post('https://nodenetwork-backend.onrender.com/api/createNewPost/', formData,{
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'

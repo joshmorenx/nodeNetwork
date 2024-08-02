@@ -6,7 +6,7 @@ export default function useGetPermissionDescription(id) {
 
     useEffect(() => {
         const sendRequest = async () => {
-            await axios.get('http://localhost:3000/api/getPermissionDescription/', { 
+            await axios.get('https://nodenetwork-backend.onrender.com/api/getPermissionDescription/', { 
                 headers: {
                     id: id,
                 },

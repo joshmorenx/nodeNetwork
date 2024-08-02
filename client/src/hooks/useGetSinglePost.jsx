@@ -8,7 +8,7 @@ export default function useGetSinglePost({ token, id }) {
     const [msg, setMsg] = useState(null);
 
     const getSinglePost = async () => {
-        await axios.get('http://localhost:3000/api/getSinglePost/', {
+        await axios.get('https://nodenetwork-backend.onrender.com/api/getSinglePost/', {
             headers: {
                 Authorization: `Bearer ${token}`,
                 id: id

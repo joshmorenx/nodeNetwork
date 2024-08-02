@@ -36,7 +36,7 @@ export default function ProfileSettings({ token }) {
     }
 
     useEffect(() => {
-        setSelectedImageUrl(`http://localhost:3000${user.profilePicture}`)
+        setSelectedImageUrl(`https://nodenetwork-backend.onrender.com${user.profilePicture}`)
     }, [user]);
 
     const handleEdit = (section, editNum) => {

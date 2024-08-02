@@ -7,7 +7,7 @@ export default function useDeletePost({ token, postId }) {
     const [successDelete, setSuccessDelete] = useState(false);
 
     const deletePost = async () => {
-        await axios.delete('http://localhost:3000/api/deletePost/', {
+        await axios.delete('https://nodenetwork-backend.onrender.com/api/deletePost/', {
             headers: {
                 Authorization: `Bearer ${token}`,
                 post_id: postId

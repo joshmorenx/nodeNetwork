@@ -9,7 +9,7 @@ export default function useGetFollows({ token }){
     const [following, setFollowing] = useState([])
 
     const getFollows = async(username) => {
-        await axios.get('http://localhost:3000/api/relationships/', {
+        await axios.get('https://nodenetwork-backend.onrender.com/api/relationships/', {
             headers: {
                 Authorization: `Bearer ${token}`,
                 param_username: username

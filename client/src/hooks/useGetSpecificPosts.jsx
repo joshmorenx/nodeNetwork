@@ -8,7 +8,7 @@ export default function useGetSpecificPosts({ token, username }) {
     const [msg, setMsg] = useState(null);
 
     const sendRequest = async () => {
-        await axios.get(`http://localhost:3000/api/getSpecificPosts/${username}/`, {
+        await axios.get(`https://nodenetwork-backend.onrender.com/api/getSpecificPosts/${username}/`, {
             headers:{
                 Authorization: `Bearer ${token}`
             }

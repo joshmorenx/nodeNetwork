@@ -7,7 +7,7 @@ export default function useUnfollowUser({ token, username }) {
     const [suc, setSuc] = useState(false);
 
     const sendUnfollowRequest = async () => {
-        await axios.delete("http://localhost:3000/api/relationship/", {
+        await axios.delete("https://nodenetwork-backend.onrender.com/api/relationship/", {
             headers: {
                 Authorization: `Bearer ${token}`,
                 username_to_unfollow: username

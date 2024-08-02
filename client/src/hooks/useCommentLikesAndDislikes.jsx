@@ -9,7 +9,7 @@ export default function useCommentLikesAndDislikes({ comment, token }) {
     const [msg, setMsg] = useState(null)
 
     const getCommentLikesAndDislikes = async () => {
-        await axios.get('http://localhost:3000/api/comment/', {
+        await axios.get('https://nodenetwork-backend.onrender.com/api/comment/', {
             headers: {
                 Authorization: `Bearer ${token}`,
                 comment: comment._id
@@ -25,7 +25,7 @@ export default function useCommentLikesAndDislikes({ comment, token }) {
     }
 
     const setCommentLike = async () => {
-        await axios.post('http://localhost:3000/api/comment/like', {
+        await axios.post('https://nodenetwork-backend.onrender.com/api/comment/like', {
             comment: comment._id
         }, {
             headers: {
@@ -41,7 +41,7 @@ export default function useCommentLikesAndDislikes({ comment, token }) {
     }
 
     const setCommentDislike = async () => {
-        await axios.post('http://localhost:3000/api/comment/dislike', {
+        await axios.post('https://nodenetwork-backend.onrender.com/api/comment/dislike', {
             comment: comment._id
         }, {
             headers: {

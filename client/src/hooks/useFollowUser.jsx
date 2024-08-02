@@ -8,7 +8,7 @@ export default function useFollowUser({ token, username }) {
     const [isFollowing, setIsFollowing] = useState(false);
 
     const sendFollowRequest = async () => {
-        await axios.post('http://localhost:3000/api/relationship/', {
+        await axios.post('https://nodenetwork-backend.onrender.com/api/relationship/', {
             username_to_follow: username,
         }, {
             headers: {
@@ -23,7 +23,7 @@ export default function useFollowUser({ token, username }) {
     }
 
     const checkFollowAlreadyExists = async () => {
-        await axios.get('http://localhost:3000/api/relationship/', {
+        await axios.get('https://nodenetwork-backend.onrender.com/api/relationship/', {
             headers: {
                 Authorization: `Bearer ${token}`,
                 username_to_follow: username
