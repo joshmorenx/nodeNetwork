@@ -33,6 +33,10 @@
             "destination": "/index.html"
         },
         {
+            "source": "/search/:query",
+            "destination": "/index.html"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }

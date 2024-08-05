@@ -1,6 +1,42 @@
 {
     "rewrites": [
         {
+            "source": "/",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/register",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/forgot",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/dashboard",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/feed",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/profile/:username",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/posts/:post_id",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/follows/:username",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/search/:query",
+            "destination": "/index.html"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
