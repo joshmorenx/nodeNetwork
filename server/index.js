@@ -24,8 +24,8 @@ const allowedOrigins = [
     'http://localhost:8080',
     'http://127.0.0.1:8080',
     'http://localhost:5173',
-    'https://node-network-chi.vercel.app', // Añadir la URL del frontend desplegado
-    'https://nodenetwork.onrender.com'
+    'https://node-network-chi.vercel.app', 
+    'https://nodenetwork.onrender.com' // Añadir la URL del frontend desplegado
 ];
 
 // Configuración de Multer
