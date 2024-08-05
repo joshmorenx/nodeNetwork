@@ -7,11 +7,17 @@ const Comments = require("../models/Comments.js");
 
 const getPosts = async (req, res) => {
     try {
+        const { query } = req.headers
         const { username } = req.usuario;
         const userData = await User.findOne({ username: username })
         const followings = await Relationships.find({ from: userData._id }).lean();
+        let postsQuery = [] //PQ
 
-        const postsQuery = await Posts.find({ $or: [{ author: { $in: followings.map(following => following.to) } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } }).lean();
+        if (!query){
+            postsQuery = await Posts.find({ $or: [{ author: { $in: followings.map(following => following.to) } }, { author: userData._id }] }, {}, { sort: { date_created: -1 } }).lean();
+        } else {
+            postsQuery = await Posts.find({ content : { $regex: query } }, {}, { sort: { date_created: -1 } }).lean();
+        }
 
         const posts = await Promise.all(postsQuery.map(async (post) => {
             const user = await User.findOne({ _id: post.author }).lean()
@@ -42,7 +48,7 @@ const getPosts = async (req, res) => {
         if(posts.length === 0) {
             res.json({ posts: [], success: true, message: "No hay publicaciones." })
         } else {
-            res.json({ posts: posts, success: true, message: "" }) // Publicaciones obtenidas correctamente
+            res.json({ posts: posts, success: true, message: "Publicaciones obtenidas correctamente" }) // Publicaciones obtenidas correctamente
         }
 
     } catch (error) {
