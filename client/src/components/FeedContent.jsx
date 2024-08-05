@@ -1,21 +1,20 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState, useRef } from 'react';
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import PostingBox from './PostingBox.jsx';
 import PostedContent from './PostedContent.jsx';
 import useGetPosts from "../hooks/useGetPosts.jsx";
 import { CircularProgress } from '@mui/material';
 
-export default function FeedContent({ token }) {
-    const { sendRequest, error, success, msg, posts } = useGetPosts({ token });
+export default function FeedContent({ token, query }) {
+    const { sendRequest, error, success, msg, posts, loading, setLoading } = useGetPosts({ token });
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
-    const [loading, setLoading] = useState(false);
     const observer = useRef();
 
     useEffect(() => {
-        sendRequest();
+        sendRequest(query);
     }, []);
 
     useEffect(() => {
@@ -57,12 +56,18 @@ export default function FeedContent({ token }) {
 
     return (
         <Box>
-            <PostingBox token={token} handleFeedReload={handleFeedReload} />
+            {query ? null : <PostingBox token={token} handleFeedReload={handleFeedReload} />}
             <Box>
+                {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
+
+                {!query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px', alignItems: 'center' }} variant="h3">Aun no hay publicaciones</Typography>}
+
                 {allPosts.length === 0 ? (
-                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
-                        <CircularProgress />
-                    </Box>
+                    loading && (
+                        <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+                            <CircularProgress />
+                        </Box>
+                    )
                 ) : (
                     <>
                         {allPosts.slice(0, loadedPostsCount).map((post, index) => (
@@ -71,7 +76,7 @@ export default function FeedContent({ token }) {
                     </>
                 )}
 
-                {loading && (
+                {loading && success && (
                     <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                         <CircularProgress />
                     </Box>
@@ -83,5 +88,6 @@ export default function FeedContent({ token }) {
 }
 
 FeedContent.propTypes = {
-    token: PropTypes.string
+    token: PropTypes.string,
+    query: PropTypes.string
 };

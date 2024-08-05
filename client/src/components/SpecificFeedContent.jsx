@@ -6,16 +6,15 @@ import PostedContent from './PostedContent.jsx';
 import useGetSpecificPosts from "../hooks/useGetSpecificPosts.jsx";
 import { CircularProgress } from '@mui/material';
 
-export default function SpecificFeedContent({ token, username, currentUsername }) {
-    const { sendRequest, error, success, msg, posts } = useGetSpecificPosts({ token, username });
+export default function SpecificFeedContent({ token, username, currentUsername, query }) {
+    const { sendRequest, error, success, msg, posts, loading, setLoading} = useGetSpecificPosts({ token, username });
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
-    const [loading, setLoading] = useState(false);
     const observer = useRef();
 
     useEffect(() => {
-        sendRequest();
+        sendRequest(query);
     }, []);
 
     useEffect(() => {
@@ -57,12 +56,18 @@ export default function SpecificFeedContent({ token, username, currentUsername }
 
     return (
         <Box>
-            { currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
+            { currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2, color: 'white' }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
             <Box>
+                {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
+
+                {!query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px', alignItems: 'center' }} variant="h3">Aun no hay publicaciones</Typography>}
+
                 {allPosts.length === 0 ? (
-                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
-                        <CircularProgress />
-                    </Box>
+                    loading && (
+                        <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+                            <CircularProgress />
+                        </Box>
+                    )
                 ) : (
                     <>
                         {allPosts.slice(0, loadedPostsCount).map((post, index) => (
@@ -71,7 +76,7 @@ export default function SpecificFeedContent({ token, username, currentUsername }
                     </>
                 )}
 
-                {loading && (
+                {loading && success && (
                     <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                         <CircularProgress />
                     </Box>
@@ -85,5 +90,6 @@ export default function SpecificFeedContent({ token, username, currentUsername }
 SpecificFeedContent.propTypes = {
     token: PropTypes.string,
     username: PropTypes.string,
-    currentUsername: PropTypes.string
+    currentUsername: PropTypes.string,
+    query: PropTypes.string
 };
