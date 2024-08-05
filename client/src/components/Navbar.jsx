@@ -13,11 +13,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import useLogout from '../hooks/useLogout'
 import useGetCurrentUser from '../hooks/useGetCurrentUser'
 import HomeIcon from '@mui/icons-material/Home';
+import { useState, useEffect } from 'react';
 
-
-export default function Navbar({token}) {
+export default function Navbar({ token }) {
+    const [query, setQuery] = useState('')
     const navigate = useNavigate()
-    const { user } = useGetCurrentUser({token});
+    const { user } = useGetCurrentUser({ token });
 
     const gotoDashboard = () => {
         navigate('/dashboard')
@@ -33,8 +34,15 @@ export default function Navbar({token}) {
         logout();
     }
 
-    const carBrandOptions = ['ford','kia','mercedes','bmw','audi','volkswagen','porsche']
-        
+    const handleInputChange = (event) => {
+        const { value } = event.target
+        setQuery(value)
+    }
+    
+    const encodedQuery = encodeURIComponent(query)
+
+    // const carBrandOptions = ['ford','kia','mercedes','bmw','audi','volkswagen','porsche']
+
     return (
         <Box sx={{ mb: 9 }}>
             <Box className="bgx-black" sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}>
@@ -42,36 +50,34 @@ export default function Navbar({token}) {
                 <Box p={1} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {/* config section */}
                     <Box className="config-section">
-                        <Button onClick={ gotoDashboard } variant="text" color="primary">
+                        <Button onClick={gotoDashboard} variant="text" color="primary">
                             <SettingsIcon sx={{ color: 'white' }}></SettingsIcon>
                         </Button>
                     </Box>
-                    <Box className="search-section">
-                        <Autocomplete 
-                            disablePortal
-                            id="combo-box-demo"
-                            options={carBrandOptions}
-                            sx={{ width: '50vw' }}
-                            renderInput={(params) => (
-                                <TextField 
-                                    sx={{ bgcolor: 'white' }}
-                                    {...params} 
-                                    label="Search" 
-                                    InputProps={{
-                                        ...params.InputProps,
-                                        endAdornment: (
-                                            <SearchIcon style={{  cursor: 'pointer' }} />
-                                        ),
-                                    }}
-                                />
-                            )}
-                        />
-                    </Box>
+                    
+                    <form className="search-form" method="get" action={`/search/${encodedQuery}`}>
+                        <Box className="search-section">
+                            <TextField
+                                required
+                                onChange={handleInputChange}
+                                sx={{ bgcolor: 'white', width: '50vw' }}
+                                label="Buscar"
+                                InputProps={{
+                                    endAdornment: (
+                                        <Button type="submit">
+                                            <SearchIcon style={{ cursor: 'pointer' }} />
+                                        </Button>
+                                    ),
+                                }}
+                            />
+                        </Box>
+                    </form>
+
                     <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
-                        <Button onClick={ handleLogout }>
+                        <Button onClick={handleLogout}>
                             <LogoutIcon sx={{ color: 'white' }} />
                         </Button>
-                        <Button onClick={ gotoFeed }>
+                        <Button onClick={gotoFeed}>
                             <HomeIcon sx={{ color: 'white' }} />
                         </Button>
                         {/* <Button>
@@ -82,14 +88,14 @@ export default function Navbar({token}) {
                         </Button> */}
                         <Button>
                             <Stack direction="row" spacing={2}>
-                                { user.username ? (
-                                    <Link to={`/profile/`}><Avatar> { user.username.charAt(0).toUpperCase() } </Avatar></Link>
-                                ) : (<></>) }
-                            </Stack>              
+                                {user.username ? (
+                                    <Link to={`/profile/`}><Avatar> {user.username.charAt(0).toUpperCase()} </Avatar></Link>
+                                ) : (<></>)}
+                            </Stack>
                         </Button>
                     </Box>
-                </Box>                    
-            </Box>                
+                </Box>
+            </Box>
         </Box>
     )
 }

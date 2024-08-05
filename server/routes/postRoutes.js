@@ -9,11 +9,10 @@ const addComment = require("../controllers/addComment.js");
 const getCommentLikesAndDislikes = require("../controllers/getCommentLikesAndDislikes.js");
 const commentLike = require("../controllers/commentLike.js");
 const commentDislike = require("../controllers/commentDislike.js");
-
 const deletePost = require("../controllers/deletePost.js");
 const updatePost = require("../controllers/updatePost.js");
-
 const getSinglePost = require("../controllers/getSinglePost.js");
+const getSearchQuery = require("../controllers/getSearchQuery.js");
 
 const postRoutes = (upload) => {
 
@@ -35,6 +34,8 @@ const postRoutes = (upload) => {
     router.put('/api/updatePost/', upload.single('image'), updatePost);
 
     router.get('/api/getSinglePost/', getSinglePost)
+    
+    router.get('/api/search/', getSearchQuery)
 
     return router;
 };

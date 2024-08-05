@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import Login from './routes/Login';
 import Register from './routes/Register';
 import Forgot from './routes/Forgot';
@@ -8,9 +7,9 @@ import Feed from './routes/Feed';
 import Profile from './routes/Profile.jsx';
 import Posts from './routes/Posts.jsx';
 import Follows from './routes/Follows.jsx';
+import Search from './routes/Search.jsx';
 import NotFound from './routes/NotFound.jsx';
 import Cookies from 'js-cookie';
-import { element } from 'prop-types';
 
 export const App = () => {
     const cookieToken = Cookies.get('token');
@@ -25,6 +24,7 @@ export const App = () => {
             <Route path="/profile/:username?" element={cookieToken ? <Profile token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="/posts/:post_id?" element={cookieToken ? <Posts token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="/follows/:username?" element={cookieToken ? <Follows token={cookieToken} /> : <Navigate to="/" />} />
+            <Route path="/search/:query?" element={cookieToken ? <Search token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );
