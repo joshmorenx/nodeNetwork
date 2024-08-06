@@ -3,10 +3,14 @@ import useRegisterForm from '../hooks/useRegisterForm';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Alert, Snackbar } from '@mui/material/'
 import { Link } from 'react-router-dom'
+import { useMediaQuery } from '@mui/material';
 import '../assets/styles.css';
 import '../assets/index.css';
 
 const Register = () => {
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 425px) and (max-width: 900px)');
+    const isMobile = useMediaQuery('(max-width: 425px)');
     const navigate = useNavigate();
     const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, formData } = useRegisterForm({
         firstName: '',
@@ -30,9 +34,9 @@ const Register = () => {
     return (
         <>
             <div className='register-background'>
-                <div className="register-container">
+                <div className={isDesktop ? 'register-container' : isTablet ? 'register-container-tablet' : 'register-container-mobile'}>
                     <h1 className="register-title">Registro Nuevo</h1>
-                    <form className="register-form" method="post" action="/register">
+                    <form className={isDesktop ? 'register-form' : isTablet ? 'register-form-tablet' : 'register-form-mobile'} method="post" action="/register">
                         
                         {/* <input type="text" name="firstName" placeholder="Nombre" required value={formData.firstName} onChange={handleInputChange} />
                         <input type="text" name="lastName" placeholder="Apellido" required value={formData.lastName} onChange={handleInputChange} />

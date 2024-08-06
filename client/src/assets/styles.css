@@ -90,21 +90,21 @@ body{
     margin-top: 6%;
 }
 
-.login-form{
+.login-form, .register-form{
     display: flex;
     flex-direction: column;
     margin-bottom: 3%;
     text-align: center;
 }
 
-.login-form-tablet{
+.login-form-tablet, .register-form-tablet{
     display: flex;
     flex-direction: column;
     margin-bottom: 3%;
     text-align: center;
 }
 
-.login-form-mobile>*{
+.login-form-mobile>*, .register-form-mobile>*{
     display: flex;
     flex-direction: column;
     margin-bottom: 3%;

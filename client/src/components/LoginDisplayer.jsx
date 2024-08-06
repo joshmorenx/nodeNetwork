@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button, TextField, Alert, Snackbar, Box } from '@mui/material/';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from '@mui/material';
