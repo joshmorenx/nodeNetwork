@@ -64,7 +64,20 @@ body{
     padding-right: 3%;
 }
 
-.login-container-mobile, .register-container-mobile{
+.login-container-mobile{
+    background-color: rgb(254, 249, 239);
+    box-shadow: 0 3px 10px -1px black;
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 7px;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.register-container-mobile{
     background-color: rgb(254, 249, 239);
     box-shadow: 0 3px 10px -1px black;
     width: 90%;
@@ -104,12 +117,18 @@ body{
     text-align: center;
 }
 
-.login-form-mobile>*, .register-form-mobile>*{
+.login-form-mobile>* {
     display: flex;
     flex-direction: column;
     margin-bottom: 3%;
     text-align: center;
     height: 5vh;
+}
+
+.register-form-mobile>* {
+    display: flex;
+    margin-bottom: 3%;
+    text-align: center;
 }
 
 .login-form>*{
