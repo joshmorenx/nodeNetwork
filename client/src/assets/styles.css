@@ -41,16 +41,40 @@ body{
 .login-container, .register-container{
     background-color: rgb(254, 249, 239);
     box-shadow: 0 3px 10px -1px black;
-    width: 30%;
+    width: 40%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 7px;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
-.login-container{
-    margin-right: 4%;
+.login-container-tablet, .register-container-tablet{
+    background-color: rgb(254, 249, 239);
+    box-shadow: 0 3px 10px -1px black;
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 7px;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.login-container-mobile, .register-container-mobile{
+    background-color: rgb(254, 249, 239);
+    box-shadow: 0 3px 10px -1px black;
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 7px;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 .register-container>*{
@@ -71,6 +95,21 @@ body{
     flex-direction: column;
     margin-bottom: 3%;
     text-align: center;
+}
+
+.login-form-tablet{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+    text-align: center;
+}
+
+.login-form-mobile>*{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+    text-align: center;
+    height: 5vh;
 }
 
 .login-form>*{
@@ -106,7 +145,7 @@ body{
     text-align: center;
     margin-bottom: 6%;
     display: flex;
-    font-size: 1.5vw;
+    font-size: auto;
 }
 
 #register:hover,#recover:hover{

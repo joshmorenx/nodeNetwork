@@ -1,14 +1,39 @@
 import PropTypes from 'prop-types';
-import { Button, TextField, Alert, Snackbar } from '@mui/material/';
+import { Button, TextField, Alert, Snackbar, Box } from '@mui/material/';
 import { Link } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
 
 export default function LoginDisplayer({ handleInputChange, formData, sendForm, userInfo, open, preHandleClose, loginData }) {
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 425px) and (max-width: 900px)');
+    const isMobile = useMediaQuery('(max-width: 425px)');
+
+    const desktopStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        width: '100vw',
+        backgroundColor: 'black',
+    }
+
+    const mobileStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        width: '100vw',
+        backgroundColor: 'black',
+    }
+    
     return (
         <>
-            <div className='login-background'>
-                <div className="login-container">
+            <Box className='login-background'>
+                <Box className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
                     <h1 className="login-title">Iniciar sesión</h1>
-                    <form className="login-form" method="post" action="/">
+                    <form className={isDesktop ? 'login-form' : (isTablet ? 'login-form-tablet' : 'login-form-mobile')} method="post" action="/">
                         
                         {/* <input type="text" id="username" name="username" placeholder="Nombre de usuario" required value={formData.username} onChange={handleInputChange}/>
                         <input type="password" id="password" name="password" placeholder="Contraseña" required value={formData.password} onChange={handleInputChange}/>                        
@@ -16,7 +41,7 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
 
                         <TextField
                         autoFocus={true}
-                        sx={{ mt : 4, mb : 3, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        sx={{ mt : 4, mb : 3, width: '100%', ml: 'auto', mr: 'auto' }}
                         size='large'
                         type="text"
                         id="username"
@@ -27,7 +52,7 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
                         onChange={handleInputChange}/>
 
                         <TextField 
-                        sx={{ mt :2, mb : 3, width: '25vw', ml: 'auto', mr: 'auto' }}
+                        sx={{ mt :2, mb : 3, width: '100%', ml: 'auto', mr: 'auto' }}
                         size='large'
                         type="password"
                         id="password"
@@ -38,7 +63,7 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
                         onChange={handleInputChange}/>
                         
                         <Button 
-                            sx={{ mt : 4, mb : 1, width: '25vw', ml: 'auto', mr: 'auto' }}
+                            sx={{ mt : 4, mb : 1, width: '100%', ml: 'auto', mr: 'auto' }}
                             size='small'
                             variant="contained"
                             color="primary"
@@ -49,19 +74,20 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
                         </Button>
                         
                     </form>
-                    <div className="user-info">{userInfo.user}</div>
-                    <div className="register-link">
+                    <Box className="user-info">{userInfo.user}</Box>
+                    <Box className="register-link">
                         <p id="register"><Link to='/register'>Regístrate</Link></p>
                         <p id="recover"><Link to='/forgot'>Recuperar contraseña</Link></p>
-                    </div>
-                </div>
-                {/* <div className="login-message">{loginData}</div> */}
+                    </Box>
+
+                </Box>
+                {/* <Box className="login-message">{loginData}</Box> */}
                 <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  open={open} autoHideDuration={5000} onClose={preHandleClose}>
                     <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
                         { loginData }
                     </Alert>
                 </Snackbar>
-            </div>
+            </Box>
         </>
     )
 }
