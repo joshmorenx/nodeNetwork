@@ -9,7 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 export default function LoginDisplayer({ handleInputChange, formData, sendForm, userInfo, open, preHandleClose, loginData }) {
     const [showPassword, setShowPassword] = useState(false);
     const isDesktop = useMediaQuery('(min-width: 900px)');
-    const isTablet = useMediaQuery('(min-width: 425px) and (max-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
 
     const desktopStyle = {

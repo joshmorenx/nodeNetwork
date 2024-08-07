@@ -14,11 +14,17 @@ import useLogout from '../hooks/useLogout'
 import useGetCurrentUser from '../hooks/useGetCurrentUser'
 import HomeIcon from '@mui/icons-material/Home';
 import { useState, useEffect } from 'react';
+import { useMediaQuery } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export default function Navbar({ token }) {
     const [query, setQuery] = useState('')
     const navigate = useNavigate()
     const { user } = useGetCurrentUser({ token });
+
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+    const isMobile = useMediaQuery('(max-width: 425px)');
 
     const gotoDashboard = () => {
         navigate('/dashboard')
@@ -38,7 +44,7 @@ export default function Navbar({ token }) {
         const { value } = event.target
         setQuery(value)
     }
-    
+
     const encodedQuery = encodeURIComponent(query)
 
     // const carBrandOptions = ['ford','kia','mercedes','bmw','audi','volkswagen','porsche']
@@ -47,53 +53,62 @@ export default function Navbar({ token }) {
         <Box sx={{ mb: 9 }}>
             <Box className="bgx-black" sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}>
                 {/* we'll build a nav bar with search bar in the middle and a button to go to dashboard and a notification button and a messages button in the right */}
-                <Box p={1} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Box p={1} sx={isTablet ? { display: 'flex', justifyContent: 'center' } : { display: 'flex', justifyContent: 'space-between' }}>
                     {/* config section */}
-                    <Box className="config-section">
-                        <Button onClick={gotoDashboard} variant="text" color="primary">
-                            <SettingsIcon sx={{ color: 'white' }}></SettingsIcon>
-                        </Button>
-                    </Box>
-                    
-                    <form className="search-form" method="get" action={`/search/${encodedQuery}`}>
-                        <Box className="search-section">
-                            <TextField
-                                required
-                                onChange={handleInputChange}
-                                sx={{ bgcolor: 'white', width: '50vw' }}
-                                label="Buscar"
-                                InputProps={{
-                                    endAdornment: (
-                                        <Button type="submit">
-                                            <SearchIcon style={{ cursor: 'pointer' }} />
-                                        </Button>
-                                    ),
-                                }}
-                            />
-                        </Box>
-                    </form>
+                    {isDesktop || isTablet ?
+                        <>
+                            <Box className="config-section">
+                                <Button onClick={gotoDashboard} variant="text" color="primary">
+                                    <SettingsIcon sx={{ color: 'white' }}></SettingsIcon>
+                                </Button>
+                            </Box>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
-                        <Button onClick={handleLogout}>
-                            <LogoutIcon sx={{ color: 'white' }} />
-                        </Button>
-                        <Button onClick={gotoFeed}>
-                            <HomeIcon sx={{ color: 'white' }} />
-                        </Button>
-                        {/* <Button>
+                            <form className="search-form" method="get" action={`/search/${encodedQuery}`}>
+                                <Box className="search-section">
+                                    <TextField
+                                        required
+                                        onChange={handleInputChange}
+                                        sx={{ bgcolor: 'white', width: '50vw' }}
+                                        label="Buscar"
+                                        InputProps={{
+                                            endAdornment: (
+                                                <Button type="submit">
+                                                    <SearchIcon style={{ cursor: 'pointer' }} />
+                                                </Button>
+                                            ),
+                                        }}
+                                    />
+                                </Box>
+                            </form>
+
+                            <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
+                                <Button onClick={handleLogout}>
+                                    <LogoutIcon sx={{ color: 'white' }} />
+                                </Button>
+                                <Button onClick={gotoFeed}>
+                                    <HomeIcon sx={{ color: 'white' }} />
+                                </Button>
+                                {/* <Button>
                             <MessageIcon sx={{ color: 'white' }}></MessageIcon> // pending
                         </Button> */}
-                        {/* <Button onClick={ () => alert }>
+                                {/* <Button onClick={ () => alert }>
                             <NotificationsIcon sx={{ color: 'white' }}></NotificationsIcon> // pending
                         </Button> */}
-                        <Button>
-                            <Stack direction="row" spacing={2}>
-                                {user.username ? (
-                                    <Link to={`/profile/`}><Avatar> {user.username.charAt(0).toUpperCase()} </Avatar></Link>
-                                ) : (<></>)}
-                            </Stack>
-                        </Button>
-                    </Box>
+                                <Button>
+                                    <Stack direction="row" spacing={2}>
+                                        {user.username ? (
+                                            <Link to={`/profile/`}><Avatar> {user.username.charAt(0).toUpperCase()} </Avatar></Link>
+                                        ) : (<></>)}
+                                    </Stack>
+                                </Button>
+                            </Box>
+                        </>
+                    :
+                        <>
+                            <Button sx={{ height: '12vh' }}>
+                                <MenuIcon sx={{ color: 'white' }} />
+                            </Button>
+                        </>}
                 </Box>
             </Box>
         </Box>
