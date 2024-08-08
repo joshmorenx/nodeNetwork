@@ -18,7 +18,7 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery }
     
     return (
         <>
-            <Button onClick={() => setOpen(!open)} sx={{ height: '12vh' }}>
+            <Button onClick={() => setOpen(!open)} sx={{ height: '10vh' }}>
                 <MenuIcon sx={{ color: 'white' }} />
             </Button>
             <Box className='bgx-black' visibility={open ? 'visible' : 'hidden'} sx={{ bgcolor: 'white', display: 'flex', flexDirection: 'column', position: 'fixed', top: '0', left: '0', right: '0', bottom: '0', zIndex: 1000 }}>
