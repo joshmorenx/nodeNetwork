@@ -9,13 +9,14 @@ import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import Search from './Search.jsx';
 import LogoutIcon from '@mui/icons-material/Logout';
 import useLogout from '../hooks/useLogout'
 import useGetCurrentUser from '../hooks/useGetCurrentUser'
 import HomeIcon from '@mui/icons-material/Home';
 import { useState, useEffect } from 'react';
 import { useMediaQuery } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import MobileNavMenu from './MobileNavMenu.jsx';
 
 export default function Navbar({ token }) {
     const [query, setQuery] = useState('')
@@ -63,23 +64,7 @@ export default function Navbar({ token }) {
                                 </Button>
                             </Box>
 
-                            <form className="search-form" method="get" action={`/search/${encodedQuery}`}>
-                                <Box className="search-section">
-                                    <TextField
-                                        required
-                                        onChange={handleInputChange}
-                                        sx={{ bgcolor: 'white', width: '50vw' }}
-                                        label="Buscar"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <Button type="submit">
-                                                    <SearchIcon style={{ cursor: 'pointer' }} />
-                                                </Button>
-                                            ),
-                                        }}
-                                    />
-                                </Box>
-                            </form>
+                            <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} />
 
                             <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
                                 <Button onClick={handleLogout}>
@@ -105,9 +90,7 @@ export default function Navbar({ token }) {
                         </>
                     :
                         <>
-                            <Button sx={{ height: '12vh' }}>
-                                <MenuIcon sx={{ color: 'white' }} />
-                            </Button>
+                            <MobileNavMenu token={token} handleInputChange={handleInputChange} encodedQuery={encodedQuery} />
                         </>}
                 </Box>
             </Box>

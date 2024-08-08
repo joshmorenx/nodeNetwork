@@ -4,6 +4,7 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
+import { useMediaQuery } from '@mui/material';
 
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, handleFeedReload }) {
     const { sendRequest, msg, error, success, handleInputChange, postForm } = useCreateNewPost({ token, initialForm: {
@@ -11,6 +12,27 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
         latitude: '',
         longitude: ''
     }})
+
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+    const isMobile = useMediaQuery('(max-width: 423vw)');
+
+    const reactionTextStyles = {
+        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '2.5vw',
+        marginLeft: '5px'
+    }
+
+    const popUpEditStyles = {
+        width: isDesktop ? '40%' : isTablet ? '60%' : '95%',
+        borderRadius: '5px',
+        padding: '0.5%',
+        bgcolor: '#fadea7',
+        position: 'fixed',
+        top: '40%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1002
+    }
 
     const handleKeyPress = (event) => {
         if (event.key === 'Escape') {
@@ -33,7 +55,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
     return (
         <Box className="posting-box-popup">
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001, bgcolor: '#00000099' }} onClick={handleClosePostingBoxPopUp}></Box>
-            <Box className="bgx-black" sx={{ width: '35%', borderRadius: '5px', padding: '0.5%', bgcolor: '#fadea7', position: 'fixed', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1002 }}>
+            <Box className="bgx-black" sx={popUpEditStyles}>
 
                 <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%' }}>
                     <Typography variant="h4" sx={{ fontWeight: 'bold' }} align='center' >Crear una publicación</Typography>

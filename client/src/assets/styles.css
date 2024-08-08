@@ -260,3 +260,7 @@ body{
     user-select: none;
     cursor: pointer;
 }
+
+.mobile-menu-list>li{
+    margin-bottom: 5%;
+}
