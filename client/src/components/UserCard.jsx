@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
+import { Typography, useMediaQuery, Link } from "@mui/material";
 
 export default function UserCard({ user, allAccess, cadena, handleImageClicked }) {
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+    const isMobile = useMediaQuery('(max-width: 423vw)');
 
     const handleImageClick = (event) => {
         handleImageClicked(event)
@@ -12,13 +16,14 @@ export default function UserCard({ user, allAccess, cadena, handleImageClicked }
                 <div className='bgx-black profile-card m-auto rounded-2xl bg-gray-200'>
 
                     <div className="avatar-container rounded-2xl">
-                        <img onClick={(event) => { handleImageClick(event) }} className="avatar m-auto cursor-pointer" src={`https://nodenetwork-backend.onrender.com${user.profilePicture}`}></img>
+                        <img style={isDesktop || isTablet ? {} : { width: '50vw', height: '50vw' }} onClick={(event) => { handleImageClick(event) }} className="avatar m-auto cursor-pointer" src={`https://nodenetwork-backend.onrender.com${user.profilePicture}`}></img>
                     </div>
 
                     <div className='user-data'>
                         <strong>{user.username ? (user.username).toUpperCase() : <></>}</strong>
                         <p>{user.firstName} {user.lastName}</p>
-                        <p><a href={`mailto:${user.email}`}>{user.email}</a></p>
+                        {/* <p><a href={`mailto:${user.email}`}>{user.email}</a></p> */}
+                        <Typography sx={{ fontSize: isDesktop ? '1vw' : isTablet ? '1.5vw' : '5vw' }}><Link href={`mailto:${user.email}`}>{user.email}</Link></Typography>
                     </div>
 
                     {allAccess ?

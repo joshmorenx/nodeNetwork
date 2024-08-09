@@ -9,6 +9,7 @@ import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
 import ImageGallery from "./ImageGallery.jsx";
 import SpecificFeedContent from "./SpecificFeedContent.jsx";
 import ImageViewer from "./ImageViewer.jsx";
+import { useMediaQuery } from "@mui/material";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess } = useFollowUser({ token, username });
@@ -17,6 +18,10 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
     const [abletoUnfollow, setAbletoUnfollow] = useState(false)
+    
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+    const isMobile = useMediaQuery('(max-width: 423vw)');
 
 
     useEffect(() => {
@@ -43,19 +48,19 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     return (
         <>
             <Box className="bgx-black" sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
-            <Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-start' }}>
-                <Box className="fixed-profile" sx={{ position: 'sticky', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+            <Box sx={{ width: '100%', display: isDesktop || isTablet ? 'flex' : 'block', alignItems: 'flex-start' }}>
+                <Box className="fixed-profile" sx={{ position: isDesktop || isTablet ? 'sticky' : 'static', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
 
                     <Box>
                         <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
                     </Box>
-                    
-                    { currentUsername !== username && 
+
+                    {currentUsername !== username &&
                         <Box sx={{ mt: 2 }}>
                             {/* { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> } */}
-                            { !isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button> }
+                            {!isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button>}
 
-                            { isFollowing && 
+                            {isFollowing &&
                                 <Button
                                     variant="contained"
                                     color="success"
@@ -71,19 +76,19 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                                         event.target.innerText = 'Ya sigues a ' + username
                                         setAbletoUnfollow(false)
                                     }}
-                                    onClick={ abletoUnfollow ? unfollow : null }
+                                    onClick={abletoUnfollow ? unfollow : null}
                                 > Ya sigues a {username}
 
                                 </Button>
                             }
                         </Box>
                     }
-                    
-                    <Box sx={{ ml: 2, mt: 2, mr: 2, width: '20vw', height: '40%' }}>
+
+                    <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto' , mt: 2, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
                         <ImageGallery token={token} username={username} />
                     </Box>
                 </Box>
-                <Box className="wrapper" sx={{ width: '100%', mr: 2.5 }}>
+                <Box className={isDesktop ? 'wrapper' : 'wrapper-mobile'} sx={{ width: '100%', mr: 2.5 }}>
                     <Box className='one'>
                         {/* <FeedContent token={token} /> */}
                         <SpecificFeedContent token={token} username={username} currentUsername={currentUsername} />
