@@ -5,19 +5,38 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import useUpdatePost from '../hooks/useUpdatePost.jsx';
+import { useMediaQuery } from '@mui/material';
 
 export default function PopUpEditPost({ token, post, setUpdatePost }) {
-    const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost }= useUpdatePost({ token, initialForm: {
-        id: post.postId,
-        content: post.content,
-        latitude: post.latitude,
-        longitude: post.longitude,
-        images: post.images,
-        date_updated: post.date_updated
-    }})
+    const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost } = useUpdatePost({
+        token, initialForm: {
+            id: post.postId,
+            content: post.content,
+            latitude: post.latitude,
+            longitude: post.longitude,
+            images: post.images,
+            date_updated: post.date_updated
+        }
+    })
 
-    useEffect(()=>{
-        if(success){
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+    const isMobile = useMediaQuery('(max-width: 423vw)');
+
+    const popUpEditStyles = {
+        width: isDesktop ? '35rem' : isTablet ? '60%' : '95%',
+        borderRadius: '5px',
+        padding: '0.5%',
+        bgcolor: '#fadea7',
+        position: 'fixed',
+        top: '40%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1002
+    }
+
+    useEffect(() => {
+        if (success) {
             post.content = updatedPost.content;
             setUpdatePost(false);
         }
@@ -25,60 +44,60 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
 
     return (
         <Box className="posting-box-popup">
-            <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 101, bgcolor: '#00000050' }} onClick={() => setUpdatePost(false)}></Box>
-            <Box className="bgx-black" sx={{ width: '50%', borderRadius: '5px', padding: '0.5%', bgcolor: '#fadea7', position: 'fixed', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 101 }}>
+            <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001, bgcolor: '#00000099' }} onClick={() => setUpdatePost(false)}></Box>
+            <Box className="bgx-black" sx={popUpEditStyles}>
 
-                <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%' }}>
-                    <Typography variant="h4" sx={{ fontWeight: 'bold' }} align='center' >Actualizar publicación</Typography>
+                <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Typography variant={isDesktop ? 'h4' : isTablet ? 'h6' : 'h7'} sx={{ fontWeight: 'bold' }} align='center' >Actualizar publicación</Typography>
                 </Box>
 
-                <Box sx={{ mr: 1, mb: 1, ml: 1 }}>
+                <Box sx={{ mr: 0, mb: 0, ml: 0 }}>
                     <TextField
-                    className="bgx-white"
-                    multiline
-                    variant="filled"
-                    size="small"
-                    label="Escribe lo que piensas..."
-                    sx={{ width: '100%' }}
-                    rows={10}
-                    onChange={handleInputChange}
-                    value={postForm.content}
-                    id="content"
-                    name="content"
-                    inputProps={{ autoFocus : true }}
+                        className="bgx-white"
+                        multiline
+                        variant="filled"
+                        size="small"
+                        label="Escribe lo que piensas..."
+                        sx={{ width: '100%' }}
+                        rows={isDesktop ? 10 : isTablet ? 9 : 6}
+                        onChange={handleInputChange}
+                        value={postForm.content}
+                        id="content"
+                        name="content"
+                        inputProps={{ autoFocus: true }}
                     />
                 </Box>
 
-                <Box sx={{ display : 'none', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+                <Box sx={{ display: 'none', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                     <TextField
-                    type='number'
-                    name="latitude"
-                    id="latitude"
-                    label="Latitud"
+                        type='number'
+                        name="latitude"
+                        id="latitude"
+                        label="Latitud"
                     // onChange={handleInputChange}
                     // value={postForm.latitude}
                     />
 
                     <TextField
-                    type='number'
-                    name="longitude"
-                    id="longitude"
-                    label="Longitud"
+                        type='number'
+                        name="longitude"
+                        id="longitude"
+                        label="Longitud"
                     // onChange={handleInputChange}
                     // value={postForm.longitude}
                     />
                 </Box>
-                
-                <Box sx={{ display : 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
-                    <Link sx={{ color: 'blueviolet' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon/> Añadir una imagen/video</Link>
-                    <Link sx={{ color: 'orangered' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon/> Añadir una ubicación</Link>
+
+                <Box sx={{ display: 'inline-flex', justifyContent: 'center', mt: 2, width: '100%' }}>
+                    <Link sx={{ color: 'blueviolet', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon fontSize='small' /> Añadir una imagen/video</Link>
+                    <Link sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación</Link>
                 </Box>
-                
+
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
-                    <Button 
+                    <Button
                         onClick={() => updatePost()}
-                        variant="contained" 
-                        size="small" 
+                        variant="contained"
+                        size="small"
                         fullWidth>
                         Actualizar
                     </Button>

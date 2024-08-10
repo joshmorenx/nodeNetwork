@@ -152,7 +152,7 @@ export default function PostedContent({ token, post }) {
 
     return (
         <>
-            <Box className={"bgx-black post-container-id-" + post.postId} sx={{ borderRadius: '5px', p: isDesktop ? 5 : 1, border: '1px solid black', mt: '2%' }}>
+            <Box className={"bgx-black post-container-id-" + post.postId} sx={{ borderRadius: '5px', p: isDesktop ? 5 : 1, border: '1px solid black', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '10%' : '15%' }}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
