@@ -3,10 +3,11 @@ import { Button, Box, Typography } from '@mui/material';
 import useFollowUser from '../hooks/useFollowUser';
 import useUnfollowUser from '../hooks/useUnfollowUser';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
+import { CircularProgress } from '@mui/material';
 
 export default function FollowsButton({ token, username }) {
     const [abletoUnfollow, setAbletoUnfollow] = useState(false)
-    const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess } = useFollowUser({ token, username });
+    const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading } = useFollowUser({ token, username });
     const { sendUnfollowRequest, er, msj, suc } = useUnfollowUser({ token, username });
     const { user } = useGetCurrentUser({ token });
 
@@ -26,7 +27,7 @@ export default function FollowsButton({ token, username }) {
 
     return (
         <>
-            {user.username !== username ?
+            {loading ? <CircularProgress /> : user.username !== username ?
                 <Box>
                     {/* { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> } */}
                     {!isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button>}
@@ -48,12 +49,11 @@ export default function FollowsButton({ token, username }) {
                                 setAbletoUnfollow(false)
                             }}
                             onClick={abletoUnfollow ? unfollow : null}
-                        > Ya sigues a {username}
-
-                        </Button>
+                        > Siguiendo </Button>
                     }
-                </Box> : <Button variant='contained' disabled> No puedes seguirte a ti mismo </Button>
+                </Box> : null
             }
+            
         </>
     )
 }

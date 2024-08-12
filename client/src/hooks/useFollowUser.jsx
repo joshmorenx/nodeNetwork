@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useFollowUser({ token, username }) {
+    const [loading, setLoading] = useState(true);
     const [followMsg, setFollowMsg] = useState(null);
     const [followError, setFollowError] = useState(null);
     const [followSuccess, setFollowSuccess] = useState(false);
@@ -30,9 +31,10 @@ export default function useFollowUser({ token, username }) {
             }
         }).then((response) => {
             setIsFollowing(response.data.isFollowing);
+            setLoading(false);
         }).catch((error) => {
             setFollowError(error);
         })
     }
-    return { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess }
+    return { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading }
 }

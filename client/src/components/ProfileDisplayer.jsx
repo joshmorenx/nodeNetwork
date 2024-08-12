@@ -9,6 +9,7 @@ import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
 import ImageGallery from "./ImageGallery.jsx";
 import SpecificFeedContent from "./SpecificFeedContent.jsx";
 import ImageViewer from "./ImageViewer.jsx";
+import FollowsButton from "./FollowsButton.jsx";
 import { useMediaQuery } from "@mui/material";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
@@ -50,39 +51,14 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
             <Box className="bgx-black" sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
             <Box sx={{ width: '100%', display: isDesktop || isTablet ? 'flex' : 'block', alignItems: 'flex-start' }}>
                 <Box className="fixed-profile" sx={{ position: isDesktop || isTablet ? 'sticky' : 'static', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                    <Box sx={isDesktop || isTablet ? { overflowY: 'auto', overflowX: 'hidden', height: '100vh' }: {overflowY: 'auto'}}>
+                    <Box sx={isDesktop || isTablet ? { overflowY: 'auto', overflowX: 'hidden', height: '100vh' } : { overflowY: 'auto' }}>
                         <Box>
                             <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
                         </Box>
-
-                        {currentUsername !== username &&
-                            <Box sx={{ mt: 2 }}>
-                                {/* { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> } */}
-                                {!isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button>}
-
-                                {isFollowing &&
-                                    <Button
-                                        variant="contained"
-                                        color="success"
-
-                                        onMouseOver={(event) => {
-                                            event.target.style.backgroundColor = 'rgb(200, 40, 30)'
-                                            event.target.innerText = 'Dejar de seguir a ' + username
-                                            setAbletoUnfollow(true)
-                                        }}
-
-                                        onMouseOut={(event) => {
-                                            event.target.style.backgroundColor = 'rgb(46, 125, 50)'
-                                            event.target.innerText = 'Ya sigues a ' + username
-                                            setAbletoUnfollow(false)
-                                        }}
-                                        onClick={abletoUnfollow ? unfollow : null}
-                                    > Ya sigues a {username}
-
-                                    </Button>
-                                }
-                            </Box>
-                        }
+                        
+                        <Box sx={{ mt: 2 }}>
+                            <FollowsButton token={token} username={username} />
+                        </Box>
 
                         <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 2, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
                             <ImageGallery token={token} username={username} />
