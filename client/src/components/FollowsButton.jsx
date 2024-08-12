@@ -30,7 +30,7 @@ export default function FollowsButton({ token, username }) {
             {loading ? <CircularProgress /> : user.username !== username ?
                 <Box>
                     {/* { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> } */}
-                    {!isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir a {username} </Button>}
+                    {!isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir </Button>}
 
                     {isFollowing &&
                         <Button
@@ -39,13 +39,13 @@ export default function FollowsButton({ token, username }) {
 
                             onMouseOver={(event) => {
                                 event.target.style.backgroundColor = 'rgb(200, 40, 30)'
-                                event.target.innerText = 'Dejar de seguir a ' + username
+                                event.target.innerText = 'No seguir'
                                 setAbletoUnfollow(true)
                             }}
 
                             onMouseOut={(event) => {
                                 event.target.style.backgroundColor = 'rgb(46, 125, 50)'
-                                event.target.innerText = 'Ya sigues a ' + username
+                                event.target.innerText = 'Siguiendo'
                                 setAbletoUnfollow(false)
                             }}
                             onClick={abletoUnfollow ? unfollow : null}

@@ -13,7 +13,7 @@ import FollowsButton from "./FollowsButton.jsx";
 import { useMediaQuery } from "@mui/material";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
-    const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess } = useFollowUser({ token, username });
+    const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading } = useFollowUser({ token, username });
     const { sendUnfollowRequest, er, msj, suc } = useUnfollowUser({ token, username });
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
     const { allAccess, cadena } = usePermissions(userData);
@@ -48,7 +48,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
 
     return (
         <>
-            <Box className="bgx-black" sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
+            <Box className="bgx-black-semi" sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
             <Box sx={{ width: '100%', display: isDesktop || isTablet ? 'flex' : 'block', alignItems: 'flex-start' }}>
                 <Box className="fixed-profile" sx={{ position: isDesktop || isTablet ? 'sticky' : 'static', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                     <Box sx={isDesktop || isTablet ? { overflowY: 'auto', overflowX: 'hidden', height: '100vh' } : { overflowY: 'auto' }}>
@@ -57,7 +57,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                         </Box>
                         
                         <Box sx={{ mt: 2 }}>
-                            <FollowsButton token={token} username={username} />
+                            {loading ? null : <FollowsButton token={token} username={username} />}
                         </Box>
 
                         <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 2, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>

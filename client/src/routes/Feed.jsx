@@ -44,7 +44,7 @@ export default function Feed({ token }) {
             ({ token } &&
                 <>
                     <Navbar token={token} />
-                    <Box className="bgx-black" sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
+                    <Box className="bgx-black-semi" sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
 
                         {/* Contenedor para los elementos fijos (Eventos) */}
                         <Box visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', left: '0', width: '20%', height: '100%' }}>
