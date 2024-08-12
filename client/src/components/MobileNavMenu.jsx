@@ -5,17 +5,30 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import useLogout from '../hooks/useLogout'
 import useGetCurrentUser from '../hooks/useGetCurrentUser.jsx';
+import FeedIcon from '@mui/icons-material/Feed';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import SettingsIcon from '@mui/icons-material/Settings';
+import ThreePIcon from '@mui/icons-material/ThreeP';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function MobileNavMenu({ token, handleInputChange, encodedQuery }) {
     const [open, setOpen] = useState(false)
     const { logout } = useLogout(token);
     const { user } = useGetCurrentUser({ token });
 
+    const linkStyles = {
+        color: 'white',
+        textDecoration: 'none',
+        display: 'flex',
+        gap: '1vw',
+    }
+
     const handleLogout = () => {
         logout();
         setOpen(!open)
     }
-    
+
     return (
         <>
             <Button onClick={() => setOpen(!open)} sx={{ height: '7vh' }}>
@@ -33,22 +46,23 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery }
                             <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} />
                         </li>
                         <li>
-                            <Typography><Link onClick={() => setOpen(!open)} href="/">Feed</Link></Typography>
+                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/"><FeedIcon /> Feed</Link></Typography>
+                            
                         </li>
                         <li>
-                            <Typography><Link onClick={() => setOpen(!open)} href="/profile">Profile</Link></Typography>
+                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/profile"><AccountBoxIcon /> Profile</Link></Typography>
                         </li>
                         <li>
-                            <Typography><Link onClick={handleLogout}>Logout</Link></Typography>
+                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/dashboard"><SettingsIcon /> Settings</Link></Typography>
                         </li>
                         <li>
-                            <Typography><Link onClick={() => setOpen(!open)} href="/dashboard">Settings</Link></Typography>
+                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href={`/follows/${user.username}#followers`}><ThreePIcon /> Followers</Link></Typography>
                         </li>
                         <li>
-                            <Typography><Link onClick={() => setOpen(!open)} href={`/follows/${user.username}#followers`}>Followers</Link></Typography>
+                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href={`/follows/${user.username}#following`}><HowToRegIcon /> Following</Link></Typography>
                         </li>
                         <li>
-                            <Typography><Link onClick={() => setOpen(!open)} href={`/follows/${user.username}#following`}>Following</Link></Typography>
+                            <Typography><Link sx={linkStyles} onClick={handleLogout}><LogoutIcon /> Logout</Link></Typography>
                         </li>
                     </ol>
                 </Box>
