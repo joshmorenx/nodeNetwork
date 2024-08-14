@@ -12,7 +12,7 @@ import ThreePIcon from '@mui/icons-material/ThreeP';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-export default function MobileNavMenu({ token, handleInputChange, encodedQuery }) {
+export default function MobileNavMenu({ token, handleInputChange, encodedQuery, isSettingsRoute, setSelectedSection }) {
     const [open, setOpen] = useState(false)
     const { logout } = useLogout(token);
     const { user } = useGetCurrentUser({ token });
@@ -29,6 +29,11 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery }
         setOpen(!open)
     }
 
+    const handleSectionClick = (section) => {
+        setSelectedSection(section)
+        setOpen(!open)
+    }
+
     return (
         <>
             <Button onClick={() => setOpen(!open)} sx={{ height: '7vh' }}>
@@ -40,32 +45,52 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery }
                         <CloseIcon sx={{ color: 'white' }} />
                     </Button>
                 </Box>
-                <Box sx={{ pl: '8vw' }}>
-                    <ol className="mobile-menu-list">
-                        <li>
-                            <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} />
-                        </li>
-                        <li>
-                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/"><FeedIcon /> Feed</Link></Typography>
-                            
-                        </li>
-                        <li>
-                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/profile"><AccountBoxIcon /> Profile</Link></Typography>
-                        </li>
-                        <li>
-                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/dashboard"><SettingsIcon /> Settings</Link></Typography>
-                        </li>
-                        <li>
-                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href={`/follows/${user.username}#followers`}><ThreePIcon /> Followers</Link></Typography>
-                        </li>
-                        <li>
-                            <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href={`/follows/${user.username}#following`}><HowToRegIcon /> Following</Link></Typography>
-                        </li>
-                        <li>
-                            <Typography><Link sx={linkStyles} onClick={handleLogout}><LogoutIcon /> Logout</Link></Typography>
-                        </li>
-                    </ol>
-                </Box>
+                {!isSettingsRoute ? (
+                    <Box sx={{ pl: '8vw' }}>
+                        <ol className="mobile-menu-list">
+                            <li>
+                                <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} />
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/"><FeedIcon /> Feed </Link></Typography>
+
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/profile"><AccountBoxIcon /> Mi perfil </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/dashboard"><SettingsIcon /> Ajustes </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href={`/follows/${user.username}#followers`}><ThreePIcon /> Seguidores </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href={`/follows/${user.username}#following`}><HowToRegIcon /> Siguiendo </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={handleLogout}><LogoutIcon /> Cerrar sesión </Link></Typography>
+                            </li>
+                        </ol>
+                    </Box>
+                ) : (
+                    <Box sx={{ pl: '8vw' }}>
+                        <ol className="mobile-menu-list">
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/"><FeedIcon /> Feed </Link></Typography>
+
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => handleSectionClick('assign')} href="#"><AccountBoxIcon /> Asignador de permisos </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={() => handleSectionClick('profile_settings')} href="#"><SettingsIcon /> Ajustes de perfil </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={handleLogout}><LogoutIcon /> Cerrar sesión </Link></Typography>
+                            </li>
+                        </ol>
+                    </Box>
+                )}
             </Box>
         </>
     )

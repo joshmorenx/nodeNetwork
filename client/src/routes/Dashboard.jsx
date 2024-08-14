@@ -8,11 +8,18 @@ import ContentContainer from '../components/ContentContainer';
 import { Button, Box } from '@mui/material/'
 import { useNavigate } from 'react-router-dom';
 import ImageViewer from '../components/ImageViewer';
+import { useMediaQuery } from '@mui/material';
+import MobileNavMenu from '../components/MobileNavMenu';
 
 const Dashboard = ({ token }) => {
     const navigate = useNavigate();
     const [selectedSection, setSelectedSection] = useState('assign');
     const [imgClickedPath, setImgClickedPath] = useState(null)
+    const isSettingsRoute = true
+
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+    const isMobile = useMediaQuery('(max-width: 425px)');
 
     useEffect(() => {
         // console.log('Token:', token);||
@@ -24,7 +31,7 @@ const Dashboard = ({ token }) => {
     const handleLogout = () => {
         logout()
     };
-    
+
     let { cadena, allAccess } = usePermissions(user)
 
     const showClickedContent = (section) => {
@@ -32,54 +39,63 @@ const Dashboard = ({ token }) => {
     }
 
     const handleImageClicked = (event) => {
-        if(event){
+        if (event) {
             setImgClickedPath(event.target.src);
         }
     }
 
     return (
         <>
-            <div className="dashboard-container">
-                <div className="profile-container bgx-black text-center">
-                    <div>
-                        {error ? (
-                            <p>Error al obtener el contenido del usuario: {error.message}</p>
-                        ) : (
-                            <UserCard user={user} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
-                        )}
-                    </div>
-                    
-                    <Box className='sections-container mt-5' sx={{ mt: 4 }}>
-                        <Box 
-                            className={selectedSection === 'feed' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
-                            // onClick={()=>showClickedContent('feed')}>
-                            onClick={()=>navigate('/feed')}>
-                            Feed
-                        </Box>
+            {isDesktop ? (
+                <div className="dashboard-container">
+                    <div className="profile-container bgx-black text-center">
+                        <div>
+                            {error ? (
+                                <p>Error al obtener el contenido del usuario: {error.message}</p>
+                            ) : (
+                                <UserCard user={user} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
+                            )}
+                        </div>
 
-                        {allAccess ? (
-                        <Box 
-                            className={selectedSection === 'assign' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
-                            onClick={()=>showClickedContent('assign')}>
-                                Asignador de permisos
-                            </Box>):(<p></p>) }
+                        <Box className='sections-container mt-5' sx={{ mt: 4 }}>
+                            <Box
+                                className={selectedSection === 'feed' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
+                                // onClick={()=>showClickedContent('feed')}>
+                                onClick={() => navigate('/feed')}>
+                                Feed
+                            </Box>
 
-                        <Box
-                            className={selectedSection === 'profile_settings' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
-                            onClick={()=>showClickedContent('profile_settings')}>
+                            {allAccess ? (
+                                <Box
+                                    className={selectedSection === 'assign' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
+                                    onClick={() => showClickedContent('assign')}>
+                                    Asignador de permisos
+                                </Box>) : (<p></p>)}
+
+                            <Box
+                                className={selectedSection === 'profile_settings' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
+                                onClick={() => showClickedContent('profile_settings')}>
                                 Profile Settings
+                            </Box>
                         </Box>
-                    </Box>
 
-                    <Button sx={{ mt: 4 }} variant="contained" size='small' onClick={handleLogout} color="primary">
-                        Cerrar Sesión
-                    </Button>
+                        <Button sx={{ mt: 4 }} variant="contained" size='small' onClick={handleLogout} color="primary">
+                            Cerrar Sesión
+                        </Button>
+                    </div>
+
+                    <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} />
+                    <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
+
                 </div>
-                
-                <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection}/>
-            </div>
-        <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
-        </> 
+            ) : (
+                <>
+                    <MobileNavMenu token={token} isSettingsRoute={isSettingsRoute} setSelectedSection={setSelectedSection} />
+                    <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} />
+                </>
+            )}
+
+        </>
     );
 };
 
