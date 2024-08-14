@@ -90,7 +90,9 @@ const Dashboard = ({ token }) => {
                 </div>
             ) : (
                 <>
-                    <MobileNavMenu token={token} isSettingsRoute={isSettingsRoute} setSelectedSection={setSelectedSection} />
+                    <Box p={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <MobileNavMenu token={token} isSettingsRoute={isSettingsRoute} setSelectedSection={setSelectedSection} />
+                    </Box>
                     <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} />
                 </>
             )}
