@@ -104,7 +104,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
             
             <Box className="bgx-white" style={{ width: '100%', height: isDesktop ? '' : 'auto'}}>
               <Typography>Permisos Disponibles</Typography>
-              <Box className="rounded-lg unassigned-permissions border border-black bg-white" style={{ width: '100%', height: isDesktop ? '' : '40vh'}} id="unassigned">
+              <Box className="rounded-lg unassigned-permissions border border-black bg-white" style={{ width: '100%', height: isDesktop ? '' : '20vh'}} id="unassigned">
                 {/* { bArray.map( (item, index) => <Box className='m-1 border border-black' key={index} onClick={}>{item}</Box> ) } */}
                 { selectedUser && getAllPermissions(UserUnassignedPermissions, 1) }
               </Box>
@@ -122,7 +122,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
             
             <Box className="bgx-white" style={{ width: '100%', height: isDesktop ? '' : 'auto'}}>
               <Typography>Permisos Asignados</Typography>
-              <Box className="rounded-lg assigned-permissions border border-black bg-white" style={{ width: '100%', height: isDesktop ? '' : '40vh'}} id="assigned">
+              <Box className="rounded-lg assigned-permissions border border-black bg-white" style={{ width: '100%', height: isDesktop ? '' : '20vh'}} id="assigned">
                 {/* { cArray.map( (item, index) => <Box className='m-1 border border-black' key={index}>{item}</Box> ) } */}
                 { selectedUser && getAllPermissions(UserAssignedPermissions, 2) }
               </Box>
