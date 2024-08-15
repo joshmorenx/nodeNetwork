@@ -62,21 +62,21 @@ export default function FeedContent({ token, query }) {
 
                 {!query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px', alignItems: 'center' }} variant="h3">Aun no hay publicaciones</Typography>}
 
-                {allPosts.length === 0 ? (
-                    loading && (
-                        <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
-                            <CircularProgress />
-                        </Box>
-                    )
-                ) : (
+                {allPosts.length === 0 && loading && (
+                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
+                        <CircularProgress />
+                    </Box>
+                )}
+
+                {allPosts.length > 0 && (
                     <>
                         {allPosts.slice(0, loadedPostsCount).map((post, index) => (
-                            <PostedContent token={token} key={index} post={post} />
+                            <PostedContent token={token} key={index} post={post} handleFeedReload={handleFeedReload} />
                         ))}
                     </>
                 )}
 
-                {loading && success && (
+                {allPosts.length > 0 && loadedPostsCount < totalCount && loading && (
                     <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                         <CircularProgress />
                     </Box>

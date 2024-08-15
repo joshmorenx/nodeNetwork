@@ -20,7 +20,7 @@ import useDeletePost from '../hooks/useDeletePost.jsx';
 import PopUpEditPost from './PopUpEditPost.jsx';
 import { useMediaQuery } from '@mui/material';
 
-export default function PostedContent({ token, post }) {
+export default function PostedContent({ token, post, handleFeedReload }) {
     const { user, error } = useGetCurrentUser({ token });
     const [updatePost, setUpdatePost] = useState(false);
     const [comment, setComment] = useState([]);
@@ -145,7 +145,8 @@ export default function PostedContent({ token, post }) {
     useEffect(() => {
         if (successDelete) {
             alert(msgDelPost);
-            document.querySelector('.post-container-id-' + post.postId).remove();
+            // document.querySelector('.post-container-id-' + post.postId).remove();
+            handleFeedReload();
             setSuccessDelete(false);
         }
     })

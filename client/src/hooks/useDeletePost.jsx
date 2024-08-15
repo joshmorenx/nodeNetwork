@@ -18,7 +18,7 @@ export default function useDeletePost({ token, postId }) {
             setMsgDelPost(response.data.message);
         })
         .catch((error)=>{
-            setErr(error);
+            setErrDel(error);
         });
     }
     return { deletePost, msgDelPost, errDel, successDelete, setSuccessDelete };
