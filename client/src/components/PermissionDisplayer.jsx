@@ -5,9 +5,9 @@ import useUpdatePermissions from '../hooks/useUpdatePermissions';
 import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import { Typography, useMediaQuery } from '@mui/material';
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
-
   const { user } = useGetCurrentUser({ token });
   let { cadena, allAccess } = usePermissions( user );
   const [selectedPermissionId, setSelectedPermissionId] = useState(null);
@@ -15,8 +15,11 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
   const [ message , setMessage ] = useState('');
   const [permissionAmount, setPermissionAmount] = useState(0);
-
   const { sendRequest, msg } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
+
+  const isDesktop = useMediaQuery('(min-width: 900px)');
+  const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+  const isMobile = useMediaQuery('(max-width: 425px)');
   
   // const [getSelectedUser, setGetSelectedUser] = useState('');
   // const [assignationChanges, setAssignationChanges] = useState(0);
@@ -97,29 +100,29 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
     if(allAccess){  
       return (
         <>
-          <Box className="available-permissions">
+          <Box className={isDesktop ? "available-permissions" : "available-permissions-mobile"}>
             
-            <Box className="bgx-white" style={{ width: '100%'}}>
-              <h1>Permisos Disponibles</h1>
-              <Box className="rounded-lg unassigned-permissions border border-black bg-white" style={{ width: '100%'}}>
+            <Box className="bgx-white" style={{ width: '100%', height: isDesktop ? '' : 'auto'}}>
+              <Typography>Permisos Disponibles</Typography>
+              <Box className="rounded-lg unassigned-permissions border border-black bg-white" style={{ width: '100%', height: isDesktop ? '' : '40vh'}} id="unassigned">
                 {/* { bArray.map( (item, index) => <Box className='m-1 border border-black' key={index} onClick={}>{item}</Box> ) } */}
                 { selectedUser && getAllPermissions(UserUnassignedPermissions, 1) }
               </Box>
             </Box>
     
-            <Box className="bgx-black btnContainer">
+            <Box className={(isDesktop ? "btnContainer" : "btnContainerMobile") + " bgx-black"}>
               <Box>
-                <button onClick={ moveFromUnassignedToAssigned } className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id="btnAdd" disabled={disabledAddPermission}> + </button>
+                <button onClick={ moveFromUnassignedToAssigned } className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id={isDesktop ? "btnAdd" : "btnAddMobile"} disabled={disabledAddPermission}> + </button>
               </Box>
                 
               <Box>
-                <button onClick={ moveFromAssignedToUnassigned } className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id="btnRemove" disabled={disabledRemovePermission}> - </button>
+                <button onClick={ moveFromAssignedToUnassigned } className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id={isDesktop ? "btnRemove": "btnRemoveMobile"} disabled={disabledRemovePermission}> - </button>
               </Box>
             </Box>
             
-            <Box className="bgx-white" style={{ width: '100%'}}>
-              <h1>Permisos Asignados</h1>
-              <Box className="rounded-lg assigned-permissions border border-black bg-white" style={{ width: '100%'}} id="assigned">
+            <Box className="bgx-white" style={{ width: '100%', height: isDesktop ? '' : 'auto'}}>
+              <Typography>Permisos Asignados</Typography>
+              <Box className="rounded-lg assigned-permissions border border-black bg-white" style={{ width: '100%', height: isDesktop ? '' : '40vh'}} id="assigned">
                 {/* { cArray.map( (item, index) => <Box className='m-1 border border-black' key={index}>{item}</Box> ) } */}
                 { selectedUser && getAllPermissions(UserAssignedPermissions, 2) }
               </Box>

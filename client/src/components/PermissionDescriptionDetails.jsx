@@ -3,6 +3,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import useUpdatePermissionDetails from '../hooks/useUpdatePermissionDetails'
 import useGetPermissionDescription from '../hooks/useGetPermissionDescription'
+import { Typography } from '@mui/material'
 
 export default function PermissionDescriptionDetails({ token, selectedPermission, permissionDetails }) {
     
@@ -33,7 +34,7 @@ export default function PermissionDescriptionDetails({ token, selectedPermission
 
     return (
         <div>
-            <h1>Descripción del permiso</h1>
+            <Typography>Descripción del permiso</Typography>
             <TextField
                 disabled={ !permDesc }
                 id=""

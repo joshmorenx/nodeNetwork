@@ -8,6 +8,10 @@ body{
     margin-top: 5%;
     display: flex;
 }
+.available-permissions-mobile{
+    margin-top: 5%;
+    display: block;
+}
 .assigned-permissions, .unassigned-permissions, .user-list{
     width: 35%;
     height: 10vw;
@@ -19,6 +23,18 @@ body{
     width: 25%;
     height: 25%;
     text-align: center;
+}
+
+.btnContainerMobile{
+    display:flex;
+}
+
+.btnContainerMobile>div{
+    margin:auto;
+}
+
+.btnContainerMobile>div>button{
+    font-size: large;
 }
 
 .btnContainer{
@@ -35,6 +51,12 @@ body{
 #btnAdd, #btnRemove{
     width: 90%;
     height: 3.5vw;
+    text-align: center;
+}
+
+#btnAddMobile, #btnRemoveMobile{
+    width: 15vw;
+    height: 7vw;
     text-align: center;
 }
 
@@ -263,4 +285,8 @@ body{
 
 .mobile-menu-list>li{
     margin-bottom: 5%;
+}
+
+#assigned, #unassigned{
+    font-size: x-small;
 }

@@ -8,6 +8,7 @@ import PermissionAssigner from './PermissionAssigner';
 import PermissionModifier from './PermissionModifier';
 import PermissionCreateOrDelete from './PermissionCreateOrDelete';
 import { useState, useEffect } from 'react';   
+import { Typography, useMediaQuery } from '@mui/material';
 import '../assets/styles.css';
 
 export default function PermissionManager({ token }) {
@@ -21,6 +22,13 @@ export default function PermissionManager({ token }) {
     const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
     const [selectedTab, setSelectedTab] = useState('');
     const [delBtnClicked, setDelBtnClicked] = useState(false);
+
+    const isDesktop = useMediaQuery('(min-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
+    const isMobile = useMediaQuery('(max-width: 425px)');
+
+    const desktopStyle = "bgx-black permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+    const mobileStyle = "bgx-black permission-tabs flex flex-col text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
 
     // let's make a trigger when delBtnClicked is true useGetAllPermissions will be called again (PREPARATION)
     // useEffect(() => {
@@ -72,7 +80,7 @@ export default function PermissionManager({ token }) {
 
     const PermissionTabs = () => {
         return(
-            <ul className="bgx-black permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+            <ul className={isDesktop ? desktopStyle : mobileStyle}>
                 <li className="me-2">
                     <a onClick={()=>handleTabClick('assign')} href="#" className={ selectedTab === 'assign' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Asignar Permisos</a>
                 </li>
@@ -88,7 +96,7 @@ export default function PermissionManager({ token }) {
 
     const NonSelectedTab = () => {
         return(
-            <div><p>Debe seleccionar una pestaña</p></div>
+            <Typography>Debe seleccionar una pestaña</Typography>
         )    
     }
 
