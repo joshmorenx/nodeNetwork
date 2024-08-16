@@ -24,8 +24,5 @@ export default function usePermissions( user ){
     } catch (error) {
         // console.log(error);
     }
-    return {
-        cadena,
-        allAccess
-    }
+    return { cadena, allAccess }
 }

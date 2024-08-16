@@ -24,5 +24,5 @@
             }
         }
 
-        return {sendRequest, msg, error, success}
+        return {sendRequest, msg, error, success, setMsg}
     }

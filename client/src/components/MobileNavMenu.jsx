@@ -11,11 +11,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ThreePIcon from '@mui/icons-material/ThreeP';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LogoutIcon from '@mui/icons-material/Logout';
+import usePermissions from '../hooks/usePermissions.jsx';
 
 export default function MobileNavMenu({ token, handleInputChange, encodedQuery, isSettingsRoute, setSelectedSection }) {
     const [open, setOpen] = useState(false)
     const { logout } = useLogout(token);
     const { user } = useGetCurrentUser({ token });
+    const { cadena, allAccess } = usePermissions(user)
 
     const linkStyles = {
         color: 'white',
@@ -77,11 +79,10 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
                         <ol className="mobile-menu-list">
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/"><FeedIcon /> Feed </Link></Typography>
-
                             </li>
-                            <li>
+                            {allAccess && <li>
                                 <Typography><Link sx={linkStyles} onClick={() => handleSectionClick('assign')} href="#"><AccountBoxIcon /> Asignador de permisos </Link></Typography>
-                            </li>
+                            </li>}
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={() => handleSectionClick('profile_settings')} href="#"><SettingsIcon /> Ajustes de perfil </Link></Typography>
                             </li>
