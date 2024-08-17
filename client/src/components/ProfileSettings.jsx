@@ -36,7 +36,9 @@ export default function ProfileSettings({ token }) {
     }
 
     useEffect(() => {
-        setSelectedImageUrl(`https://nodenetwork-backend.onrender.com${user.profilePicture}`)
+        if (user && user.profilePicture) {
+            setSelectedImageUrl(`https://nodenetwork-backend.onrender.com${user.profilePicture}`)
+        }
     }, [user]);
 
     const handleEdit = (section, editNum) => {
