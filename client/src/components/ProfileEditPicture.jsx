@@ -10,7 +10,7 @@ export default function ProfileEditPicture({ selectedImage, selectedImageUrl, ha
 
     return (
         <Accordion defaultExpanded={true}>
-            <AccordionSummary 
+            <AccordionSummary
                 className="bgx-black"
                 expandIcon={<ExpandMore className="bgx-black" />}
                 aria-label="Expand"
@@ -23,14 +23,17 @@ export default function ProfileEditPicture({ selectedImage, selectedImageUrl, ha
             <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
                 <Box>
                     <p>Foto de perfil</p>
-                    <Box sx={{ display: isDesktop ? 'inline-flex':'block', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Input className="m-auto bgx-black" type="file" onChange={handleImageChange} name="picture" id="" accept='image/*' /> 
-                        
+                    <Box sx={{ display: isDesktop ? 'inline-flex' : 'block', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                        <Input className="m-auto bgx-black" type="file" onChange={handleImageChange} name="picture" id="" accept='image/*' />
+
                         {/*show selected image*/}
-                        <img height={250} width={250} className='ml-48' src={selectedImageUrl} alt="profile picture" />
+                        <Box sx={{ width: '100', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img height={250} width={250} src={selectedImageUrl} alt="profile picture" />
+                        </Box>
                     </Box>
                 </Box>
-                <Button onClick={()=>{sendRequest("picture", selectedImage)}} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
+                <Button onClick={() => { sendRequest("picture", selectedImage) }} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                     Guardar
                 </Button>
             </AccordionDetails>
