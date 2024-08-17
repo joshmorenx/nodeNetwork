@@ -19,39 +19,39 @@ export default function ProfileEditNames({ user, formUserData, handleInputChange
             <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
                 <Box>
                     <Box>
-                        <p style={{ marginLeft: '45px' }}>Nombre de pila</p>
+                        <Typography>Nombres actuales: {user.firstName}</Typography>
                         <TextField
                             className="bgx-white"
-                            sx={{ ml: 5, width: '90%' }}
+                            sx={{ width: '100%' }}
                             disabled={noEditFirstName}
                             autoFocus={true}
-                            label={user.firstName}
+                            label="Nombres"
                             size='small'
                             type="text"
                             id="firstName"
                             name="firstName"
                             value={formUserData.firstName}
                             onChange={handleInputChange}
+                            InputProps={{ endAdornment: <EditIcon onClick={() => handleEdit('Nombre de pila', 1)} /> }}
                         />
-                        <Link href="#" onClick={() => handleEdit('Nombre de pila', 1)}><EditIcon /></Link>
                     </Box>
 
                     <Box>
-                        <p style={{ marginLeft: '45px' }}>Apellido</p>
+                        <Typography>Apellido actual: {user.lastName}</Typography>
                         <TextField
                             className="bgx-white"
-                            sx={{ ml: 5, width: '90%' }}
+                            sx={{ width: '100%' }}
                             disabled={noEditLastName}
                             autoFocus={true}
-                            label={user.lastName}
+                            label="Apellidos"
                             size='small'
                             type="text"
                             id="lastName"
                             name="lastName"
                             value={formUserData.lastName}
                             onChange={handleInputChange}
+                            InputProps={{ endAdornment: <EditIcon onClick={() => handleEdit('Apellido', 2)} /> }}
                         />
-                        <Link href="#" onClick={() => handleEdit('Apellido', 2)}><EditIcon /></Link>
                     </Box>
                 </Box>
                 <Button onClick={()=>{sendRequest("name")}} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>

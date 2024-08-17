@@ -87,22 +87,6 @@ export default function ProfileSettings({ token }) {
                         <ProfileEditNames user={user} formUserData={formUserData} handleInputChange={handleInputChange} handleEdit={handleEdit} noEditFirstName={noEditFirstName} noEditLastName={noEditLastName} sendRequest={sendRequest}/>
 
                         <ProfileEditEmail user={user} formUserData={formUserData} handleInputChange={handleInputChange} sendRequest={sendRequest} handleEdit={handleEdit} noEditEmail={noEditEmail} />
-                        <Box>
-                            {/* <Box>
-                            <p>Nombre de usuario</p>
-                            <TextField
-                                disabled={noEditUsername}
-                                autoFocus={true}
-                                size='small'
-                                type="text"
-                                id="username"
-                                name="username"
-                                value={user.username ? user.username : ''}
-                                required
-                            />
-                            <Link href="#" onClick={() => handleEdit('Nombre de usuario', 3)}><EditIcon /></Link>
-                        </Box> */}
-                        </Box>
                     </Box>
                 </AccordionDetails>
             </Accordion>

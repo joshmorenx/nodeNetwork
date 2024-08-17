@@ -18,13 +18,13 @@ export default function ProfileEditEmail({ formUserData, handleInputChange, send
             <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
 
                 <Box>
-                    <p style={{ marginLeft: '45px' }}>Email</p>
+                    <Typography>Correo Actual: {user.email}</Typography>
                     <TextField
                         className="bgx-white"
-                        sx={{ ml: 5, width: '90%' }}
+                        sx={{ width: '100%' }}
                         disabled={noEditEmail}
                         autoFocus={true}
-                        label={user.email}
+                        label="email"
                         size='small'
                         type="email"
                         id="email"
@@ -32,8 +32,8 @@ export default function ProfileEditEmail({ formUserData, handleInputChange, send
                         value={formUserData.email}
                         onChange={handleInputChange}
                         required
+                        InputProps={{ endAdornment: <EditIcon onClick={() => handleEdit('Email', 4)} /> }}
                     />
-                    <Link href="#" onClick={() => handleEdit('Email', 4)}><EditIcon /></Link>
                 </Box>
                 <Button onClick={()=>{sendRequest("email")}} size='large' variant="contained" color="primary" sx={{ mt: 2 }}>
                     Guardar
