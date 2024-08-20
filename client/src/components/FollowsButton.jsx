@@ -27,7 +27,7 @@ export default function FollowsButton({ token, username }) {
 
     return (
         <>
-            {loading ? <CircularProgress /> : user.username !== username ?
+            {!user.username ? <CircularProgress /> : user.username === username ? null :
                 <Box>
                     {/* { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> } */}
                     {!isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir </Button>}
@@ -51,9 +51,8 @@ export default function FollowsButton({ token, username }) {
                             onClick={abletoUnfollow ? unfollow : null}
                         > Siguiendo </Button>
                     }
-                </Box> : null
+                </Box>
             }
-            
         </>
     )
 }
