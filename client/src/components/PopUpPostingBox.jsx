@@ -1,17 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Input, Link, TextField, Typography } from "@mui/material";
 import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
 import { useMediaQuery } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, handleFeedReload }) {
+    const [selectedImageFile, setSelectedImageFile] = useState(null); // Default image file
+    const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Default image URL
+    const [imageOver, setImageOver] = useState(false);
     const { sendRequest, msg, error, success, handleInputChange, postForm } = useCreateNewPost({
         token, initialForm: {
             content: '',
             latitude: '',
-            longitude: ''
+            longitude: '',
+            image: null
         }
     })
 
@@ -55,6 +60,21 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
         }
     }
 
+    const openFileSelector = () => {
+        document.getElementById('imagefile').click()
+    }
+
+    const handleImageChange = (event) => {
+        setSelectedImageFile(event.target.files[0])
+        setSelectedImageUrl(URL.createObjectURL(event.target.files[0]))
+    }
+
+    const clearInput = () => {
+        document.getElementById('imagefile').value = null
+        setSelectedImageFile(null)
+        setSelectedImageUrl(null)
+    }
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress)
     }, [])
@@ -90,6 +110,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
                         id="content"
                         name="content"
                         inputProps={{ autoFocus: true }}
+                        required
                     />
                 </Box>
 
@@ -111,15 +132,29 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
                         onChange={handleInputChange}
                         value={postForm.longitude}
                     />
+
+                </Box>
+                <Box>
+                    <input style={{ display: 'none' }} id='imagefile' type='file' onChange={handleImageChange} accept=".jpg, .jpeg, .png, .jfif, .raw" />
+                    {selectedImageUrl && (
+                        <Box sx={{ display: 'inline-flex', alignItems: 'top', mt: 2, width: '100%', border: '1px solid gray' }}>
+                            <CloseIcon onClick={clearInput} sx={{ bgcolor: 'red', cursor: 'pointer' }} />
+                            <img src={selectedImageUrl} style={{ width: '10%', height: 'auto' }} />
+                        </Box>
+                    )}
                 </Box>
 
                 <Box sx={{ display: 'inline-flex', justifyContent: 'center', mt: 2, width: '100%' }}>
-                    <Link sx={{ color: 'blueviolet', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon fontSize='small' /> Añadir una imagen/video</Link>
-                    <Link onClick={getGeoLocation} sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación</Link>
-                </Box>
 
+                    <Link onClick={openFileSelector} sx={{ color: 'blueviolet', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon fontSize='small' /> {
+                        !selectedImageFile ? 'Añadir una imagen' : 'imagen añadida'} </Link>
+
+                    <Link onClick={getGeoLocation} sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación </Link>
+
+                </Box>
+                
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
-                    <Button onClick={() => sendRequest()} variant="contained" size="small" fullWidth>
+                    <Button onClick={() => sendRequest(selectedImageFile)} variant="contained" size="small" fullWidth>
                         Publicar
                     </Button>
                 </Box>

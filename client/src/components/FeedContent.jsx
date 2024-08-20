@@ -7,6 +7,7 @@ import useGetPosts from "../hooks/useGetPosts.jsx";
 import { CircularProgress } from '@mui/material';
 
 export default function FeedContent({ token, query }) {
+    //any changes here must be made also in SpecificFeedContent
     const { sendRequest, error, success, msg, posts, loading, setLoading } = useGetPosts({ token });
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
