@@ -237,7 +237,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                 </Box>
                 { post.images.length > 0 && (
                     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
+                        <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '50%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
                     </Box>
                 )}
                 
