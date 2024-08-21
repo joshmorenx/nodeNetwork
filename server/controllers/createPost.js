@@ -52,7 +52,7 @@ const createPost = async (req, res) => {
             fs.unlinkSync(req.file.path);
 
             // Actualizar el post con la ruta de la imagen en la galería
-            post.images.push(galleryImagePath);
+            post.images.push('/api/'+galleryImagePath.substring(galleryImagePath.indexOf('public')));
             await post.save();
         }
     } catch (error) {

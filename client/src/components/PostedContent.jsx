@@ -228,6 +228,12 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                         {post.content}
                     </Typography>
                 </Box>
+                { post.images.length > 0 && (
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <img style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
+                    </Box>
+                )}
+                
                 <Box sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
                     <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button onClick={likeThePost}>
