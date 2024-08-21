@@ -19,6 +19,7 @@ import useDeletePost from '../hooks/useDeletePost.jsx';
 // import useEditPost from '../hooks/useEditPost.jsx';
 import PopUpEditPost from './PopUpEditPost.jsx';
 import { useMediaQuery } from '@mui/material';
+import ImageViewer from "./ImageViewer.jsx";
 
 export default function PostedContent({ token, post, handleFeedReload }) {
     const { user, error } = useGetCurrentUser({ token });
@@ -33,7 +34,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
     const { sendComment, handleCapture, newComment, messageComment, errorComment, successComment, setSuccessComment, newCurrentComments } = useCaptureAndSendComment({ token })
     const { deletePost, msgDelPost, errDel, successDelete, setSuccessDelete } = useDeletePost({ token, postId: post.postId })
-
+    const [imgClickedPath, setImgClickedPath] = useState(null)
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
@@ -113,6 +114,12 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     const handleKeyPress = (event) => {
         if (event.key === 'Escape') {
             setUpdatePost(false);
+        }
+    }
+
+    const handleImageClicked = (event) => {
+        if (event) {
+            setImgClickedPath(event.target.src);
         }
     }
 
@@ -230,7 +237,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                 </Box>
                 { post.images.length > 0 && (
                     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <img style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
+                        <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
                     </Box>
                 )}
                 
@@ -274,6 +281,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                 </Box>
             </Box>
             {updatePost && <PopUpEditPost token={token} post={post} setUpdatePost={setUpdatePost} />}
+            <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
         </>
     )
 }

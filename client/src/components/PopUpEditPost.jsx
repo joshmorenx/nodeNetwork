@@ -88,10 +88,10 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
                     />
                 </Box>
 
-                <Box sx={{ display: 'inline-flex', justifyContent: 'center', mt: 2, width: '100%' }}>
+                {/* <Box sx={{ display: 'inline-flex', justifyContent: 'center', mt: 2, width: '100%' }}>
                     <Link sx={{ color: 'blueviolet', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon fontSize='small' /> Añadir una imagen/video</Link>
                     <Link sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación</Link>
-                </Box>
+                </Box> */}
 
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
                     <Button
