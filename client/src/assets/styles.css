@@ -76,7 +76,7 @@ body{
 .login-container-tablet, .register-container-tablet{
     background-color: rgb(254, 249, 239);
     box-shadow: 0 3px 10px -1px black;
-    width: 90%;
+    width: 50%;
     position: absolute;
     top: 50%;
     left: 50%;

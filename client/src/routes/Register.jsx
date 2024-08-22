@@ -9,7 +9,7 @@ import '../assets/index.css';
 
 const Register = () => {
     const isDesktop = useMediaQuery('(min-width: 900px)');
-    const isTablet = useMediaQuery('(min-width: 425px) and (max-width: 900px)');
+    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
     const navigate = useNavigate();
     const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, formData } = useRegisterForm({
