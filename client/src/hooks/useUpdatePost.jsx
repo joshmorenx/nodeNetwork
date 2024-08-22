@@ -7,6 +7,7 @@ export default function useUpdatePost({ token, initialForm = {} }) {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     const [updatedPost, setUpdatedPost] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const handleInputChange = (event) => {  
         const { name, value } = event.target;
@@ -14,6 +15,7 @@ export default function useUpdatePost({ token, initialForm = {} }) {
     }
 
     const updatePost = async (image) => {
+        setLoading(true);
         const formData = new FormData();
         formData.append('post_id', postForm.id);
         formData.append('content', postForm.content);
@@ -36,11 +38,13 @@ export default function useUpdatePost({ token, initialForm = {} }) {
             setMsg(response.data.message);
             setSuccess(response.data.success);
             setUpdatedPost(response.data.post)
+            setLoading(false);
         }).catch((error)=>{
             setError(error);
+            setLoading(false);
         })
     }
 
-    return { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost };
+    return { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost, loading };
 
 }

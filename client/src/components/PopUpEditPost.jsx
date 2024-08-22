@@ -6,9 +6,10 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import useUpdatePost from '../hooks/useUpdatePost.jsx';
 import { useMediaQuery } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 export default function PopUpEditPost({ token, post, setUpdatePost }) {
-    const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost } = useUpdatePost({
+    const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost, loading } = useUpdatePost({
         token, initialForm: {
             id: post.postId,
             content: post.content,
@@ -94,13 +95,14 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
                 </Box> */}
 
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
-                    <Button
-                        onClick={() => updatePost()}
-                        variant="contained"
-                        size="small"
-                        fullWidth>
-                        Actualizar
-                    </Button>
+                    {!postForm.content ?
+                        <Button size="small" fullWidth>
+                            Actualizar
+                        </Button> :
+                        <Button disabled={loading} sx={{ color: 'white' }} onClick={() => updatePost()} variant="contained" size="small" fullWidth>
+                            {!loading ? 'Actualizar' : <CircularProgress size={'3vw'} sx={{ color: 'white' }} />}
+                        </Button>
+                    }
                 </Box>
 
             </Box>

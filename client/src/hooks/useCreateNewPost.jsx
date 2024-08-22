@@ -6,6 +6,7 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
     const [msg, setMsg] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -17,6 +18,7 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
     }, [msg]);
 
     const sendRequest = async (image) => {
+        setLoading(true);
         const formData = new FormData();
         formData.append('content', postForm.content);
 
@@ -37,10 +39,12 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
         }).then((response)=>{
             setMsg(response.data.message);
             setSuccess(response.data.success);
+            setLoading(false);
         }).catch((error)=>{
             setError(error);
+            setLoading(false);
         })
     }
 
-    return { sendRequest, msg, error, success, handleInputChange, postForm };
+    return { sendRequest, msg, error, success, handleInputChange, postForm, loading };
 }

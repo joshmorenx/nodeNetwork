@@ -6,12 +6,13 @@ import { Box, Button, Input, Link, TextField, Typography } from "@mui/material";
 import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
 import { useMediaQuery } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { CircularProgress } from '@mui/material';
 
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, handleFeedReload }) {
     const [selectedImageFile, setSelectedImageFile] = useState(null); // Default image file
     const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Default image URL
     const [imageOver, setImageOver] = useState(false);
-    const { sendRequest, msg, error, success, handleInputChange, postForm } = useCreateNewPost({
+    const { sendRequest, msg, error, success, handleInputChange, postForm, loading } = useCreateNewPost({
         token, initialForm: {
             content: '',
             latitude: '',
@@ -152,11 +153,16 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
                     <Link onClick={getGeoLocation} sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación </Link>
 
                 </Box>
-                
+
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
-                    <Button onClick={() => sendRequest(selectedImageFile)} variant="contained" size="small" fullWidth>
-                        Publicar
-                    </Button>
+                    {!postForm.content ?
+                        <Button size="small" fullWidth>
+                            Publicar
+                        </Button> :
+                        <Button disabled={loading} sx={{ color: 'white' }} onClick={() => sendRequest(selectedImageFile)} variant="contained" size="small" fullWidth>
+                            {!loading ? 'Publicar' : <CircularProgress size={'3vw'} sx={{ color: 'white' }} />}
+                        </Button>
+                    }
                 </Box>
 
             </Box>
