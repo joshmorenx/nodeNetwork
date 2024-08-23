@@ -5,6 +5,8 @@ const returnUserData = require("../controllers/returnUserData.js");
 const getAllUsers = require("../controllers/getAllUsers.js");
 const updateProfile = require("../controllers/updateProfile.js");
 const getSpecificUserData = require("../controllers/getSpecificUserData.js");
+const handleTheme = require("../controllers/handleTheme.js");
+const getUserTheme = require("../controllers/getUserTheme.js");
 
 const userRoutes = (upload) => {
 
@@ -12,6 +14,8 @@ const userRoutes = (upload) => {
     router.get('/api/usuarios/', getAllUsers);
     router.get('/api/getSpecificUserData/:username', verifyToken, getSpecificUserData);
     router.post('/api/updateProfile/', verifyToken, upload.single('image'), updateProfile);
+    router.put('/api/handleTheme/', verifyToken, handleTheme)
+    router.get('/api/getUserTheme/', verifyToken, getUserTheme)
 
     return router;
 };

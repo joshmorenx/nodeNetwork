@@ -16,6 +16,7 @@ const UserSchema = new Schema({
     galleryPictures: [{ type: String }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
+    theme: { type: String, default: "light" },
 });
 
 const User = mongoose.model("User", UserSchema);
