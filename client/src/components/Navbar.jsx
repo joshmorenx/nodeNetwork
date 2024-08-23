@@ -1,8 +1,13 @@
 import PropTypes from 'prop-types';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import Button from '@mui/material/Button'
+import { useMediaQuery } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { setClassName } from '../redux/actions';
+import SettingsIcon from '@mui/icons-material/Settings';
+import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Search from './Search.jsx';
@@ -10,22 +15,23 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import useLogout from '../hooks/useLogout'
 import useGetCurrentUser from '../hooks/useGetCurrentUser'
 import HomeIcon from '@mui/icons-material/Home';
-import { useState, useEffect } from 'react';
-import { useMediaQuery } from '@mui/material';
 import MobileNavMenu from './MobileNavMenu.jsx';
-import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import useHandleTheme from '../hooks/useHandleTheme.jsx/';
 
 export default function Navbar({ token }) {
     const [query, setQuery] = useState('')
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const { user } = useGetCurrentUser({ token });
-    const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({token})
+    const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
 
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
+
+    const className = useSelector((state) => state.className);
+
 
     const gotoDashboard = () => {
         navigate('/dashboard')
@@ -95,18 +101,24 @@ export default function Navbar({ token }) {
         },
     }));
 
-    const handleThemeChange = (event) =>{
+    const handleThemeChange = (event) => {
         console.log(event.target.checked)
         updateHandleTheme(event.target.checked)
+        handleClassChange(event.target.checked)
     }
 
-    useEffect(()=>{
+    const handleClassChange = (checked) => {
+        dispatch(setClassName(checked ? 'bgx-black' : 'bgx-white'));
+    };
+
+    useEffect(() => {
         getUserTheme()
-    },[])
+        handleClassChange(newTheme === 'dark' ? true : false)
+    }, [newTheme])
 
     return (
         <Box sx={{ mb: 9 }}>
-            <Box className="bgx-black" sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}>
+            <Box className={className} sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}>
                 <Box p={1} sx={isTablet ? { display: 'flex', justifyContent: 'center' } : { display: 'flex', justifyContent: 'space-between' }}>
                     {/* config section */}
                     {isDesktop || isTablet ?
@@ -121,7 +133,7 @@ export default function Navbar({ token }) {
 
                             <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
                                 <Box>
-                                    <MaterialUISwitch onChange={handleThemeChange} id='light-switch' sx={{ m: 1 }} disabled={themeLoading} checked={ newTheme === 'dark' ? true : false}/>
+                                    <MaterialUISwitch onChange={handleThemeChange} id='light-switch' sx={{ m: 1 }} disabled={themeLoading} checked={newTheme === 'dark' ? true : false} />
                                 </Box>
                                 <Button onClick={handleLogout}>
                                     <LogoutIcon sx={{ color: 'white' }} />
