@@ -1,13 +1,15 @@
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Box, Link, Button, TextField } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 import EditIcon from '@mui/icons-material/Edit';
+import { useSelector } from 'react-redux';
 
 export default function ProfileEditEmail({ formUserData, handleInputChange, sendRequest, user, noEditEmail, handleEdit }) {
+    const className = useSelector((state) => state.className);
     return (
         <Accordion defaultExpanded={true}>
             <AccordionSummary
-                className="bgx-black"
-                expandIcon={<ExpandMore className="bgx-black" />}
+                className={className}
+                expandIcon={<ExpandMore className={className} />}
                 aria-label="Expand"
                 aria-controls="-content"
                 id="-header"
@@ -15,7 +17,7 @@ export default function ProfileEditEmail({ formUserData, handleInputChange, send
             >
                 <Typography>Modificar Email</Typography>
             </AccordionSummary>
-            <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className={className} sx={{ bgcolor: '#faf1de' }}>
 
                 <Box>
                     <Typography>Correo Actual: {user.email}</Typography>

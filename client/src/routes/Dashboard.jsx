@@ -10,13 +10,14 @@ import { useNavigate } from 'react-router-dom';
 import ImageViewer from '../components/ImageViewer';
 import { useMediaQuery } from '@mui/material';
 import MobileNavMenu from '../components/MobileNavMenu';
+import { useSelector } from 'react-redux';
 
 const Dashboard = ({ token }) => {
     const navigate = useNavigate();
     const [selectedSection, setSelectedSection] = useState('assign');
     const [imgClickedPath, setImgClickedPath] = useState(null)
     const isSettingsRoute = true
-
+    const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
@@ -48,7 +49,7 @@ const Dashboard = ({ token }) => {
         <>
             {isDesktop ? (
                 <div className="dashboard-container">
-                    <div className="profile-container bgx-black text-center">
+                    <div className={"profile-container text-center "+ className}>
                         <div>
                             {error ? (
                                 <p>Error al obtener el contenido del usuario: {error.message}</p>

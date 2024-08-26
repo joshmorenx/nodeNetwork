@@ -11,6 +11,7 @@ import SpecificFeedContent from "./SpecificFeedContent.jsx";
 import ImageViewer from "./ImageViewer.jsx";
 import FollowsButton from "./FollowsButton.jsx";
 import { useMediaQuery } from "@mui/material";
+import { useSelector } from "react-redux";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading } = useFollowUser({ token, username });
@@ -19,7 +20,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
     const [abletoUnfollow, setAbletoUnfollow] = useState(false)
-
+    const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
@@ -48,7 +49,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
 
     return (
         <>
-            <Box className="bgx-black-semi" sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
+            <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
             <Box sx={{ width: '100%', display: isDesktop || isTablet ? 'flex' : 'block', alignItems: 'flex-start' }}>
                 <Box className="fixed-profile" sx={{ position: isDesktop || isTablet ? 'sticky' : 'static', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                     <Box sx={isDesktop || isTablet ? { overflowY: 'auto', overflowX: 'hidden', height: '100vh' } : { overflowY: 'auto' }}>

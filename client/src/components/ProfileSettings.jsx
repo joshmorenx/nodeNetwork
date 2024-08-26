@@ -8,9 +8,10 @@ import ProfileEditNames from './ProfileEditNames.jsx';
 import ProfileEditEmail from './ProfileEditEmail.jsx';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
-
+import { useSelector } from 'react-redux';
 
 export default function ProfileSettings({ token }) {
+    const className = useSelector((state) => state.className);
     const navigate = useNavigate();
     const [noEditFirstName, setNoEditFirstName] = useState(true);
     const [noEditLastName, setNoEditLastName] = useState(true);
@@ -72,17 +73,17 @@ export default function ProfileSettings({ token }) {
 
     return (
         <>
-            <Accordion className="bgx-black" sx={{ overflowY: 'auto', height: '98%', bgcolor: '#f9f0ce' }} expanded={true} color='primary'>
+            <Accordion className={className} sx={{ overflowY: 'auto', height: '98%', bgcolor: '#f9f0ce' }} expanded={true} color='primary'>
                 <AccordionSummary
                     // expandIcon={<ArrowDropDownIcon />}
-                    className="bgx-black"
+                    className={className}
                     aria-controls="panel2-content"
                     id="panel2-header"
                     sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
                 >
                     <Typography>Modificar detalles de perfil</Typography>
                 </AccordionSummary>
-                <AccordionDetails className="bgx-black" sx={{ bgcolor: '#faf1de' }}>
+                <AccordionDetails className={className} sx={{ bgcolor: '#faf1de' }}>
                     <Box className="avatar-container" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <ProfileEditPicture selectedImage={selectedImage} selectedImageUrl={selectedImageUrl} handleImageChange={handleImageChange} sendRequest={sendRequest} />
                         

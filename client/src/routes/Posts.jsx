@@ -8,10 +8,13 @@ import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import { Box } from "@mui/material";
 import useGetSinglePost from "../hooks/useGetSinglePost.jsx";
 import PostedContent from "../components/PostedContent.jsx";
+import { useSelector } from "react-redux";
+
 export default function Posts({ token }){
     const { post_id } = useParams();
     const { post, error, success, msg, getSinglePost } = useGetSinglePost({ token, id: post_id });
     const navigate = useNavigate();
+    const className = useSelector((state) => state.className);
 
     useEffect(()=>{
         if(post_id > 0){
@@ -25,7 +28,7 @@ export default function Posts({ token }){
         <>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Navbar token={token} />
-                <Box className="bgx-black" sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }}></Box>
+                <Box className={className} sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }}></Box>
                 <Box sx={{ width: '50vw' }}>
                     {success && <PostedContent token={token} post={post} />}
                 </Box>

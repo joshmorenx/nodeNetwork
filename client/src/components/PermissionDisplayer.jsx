@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import { Typography, useMediaQuery } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function PermissionDisplayer({ token, UserUnassignedPermissions, UserAssignedPermissions, selectedUser }) {
   const { user } = useGetCurrentUser({ token });
@@ -16,7 +17,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [message, setMessage] = useState('');
   const [permissionAmount, setPermissionAmount] = useState(0);
   const { sendRequest, msg, error, succes, setMsg } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
-
+  const className = useSelector((state) => state.className);
   const isDesktop = useMediaQuery('(min-width: 900px)');
   const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
   const isMobile = useMediaQuery('(max-width: 425px)');
@@ -113,8 +114,8 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
                 {selectedUser && getAllPermissions(UserUnassignedPermissions, 1)}
               </Box>
             </Box>
-
-            <Box className={(isDesktop ? "btnContainer" : "btnContainerMobile") + " bgx-black"}>
+        
+            <Box className={(isDesktop ? "btnContainer" : "btnContainerMobile") + " " + className}>
               <Box>
                 <button onClick={moveFromUnassignedToAssigned} className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id={isDesktop ? "btnAdd" : "btnAddMobile"} disabled={disabledAddPermission}> + </button>
               </Box>

@@ -1,5 +1,7 @@
 // src/redux/store.js
 import { legacy_createStore as createStore } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // puedes cambiar a sessionStorage si prefieres
 
 // Estado inicial
 const initialState = {
@@ -16,7 +18,19 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-// Crear el store
-const store = createStore(reducer);
+// Configuración de persistencia
+const persistConfig = {
+    key: 'root',
+    storage,
+};
 
-export default store;
+// Reducer persistente
+const persistedReducer = persistReducer(persistConfig, reducer);
+
+// Crear el store con el reducer persistente
+const store = createStore(persistedReducer);
+
+// Crear el persistor
+const persistor = persistStore(store);
+
+export { store, persistor };

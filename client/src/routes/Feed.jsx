@@ -8,16 +8,17 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import ThreePIcon from '@mui/icons-material/ThreeP';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useMediaQuery } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function Feed({ token }) {
+    const className = useSelector((state) => state.className);
     const { userNames } = useGetAllUsers();
     const [nombres, setNombres] = useState([]);
     const { user } = useGetCurrentUser({ token });
     const usernameLinkStyles = [
         { mt: '10px', ml: '10px', display: 'flex', justifyContent: 'left', alignItems: 'center', textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } },
-        { color: 'white', mt: '10px', ml: '10px' }
+        { color: className === 'bgx-black' ? 'white' : 'black' }
     ]
-
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
@@ -44,11 +45,11 @@ export default function Feed({ token }) {
             ({ token } &&
                 <>
                     <Navbar token={token} />
-                    <Box className="bgx-black-semi" sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
+                    <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
 
                         {/* Contenedor para los elementos fijos (Eventos) */}
                         <Box visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', left: '0', width: '20%', height: '100%' }}>
-                            <Box className="bgx-black" style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
+                            <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'justify', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (
@@ -85,9 +86,9 @@ export default function Feed({ token }) {
 
                         {/* Contenedor para los elementos fijos (usuarios mas recientes) */}
                         <Box visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', right: '0', width: '20%', height: '100%' }}>
-                            <Box className="bgx-black" style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
+                            <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Typography sx={{ color: 'white', mt: '10px' }}>Usuarios recien registrados</Typography>
+                                    <Typography sx={{ color: className === 'bgx-black' ? 'white' : 'black', mt: '10px' }}>Usuarios recien registrados</Typography>
                                 </Box>
                                 {
                                     nombres.map((nombre, index) => {

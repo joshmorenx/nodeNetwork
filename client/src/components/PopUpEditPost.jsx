@@ -7,8 +7,10 @@ import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import useUpdatePost from '../hooks/useUpdatePost.jsx';
 import { useMediaQuery } from '@mui/material';
 import { CircularProgress } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function PopUpEditPost({ token, post, setUpdatePost }) {
+    const className = useSelector((state) => state.className);
     const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost, loading } = useUpdatePost({
         token, initialForm: {
             id: post.postId,
@@ -46,7 +48,7 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
     return (
         <Box className="posting-box-popup">
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001, bgcolor: '#00000099' }} onClick={() => setUpdatePost(false)}></Box>
-            <Box className="bgx-black" sx={popUpEditStyles}>
+            <Box className={className} sx={popUpEditStyles}>
 
                 <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Typography variant={isDesktop ? 'h4' : isTablet ? 'h6' : 'h7'} sx={{ fontWeight: 'bold' }} align='center' >Actualizar publicación</Typography>

@@ -12,15 +12,17 @@ import ThreePIcon from '@mui/icons-material/ThreeP';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LogoutIcon from '@mui/icons-material/Logout';
 import usePermissions from '../hooks/usePermissions.jsx';
+import { useSelector } from 'react-redux';
 
 export default function MobileNavMenu({ token, handleInputChange, encodedQuery, isSettingsRoute, setSelectedSection }) {
     const [open, setOpen] = useState(false)
     const { logout } = useLogout(token);
     const { user } = useGetCurrentUser({ token });
     const { cadena, allAccess } = usePermissions(user)
+    const className = useSelector((state) => state.className);
 
     const linkStyles = {
-        color: 'white',
+        color: className === 'bgx-black' ? 'white' : 'black',
         textDecoration: 'none',
         display: 'flex',
         gap: '1vw',
@@ -39,12 +41,12 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
     return (
         <>
             <Button onClick={() => setOpen(!open)} sx={{ height: '7vh' }}>
-                <MenuIcon sx={{ color: 'white' }} />
+                <MenuIcon sx={{ color: className === 'bgx-black' ? 'white' : 'black' }} />
             </Button>
-            <Box className='bgx-black' visibility={open ? 'visible' : 'hidden'} sx={{ bgcolor: 'white', display: 'flex', flexDirection: 'column', position: 'fixed', top: '0', left: '0', right: '0', bottom: '0', zIndex: 1000 }}>
+            <Box className={className} visibility={open ? 'visible' : 'hidden'} sx={{ bgcolor: 'white', display: 'flex', flexDirection: 'column', position: 'fixed', top: '0', left: '0', right: '0', bottom: '0', zIndex: 1000 }}>
                 <Box>
                     <Button onClick={() => setOpen(!open)} sx={{ height: '10vh', ml: '2vw' }}>
-                        <CloseIcon sx={{ color: 'white' }} />
+                        <CloseIcon sx={{ color: className === 'bgx-black' ? 'white' : 'black' }} />
                     </Button>
                 </Box>
                 {!isSettingsRoute ? (

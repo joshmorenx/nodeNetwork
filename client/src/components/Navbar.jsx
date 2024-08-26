@@ -123,9 +123,9 @@ export default function Navbar({ token }) {
                     {/* config section */}
                     {isDesktop || isTablet ?
                         <>
-                            <Box className="config-section">
+                            <Box className="config-section" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Button onClick={gotoDashboard} variant="text" color="primary">
-                                    <SettingsIcon sx={{ color: 'white' }}></SettingsIcon>
+                                    <SettingsIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></SettingsIcon>
                                 </Button>
                             </Box>
 
@@ -136,16 +136,16 @@ export default function Navbar({ token }) {
                                     <MaterialUISwitch onChange={handleThemeChange} id='light-switch' sx={{ m: 1 }} disabled={themeLoading} checked={newTheme === 'dark' ? true : false} />
                                 </Box>
                                 <Button onClick={handleLogout}>
-                                    <LogoutIcon sx={{ color: 'white' }} />
+                                    <LogoutIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }} />
                                 </Button>
                                 <Button onClick={gotoFeed}>
-                                    <HomeIcon sx={{ color: 'white' }} />
+                                    <HomeIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }} />
                                 </Button>
                                 {/* <Button>
-                            <MessageIcon sx={{ color: 'white' }}></MessageIcon> // pending
+                            <MessageIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></MessageIcon> // pending
                         </Button> */}
                                 {/* <Button onClick={ () => alert }>
-                            <NotificationsIcon sx={{ color: 'white' }}></NotificationsIcon> // pending
+                            <NotificationsIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></NotificationsIcon> // pending
                         </Button> */}
                                 <Button>
                                     <Stack direction="row" spacing={2}>

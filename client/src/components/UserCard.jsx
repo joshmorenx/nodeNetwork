@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { Typography, useMediaQuery, Link } from "@mui/material";
+import { useSelector } from 'react-redux';
 
 export default function UserCard({ user, allAccess, cadena, handleImageClicked }) {
+    const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
@@ -13,7 +15,7 @@ export default function UserCard({ user, allAccess, cadena, handleImageClicked }
     return (
         <>
             <div style={{ position: 'relative' }} className="m-auto">
-                <div className='bgx-black profile-card m-auto rounded-2xl bg-gray-200'>
+                <div className={className+' profile-card m-auto rounded-2xl bg-gray-200'}>
 
                     <div className="avatar-container rounded-2xl">
                         <img style={isDesktop || isTablet ? {} : { width: '50vw', height: '50vw' }} onClick={(event) => { handleImageClick(event) }} className="avatar m-auto cursor-pointer" src={`https://nodenetwork-backend.onrender.com${user.profilePicture}`}></img>

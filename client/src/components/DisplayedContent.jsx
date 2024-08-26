@@ -2,11 +2,13 @@ import { useState, useEffect } from "react"
 import { Avatar, Button, Stack, Box, Typography, Link } from '@mui/material';
 import FollowsButton from './FollowsButton.jsx';
 import { useMediaQuery } from '@mui/material';
+import { useSelector } from "react-redux";
 
 export default function DisplayedContent({ token, username, following, followers, selectedTab }) {
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
+    const className = useSelector((state) => state.className);
 
     return (
         <>
@@ -18,7 +20,7 @@ export default function DisplayedContent({ token, username, following, followers
                     <Box sx={{ display: 'block', alignItems: 'center', gap: '10px' }}>
                         <Typography>Seguidores</Typography>
                         {followers.map((follower, key) => (
-                            <Box className="bgx-black" key={key} sx={{ gap: '10px' }}>
+                            <Box className={className} key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'inline-flex', gap: isDesktop ? '50vw' : isTablet ? '40vw' : '25vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
                                     <Link href={`/profile/${follower.username}`} style={{ textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}> {follower.username} </Link>
                                     <Button size="small" sx={{ bgcolor: 'gray', marginLeft: 'auto' }} variant="disabled">
@@ -34,7 +36,7 @@ export default function DisplayedContent({ token, username, following, followers
                     <Box sx={{ display: 'block', alignItems: 'center', gap: '10px' }}>
                         <Typography>Siguiendo</Typography>
                         {following.map((following, key) => (
-                            <Box className="bgx-black" key={key} sx={{ gap: '10px' }}>
+                            <Box className={className} key={key} sx={{ gap: '10px' }}>
                                 <Box sx={{ display: 'flex', gap: isDesktop ? '50vw' : isTablet ? '40vw' : '25vw', mb: '10px', border: '1px solid black', p: '10px', borderRadius: '10px' }}>
                                     <Link href={`/profile/${following.username}`} style={{ textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } }}> {following.username} </Link>
                                     <Box sx={{ marginLeft: 'auto' }}>

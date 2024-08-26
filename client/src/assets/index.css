@@ -48,6 +48,11 @@
     color: white!important;
 }
 
+.bgx-white-semi{
+    background-color: rgb(197, 194, 194)!important;
+    color: rgb(0, 0, 0)!important;
+}
+
 body {
     margin: 0;
     padding: 0;

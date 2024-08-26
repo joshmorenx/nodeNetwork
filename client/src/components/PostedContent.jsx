@@ -20,6 +20,7 @@ import useDeletePost from '../hooks/useDeletePost.jsx';
 import PopUpEditPost from './PopUpEditPost.jsx';
 import { useMediaQuery } from '@mui/material';
 import ImageViewer from "./ImageViewer.jsx";
+import { useSelector } from "react-redux";
 
 export default function PostedContent({ token, post, handleFeedReload }) {
     const { user, error } = useGetCurrentUser({ token });
@@ -38,6 +39,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
+    const className = useSelector((state) => state.className);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -160,7 +162,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
     return (
         <>
-            <Box className={"bgx-black post-container-id-" + post.postId} sx={{ borderRadius: '5px', p: isDesktop ? 5 : 1, border: '1px solid black', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
+            <Box className={className + " post-container-id-" + post.postId} sx={{ borderRadius: '5px', p: isDesktop ? 5 : 1, border: '1px solid black', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
@@ -210,7 +212,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                             onClose={handleClose}
                             slotProps={{
                                 paper: {
-                                    className: 'bgx-black',
+                                    className: {className},
                                 },
                             }}
                         >

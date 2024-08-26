@@ -3,12 +3,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Box, Link } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useMediaQuery } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function ImageViewer({ image, setImgClickedPath }) {
     const [img, setImg] = useState(null)
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
+    const className = useSelector((state) => state.className);
 
     useEffect(() => {
         setImg(image)
@@ -48,7 +50,7 @@ export default function ImageViewer({ image, setImgClickedPath }) {
                 </Box>
 
                 <Box
-                    className="bgx-black"
+                    className={className}
                     sx={{
                         width: isDesktop ? '35rem' : isTablet ? '60%' : '95%',
                         borderRadius: '5px',

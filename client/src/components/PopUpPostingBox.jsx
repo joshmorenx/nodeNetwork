@@ -7,6 +7,7 @@ import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
 import { useMediaQuery } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { CircularProgress } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, handleFeedReload }) {
     const [selectedImageFile, setSelectedImageFile] = useState(null); // Default image file
@@ -20,7 +21,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
             image: null
         }
     })
-
+    const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
@@ -91,7 +92,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
     return (
         <Box className="posting-box-popup">
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001, bgcolor: '#00000099' }} onClick={handleClosePostingBoxPopUp}></Box>
-            <Box className="bgx-black" sx={popUpEditStyles}>
+            <Box className={className} sx={popUpEditStyles}>
 
                 <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Typography variant={isDesktop ? 'h4' : isTablet ? 'h6' : 'h7'} sx={{ fontWeight: 'bold' }} align='center' >Crear una publicación</Typography>
