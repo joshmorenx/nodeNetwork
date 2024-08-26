@@ -102,7 +102,6 @@ export default function Navbar({ token }) {
     }));
 
     const handleThemeChange = (event) => {
-        console.log(event.target.checked)
         updateHandleTheme(event.target.checked)
         handleClassChange(event.target.checked)
     }
@@ -114,7 +113,10 @@ export default function Navbar({ token }) {
     useEffect(() => {
         getUserTheme()
         handleClassChange(newTheme === 'dark' ? true : false)
+        document.body.style.backgroundColor = (newTheme === 'dark' ? 'black' : 'white')
     }, [newTheme])
+
+    
 
     return (
         <Box sx={{ mb: 9 }}>
@@ -125,7 +127,7 @@ export default function Navbar({ token }) {
                         <>
                             <Box className="config-section" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Button onClick={gotoDashboard} variant="text" color="primary">
-                                    <SettingsIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></SettingsIcon>
+                                    <SettingsIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }}></SettingsIcon>
                                 </Button>
                             </Box>
 
@@ -136,10 +138,10 @@ export default function Navbar({ token }) {
                                     <MaterialUISwitch onChange={handleThemeChange} id='light-switch' sx={{ m: 1 }} disabled={themeLoading} checked={newTheme === 'dark' ? true : false} />
                                 </Box>
                                 <Button onClick={handleLogout}>
-                                    <LogoutIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }} />
+                                    <LogoutIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }} />
                                 </Button>
                                 <Button onClick={gotoFeed}>
-                                    <HomeIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }} />
+                                    <HomeIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }} />
                                 </Button>
                                 {/* <Button>
                             <MessageIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></MessageIcon> // pending

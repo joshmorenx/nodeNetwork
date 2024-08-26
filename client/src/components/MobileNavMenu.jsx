@@ -1,5 +1,7 @@
 import { Box, Button, MenuList, Typography, MenuItem, Link } from '@mui/material'
 import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { setClassName } from '../redux/actions';
 import Search from './Search.jsx'
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -12,9 +14,13 @@ import ThreePIcon from '@mui/icons-material/ThreeP';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LogoutIcon from '@mui/icons-material/Logout';
 import usePermissions from '../hooks/usePermissions.jsx';
-import { useSelector } from 'react-redux';
+import useHandleTheme from '../hooks/useHandleTheme.jsx/';
+import Switch from '@mui/material/Switch';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 export default function MobileNavMenu({ token, handleInputChange, encodedQuery, isSettingsRoute, setSelectedSection }) {
+    const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false)
     const { logout } = useLogout(token);
     const { user } = useGetCurrentUser({ token });
@@ -26,6 +32,7 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
         textDecoration: 'none',
         display: 'flex',
         gap: '1vw',
+        alignItems: 'center',
     }
 
     const handleLogout = () => {
@@ -37,6 +44,21 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
         setSelectedSection(section)
         setOpen(!open)
     }
+
+    const handleThemeChange = (event) => {
+        updateHandleTheme(event.target.checked)
+        handleClassChange(event.target.checked)
+    }
+
+    const handleClassChange = (checked) => {
+        dispatch(setClassName(checked ? 'bgx-black' : 'bgx-white'));
+    };
+
+    useEffect(() => {
+        getUserTheme()
+        handleClassChange(newTheme === 'dark' ? true : false)
+        document.body.style.backgroundColor = (newTheme === 'dark' ? 'black' : 'white')
+    }, [newTheme])
 
     return (
         <>
@@ -72,6 +94,11 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
                                 <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href={`/follows/${user.username}#following`}><HowToRegIcon /> Siguiendo </Link></Typography>
                             </li>
                             <li>
+                                <Typography sx={linkStyles}><DarkModeIcon /> Modo oscuro
+                                    <Switch onChange={handleThemeChange} checked={newTheme === 'dark' ? true : false} />
+                                </Typography>
+                            </li>
+                            <li>
                                 <Typography><Link sx={linkStyles} onClick={handleLogout}><LogoutIcon /> Cerrar sesión </Link></Typography>
                             </li>
                         </ol>
@@ -87,6 +114,11 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
                             </li>}
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={() => handleSectionClick('profile_settings')} href="#"><SettingsIcon /> Ajustes de perfil </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography sx={linkStyles}><DarkModeIcon /> Modo oscuro
+                                    <Switch onChange={handleThemeChange} checked={newTheme === 'dark' ? true : false} />
+                                </Typography>
                             </li>
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={handleLogout}><LogoutIcon /> Cerrar sesión </Link></Typography>

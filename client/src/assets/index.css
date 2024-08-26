@@ -40,7 +40,6 @@
 .bgx-white{
     background-color: white!important;
     color: black!important;
-    border: 1px solid black!important;
 }
 
 .bgx-black-semi{
@@ -56,8 +55,9 @@
 body {
     margin: 0;
     padding: 0;
-    background: #000000;
+    background-color: black;
 }
+
 .container {
     display: flex;
     flex-direction: column;

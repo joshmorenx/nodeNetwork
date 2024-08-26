@@ -91,7 +91,7 @@ const Dashboard = ({ token }) => {
                 </div>
             ) : (
                 <>
-                    <Box p={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Box className={className} p={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <MobileNavMenu token={token} isSettingsRoute={isSettingsRoute} setSelectedSection={setSelectedSection} />
                     </Box>
                     <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} />
