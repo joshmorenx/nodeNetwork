@@ -31,7 +31,7 @@ const createPost = async (req, res) => {
         }
 
         if (req.file) {
-            const galleryFolderPath = path.join(__dirname,`../public/uploads/users/${username}/gallery/`);
+            const galleryFolderPath = path.join(__dirname, `../public/uploads/users/${username}/gallery/`);
 
             if (!fs.existsSync(galleryFolderPath)) {
                 fs.mkdirSync(galleryFolderPath, { recursive: true });
@@ -43,6 +43,14 @@ const createPost = async (req, res) => {
 
             const uniqueFileName = `${uuidv4()}.jpg`;
             const galleryImagePath = path.join(galleryFolderPath, uniqueFileName);
+            const relativePath = `/api/public/uploads/users/${username}/gallery/${uniqueFileName}`;
+
+            // Guardar la ruta de la imagen en la base de datos
+            let addedGalleryImage = await User.findOne({ username: username }).lean()
+            addedGalleryImage.galleryPictures.push(relativePath)
+
+            // Guardar la imagen en la base de datos
+            const result = await User.findOneAndUpdate({ username: username }, { $set: { galleryPictures: addedGalleryImage.galleryPictures } }, { new: true })
 
             // Guardar la imagen en la galería
             fs.writeFileSync(galleryImagePath, buffer);
@@ -52,7 +60,8 @@ const createPost = async (req, res) => {
             fs.unlinkSync(req.file.path);
 
             // Actualizar el post con la ruta de la imagen en la galería
-            post.images.push('/api/'+galleryImagePath.substring(galleryImagePath.indexOf('public')));
+            // post.images.push('/api/' + galleryImagePath.substring(galleryImagePath.indexOf('public')));
+            post.images.push(relativePath);
             await post.save();
         }
     } catch (error) {

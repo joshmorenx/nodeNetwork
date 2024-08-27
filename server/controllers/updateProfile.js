@@ -46,7 +46,7 @@ const updateProfile = async (req = request, res = response) => {
                 if (req.file) {
                     const profileFolderPath = path.join(__dirname, `../public/uploads/users/${username}/profile/`);
                     const galleryFolderPath = path.join(__dirname, `../public/uploads/users/${username}/gallery/`);
-
+                    
                     if (!fs.existsSync(profileFolderPath)) {
                         fs.mkdirSync(profileFolderPath, { recursive: true });
                     }
@@ -66,6 +66,14 @@ const updateProfile = async (req = request, res = response) => {
                     // Generar un nombre de archivo único para la galería
                     const uniqueFileName = `${uuidv4()}.jpg`;
                     const galleryImagePath = path.join(galleryFolderPath, uniqueFileName);
+                    const relativePath = `/api/public/uploads/users/${username}/gallery/${uniqueFileName}.jpg`
+
+                    // Guardar la ruta de la imagen en la base de datos
+                    let addedGalleryImage = await User.findOne({ username: username }).lean()
+                    addedGalleryImage.galleryPictures.push(relativePath)
+
+                    // Guardar la imagen en la base de datos
+                    const result = await User.findOneAndUpdate({ username: username }, { $set: { galleryPictures: addedGalleryImage.galleryPictures } }, { new: true })
 
                     // Guardar la imagen en la galería
                     fs.writeFileSync(galleryImagePath, buffer);
