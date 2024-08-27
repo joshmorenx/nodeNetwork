@@ -66,7 +66,7 @@ const updateProfile = async (req = request, res = response) => {
                     // Generar un nombre de archivo único para la galería
                     const uniqueFileName = `${uuidv4()}.jpg`;
                     const galleryImagePath = path.join(galleryFolderPath, uniqueFileName);
-                    const relativePath = `/api/public/uploads/users/${username}/gallery/${uniqueFileName}.jpg`
+                    const relativePath = `/api/public/uploads/users/${username}/gallery/${uniqueFileName}`
 
                     // Guardar la ruta de la imagen en la base de datos
                     let addedGalleryImage = await User.findOne({ username: username }).lean()

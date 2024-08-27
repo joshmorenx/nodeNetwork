@@ -2,7 +2,7 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
-export default function StandardImageList() {
+export default function ImageGallery({ token, username, userData }) {
   return (
     <ImageList sx={{ width: '100%', height: 300 }} cols={3} rowHeight={164}>
       {itemData.map((item) => (

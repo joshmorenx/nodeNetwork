@@ -56,17 +56,26 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                         <Box>
                             <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
                         </Box>
-                        
+
                         <Box sx={{ mt: 2 }}>
                             {loading ? null : <FollowsButton token={token} username={username} />}
                         </Box>
 
                         <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 2, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
-                            <ImageGallery token={token} username={username} />
+                            <ImageGallery token={token} username={username} userData={userData} />
                         </Box>
                     </Box>
                 </Box>
+
                 <Box className={isDesktop ? 'wrapper' : 'wrapper-mobile'} sx={{ width: '100%', mr: 2.5 }}>
+                    
+                    {/* working but needs to be redefined in ImageGallery */}
+                    {/* {userData.galleryPictures !== undefined && 
+                        userData.galleryPictures.map((picture, index) => (
+                            <img key={index} src={`https://nodenetwork-backend.onrender.com${picture}`} alt="profile" width={isDesktop ? '20vw' : isTablet ? '25vw' : '80vw'} />
+                        ))
+                    } */}
+
                     <Box className='one'>
                         {/* <FeedContent token={token} /> */}
                         <SpecificFeedContent token={token} username={username} currentUsername={currentUsername} />
