@@ -5,26 +5,30 @@ import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import usePermissions from "../hooks/usePermissions.jsx";
 import useFollowUser from "../hooks/useFollowUser.jsx";
 import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
-import ImageGallery from "./ImageGallery.jsx";
 import SpecificFeedContent from "./SpecificFeedContent.jsx";
 import ImageViewer from "./ImageViewer.jsx";
 import FollowsButton from "./FollowsButton.jsx";
 import { useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import useGetFollows from "../hooks/useGetFollows.jsx"
+import useGetCurrentUser from "../hooks/useGetCurrentUser.jsx";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
+    const { user, error } = useGetCurrentUser({ token });
     const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading } = useFollowUser({ token, username });
     const { sendUnfollowRequest, er, msj, suc } = useUnfollowUser({ token, username });
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
     const { messageFollows, successFollows, errorFollows, followers, following, getFollows } = useGetFollows({ token })
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
-    const [abletoUnfollow, setAbletoUnfollow] = useState(false)
     const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
+
+    const fontSizeStyles = {
+        fontSize: isDesktop ? '1vw' : isTablet ? '1vw' : '3vw'
+    }
 
     const handleImageClicked = (event) => {
         if (event) {
@@ -62,28 +66,29 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                         </Box>
 
                         <Box sx={{ mt: 2, mb: 2 }}>
-                            {loading ? null : <FollowsButton token={token} username={username} />}
+                            {loading ? null : <FollowsButton token={token} username={username} fontSizeStyles={fontSizeStyles} />}
                         </Box>
 
-                        {loading ? null : <Box sx={{ gap: 2, display: 'flex', justifyContent: 'center' }}>
+                        {loading ? null : 
+                        <Box sx={{ gap: 2, display: 'flex', justifyContent: 'center' }}>
                             <Link href={`/follows/${username}#followers`}>
-                                <Button color="success" variant="contained">
-                                    Seguidores {followers.length}
+                                <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="contained">
+                                    Seguidores ({followers.length})
                                 </Button>
                             </Link>
                             <Link href={`/follows/${username}#following`} variant="contained">
-                                <Button color="success" variant="contained">
-                                    Siguiendo {following.length}
+                                <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="contained">
+                                    Siguiendo ({following.length})
                                 </Button>
                             </Link>
                         </Box>}
 
-                        <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 2, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
-                            <Link href={`/gallery/${username}`}>
-                                <Button color="info" variant="contained" sx={{ mt: 2 }}>
-                                    ir a la galeria del usuario
+                        <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 0, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
+                            {!user.username ? null : <Link href={`/gallery/${username}`}>
+                                <Button color="info" variant="contained" sx={{ mt: 2, fontSize: fontSizeStyles }}>
+                                    {user.username === username ? 'ir a mi galeria' : 'ir a la galeria de ' + username}
                                 </Button>
-                            </Link>
+                            </Link>}
                         </Box>
 
                     </Box>

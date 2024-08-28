@@ -5,7 +5,7 @@ import useUnfollowUser from '../hooks/useUnfollowUser';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import { CircularProgress } from '@mui/material';
 
-export default function FollowsButton({ token, username }) {
+export default function FollowsButton({ token, username, fontSizeStyles }) {
     const [abletoUnfollow, setAbletoUnfollow] = useState(false)
     const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading } = useFollowUser({ token, username });
     const { sendUnfollowRequest, er, msj, suc } = useUnfollowUser({ token, username });
@@ -36,6 +36,7 @@ export default function FollowsButton({ token, username }) {
                         <Button
                             variant="contained"
                             color="success"
+                            sx={fontSizeStyles}
 
                             onMouseOver={(event) => {
                                 event.target.style.backgroundColor = 'rgb(200, 40, 30)'
