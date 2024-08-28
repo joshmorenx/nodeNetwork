@@ -13,7 +13,7 @@ export default function Search({ handleInputChange, encodedQuery }) {
                 <TextField
                     required
                     onChange={handleInputChange}
-                    sx={{ bgcolor: 'white', width: isDesktop ? '50vw' : isTablet ? '50vw' : '91%' }}
+                    sx={{ borderRadius: '10px', bgcolor: 'white', width: isDesktop ? '50vw' : isTablet ? '50vw' : '91%' }}
                     label="Buscar"
                     InputProps={{
                         endAdornment: (

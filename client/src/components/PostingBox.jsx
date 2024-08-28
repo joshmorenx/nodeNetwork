@@ -15,17 +15,17 @@ export default function PostingBox({ token, handleFeedReload }) {
     }
 
     return (
-        (token && 
-            <>  
+        (token &&
+            <>
                 {showPostingBox && <PopUpPostingBox token={token} handleClosePostingBoxPopUp={handleClosePostingBoxPopUp} handleFeedReload={handleFeedReload} />}
-                
-                    <Box sx={{ margin : '20px', display: 'flex', bgcolor: '#EEEEEEEE'}}>
+
+                <Box sx={{ borderRadius: '10px', margin: '20px', display: 'flex', bgcolor: '#EEEEEEEE' }}>
                     <TextField
-                    size="small"
-                    placeholder="Escribe lo que piensas..."
-                    sx={{ width: '100%' }}
-                    onClick={handleOpenPostingBoxPopUp}
-                    inputProps={{ readOnly : true }}
+                        size="small"
+                        placeholder="Escribe lo que piensas..."
+                        sx={{ width: '100%' }}
+                        onClick={handleOpenPostingBoxPopUp}
+                        inputProps={{ readOnly: true }}
                     />
                 </Box>
             </>
