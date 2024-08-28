@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Link } from "@mui/material";
 import UserCard from "./UserCard.jsx";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import usePermissions from "../hooks/usePermissions.jsx";
 import useFollowUser from "../hooks/useFollowUser.jsx";
 import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
-// import useUnfollowUser from "../hooks/useUnfollowUser.jsx";
 import ImageGallery from "./ImageGallery.jsx";
 import SpecificFeedContent from "./SpecificFeedContent.jsx";
 import ImageViewer from "./ImageViewer.jsx";
 import FollowsButton from "./FollowsButton.jsx";
 import { useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
+import useGetFollows from "../hooks/useGetFollows.jsx"
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
     const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading } = useFollowUser({ token, username });
     const { sendUnfollowRequest, er, msj, suc } = useUnfollowUser({ token, username });
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
+    const { messageFollows, successFollows, errorFollows, followers, following, getFollows } = useGetFollows({ token })
     const { allAccess, cadena } = usePermissions(userData);
     const [imgClickedPath, setImgClickedPath] = useState(null)
     const [abletoUnfollow, setAbletoUnfollow] = useState(false)
@@ -24,12 +25,6 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
-
-
-    useEffect(() => {
-        sendRequest();
-        checkFollowAlreadyExists();
-    }, [])
 
     const handleImageClicked = (event) => {
         if (event) {
@@ -47,6 +42,15 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
         await checkFollowAlreadyExists()
     }
 
+    useEffect(() => {
+        sendRequest();
+        checkFollowAlreadyExists();
+    }, [])
+
+    useEffect(() => {
+        username && getFollows(username)
+    }, [username])
+
     return (
         <>
             <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
@@ -57,27 +61,38 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                             <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
                         </Box>
 
-                        <Box sx={{ mt: 2 }}>
+                        <Box sx={{ mt: 2, mb: 2 }}>
                             {loading ? null : <FollowsButton token={token} username={username} />}
                         </Box>
 
+                        {loading ? null : <Box sx={{ gap: 2, display: 'flex', justifyContent: 'center' }}>
+                            <Link href={`/follows/${username}#followers`}>
+                                <Button color="success" variant="contained">
+                                    Seguidores {followers.length}
+                                </Button>
+                            </Link>
+                            <Link href={`/follows/${username}#following`} variant="contained">
+                                <Button color="success" variant="contained">
+                                    Siguiendo {following.length}
+                                </Button>
+                            </Link>
+                        </Box>}
+
                         <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 2, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
-                            <ImageGallery token={token} username={username} userData={userData} />
+                            <Link href={`/gallery/${username}`}>
+                                <Button color="info" variant="contained" sx={{ mt: 2 }}>
+                                    ir a la galeria del usuario
+                                </Button>
+                            </Link>
                         </Box>
+
                     </Box>
                 </Box>
 
                 <Box className={isDesktop ? 'wrapper' : 'wrapper-mobile'} sx={{ width: '100%', mr: 2.5 }}>
-                    
-                    {/* working but needs to be redefined in ImageGallery */}
-                    {/* {userData.galleryPictures !== undefined && 
-                        userData.galleryPictures.map((picture, index) => (
-                            <img key={index} src={`https://nodenetwork-backend.onrender.com${picture}`} alt="profile" width={isDesktop ? '20vw' : isTablet ? '25vw' : '80vw'} />
-                        ))
-                    } */}
 
                     <Box className='one'>
-                        {/* <FeedContent token={token} /> */}
+                        {/* <FeedContent token={token} /> */} {/* must refactor the specific feed content to be only using the feed content component  */}
                         <SpecificFeedContent token={token} username={username} currentUsername={currentUsername} />
                     </Box>
                 </Box>
