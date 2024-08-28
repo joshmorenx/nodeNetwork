@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Box, Button, Avatar, Typography, Stack } from '@mui/material'
+import { Box, Button, Avatar, Typography, Stack, Link } from '@mui/material'
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -20,7 +20,7 @@ export default function Comments({ comment, token }) {
 
 
     const reactionIconStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '5vw'        
+        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '5vw'
     }
 
     const reactionTextStyles = {
@@ -36,7 +36,7 @@ export default function Comments({ comment, token }) {
     const userNameStyles = {
         fontSize: isDesktop ? '20px' : isTablet ? '20px' : '12px'
     }
-    
+
     useEffect(() => {
         const date = new Date(comment.date_created);
         const formatted = format(date, 'dd MMMM yyyy', { locale: es });
@@ -61,8 +61,10 @@ export default function Comments({ comment, token }) {
     return (
         <Box sx={{ alignItems: 'center', border: '1px solid grey', margin: '8px', padding: '8px' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Avatar sx={avatarStyles}>{comment.username.charAt(0).toUpperCase()}</Avatar>
-                <Typography sx={userNameStyles}> {comment.username} </Typography>
+                <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                    <Avatar sx={avatarStyles}><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${comment.username}/profile/profile.jpg`} /></Avatar>
+                    <Typography sx={userNameStyles}> {comment.username} </Typography>
+                </Link>
                 <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black' }}> creado el {formattedDate} </Typography>
             </Box>
             <Box sx={{ alignItems: 'center', border: '1px solid grey', margin: '8px', padding: '8px' }}>
@@ -70,10 +72,10 @@ export default function Comments({ comment, token }) {
             </Box>
             <Stack direction="row" sx={{ display: 'flex' }}>
                 <Button onClick={setCommentLike}>
-                    <ThumbUpIcon sx={reactionIconStyles} /> <span style={reactionTextStyles}> Me Gusta ({ currentLikes }) </span>
+                    <ThumbUpIcon sx={reactionIconStyles} /> <span style={reactionTextStyles}> Me Gusta ({currentLikes}) </span>
                 </Button>
                 <Button onClick={setCommentDislike}>
-                    <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span style={reactionTextStyles}> No Me Gusta ({ currentDislikes }) </span>
+                    <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span style={reactionTextStyles}> No Me Gusta ({currentDislikes}) </span>
                 </Button>
             </Stack>
         </Box>

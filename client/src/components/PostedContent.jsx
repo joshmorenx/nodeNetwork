@@ -49,7 +49,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     };
 
     const reactionIconStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '5vw'        
+        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '5vw'
     }
 
     const reactionTextStyles = {
@@ -166,32 +166,40 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                    <HtmlTooltip
-                        title={
-                            <Box visibility={isDesktop ? 'visible' : 'hidden'} >
-                                <Typography color="inherit"></Typography>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    <Link href="#" sx={{ textDecoration: 'none' }}><Avatar>{post.username.substring(0, 1).toUpperCase()}</Avatar></Link>
-                                    <Link sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p> {post.username} </p></Link>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <HtmlTooltip
+                            title={
+                                <Box visibility={isDesktop ? 'visible' : 'hidden'} >
+                                    <Typography color="inherit"></Typography>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <Link href="#" sx={{ textDecoration: 'none' }}><Avatar><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${post.username}/profile/profile.jpg`} /></Avatar></Link>
+                                        <Link sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p> {post.username} </p></Link>
+                                    </Box>
+                                    <Typography variant="h6">
+                                        <Box>nombre: {post.firstName}</Box>
+                                        <Box>correo: {post.email}</Box>
+                                        <Box>se unio en: {
+                                            new Date(post.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+                                        }</Box>
+                                    </Typography>
                                 </Box>
-                                <Typography variant="h6">
-                                    <Box>nombre: {post.firstName}</Box>
-                                    <Box>correo: {post.email}</Box>
-                                    <Box>se unio en: {
-                                        new Date(post.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
-                                    }</Box>
-                                </Typography>
+                            }
+                        >
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${post.username}/profile/profile.jpg`} /></Avatar></Link>
+                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
+                                    {/* <p>{post.firstName}</p> */}
+                                    <Typography sx={userNameStyles}>{post.username}</Typography>
+                                </Link>
                             </Box>
-                        }
-                    >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} >{post.username.substring(0, 1).toUpperCase()}</Avatar></Link>
-                            <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
-                                {/* <p>{post.firstName}</p> */}
-                                <Typography sx={userNameStyles}>{post.firstName}</Typography>
-                            </Link>
+                        </HtmlTooltip>
+
+                        <Box sx={isDesktop ? { mt: '2%' } : { mt: '1%' }}>
+                            <Typography sx={{ bgcolor: 'black', color: 'white', pl: '6px', pr: '6px', pt: '6px', pb: '6px', border: '1px solid grey' }} style={reactionTextStyles}>
+                                {'creado el '+new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })}
+                            </Typography>
                         </Box>
-                    </HtmlTooltip>
+                    </Box>
 
                     <Box>
                         <Button
@@ -203,6 +211,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                         >
                             <MoreHorizIcon />
                         </Button>
+
                         {/* menu desplegable */}
                         <Menu
                             id="btn-menu"
@@ -212,7 +221,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                             onClose={handleClose}
                             slotProps={{
                                 paper: {
-                                    className: {className},
+                                    className: { className },
                                 },
                             }}
                         >
@@ -226,23 +235,18 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                     </Box>
 
                 </Box>
-                <Box sx={isDesktop ? { mt: '2%' } : { mt: '1%' }}>
-                    <Typography style={reactionTextStyles}>
-                        {new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })}
-                    </Typography>
-                </Box>
 
                 <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', padding: '8px' }}>
                     <Typography sx={{ wordWrap: 'break-word', whiteSpace: 'normal', multiline: true, textAlign: 'justify' }}>
                         {post.content}
                     </Typography>
                 </Box>
-                { post.images.length > 0 && (
+                {post.images.length > 0 && (
                     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                         <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '50%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
                     </Box>
                 )}
-                
+
                 <Box sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
                     <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button onClick={likeThePost}>
