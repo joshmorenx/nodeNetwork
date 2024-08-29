@@ -34,7 +34,7 @@ export default function UserCard({ user, allAccess, cadena, handleImageClicked }
                                 <b>{cadena && ("Administrador")}</b>
                             </div>
                         ) : (
-                            <p>Sin permisos de administrador</p>)}
+                            null)}
                 </div>
 
             </div>

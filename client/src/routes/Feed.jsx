@@ -88,7 +88,7 @@ export default function Feed({ token }) {
                         <Box visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', right: '0', width: '20%', height: '100%' }}>
                             <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Typography sx={{ color: className === 'bgx-black' ? 'white' : 'black', mt: '10px' }}>Usuarios recien registrados</Typography>
+                                    <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '10px' }}>Usuarios recien registrados</Typography>
                                 </Box>
                                 {
                                     nombres.map((nombre, index) => {
