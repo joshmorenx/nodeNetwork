@@ -1,3 +1,4 @@
+const https = require("https");
 const connectDB = require("./connectDB.js");
 const express = require("express");
 const path = require("path");
@@ -24,9 +25,24 @@ const allowedOrigins = [
     'http://localhost:8080',
     'http://127.0.0.1:8080',
     'http://localhost:5173',
-    'https://node-network-chi.vercel.app', 
+    'https://node-network-chi.vercel.app',
     'https://nodenetwork.onrender.com' // Añadir la URL del frontend desplegado
 ];
+
+
+const keepAlive = () => {
+    https.get('https://nodenetwork-backend.onrender.com', (res) => {
+        res.on('data', () => { });
+        res.on('end', () => {
+            console.log('Pinged self successfully.');
+        });
+    }).on('error', (err) => {
+        console.error('Error pinging self:', err.message);
+    });
+}
+
+// Llama a keepAlive cada 3 minutos
+setInterval(keepAlive, 1000 * 60 * 3);
 
 // Configuración de Multer
 const storage = multer.diskStorage({
