@@ -162,7 +162,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
     return (
         <>
-            <Box className={className + " post-container-id-" + post.postId} sx={{ borderRadius: '5px', p: isDesktop ? 5 : 1, border: '1px solid black', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
+            <Box className={className + " post-container-id-" + post.postId} sx={{ borderRadius: '1vw', p: isDesktop ? 5 : 1, border: '1px solid gray', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
@@ -195,7 +195,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                         </HtmlTooltip>
 
                         <Box sx={isDesktop ? { mt: '2%' } : { mt: '1%' }}>
-                            <Typography sx={{ bgcolor: 'black', color: 'white', pl: '6px', pr: '6px', pt: '6px', pb: '6px', border: '1px solid grey' }} style={reactionTextStyles}>
+                            <Typography sx={{ bgcolor: 'black', color: 'white', pl: '6px', pr: '6px', pt: '6px', pb: '6px', border: '1px solid grey', borderRadius: '5px' }} style={reactionTextStyles}>
                                 {'creado el '+new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })}
                             </Typography>
                         </Box>
@@ -236,7 +236,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
                 </Box>
 
-                <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', padding: '8px' }}>
+                <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', borderRadius: '5px', padding: '8px' }}>
                     <Typography sx={{ wordWrap: 'break-word', whiteSpace: 'normal', multiline: true, textAlign: 'justify' }}>
                         {post.content}
                     </Typography>
@@ -262,14 +262,18 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                 </Box>
 
                 {currentComments.length > 0 &&
-                    currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)
+                    <>
+                    <Typography>Comentarios</Typography>
+                    {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)}
+                    </>
                 }
 
                 <Box id={"comment-box-" + post.postId} className={"hidden comment-box-" + post.postId}>
                     <TextField
+                        sx={{ borderRadius: '5px', mt: '2%' }} 
                         required
                         multiline
-                        variant="filled"
+                        variant="outlined"
                         size="small"
                         label="comentar en la publicacion"
                         fullWidth

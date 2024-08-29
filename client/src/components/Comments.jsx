@@ -59,15 +59,15 @@ export default function Comments({ comment, token }) {
     }, [success])
 
     return (
-        <Box sx={{ alignItems: 'center', border: '1px solid grey', margin: '8px', padding: '8px' }}>
+        <Box sx={{ alignItems: 'center', border: '1px solid grey', borderRadius: '0.5vw', padding: '1vw', mb: '1vw' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
                     <Avatar sx={avatarStyles}><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${comment.username}/profile/profile.jpg`} /></Avatar>
                     <Typography sx={userNameStyles}> {comment.username} </Typography>
                 </Link>
-                <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black' }}> creado el {formattedDate} </Typography>
+                <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black', borderRadius: '5px' }}> creado el {formattedDate} </Typography>
             </Box>
-            <Box sx={{ alignItems: 'center', border: '1px solid grey', margin: '8px', padding: '8px' }}>
+            <Box sx={{ alignItems: 'center', border: '1px solid grey', borderRadius: '0.5vw', margin: '8px', padding: '8px' }}>
                 <Typography variant="body2"> {comment.content} </Typography>
             </Box>
             <Stack direction="row" sx={{ display: 'flex' }}>

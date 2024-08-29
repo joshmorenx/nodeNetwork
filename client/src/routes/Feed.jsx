@@ -16,7 +16,7 @@ export default function Feed({ token }) {
     const [nombres, setNombres] = useState([]);
     const { user } = useGetCurrentUser({ token });
     const usernameLinkStyles = [
-        { mt: '10px', ml: '10px', display: 'flex', justifyContent: 'left', alignItems: 'center', textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } },
+        { gap: '10px', mt: '10px', ml: '10px', display: 'flex', justifyContent: 'left', alignItems: 'center', textDecoration: 'none', cursor: 'pointer', ":hover": { textDecoration: 'underline' } },
         { color: className === 'bgx-black' ? 'white' : 'black' }
     ]
     const isDesktop = useMediaQuery('(min-width: 900px)');
@@ -50,7 +50,7 @@ export default function Feed({ token }) {
                         {/* Contenedor para los elementos fijos (Eventos) */}
                         <Box visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', left: '0', width: '20%', height: '100%' }}>
                             <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'justify', alignItems: 'center', pt: '10px' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (
                                             <Link href={`/profile/${user.username}`} sx={usernameLinkStyles[0]}>
@@ -60,7 +60,7 @@ export default function Feed({ token }) {
                                         ) : (<></>)}
                                     </Stack>
                                 </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'justify', alignItems: 'center', pt: '10px' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
                                         <Link href={`/follows/${user.username}#followers`} sx={usernameLinkStyles[0]}>
                                             <ThreePIcon sx={usernameLinkStyles[1]} />
@@ -68,7 +68,7 @@ export default function Feed({ token }) {
                                         </Link>
                                     </Stack>
                                 </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'justify', alignItems: 'center', pt: '10px' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
                                         <Link href={`/follows/${user.username}#following`} sx={usernameLinkStyles[0]}>
                                             <HowToRegIcon sx={usernameLinkStyles[1]} />
