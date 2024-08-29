@@ -29,20 +29,19 @@ const allowedOrigins = [
     'https://nodenetwork.onrender.com' // Añadir la URL del frontend desplegado
 ];
 
+// const keepAlive = () => {
+//     https.get('https://nodenetwork-backend.onrender.com', (res) => {
+//         res.on('data', () => { });
+//         res.on('end', () => {
+//             console.log('Pinged self successfully.');
+//         });
+//     }).on('error', (err) => {
+//         console.error('Error pinging self:', err.message);
+//     });
+// }
 
-const keepAlive = () => {
-    https.get('https://nodenetwork-backend.onrender.com', (res) => {
-        res.on('data', () => { });
-        res.on('end', () => {
-            console.log('Pinged self successfully.');
-        });
-    }).on('error', (err) => {
-        console.error('Error pinging self:', err.message);
-    });
-}
-
-// Llama a keepAlive cada 3 minutos
-setInterval(keepAlive, 1000 * 60 * 3);
+// // Llama a keepAlive cada 3 minutos
+// setInterval(keepAlive, 1000 * 60 * 3);
 
 // Configuración de Multer
 const storage = multer.diskStorage({
