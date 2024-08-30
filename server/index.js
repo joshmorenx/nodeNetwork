@@ -1,9 +1,15 @@
-const https = require("https");
-const connectDB = require("./connectDB.js");
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const multer = require("multer");
+const mongoose = require("mongoose"); // Asegúrate de tener mongoose instalado
+const http = require("http"); // Para crear el servidor HTTP
+const { Server } = require("socket.io"); // Importar Server de socket.io
+
+const Notifications = require("./models/Notifications.js");
+const Posts = require("./models/Posts.js");
+
+const connectDB = require("./connectDB.js");
 const authRoutes = require("./routes/authRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const permissionRoutes = require("./routes/permissionRoutes.js");
@@ -26,37 +32,27 @@ const allowedOrigins = [
     'http://127.0.0.1:8080',
     'http://localhost:5173',
     'https://node-network-chi.vercel.app',
-    'https://nodenetwork.onrender.com' // Añadir la URL del frontend desplegado
+    'https://nodenetwork.onrender.com'
 ];
 
-// const keepAlive = () => {
-//     https.get('https://nodenetwork-backend.onrender.com', (res) => {
-//         res.on('data', () => { });
-//         res.on('end', () => {
-//             console.log('Pinged self successfully.');
-//         });
-//     }).on('error', (err) => {
-//         console.error('Error pinging self:', err.message);
-//     });
-// }
+// Crear servidor HTTP y servidor de Socket.IO
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: allowedOrigins
+    }
+});
 
-// // Llama a keepAlive cada 3 minutos
-// setInterval(keepAlive, 1000 * 60 * 3);
-
-// Configuración de Multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // Directorio base, detalles específicos se manejan en el controlador
         cb(null, path.join(__dirname, './public/uploads/users'));
     },
     filename: function (req, file, cb) {
-        // Nombre de archivo específico se maneja en el controlador
         cb(null, file.originalname);
     }
 });
 const upload = multer({ storage: storage });
 
-// Configuración de Express.js
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -75,6 +71,16 @@ app.get("/", (req, res) => {
     res.send({ message: "Server OK" });
 });
 
+// API para obtener las notificaciones
+app.get("/api/notifications", async (req, res) => {
+    try {
+        const notifications = await Notifications.find().lean();
+        res.json({ notifications });
+    } catch (err) {
+        res.status(500).json({ error: 'Error al obtener las notificaciones' });
+    }
+});
+
 // Routes
 app.use("/", authRoutes());
 app.use("/", userRoutes(upload));
@@ -89,9 +95,23 @@ app.use((err, req, res, next) => {
     res.status(500).send("Error interno del servidor");
 });
 
-// Server start
+// Configurar Socket.IO para escuchar cambios en la colección de notificaciones
+mongoose.connection.once("open", () => {
+    console.log("Conexión a Notificaciones establecida");
+
+    const changeStream = Posts.watch();
+
+    changeStream.on("change", (change) => {
+        if (change.operationType === "insert") {
+            const posts = change.fullDocument;
+            io.emit("newNotification", posts);
+        }
+    });
+});
+
+// Iniciar el servidor
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor iniciado en el puerto ${PORT}`);
     console.log(`http://localhost:${PORT}`);
 });
