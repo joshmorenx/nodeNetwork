@@ -8,6 +8,7 @@ const { Server } = require("socket.io"); // Importar Server de socket.io
 
 const Notifications = require("./models/Notifications.js");
 const Posts = require("./models/Posts.js");
+const User = require("./models/User.js");
 
 const connectDB = require("./connectDB.js");
 const authRoutes = require("./routes/authRoutes.js");
@@ -71,16 +72,6 @@ app.get("/", (req, res) => {
     res.send({ message: "Server OK" });
 });
 
-// API para obtener las notificaciones
-app.get("/api/notifications", async (req, res) => {
-    try {
-        const notifications = await Notifications.find().lean();
-        res.json({ notifications });
-    } catch (err) {
-        res.status(500).json({ error: 'Error al obtener las notificaciones' });
-    }
-});
-
 // Routes
 app.use("/", authRoutes());
 app.use("/", userRoutes(upload));
@@ -105,7 +96,29 @@ mongoose.connection.once("open", () => {
         if (change.operationType === "insert") {
             const posts = change.fullDocument;
             io.emit("newNotification", posts);
+        } else if (change.operationType === "delete") {
+            const deletedPostId = change.documentKey._id;
+            io.emit("deleteNotification", deletedPostId);
         }
+    });
+});
+
+io.on("connection", async (socket) => {
+    console.log("Nuevo cliente conectado");
+
+    socket.on('username', async (username) => {
+        if(username) {
+            console.log(`El cliente ${username} se ha conectado`);
+            const user = await User.findOne({ username: username });
+            // Obtener las notificaciones de la base de datos   
+            const posts = await Posts.find({ author: user._id }, {}, { sort: { date_created: -1 } }).lean();
+            socket.emit("posts", posts)
+        }
+    });
+    
+    // Manejar la desconexión del cliente
+    socket.on("disconnect", () => {
+        console.log("Cliente desconectado");
     });
 });
 

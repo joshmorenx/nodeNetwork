@@ -2,6 +2,7 @@ const Likes = require("../models/Likes.js");
 const Dislikes = require("../models/Dislikes.js");
 const User = require("../models/User.js");
 const Posts = require("../models/Posts.js");
+const Notifications = require("../models/Notifications.js");
 
 
 const setLikeOrDislike = async (req, res) => {
@@ -25,6 +26,7 @@ const setLikeOrDislike = async (req, res) => {
             } else {
                 await Dislikes.findOneAndDelete({ postId: post._id, author: user._id });
                 const result = await Likes.create({ postId: post._id, author: user._id });
+                const notification = await Notifications.create({ from: user._id, to: post.author, postId: post._id, reason: "like" });
     
                 if (result) {
                     const likes = await Likes.find({ postId: post._id }).lean();
