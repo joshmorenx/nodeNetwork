@@ -87,21 +87,57 @@ app.use((err, req, res, next) => {
 });
 
 // Configurar Socket.IO para escuchar cambios en la colección de notificaciones
-mongoose.connection.once("open", () => {
-    console.log("Conexión a Notificaciones establecida");
+io.on('connection', (socket) => {
+    console.log('Nuevo cliente conectado');
 
-    const changeStream = Notifications.watch();
+    // Escuchar el nombre de usuario que el cliente envía
+    socket.on('username', async (username) => {
+        console.log(`Usuario conectado: ${username}`);
 
-    changeStream.on("change", (change) => {
-        if (change.operationType === "insert") {
-            const notifications = change.fullDocument;
-            io.emit("newNotification", notifications);
-        } else if (change.operationType === "delete") {
-            const deletedPostId = change.documentKey._id;
-            io.emit("deleteNotification", deletedPostId);
+        try {
+            // Buscar el ID del usuario en la base de datos usando el nombre de usuario
+            const user = await User.findOne({ username })
+
+            if (!user) {
+                console.log(`Usuario no encontrado: ${username._id}`);
+                return;
+            }
+
+            const userId = user._id;
+
+            // Definir el pipeline de agregación para filtrar notificaciones por userId
+            const pipeline = [
+                {
+                    $match: {
+                        "fullDocument.to": userId
+                    }
+                }
+            ];
+
+            // Crear un changeStream con el pipeline filtrado por userId
+            const changeStream = Notifications.watch(pipeline);
+
+            changeStream.on('change', (change) => {
+                if (change.operationType === 'insert') {
+                    const notification = change.fullDocument;
+                    socket.emit('newNotification', notification); // Emitir solo a este socket
+                } else if (change.operationType === 'delete') {
+                    const deletedNotificationId = change.documentKey._id;
+                    socket.emit('deleteNotification', deletedNotificationId); // Emitir solo a este socket
+                }
+            });
+
+            // Limpiar el changeStream cuando el socket se desconecta
+            socket.on('disconnect', () => {
+                console.log(`Usuario desconectado: ${username}`);
+                changeStream.close();
+            });
+        } catch (error) {
+            console.error('Error al obtener el usuario:', error);
         }
     });
 });
+
 
 io.on("connection", async (socket) => {
     console.log("Nuevo cliente conectado");
