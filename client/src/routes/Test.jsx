@@ -4,8 +4,8 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 
 export default function Test({ token }) {
     // Estado para almacenar las notificaciones
-    const [posts, setPosts] = useState([]);
-    const [allPosts, setAllPosts] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+    const [allNotifications, setAllNotifications] = useState([]);
     const { user, error } = useGetCurrentUser({ token });
 
     useEffect(() => {
@@ -17,21 +17,21 @@ export default function Test({ token }) {
         socket.emit('username', username);
 
         // Escuchar el evento 'newNotification' para recibir las notificaciones en tiempo real
-        socket.on('newNotification', (post) => {
+        socket.on('newNotification', (notifications) => {
             // Actualizar el estado con la nueva notificación
-            setPosts((prevPosts) => [...prevPosts, post]);
+            setNotifications((prevNotifications) => [...prevNotifications, notifications]);
         });
 
         // Escuchar el evento 'deleteNotification' para manejar la eliminación
-        socket.on('deleteNotification', (postId) => {
+        socket.on('deleteNotification', (notificationId) => {
             // Eliminar el post del estado
-            setPosts((prevPosts) => prevPosts.filter(post => post._id !== postId));
-            setAllPosts((prevPosts) => prevPosts.filter(post => post._id !== postId));
+            setNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notificationId));
+            setAllNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notificationId));
         });
 
         // Obtener las publicaciones iniciales del servidor
-        socket.on('posts', (posts) => {
-            setAllPosts(posts);
+        socket.on('notifications', (notifications) => {
+            setAllNotifications(notifications);
         });
 
         // Limpiar la conexión cuando el componente se desmonta
@@ -43,21 +43,21 @@ export default function Test({ token }) {
     return (
         <div style={{ backgroundColor: 'white' }}>
             <h1>Notificaciones en Tiempo Real</h1>
-            {posts.length > 0 && (
+            {notifications.length > 0 && (
                 <ul>
-                    {posts.map((notification, index) => (
-                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.content}</li>
+                    {notifications.map((notification, index) => (
+                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.reason}</li>
                     ))}
                 </ul>
             )}
 
-            {allPosts.length > 0 && (
+            {allNotifications.length > 0 && (
                 <ul>
-                    {allPosts.map((post, index) => (
-                        <li style={{ backgroundColor: 'white' }} key={index}>{post.content}</li>
+                    {allNotifications.map((notification, index) => (
+                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.reason}</li>
                     ))}
                 </ul>
             )}
         </div>
-    );
-};
+    )
+}

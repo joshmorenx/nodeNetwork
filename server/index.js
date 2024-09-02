@@ -90,12 +90,12 @@ app.use((err, req, res, next) => {
 mongoose.connection.once("open", () => {
     console.log("Conexión a Notificaciones establecida");
 
-    const changeStream = Posts.watch();
+    const changeStream = Notifications.watch();
 
     changeStream.on("change", (change) => {
         if (change.operationType === "insert") {
-            const posts = change.fullDocument;
-            io.emit("newNotification", posts);
+            const notifications = change.fullDocument;
+            io.emit("newNotification", notifications);
         } else if (change.operationType === "delete") {
             const deletedPostId = change.documentKey._id;
             io.emit("deleteNotification", deletedPostId);
@@ -110,9 +110,8 @@ io.on("connection", async (socket) => {
         if(username) {
             console.log(`El cliente ${username} se ha conectado`);
             const user = await User.findOne({ username: username });
-            // Obtener las notificaciones de la base de datos   
-            const posts = await Posts.find({ author: user._id }, {}, { sort: { date_created: -1 } }).lean();
-            socket.emit("posts", posts)
+            const notifications = await Notifications.find({ from: user._id }, {}, { sort: { notificationId: -1 } }).lean();
+            socket.emit("notifications", notifications)
         }
     });
     

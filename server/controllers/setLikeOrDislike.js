@@ -26,7 +26,12 @@ const setLikeOrDislike = async (req, res) => {
             } else {
                 await Dislikes.findOneAndDelete({ postId: post._id, author: user._id });
                 const result = await Likes.create({ postId: post._id, author: user._id });
-                const notification = await Notifications.create({ from: user._id, to: post.author, postId: post._id, reason: "like" });
+                const latestNotification = await Notifications.findOne({}, {}, { sort: { notificationId: -1 } }).lean()
+                const notificationAlreadyExists = await Notifications.findOne({ from: user._id, to: post.author, postId: post._id, reason: "like" });
+
+                if (!notificationAlreadyExists) {
+                    await Notifications.create({ from: user._id, to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "like" });
+                } 
     
                 if (result) {
                     const likes = await Likes.find({ postId: post._id }).lean();
@@ -56,6 +61,13 @@ const setLikeOrDislike = async (req, res) => {
             } else {
                 await Likes.findOneAndDelete({ postId: post._id, author: user._id });
                 const result = await Dislikes.create({ postId: post._id, author: user._id });
+
+                const latestNotification = await Notifications.findOne({}, {}, { sort: { notificationId: -1 } }).lean()
+                const notificationAlreadyExists = await Notifications.findOne({ from: user._id, to: post.author, postId: post._id, reason: "dislike" });
+
+                if (!notificationAlreadyExists) {
+                    await Notifications.create({ from: user._id, to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "dislike" });
+                } 
     
                 if (result) {
                     const likes = await Likes.find({ postId: post._id }).lean();
