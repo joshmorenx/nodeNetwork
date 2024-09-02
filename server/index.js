@@ -109,7 +109,8 @@ io.on('connection', (socket) => {
             const pipeline = [
                 {
                     $match: {
-                        "fullDocument.to": userId
+                        "fullDocument.to": userId,
+                        "fullDocument.read": false
                     }
                 }
             ];
@@ -124,7 +125,11 @@ io.on('connection', (socket) => {
                 } else if (change.operationType === 'delete') {
                     const deletedNotificationId = change.documentKey._id;
                     socket.emit('deleteNotification', deletedNotificationId); // Emitir solo a este socket
-                }
+                } //else if (change.operationType === 'update') {
+                    //solo el campo read
+                    //const updatedNotification = change.fullDocument;
+                    //socket.emit('updateNotification', updatedNotification); // Emitir solo a este socket
+                //}
             });
 
             // Limpiar el changeStream cuando el socket se desconecta
@@ -146,7 +151,7 @@ io.on("connection", async (socket) => {
         if(username) {
             console.log(`El cliente ${username} se ha conectado`);
             const user = await User.findOne({ username: username });
-            const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
+            const notifications = await Notifications.find({ to: user._id, read: false }, {}, { sort: { notificationId: -1 } }).lean();
             socket.emit("notifications", notifications)
         }
     });

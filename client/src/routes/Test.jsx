@@ -29,6 +29,24 @@ export default function Test({ token }) {
             setAllNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notificationId));
         });
 
+        // arreglar esto
+        // socket.on('updateNotification', (notification) => {
+        //     // si el campo 'read' es falso, elimina la notificación de 'notifications' y 'allNotifications'
+        //     if (!notification.read) {
+        //         setNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notification._id));
+        //         setAllNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notification._id));
+        //     }
+
+        //     // si el campo 'read' es verdadero, agrega la notificación a 'allNotifications' y 'notifications'
+        //     if (notification.read) {
+        //         setAllNotifications((prevNotifications) => [...prevNotifications, notification]);
+        //         setNotifications((prevNotifications) => [...prevNotifications, notification]);
+        //     }
+
+        //     // Actualiza el estado para reflejar la notificación actualizada
+        //     setNotifications((prevNotifications) => prevNotifications.map((n) => (n._id === notification._id ? notification : n)));
+        // })
+
         // Obtener las publicaciones iniciales del servidor
         socket.on('notifications', (notifications) => {
             setAllNotifications(notifications);
