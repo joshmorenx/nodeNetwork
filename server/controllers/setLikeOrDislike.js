@@ -29,8 +29,8 @@ const setLikeOrDislike = async (req, res) => {
                 const latestNotification = await Notifications.findOne({}, {}, { sort: { notificationId: -1 } }).lean()
                 const notificationAlreadyExists = await Notifications.findOne({ from: user._id, to: post.author, postId: post._id, reason: "like" });
 
-                if (!notificationAlreadyExists) {
-                    await Notifications.create({ from: user._id, to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "like" });
+                if (!notificationAlreadyExists && user._id.equals(post.author) === false) {
+                    await Notifications.create({ from: user._id, to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: `${user.username} le dio un like a tu publicacion` });
                 } 
     
                 if (result) {

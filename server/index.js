@@ -110,7 +110,7 @@ io.on("connection", async (socket) => {
         if(username) {
             console.log(`El cliente ${username} se ha conectado`);
             const user = await User.findOne({ username: username });
-            const notifications = await Notifications.find({ from: user._id }, {}, { sort: { notificationId: -1 } }).lean();
+            const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
             socket.emit("notifications", notifications)
         }
     });
