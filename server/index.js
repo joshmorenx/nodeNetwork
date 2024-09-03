@@ -94,6 +94,13 @@ io.on('connection', (socket) => {
     socket.on('username', async (username) => {
         console.log(`Usuario conectado: ${username}`);
 
+        if(username) {
+            console.log(`El cliente ${username} se ha conectado`);
+            const user = await User.findOne({ username: username });
+            const notifications = await Notifications.find({ to: user._id, read: false }, {}, { sort: { notificationId: -1 } }).lean();
+            socket.emit("notifications", notifications)
+        }
+
         try {
             // Buscar el ID del usuario en la base de datos usando el nombre de usuario
             const user = await User.findOne({ username })
@@ -105,7 +112,7 @@ io.on('connection', (socket) => {
 
             const userId = user._id;
 
-            // Definir el pipeline de agregación para filtrar notificaciones por userId
+            // Pipeline para filtrar las notificaciones por el ID de usuario y no mostrar las notificaciones de otros usuarios dentro de las notificaciones de otro usuario
             const pipeline = [
                 {
                     $match: {
@@ -140,25 +147,6 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.error('Error al obtener el usuario:', error);
         }
-    });
-});
-
-
-io.on("connection", async (socket) => {
-    console.log("Nuevo cliente conectado");
-
-    socket.on('username', async (username) => {
-        if(username) {
-            console.log(`El cliente ${username} se ha conectado`);
-            const user = await User.findOne({ username: username });
-            const notifications = await Notifications.find({ to: user._id, read: false }, {}, { sort: { notificationId: -1 } }).lean();
-            socket.emit("notifications", notifications)
-        }
-    });
-    
-    // Manejar la desconexión del cliente
-    socket.on("disconnect", () => {
-        console.log("Cliente desconectado");
     });
 });
 
