@@ -6,6 +6,7 @@ const Posts = require('./Posts.js');
 const NotificationSchema = new Schema({
     notificationId: { type: Number, unique: true },
     reason: { type: String },
+    description: { type: String },
     from: { type: Schema.Types.ObjectId, ref: User },
     to: { type: Schema.Types.ObjectId, ref: User },
     postId: { type: Schema.Types.ObjectId, ref: Posts },

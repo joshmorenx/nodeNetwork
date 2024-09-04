@@ -27,10 +27,10 @@ const setLikeOrDislike = async (req, res) => {
                 await Dislikes.findOneAndDelete({ postId: post._id, author: user._id });
                 const result = await Likes.create({ postId: post._id, author: user._id });
                 const latestNotification = await Notifications.findOne({}, {}, { sort: { notificationId: -1 } }).lean()
-                const notificationAlreadyExists = await Notifications.findOne({ from: user._id, to: post.author, postId: post._id });
+                const notificationAlreadyExists = await Notifications.findOne({ from: user._id, reason: "like", to: post.author, postId: post._id });
 
                 if (!notificationAlreadyExists && user._id.equals(post.author) === false) {
-                    await Notifications.create({ from: user._id, to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: `${user.username} le dio un like a tu publicacion` });
+                    await Notifications.create({ from: user._id, reason: "like", to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "like", description: `${user.username} le dio un like a tu publicacion` });
                 } 
     
                 if (result) {
@@ -63,10 +63,10 @@ const setLikeOrDislike = async (req, res) => {
                 const result = await Dislikes.create({ postId: post._id, author: user._id });
 
                 const latestNotification = await Notifications.findOne({}, {}, { sort: { notificationId: -1 } }).lean()
-                const notificationAlreadyExists = await Notifications.findOne({ from: user._id, to: post.author, postId: post._id, reason: "dislike" });
+                const notificationAlreadyExists = await Notifications.findOne({ from: user._id, reason: "dislike", to: post.author, postId: post._id });
 
-                if (!notificationAlreadyExists) {
-                    await Notifications.create({ from: user._id, to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "dislike" });
+                if (!notificationAlreadyExists && user._id.equals(post.author) === false) {
+                    await Notifications.create({ from: user._id, reason: "dislike", to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "dislike", description: `${user.username} le dio un dislike a tu publicacion` });
                 } 
     
                 if (result) {

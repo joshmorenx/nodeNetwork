@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 
-export default function Test({ token }) {
+export default function Notifications({ token }) {
     // Estado para almacenar las notificaciones
     const [notifications, setNotifications] = useState([]);
     const [allNotifications, setAllNotifications] = useState([]);
@@ -51,23 +51,26 @@ export default function Test({ token }) {
         };
     }, [user]);
 
+    console.log(notifications);
+    console.log(allNotifications);
+    
     return (
         <div style={{ backgroundColor: 'white' }}>
             <h1>Notificaciones en Tiempo Real</h1>
             {notifications.length > 0 && (
-                <ul>
+                <ol>
                     {notifications.map((notification, index) => (
-                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.reason} {notification.read ? 'leido':'no leido'}</li>
+                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.description} ({notification.read ? 'leido':'no leido'})</li>
                     ))}
-                </ul>
+                </ol>
             )}
 
             {allNotifications.length > 0 && (
-                <ul>
+                <ol>
                     {allNotifications.map((notification, index) => (
-                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.reason} {notification.read ? 'leido':'no leido'}</li>
+                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.description} ({notification.read ? 'leido':'no leido'})</li>
                     ))}
-                </ul>
+                </ol>
             )}
         </div>
     )
