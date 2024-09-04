@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
         if(username) {
             console.log(`El cliente ${username} se ha conectado`);
             const user = await User.findOne({ username: username });
-            const notifications = await Notifications.find({ to: user._id, read: false }, {}, { sort: { notificationId: -1 } }).lean();
+            const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
             socket.emit("notifications", notifications)
         }
 
@@ -116,27 +116,37 @@ io.on('connection', (socket) => {
             const pipeline = [
                 {
                     $match: {
-                        "fullDocument.to": userId,
-                        "fullDocument.read": false
+                        "fullDocument.to": userId
                     }
                 }
             ];
 
             // Crear un changeStream con el pipeline filtrado por userId
+            // const changeStream = Notifications.watch(pipeline);
             const changeStream = Notifications.watch(pipeline);
+            const changeStreamDelete = Notifications.watch();
+            const changeStreamUpdate = Notifications.watch([], { fullDocument: 'updateLookup' });
 
             changeStream.on('change', (change) => {
+                console.log('Cambio en la colección de notificaciones');
                 if (change.operationType === 'insert') {
                     const notification = change.fullDocument;
-                    socket.emit('newNotification', notification); // Emitir solo a este socket
-                } else if (change.operationType === 'delete') {
-                    const deletedNotificationId = change.documentKey._id;
-                    socket.emit('deleteNotification', deletedNotificationId); // Emitir solo a este socket
-                } //else if (change.operationType === 'update') {
-                    //solo el campo read
-                    //const updatedNotification = change.fullDocument;
-                    //socket.emit('updateNotification', updatedNotification); // Emitir solo a este socket
-                //}
+                    socket.emit('newNotification', notification);
+                } 
+            });
+
+            changeStreamDelete.on('change', (change) => {
+                if (change.operationType === 'delete') {
+                    const notificationId = change.documentKey._id;
+                    socket.emit('deleteNotification', notificationId);
+                }
+            })
+
+            changeStreamUpdate.on('change', (change) => {
+                if (change.operationType === 'update') {
+                    const notification = change.fullDocument;
+                    socket.emit('updateNotification', notification);
+                }
             });
 
             // Limpiar el changeStream cuando el socket se desconecta
