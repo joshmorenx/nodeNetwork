@@ -196,8 +196,8 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
                         <Box sx={isDesktop ? { mt: '2%' } : { mt: '1%' }}>
                             <Typography sx={{ bgcolor: 'black', color: 'white', pl: '6px', pr: '6px', pt: '6px', pb: '6px', border: '1px solid grey', borderRadius: '5px' }} style={reactionTextStyles}>
-                            {/* {'creado el '+new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })} */}
-                                {'creado el '+new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Mexico_City' })}
+                                {/* {'creado el '+new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })} */}
+                                {'creado el ' + new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Mexico_City' })}
                             </Typography>
                         </Box>
                     </Box>
@@ -226,10 +226,12 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                                 },
                             }}
                         >
-                            {user.username === post.username &&
-                                (<Box><MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
-                                    <MenuItem onClick={handleDeletePost}><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem></Box>)
-                            }
+                            {user.username === post.username && (
+                                <Box>
+                                    <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
+                                    <MenuItem onClick={handleDeletePost}><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
+                                </Box>
+                            )}
 
                             <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>
                         </Menu>
@@ -264,14 +266,14 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
                 {currentComments.length > 0 &&
                     <>
-                    <Typography>Comentarios</Typography>
-                    {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)}
+                        <Typography>Comentarios</Typography>
+                        {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)}
                     </>
                 }
 
                 <Box id={"comment-box-" + post.postId} className={"hidden comment-box-" + post.postId}>
                     <TextField
-                        sx={{ borderRadius: '5px', mt: '2%' }} 
+                        sx={{ borderRadius: '5px', mt: '2%' }}
                         required
                         multiline
                         variant="outlined"
