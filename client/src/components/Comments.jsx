@@ -15,8 +15,8 @@ import { useSelector } from "react-redux";
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import useDeleteComment from '../hooks/useDeleteComment';
 
-export default function Comments({ comment, token }) {
-    const { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment } = useDeleteComment({ token });
+export default function Comments({ comment, token, handleRemoveCommentFromDOM }) {
+    const { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment, setCommentDeleteSuccess } = useDeleteComment({ token });
     const { user } = useGetCurrentUser({ token });
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -87,7 +87,8 @@ export default function Comments({ comment, token }) {
     useEffect(() => {
         if (commentDeleteSuccess) {
             alert('comentario eliminado exitosamente')
-            // document.getElementById(comment.commentId).remove()
+            handleRemoveCommentFromDOM(comment.commentId)
+            setCommentDeleteSuccess(false)
         }
     }, [commentDeleteSuccess])
 

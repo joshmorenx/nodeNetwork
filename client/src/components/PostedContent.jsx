@@ -28,7 +28,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     const [currentPost, setCurrentPost] = useState(post);
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
-    const [currentComments, setCurrentComments] = useState({});
+    const [currentComments, setCurrentComments] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
@@ -124,6 +124,10 @@ export default function PostedContent({ token, post, handleFeedReload }) {
         }
     }
 
+    const handleRemoveCommentFromDOM = (commentId) => {
+        setCurrentComments(currentComments.filter(comment => comment.commentId !== commentId))
+    }
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress)
     }, [])
@@ -144,7 +148,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
     useEffect(() => {
         if (successComment) {
-            setCurrentComments(0);
+            // setCurrentComments(0);
             setCurrentComments(newCurrentComments);
             setSuccessComment(false);
         }
@@ -266,7 +270,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                 {currentComments.length > 0 &&
                     <>
                         <Typography>Comentarios</Typography>
-                        {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)}
+                        {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} handleRemoveCommentFromDOM={handleRemoveCommentFromDOM} />)}
                     </>
                 }
 
