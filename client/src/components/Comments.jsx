@@ -13,10 +13,10 @@ import useCommentLikesAndDislikes from '../hooks/useCommentLikesAndDislikes';
 import { useMediaQuery } from '@mui/material';
 import { useSelector } from "react-redux";
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
-// import useDeleteComment from '../hooks/useDeleteComment'; // must develop this feature
+import useDeleteComment from '../hooks/useDeleteComment';
 
 export default function Comments({ comment, token }) {
-    // const { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment } = useDeleteComment({ token });
+    const { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment } = useDeleteComment({ token });
     const { user } = useGetCurrentUser({ token });
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -52,9 +52,16 @@ export default function Comments({ comment, token }) {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleDeleteComment = () => {
+        const result = window.confirm('¿Seguro que quieres borrar este comentario?');
+        (result) && deleteComment(comment.commentId)
+        setAnchorEl(null)
+    }
 
     useEffect(() => {
         const date = new Date(comment.date_created);
@@ -77,14 +84,23 @@ export default function Comments({ comment, token }) {
         }
     }, [success])
 
+    useEffect(() => {
+        if (commentDeleteSuccess) {
+            alert('comentario eliminado exitosamente')
+            // document.getElementById(comment.commentId).remove()
+        }
+    }, [commentDeleteSuccess])
+
     return (
-        <Box sx={{ bgcolor: className === 'bgx-black' ? '#282828' : 'whitesmoke', display: 'block', alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', padding: '1vw', mb: '1vw' }}>
+        <Box id={comment.commentId} value={comment.commentId} sx={{ bgcolor: className === 'bgx-black' ? '#282828' : 'whitesmoke', display: 'block', alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', padding: '1vw', mb: '1vw' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                    <Avatar sx={avatarStyles}><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${comment.username}/profile/profile.jpg`} /></Avatar>
-                    <Typography sx={userNameStyles}> {comment.username} </Typography>
-                </Link>
-                <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black', borderRadius: '5px', width: 'fit-content' }}> creado el {formattedDate} </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
+                        <Avatar sx={avatarStyles}><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${comment.username}/profile/profile.jpg`} /></Avatar>
+                        <Typography sx={userNameStyles}> {comment.username} </Typography>
+                    </Link>
+                    <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black', borderRadius: '5px', width: 'fit-content' }}> creado el {formattedDate} </Typography>
+                </Box>
                 <Box>
                     <Button
                         id="right-top-btn"
@@ -112,7 +128,7 @@ export default function Comments({ comment, token }) {
                         {user.username === comment.username && (
                             <Box>
                                 <MenuItem ><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
-                                <MenuItem ><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
+                                <MenuItem onClick={handleDeleteComment} ><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
                             </Box>
                         )}
 

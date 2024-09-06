@@ -16,7 +16,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import ReportIcon from '@mui/icons-material/Report';
 import useGetCurrentUser from '../hooks/useGetCurrentUser.jsx';
 import useDeletePost from '../hooks/useDeletePost.jsx';
-// import useEditPost from '../hooks/useEditPost.jsx';
 import PopUpEditPost from './PopUpEditPost.jsx';
 import { useMediaQuery } from '@mui/material';
 import ImageViewer from "./ImageViewer.jsx";
