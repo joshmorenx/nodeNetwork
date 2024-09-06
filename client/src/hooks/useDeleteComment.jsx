@@ -19,5 +19,5 @@ export default function useDeleteComment({ token }) {
             setErrorDeleteComment(error.data.error)
         })
     }
-    return { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment }
+    return { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment, setCommentDeleteSuccess }
 }
