@@ -13,6 +13,9 @@ const deletePost = require("../controllers/deletePost.js");
 const updatePost = require("../controllers/updatePost.js");
 const getSinglePost = require("../controllers/getSinglePost.js");
 const deleteComment = require("../controllers/deleteComment.js");
+const updateComment = require("../controllers/updateComment.js");
+
+// /api/updateComment/
 
 const postRoutes = (upload) => {
 
@@ -27,6 +30,7 @@ const postRoutes = (upload) => {
     router.post('/api/comment/', addComment)
     router.get('/api/comment/', getCommentLikesAndDislikes);
     router.delete('/api/comment/', deleteComment)
+    router.put('/api/comment/', upload.single('image'), updateComment)
 
     router.post('/api/comment/like/', commentLike)
     router.post('/api/comment/dislike/', commentDislike)

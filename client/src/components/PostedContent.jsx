@@ -16,7 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ReportIcon from '@mui/icons-material/Report';
 import useGetCurrentUser from '../hooks/useGetCurrentUser.jsx';
 import useDeletePost from '../hooks/useDeletePost.jsx';
-import PopUpEditPost from './PopUpEditPost.jsx';
+import PopUpEdit from './PopUpEdit.jsx';
 import { useMediaQuery } from '@mui/material';
 import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
@@ -236,7 +236,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                                 </Box>
                             )}
 
-                            <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>
+                            { user.username === undefined || user.username === post.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>}
                         </Menu>
                     </Box>
 
@@ -296,7 +296,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                     />
                 </Box>
             </Box>
-            {updatePost && <PopUpEditPost token={token} post={post} setUpdatePost={setUpdatePost} />}
+            {updatePost && <PopUpEdit token={token} post={post} setUpdatePost={setUpdatePost} type={'post'} />}
             <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
         </>
     )

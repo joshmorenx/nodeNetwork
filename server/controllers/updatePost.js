@@ -6,12 +6,10 @@ const sharp = require("sharp");
 const { v4: uuidv4 } = require("uuid");
 
 const updatePost = async (req, res) => {
-    const { username } = req.usuario;
     const { post_id, content, latitude, longitude } = req.body;
 
     try {
         const filter = { content: content, latitude: latitude, longitude: longitude };
-        const post = await Posts.findOne({ postId: post_id });
         const result = await Posts.findOneAndUpdate({ postId: post_id }, filter, {new: true})
 
         if (!result) {
