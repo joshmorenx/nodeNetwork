@@ -88,14 +88,14 @@ app.use((err, req, res, next) => {
 
 // Configurar Socket.IO para escuchar cambios en la colección de notificaciones
 io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado');
+    // console.log('Nuevo cliente conectado');
 
     // Escuchar el nombre de usuario que el cliente envía
     socket.on('username', async (username) => {
-        console.log(`Usuario conectado: ${username}`);
+        // console.log(`Usuario conectado: ${username}`);
 
         if(username) {
-            console.log(`El cliente ${username} se ha conectado`);
+            // console.log(`El cliente ${username} se ha conectado`);
             const user = await User.findOne({ username: username });
             const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
             socket.emit("notifications", notifications)
@@ -106,7 +106,6 @@ io.on('connection', (socket) => {
             const user = await User.findOne({ username })
 
             if (!user) {
-                console.log(`Usuario no encontrado: ${username._id}`);
                 return;
             }
 

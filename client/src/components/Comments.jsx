@@ -64,7 +64,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
         (result) && deleteComment(comment.commentId)
         setAnchorEl(null)
     }
-    
+
     const handleEditPost = () => {
         handleClose();
         setUpdatePost(true);
@@ -97,7 +97,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
             handleRemoveCommentFromDOM(comment.commentId)
             setCommentDeleteSuccess(false)
         }
-    }, [commentDeleteSuccess])
+    }, [commentDeleteSuccess])  
 
     return (
         <Box id={comment.commentId} value={comment.commentId} sx={{ bgcolor: className === 'bgx-black' ? '#282828' : 'whitesmoke', display: 'block', alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', padding: '1vw', mb: '1vw' }}>
@@ -109,40 +109,41 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
                     </Link>
                     <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black', borderRadius: '5px', width: 'fit-content' }}> creado el {formattedDate} </Typography>
                 </Box>
-                <Box>
-                    <Button
-                        id="right-top-btn"
-                        aria-controls={open ? 'btn-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                    >
-                        <MoreHorizIcon />
-                    </Button>
+                {user.username === comment.username &&
+                    <Box>
+                        <Button
+                            id="right-top-btn"
+                            aria-controls={open ? 'btn-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            <MoreHorizIcon />
+                        </Button>
 
-                    {/* menu desplegable */}
-                    <Menu
-                        id="btn-menu"
-                        aria-labelledby="right-top-btn"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        slotProps={{
-                            paper: {
-                                className: { className },
-                            },
-                        }}
-                    >
-                        {user.username === comment.username && (
-                            <Box>
-                                <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
-                                <MenuItem onClick={handleDeleteComment} ><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
-                            </Box>
-                        )}
+                        {/* menu desplegable */}
+                        <Menu
+                            id="btn-menu"
+                            aria-labelledby="right-top-btn"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            slotProps={{
+                                paper: {
+                                    className: { className },
+                                },
+                            }}
+                        >
+                            {user.username === comment.username && (
+                                <Box>
+                                    <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
+                                    <MenuItem onClick={handleDeleteComment} ><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
+                                </Box>
+                            )}
 
-                        {user.username === undefined || user.username === comment.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>}
-                    </Menu>
-                </Box>
+                            {/* {user.username === undefined || user.username === comment.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>} */}
+                        </Menu>
+                    </Box>}
             </Box>
             <Box sx={{ alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', margin: '8px', padding: '8px' }}>
                 <Typography variant="body2"> {comment.content} </Typography>

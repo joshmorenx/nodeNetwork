@@ -10,7 +10,7 @@ import Follows from './routes/Follows.jsx';
 import Search from './routes/Search.jsx';
 import Gallery from './routes/Gallery.jsx';
 import NotFound from './routes/NotFound.jsx';
-import Notifications from './routes/Notifications.jsx';
+import Notifications from './components/Notifications.jsx';
 import Cookies from 'js-cookie';
 
 export const App = () => {

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { useMediaQuery } from '@mui/material';
+import { Menu, MenuItem, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setClassName } from '../redux/actions';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -18,14 +18,20 @@ import HomeIcon from '@mui/icons-material/Home';
 import MobileNavMenu from './MobileNavMenu.jsx';
 import Switch from '@mui/material/Switch';
 import useHandleTheme from '../hooks/useHandleTheme.jsx/';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Badge from '@mui/material/Badge';
+import { io } from 'socket.io-client';
 
 export default function Navbar({ token }) {
+    const [notifications, setNotifications] = useState([]);
+    const [allNotifications, setAllNotifications] = useState([]);
     const [query, setQuery] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { user } = useGetCurrentUser({ token });
+    const { user, error } = useGetCurrentUser({ token });
     const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
-
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
@@ -110,13 +116,62 @@ export default function Navbar({ token }) {
         dispatch(setClassName(checked ? 'bgx-black' : 'bgx-white'));
     };
 
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     useEffect(() => {
         getUserTheme()
         handleClassChange(newTheme === 'dark' ? true : false)
         document.body.style.backgroundColor = (newTheme === 'dark' ? 'black' : 'white')
     }, [newTheme])
 
-    
+    useEffect(() => {
+        if (!user) {
+            console.log(error);
+            return null
+        }
+        // Conectar al servidor de Socket.IO
+        const socket = io('https://nodenetwork-backend.onrender.com'); // Cambia esta URL por la de tu servidor si es necesario
+        const username = user.username;
+
+        // Enviar el nombre de usuario al servidor
+        socket.emit('username', username);
+
+        // Escuchar el evento 'newNotification' para recibir las notificaciones en tiempo real
+        socket.on('newNotification', (notifications) => {
+            // Actualizar el estado con la nueva notificación
+            setNotifications((prevNotifications) => [...prevNotifications, notifications]);
+        });
+
+        // Escuchar el evento 'deleteNotification' para manejar la eliminación
+        socket.on('deleteNotification', (notificationId) => {
+            // Eliminar el post del estado
+            setNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notificationId));
+            setAllNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notificationId));
+        });
+
+        // Escuchar el evento 'updateNotification' para manejar la actualización
+        socket.on('updateNotification', (notification) => {
+            // Actualizar el estado con la notificación actualizada
+            setNotifications((prevNotifications) => prevNotifications.map((prevNotification) => prevNotification._id === notification._id ? notification : prevNotification));
+            setAllNotifications((prevNotifications) => prevNotifications.map((prevNotification) => prevNotification._id === notification._id ? notification : prevNotification));
+        });
+
+        // Obtener las publicaciones iniciales del servidor
+        socket.on('notifications', (notifications) => {
+            setAllNotifications(notifications);
+        });
+
+        // Limpiar la conexión cuando el componente se desmonta
+        return () => {
+            socket.disconnect();
+        };
+    }, [user]);
 
     return (
         <Box sx={{ mb: 9 }}>
@@ -146,9 +201,40 @@ export default function Navbar({ token }) {
                                 {/* <Button>
                             <MessageIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></MessageIcon> // pending
                         </Button> */}
-                                {/* <Button onClick={ () => alert }>
-                            <NotificationsIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></NotificationsIcon> // pending
-                        </Button> */}
+                                <Box>
+                                    <Button
+                                        id="right-top-btn"
+                                        aria-controls={open ? 'btn-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleClick}
+                                    >
+                                        <Badge badgeContent={notifications.length + allNotifications.length} color="error">
+                                            <NotificationsIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }} />
+                                        </Badge>
+                                    </Button>
+                                    <Menu
+                                        id="btn-menu"
+                                        aria-labelledby="right-top-btn"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        slotProps={{
+                                            paper: {
+                                                className: { className },
+                                            },
+                                        }}
+                                    >
+
+                                        {notifications.map((notification, index) => (
+                                            <MenuItem key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                                        ))}
+
+                                        {allNotifications.map((notification, index) => (
+                                            <MenuItem key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                                        ))}
+                                    </Menu>
+                                </Box>
                                 <Button>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (

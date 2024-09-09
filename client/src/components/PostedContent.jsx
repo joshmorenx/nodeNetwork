@@ -205,6 +205,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                         </Box>
                     </Box>
 
+                    {user.username === post.username &&
                     <Box>
                         <Button
                             id="right-top-btn"
@@ -238,8 +239,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
                             { user.username === undefined || user.username === post.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>}
                         </Menu>
-                    </Box>
-
+                    </Box>}
                 </Box>
 
                 <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', borderRadius: '5px', padding: '8px' }}>
