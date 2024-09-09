@@ -14,8 +14,10 @@ import { useMediaQuery } from '@mui/material';
 import { useSelector } from "react-redux";
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import useDeleteComment from '../hooks/useDeleteComment';
+import PopUpEdit from './PopUpEdit.jsx';
 
 export default function Comments({ comment, token, handleRemoveCommentFromDOM }) {
+    const [updatePost, setUpdatePost] = useState(false);
     const { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment, setCommentDeleteSuccess } = useDeleteComment({ token });
     const { user } = useGetCurrentUser({ token });
     const [anchorEl, setAnchorEl] = useState(null);
@@ -61,6 +63,11 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
         const result = window.confirm('¿Seguro que quieres borrar este comentario?');
         (result) && deleteComment(comment.commentId)
         setAnchorEl(null)
+    }
+    
+    const handleEditPost = () => {
+        handleClose();
+        setUpdatePost(true);
     }
 
     useEffect(() => {
@@ -128,12 +135,12 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
                     >
                         {user.username === comment.username && (
                             <Box>
-                                <MenuItem ><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
+                                <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
                                 <MenuItem onClick={handleDeleteComment} ><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
                             </Box>
                         )}
 
-                        <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>
+                        {user.username === undefined || user.username === comment.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>}
                     </Menu>
                 </Box>
             </Box>
@@ -148,6 +155,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
                     <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span style={reactionTextStyles}> No Me Gusta ({currentDislikes}) </span>
                 </Button>
             </Stack>
+            {updatePost && <PopUpEdit token={token} post={comment} setUpdatePost={setUpdatePost} type={'comment'} />}
         </Box>
     )
 }

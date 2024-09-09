@@ -9,17 +9,17 @@ import { useMediaQuery } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-export default function PopUpEditPost({ token, post, setUpdatePost }) {
+export default function PopUpEdit({ token, post, setUpdatePost, type }) {
     const className = useSelector((state) => state.className);
     const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost, loading } = useUpdatePost({
         token, initialForm: {
-            id: post.postId,
+            id: type === 'post' ? post.postId : post.commentId,
             content: post.content,
             latitude: post.latitude,
             longitude: post.longitude,
             images: post.images,
             date_updated: post.date_updated
-        }
+        }, type
     })
 
     const isDesktop = useMediaQuery('(min-width: 900px)');
@@ -70,7 +70,6 @@ export default function PopUpEditPost({ token, post, setUpdatePost }) {
                         inputProps={{ autoFocus: true }}
                     />
                 </Box>
-
                 <Box sx={{ display: 'none', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
                     <TextField
                         type='number'
