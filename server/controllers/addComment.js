@@ -20,7 +20,7 @@ const addComment = async (req, res) => {
             const latestNotification = await Notifications.findOne({}, {}, { sort: { notificationId: -1 } }).lean()
 
             if (user._id.equals(post.author) === false) {
-                await Notifications.create({ from: user._id, reason: "comment", to: post.author, postId: post._id, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "comment", description: `${user.username} comentó tu publicacion` });
+                await Notifications.create({ from: user._id, reason: "comment", to: post.author, postId: post._id, postIdNumber: post.postId, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "comment", description: `${user.username} comentó tu publicacion` });
             }
             
             const newCurrentComments = await Comments.find({ postId: post._id }).lean();

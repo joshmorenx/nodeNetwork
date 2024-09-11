@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
     socket.on('username', async (username) => {
         // console.log(`Usuario conectado: ${username}`);
 
-        if(username) {
+        if (username) {
             // console.log(`El cliente ${username} se ha conectado`);
             const user = await User.findOne({ username: username });
             const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
@@ -127,15 +127,16 @@ io.on('connection', (socket) => {
             const changeStreamUpdate = Notifications.watch([], { fullDocument: 'updateLookup' });
 
             changeStream.on('change', (change) => {
-                console.log('Cambio en la colección de notificaciones');
                 if (change.operationType === 'insert') {
+                    console.log('Cambio en la colección de notificaciones');
                     const notification = change.fullDocument;
                     socket.emit('newNotification', notification);
-                } 
+                }
             });
 
             changeStreamDelete.on('change', (change) => {
                 if (change.operationType === 'delete') {
+                    console.log('eliminando notificaciones');
                     const notificationId = change.documentKey._id;
                     socket.emit('deleteNotification', notificationId);
                 }
@@ -143,6 +144,7 @@ io.on('connection', (socket) => {
 
             changeStreamUpdate.on('change', (change) => {
                 if (change.operationType === 'update') {
+                    console.log('Actualizando notificaciones');
                     const notification = change.fullDocument;
                     socket.emit('updateNotification', notification);
                 }
