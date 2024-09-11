@@ -124,6 +124,13 @@ export default function Navbar({ token }) {
         setAnchorEl(null);
     };
 
+    const viewNotification = (notification) => {
+        setAnchorEl(null)
+        if (['like', 'dislike', 'comment'].includes(notification.reason)) {
+            navigate(`/posts/${notification.postIdNumber}`)
+        }
+    }
+
     useEffect(() => {
         getUserTheme()
         handleClassChange(newTheme === 'dark' ? true : false)
@@ -221,17 +228,23 @@ export default function Navbar({ token }) {
                                         onClose={handleClose}
                                         slotProps={{
                                             paper: {
-                                                className: { className },
-                                            },
+                                                sx: {
+                                                    backgroundColor: newTheme === 'dark' ? 'grey' : 'white',
+                                                    color: newTheme === 'dark' ? 'white' : 'black',
+                                                }
+                                            }
                                         }}
                                     >
+                                        {notifications.length + allNotifications.length === 0 &&
+                                            <MenuItem onClick={handleClose}>No tienes notificaciones</MenuItem>
+                                        }
 
                                         {notifications.map((notification, index) => (
-                                            <MenuItem key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                                            <MenuItem onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
                                         ))}
 
                                         {allNotifications.map((notification, index) => (
-                                            <MenuItem key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                                            <MenuItem onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
                                         ))}
                                     </Menu>
                                 </Box>
