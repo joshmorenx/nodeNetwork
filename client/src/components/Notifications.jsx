@@ -1,15 +1,24 @@
 import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
+import { useNavigate } from 'react-router-dom';
+import { Menu, MenuItem, useMediaQuery } from '@mui/material';
 
 export default function Notifications({ token }) {
     // Estado para almacenar las notificaciones
+    const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
     const [allNotifications, setAllNotifications] = useState([]);
     const { user, error } = useGetCurrentUser({ token });
 
+    const viewNotification = (notification) => {
+        if (['like', 'dislike', 'comment'].includes(notification.reason)) {
+            navigate(`/posts/${notification.postIdNumber}`)
+        }
+    }
+
     useEffect(() => {
-        if(!user){
+        if (!user) {
             console.log(error);
             return null
         }
@@ -53,25 +62,29 @@ export default function Notifications({ token }) {
 
     console.log(notifications);
     console.log(allNotifications);
-    
+
     return (
         <div style={{ backgroundColor: 'white' }}>
             <h1>Notificaciones en Tiempo Real</h1>
-            {notifications.length > 0 && (
-                <ol>
-                    {notifications.map((notification, index) => (
-                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.description} ({notification.read ? 'leido':'no leido'})</li>
-                    ))}
-                </ol>
-            )}
 
-            {allNotifications.length > 0 && (
-                <ol>
-                    {allNotifications.map((notification, index) => (
-                        <li style={{ backgroundColor: 'white' }} key={index}>{notification.description} ({notification.read ? 'leido':'no leido'})</li>
-                    ))}
-                </ol>
-            )}
+            <ol>
+                {notifications.length + allNotifications.length === 0 &&
+                    <MenuItem>No tienes notificaciones</MenuItem>
+                }
+            </ol>
+
+            <ol>
+                {notifications.map((notification, index) => (
+                    <MenuItem onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                ))}
+            </ol>
+
+            <ol>
+                {allNotifications.map((notification, index) => (
+                    <MenuItem onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                ))}
+            </ol>
+
         </div>
     )
 }
