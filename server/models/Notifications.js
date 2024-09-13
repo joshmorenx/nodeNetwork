@@ -11,6 +11,7 @@ const NotificationSchema = new Schema({
     to: { type: Schema.Types.ObjectId, ref: User },
     postId: { type: Schema.Types.ObjectId, ref: Posts },
     postIdNumber: { type: Number },
+    followerUsername: { type: String },
     read: { type: Boolean, default: false },
     date_created: { type: Date, default: Date.now() },
     date_updated: { type: Date, default: Date.now() },
