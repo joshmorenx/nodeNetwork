@@ -18,20 +18,14 @@ import HomeIcon from '@mui/icons-material/Home';
 import MobileNavMenu from './MobileNavMenu.jsx';
 import Switch from '@mui/material/Switch';
 import useHandleTheme from '../hooks/useHandleTheme.jsx/';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Badge from '@mui/material/Badge';
-import { io } from 'socket.io-client';
+import Notifications from './Notifications.jsx';
 
 export default function Navbar({ token }) {
-    const [notifications, setNotifications] = useState([]);
-    const [allNotifications, setAllNotifications] = useState([]);
     const [query, setQuery] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { user, error } = useGetCurrentUser({ token });
     const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
@@ -116,69 +110,11 @@ export default function Navbar({ token }) {
         dispatch(setClassName(checked ? 'bgx-black' : 'bgx-white'));
     };
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const viewNotification = (notification) => {
-        setAnchorEl(null)
-        if (['like', 'dislike', 'comment'].includes(notification.reason)) {
-            navigate(`/posts/${notification.postIdNumber}`)
-        }
-    }
-
     useEffect(() => {
         getUserTheme()
         handleClassChange(newTheme === 'dark' ? true : false)
         document.body.style.backgroundColor = (newTheme === 'dark' ? 'black' : 'white')
     }, [newTheme])
-
-    useEffect(() => {
-        if (!user) {
-            console.log(error);
-            return null
-        }
-        // Conectar al servidor de Socket.IO
-        const socket = io('https://nodenetwork-backend.onrender.com'); // Cambia esta URL por la de tu servidor si es necesario
-        const username = user.username;
-
-        // Enviar el nombre de usuario al servidor
-        socket.emit('username', username);
-
-        // Escuchar el evento 'newNotification' para recibir las notificaciones en tiempo real
-        socket.on('newNotification', (notifications) => {
-            // Actualizar el estado con la nueva notificación
-            setNotifications((prevNotifications) => [...prevNotifications, notifications]);
-        });
-
-        // Escuchar el evento 'deleteNotification' para manejar la eliminación
-        socket.on('deleteNotification', (notificationId) => {
-            // Eliminar el post del estado
-            setNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notificationId));
-            setAllNotifications((prevNotifications) => prevNotifications.filter(notification => notification._id !== notificationId));
-        });
-
-        // Escuchar el evento 'updateNotification' para manejar la actualización
-        socket.on('updateNotification', (notification) => {
-            // Actualizar el estado con la notificación actualizada
-            setNotifications((prevNotifications) => prevNotifications.map((prevNotification) => prevNotification._id === notification._id ? notification : prevNotification));
-            setAllNotifications((prevNotifications) => prevNotifications.map((prevNotification) => prevNotification._id === notification._id ? notification : prevNotification));
-        });
-
-        // Obtener las publicaciones iniciales del servidor
-        socket.on('notifications', (notifications) => {
-            setAllNotifications(notifications);
-        });
-
-        // Limpiar la conexión cuando el componente se desmonta
-        return () => {
-            socket.disconnect();
-        };
-    }, [user]);
 
     return (
         <Box sx={{ mb: 9 }}>
@@ -208,46 +144,9 @@ export default function Navbar({ token }) {
                                 {/* <Button>
                             <MessageIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></MessageIcon> // pending
                         </Button> */}
-                                <Box>
-                                    <Button
-                                        id="right-top-btn"
-                                        aria-controls={open ? 'btn-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={open ? 'true' : undefined}
-                                        onClick={handleClick}
-                                    >
-                                        <Badge badgeContent={notifications.length + allNotifications.length} color="error">
-                                            <NotificationsIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }} />
-                                        </Badge>
-                                    </Button>
-                                    <Menu
-                                        id="btn-menu"
-                                        aria-labelledby="right-top-btn"
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                        slotProps={{
-                                            paper: {
-                                                sx: {
-                                                    backgroundColor: newTheme === 'dark' ? 'grey' : 'white',
-                                                    color: newTheme === 'dark' ? 'white' : 'black',
-                                                }
-                                            }
-                                        }}
-                                    >
-                                        {notifications.length + allNotifications.length === 0 &&
-                                            <MenuItem onClick={handleClose}>No tienes notificaciones</MenuItem>
-                                        }
+                                
+                                <Notifications token={token} newTheme={newTheme} />
 
-                                        {notifications.map((notification, index) => (
-                                            <MenuItem onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
-                                        ))}
-
-                                        {allNotifications.map((notification, index) => (
-                                            <MenuItem onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
-                                        ))}
-                                    </Menu>
-                                </Box>
                                 <Button>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (

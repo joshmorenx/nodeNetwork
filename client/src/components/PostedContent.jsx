@@ -21,7 +21,7 @@ import { useMediaQuery } from '@mui/material';
 import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
 
-export default function PostedContent({ token, post, handleFeedReload }) {
+export default function PostedContent({ token, post, handleFeedReload, isolated }) {
     const { user, error } = useGetCurrentUser({ token });
     const [updatePost, setUpdatePost] = useState(false);
     const [comment, setComment] = useState([]);
@@ -157,6 +157,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     useEffect(() => {
         if (successDelete) {
             alert(msgDelPost);
+            (isolated) && window.location.reload()
             // document.querySelector('.post-container-id-' + post.postId).remove();
             handleFeedReload();
             setSuccessDelete(false);
