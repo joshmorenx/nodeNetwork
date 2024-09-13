@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function useUpdateProfile({ token, initialForm = {}}) {
+    const allowedNameCharacters = /^[a-zA-Z\s]*$/;
+    const allowedEmailCharacters = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     const [formUserData, setFormUserData] = useState(initialForm);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -22,6 +24,16 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
 
         if (image) {
             formData.append('image', image);
+        }
+
+        if (!allowedNameCharacters.test(formUserData.firstName) || !allowedNameCharacters.test(formUserData.lastName)) {
+            alert('Nombres y apellidos deben contener solo letras.');
+            return;
+        }
+
+        if(formUserData.email !== '' && !allowedEmailCharacters.test(formUserData.email)){
+            alert('Correo electrónico inválido.');
+            return;
         }
         
         await axios.post('https://nodenetwork-backend.onrender.com/api/updateProfile/', formData, {

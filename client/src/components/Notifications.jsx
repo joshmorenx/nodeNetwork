@@ -36,8 +36,9 @@ export default function Notifications({ token, newTheme }) {
     const viewNotification = (notification) => {
         setAnchorEl(null)
         if (['like', 'dislike', 'comment'].includes(notification.reason)) {
-            navigate(`/posts/${notification.postIdNumber}`)
             window.location.replace(`https://node-network-chi.vercel.app/posts/${notification.postIdNumber}`)
+        } else if (['follow'].includes(notification.reason)) {
+            window.location.replace(`https://node-network-chi.vercel.app/profile/${notification.followerUsername}`)
         }
     }
 
