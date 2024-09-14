@@ -123,7 +123,7 @@ const Register = () => {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        type=''>
+                        type="submit">
                             Registrar
                         </Button>
                     </form>
