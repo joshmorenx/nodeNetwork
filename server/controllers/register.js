@@ -6,7 +6,8 @@ const User = require("../models/User.js");
 
 const register = async (req = request, res = response) => {
     try {
-        const { firstName, lastName, email, username, password, pwdConfirmation } = req.body;
+        const { firstName, lastName, email, password, pwdConfirmation } = req.body;
+        const username = req.body.username.toLowerCase();
     
         const userUploadsPath = path.resolve(__dirname, '../public', 'uploads', 'users', username);
         const userProfileImgPath = path.resolve(__dirname, '../public', 'uploads', 'users', username, 'profile');

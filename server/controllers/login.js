@@ -6,7 +6,8 @@ const { ConnectionStates } = require("mongoose");
 
 const login = async (req = request, res = response) => {
     try {
-        const { username, password, isLogged } = req.body;
+        const { password, isLogged } = req.body;
+        const username = req.body.username.toLowerCase();
         const user = await User.findOne({ username });
         const addedPermissions = []
 
