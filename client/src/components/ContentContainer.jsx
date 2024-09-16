@@ -5,7 +5,7 @@ import ProfileSettings from "../components/ProfileSettings";
 import { useDispatch, useSelector } from 'react-redux';
 import { setClassName } from '../redux/actions';
 
-export default function ContentContainer({ token, allAccess, selectedSection }) {
+export default function ContentContainer({ token, allAccess, selectedSection, id }) {
     const [choosenSection, setChoosenSection] = useState('');
     const className = useSelector((state) => state.className);
 
@@ -16,7 +16,7 @@ export default function ContentContainer({ token, allAccess, selectedSection }) 
     return (
         <div className={"content-container "+className}>
             {/* { choosenSection === 'feed' && (<div className='feed-container' id='feed-container'><p>Feed</p></div>) } */}
-            { allAccess && (choosenSection === 'assign' && <PermissionManager token={token} /> ) }
+            { (allAccess || id === 1) && (choosenSection === 'assign' && <PermissionManager token={token} /> ) }
             {/* { choosenSection === 'profile_settings' && (<div className='profile-settings-container' id='profile-settings-container'><p>profile settings</p></div>) } */}
             { choosenSection === 'profile_settings' && (<ProfileSettings token={token} />) }
         </div>
@@ -26,5 +26,6 @@ export default function ContentContainer({ token, allAccess, selectedSection }) 
 ContentContainer.propTypes = {
     token: PropTypes.string.isRequired,
     allAccess: PropTypes.bool.isRequired,
-    selectedSection: PropTypes.string.isRequired
+    selectedSection: PropTypes.string.isRequired,
+    id: PropTypes.number
 }

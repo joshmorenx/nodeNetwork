@@ -112,7 +112,7 @@ export default function PermissionManager({ token }) {
             <div className="permission-manager-container">
                 {error ? <p>{error.message}</p> :
                     <PermissionTabs />}
-                {allAccess ? (
+                {(allAccess || user.userId === 1) ? (
                     <div className="permission-content"> 
 
                         { selectedTab === 'assign' && (<PermissionAssigner nombres={ nombres } handleSelectedChange={handleSelectedChange} token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />)}

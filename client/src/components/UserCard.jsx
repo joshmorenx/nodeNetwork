@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Typography, useMediaQuery, Link } from "@mui/material";
 import { useSelector } from 'react-redux';
 
-export default function UserCard({ user, allAccess, cadena, handleImageClicked }) {
+export default function UserCard({ user, allAccess, cadena, handleImageClicked, id }) {
     const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
@@ -28,7 +28,7 @@ export default function UserCard({ user, allAccess, cadena, handleImageClicked }
                         <Typography sx={{ fontSize: isDesktop ? '1vw' : isTablet ? '1.5vw' : '5vw' }}><Link href={`mailto:${user.email}`}>{user.email}</Link></Typography>
                     </div>
 
-                    {allAccess ?
+                    {(allAccess || id === 1) ?
                         (
                             <div className="user-type bg-blue-500 text-white font-bold py-1 px-2 border-blue-700 rounded">
                                 <b>{cadena && ("Administrador")}</b>
@@ -46,5 +46,6 @@ UserCard.propTypes = {
     user: PropTypes.object.isRequired,
     allAccess: PropTypes.bool.isRequired,
     cadena: PropTypes.string.isRequired,
-    handleImageClicked: PropTypes.func
+    handleImageClicked: PropTypes.func,
+    id: PropTypes.number
 }

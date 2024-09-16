@@ -11,7 +11,7 @@ const lastPermission = async (req = request, res = response) => {
             const lastPermissionRegistry = await Permission.findOne({},{permissionId:1},{sort:{ permissionId: -1 }});
             if(newPermName && newPermDesc){
                 const newPermission = new Permission({
-                    permissionId: lastPermissionRegistry.permissionId + 1,
+                    permissionId: lastPermissionRegistry ? lastPermissionRegistry.permissionId + 1 : 1,
                     permissionName: newPermName,
                     permissionDescription: newPermDesc
                 })
