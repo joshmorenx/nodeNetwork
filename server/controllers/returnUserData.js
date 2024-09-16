@@ -17,7 +17,7 @@ const returnUserData = async (req = request, res = response) => {
     // Utiliza las propiedades del usuario según sea necesario
     // const { userId, username, firstName, lastName, email, permissions, profilePicture } = usuario;
 
-    res.json({ userId:user.userId, username:user.username, firstName:user.firstName, lastName:user.lastName, email:user.email, permissions:userPermissions, profilePicture:user.profilePicture });
+    res.json({ userId:user.id, username:user.username, firstName:user.firstName, lastName:user.lastName, email:user.email, permissions:userPermissions, profilePicture:user.profilePicture });
 }
 
 module.exports = returnUserData

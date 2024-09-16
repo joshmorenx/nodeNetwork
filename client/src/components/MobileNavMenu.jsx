@@ -115,7 +115,7 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/"><FeedIcon /> Feed </Link></Typography>
                             </li>
-                            {allAccess && <li>
+                            {(allAccess || user.userId === 1) && <li>
                                 <Typography><Link sx={linkStyles} onClick={() => handleSectionClick('assign')} href="#"><AccountBoxIcon /> Asignador de permisos </Link></Typography>
                             </li>}
                             <li>
