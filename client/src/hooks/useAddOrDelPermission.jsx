@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from "react";
 
-export default function useAddOrDelPermission(typeUpdate, permId, permName, initialForm = {}) {
+export default function useAddOrDelPermission({ token, typeUpdate, permId, permName, initialForm = {} }) {
     const [formData, setFormData] = useState(initialForm);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -20,6 +20,10 @@ export default function useAddOrDelPermission(typeUpdate, permId, permName, init
             permName: permName,
             newPermName: formData.newPermName,
             newPermDesc: formData.newPermDesc
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }).then((response) => {
             setMsg(response.data.message);
             setUsersThatUseThisPermission(response.data.usersThatUseThisPermission);
