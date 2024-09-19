@@ -16,7 +16,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
   const [message, setMessage] = useState('');
   const [permissionAmount, setPermissionAmount] = useState(0);
-  const { sendRequest, msg, error, succes, setMsg } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
+  const { sendRequest, msg, error, success, setMsg } = useUpdatePermissions({ token, UserAssignedPermissions, selectedUser });
   const className = useSelector((state) => state.className);
   const isDesktop = useMediaQuery('(min-width: 900px)');
   const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');

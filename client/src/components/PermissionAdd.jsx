@@ -2,14 +2,17 @@ import { Box, Button, TextField } from '@mui/material';
 import useAddOrDelPermission from '../hooks/useAddOrDelPermission'
 import { useEffect, useState } from 'react';
 
-export default function PermissionAdd({ sendRequestedPermissions }) {
+export default function PermissionAdd({ token, sendRequestedPermissions }) {
     const [messageContent, setMessageContent] = useState('')
     const [errorContent, setErrorContent] = useState('')
-    const { sendRequest, msg, error, success, formData, handleInputChange, setSuccess } = useAddOrDelPermission('add','','',{
-        newPermName: '',
-        newPermDesc: ''
+    // { token, typeUpdate, permId, permName, initialForm = {} }
+    const { sendRequest, msg, error, success, formData, handleInputChange, setSuccess } = useAddOrDelPermission({
+        token, typeUpdate: 'add', permId: '', permName: '', initialForm: {
+            newPermName: '',
+            newPermDesc: ''
+        }
     })
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         if (confirm("¿Seguro que quieres crear este permiso?")) {
             sendRequest()
             formData.newPermName = ''
@@ -18,7 +21,7 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
     }
 
     useEffect(() => {
-        if(success){
+        if (success) {
             sendRequestedPermissions()
             setMessageContent(msg)
         }
@@ -26,20 +29,20 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
     }, [success])
 
     useEffect(() => {
-        if(messageContent){
+        if (messageContent) {
             alert(messageContent)
         }
         setMessageContent('')
     }, [messageContent])
 
     useEffect(() => {
-        if(error){
+        if (error) {
             setErrorContent(error)
         }
     }, [error])
 
     useEffect(() => {
-        if(errorContent){
+        if (errorContent) {
             alert(errorContent)
         }
         setErrorContent('')
@@ -49,7 +52,7 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
     //     console.log(success);
     // }, [success])
 
-    return(
+    return (
         <>
             <Box className="perm-create-form" style={{ display: 'flex', flexDirection: 'column' }}>
                 {/* <TextField value={formData.newPermName} 
@@ -65,7 +68,7 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
                 <TextField
                     className='bgx-white'
                     label='Nombre del permiso'
-                    type="text"  
+                    type="text"
                     id="newPermName"
                     name="newPermName"
                     value={formData.newPermName}
@@ -74,7 +77,7 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
 
                 <TextField
                     className='bgx-white'
-                    sx={{ mt : 4 }}
+                    sx={{ mt: 4 }}
                     label="Descripcion del permiso"
                     type="text"
                     id="newPermDesc"
@@ -84,13 +87,13 @@ export default function PermissionAdd({ sendRequestedPermissions }) {
                 />
 
                 {/* <TextField value={formData.newPermDesc} onChange={handleInputChange} sx={{ mt : 4 }} id="permissionDescription" label="Descripción del permiso" variant="outlined" /> */}
-                <Button 
-                    disabled={ !formData.newPermName || !formData.newPermDesc }
+                <Button
+                    disabled={!formData.newPermName || !formData.newPermDesc}
                     type="submit" onClick={handleSubmit}
                     size='large'
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 2, width: '200px'}}>
+                    sx={{ mt: 2, width: '200px' }}>
                     Crear permiso
                 </Button>
             </Box>

@@ -6,22 +6,22 @@ const getAllPermissions = require("../controllers/getAllPermissions.js");
 const updatePermissions = require("../controllers/modifyPermissions.js");
 const getPermissionDescription = require("../controllers/getPermissionDescription.js");
 const lastPermission = require("../controllers/lastPermission.js");
-const updatePermissionsForOneUserViaCli = require("../controllers/updatePermissionsForOneUserViaCli.js");
+// const updatePermissionsForOneUserViaCli = require("../controllers/updatePermissionsForOneUserViaCli.js"); // if needed, delete the coment
+const verifyToken = require("../middlewares/verifyToken.js");
 
 const permissionRoutes = () => {
 
-    router.get("/api/permissions/", getSelectedUserPermissions)
-    router.post("/api/updatePermissions/", updatePermissionsForOneUser)
-    router.get("/api/getAllPermissions/", getAllPermissions);
-    router.post("/api/modifyPermissions/", updatePermissions);
-    router.get("/api/getPermissionDescription/", getPermissionDescription)
-    router.post("/api/lastPermission/", lastPermission)
+    router.get("/api/permissions/", verifyToken, getSelectedUserPermissions);
+    router.post("/api/updatePermissions/", verifyToken, updatePermissionsForOneUser)
+    router.get("/api/getAllPermissions/", verifyToken, getAllPermissions);
+    router.post("/api/modifyPermissions/", verifyToken, updatePermissions);
+    router.get("/api/getPermissionDescription/", verifyToken, getPermissionDescription);
+    router.post("/api/lastPermission/", verifyToken, lastPermission);
 
     // via cli
-    router.post("/api/updatePermissionsViaCli/cli/:username/:permissionid/", updatePermissionsForOneUserViaCli)
+    // router.post("/api/updatePermissionsViaCli/cli/:username/:permissionid/", updatePermissionsForOneUserViaCli) //not needed anymore, first registered user will always have administrator rights
 
-    return router    
+    return router
 }
-
 
 module.exports = permissionRoutes

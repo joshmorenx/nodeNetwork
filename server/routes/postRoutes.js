@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const verifyToken = require("../controllers/verifyToken.js");
+const verifyToken = require("../middlewares/verifyToken.js");
 const createPost = require("../controllers/createPost.js");
 const getPosts = require("../controllers/getPosts.js");
 const getSpecificPosts = require("../controllers/getSpecificPosts.js");
