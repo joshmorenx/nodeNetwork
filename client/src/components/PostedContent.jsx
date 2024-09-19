@@ -20,6 +20,7 @@ import PopUpEdit from './PopUpEdit.jsx';
 import { useMediaQuery } from '@mui/material';
 import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
+import useGetProfileImage from '../hooks/useGetProfileImage';
 
 export default function PostedContent({ token, post, handleFeedReload, isolated }) {
     const { user, error } = useGetCurrentUser({ token });
@@ -39,6 +40,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
     const className = useSelector((state) => state.className);
+    const { image, imageError } = useGetProfileImage({ id: post.username })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -176,7 +178,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                                 <Box visibility={isDesktop ? 'visible' : 'hidden'} >
                                     <Typography color="inherit"></Typography>
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <Link href="#" sx={{ textDecoration: 'none' }}><Avatar><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${post.username}/profile/profile.jpg`} /></Avatar></Link>
+                                        <Link href="#" sx={{ textDecoration: 'none' }}><Avatar><img src={image} /></Avatar></Link>
                                         <Link sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p> {post.username} </p></Link>
                                     </Box>
                                     <Typography variant="h6">
@@ -190,7 +192,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                             }
                         >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${post.username}/profile/profile.jpg`} /></Avatar></Link>
+                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
                                 <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
                                     {/* <p>{post.firstName}</p> */}
                                     <Typography sx={userNameStyles}>{post.username}</Typography>

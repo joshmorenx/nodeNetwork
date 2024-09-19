@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import useDeleteComment from '../hooks/useDeleteComment';
 import PopUpEdit from './PopUpEdit.jsx';
+import useGetProfileImage from '../hooks/useGetProfileImage';
 
 export default function Comments({ comment, token, handleRemoveCommentFromDOM }) {
     const [updatePost, setUpdatePost] = useState(false);
@@ -26,7 +27,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
     const { getCommentLikesAndDislikes, setCommentLike, setCommentDislike, likes, dislikes, error, success, setSuccess, msg } = useCommentLikesAndDislikes({ comment, token });
-
+    const { image, imageError } = useGetProfileImage({ id: comment.username })
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
@@ -104,7 +105,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                        <Avatar sx={avatarStyles}><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${comment.username}/profile/profile.jpg`} /></Avatar>
+                        <Avatar sx={avatarStyles}><img src={image} /></Avatar>
                         <Typography sx={userNameStyles}> {comment.username} </Typography>
                     </Link>
                     <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black', borderRadius: '5px', width: 'fit-content' }}> creado el {formattedDate} </Typography>
