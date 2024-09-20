@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function useGetGalleryImage({ username }) {
-    const [image, setImage] = useState(null);
+    const [galleryImage, setGalleryImage] = useState(null);
     const [imageError, setImageError] = useState(null);
     const token = Cookies.get('token');
 
@@ -17,11 +17,11 @@ export default function useGetGalleryImage({ username }) {
             });
             const imageBlob = new Blob([response.data], { type: 'image/jpeg' });
             const imageObjectURL = URL.createObjectURL(imageBlob);
-            setImage(imageObjectURL);
+            setGalleryImage(imageObjectURL);
         } catch (err) {
             setImageError(err);
         }
     };
 
-    return { image, imageError, getGalleryImage };
+    return { galleryImage, imageError, getGalleryImage };
 }

@@ -21,6 +21,7 @@ import { useMediaQuery } from '@mui/material';
 import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
 import useGetProfileImage from '../hooks/useGetProfileImage';
+import useGetGalleryImage from '../hooks/useGetGalleryImage';
 
 export default function PostedContent({ token, post, handleFeedReload, isolated }) {
     const { user, error } = useGetCurrentUser({ token });
@@ -40,7 +41,10 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
     const className = useSelector((state) => state.className);
+    const images = []
+    const [userImages, setUserImages] = useState([])
     const { image, imageError } = useGetProfileImage({ id: post.username })
+    const { galleryImage, getGalleryImage } = useGetGalleryImage({ username: post.username })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -166,6 +170,26 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
         }
     })
 
+    useEffect(() => {
+        if (post.username && post.images !== undefined) {
+            post.images.forEach((item) => {
+                getGalleryImage(item.slice(item.indexOf('gallery') + 'gallery/'.length))
+            })
+        }
+    }, [post.username, post.images]);
+
+    useEffect(() => {
+        if (galleryImage) {
+            images.push(galleryImage)
+        }
+    }, [galleryImage])
+
+    useEffect(() => {
+        if (images.length > 0) {
+            setUserImages(images)
+        }
+    }, [images])
+
     return (
         <>
             <Box className={className + " post-container-id-" + post.postId} sx={{ borderRadius: '1vw', p: isDesktop ? 5 : 1, border: '1px solid gray', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
@@ -209,40 +233,40 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                     </Box>
 
                     {user.username === post.username &&
-                    <Box>
-                        <Button
-                            id="right-top-btn"
-                            aria-controls={open ? 'btn-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                        >
-                            <MoreHorizIcon />
-                        </Button>
+                        <Box>
+                            <Button
+                                id="right-top-btn"
+                                aria-controls={open ? 'btn-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleClick}
+                            >
+                                <MoreHorizIcon />
+                            </Button>
 
-                        {/* menu desplegable */}
-                        <Menu
-                            id="btn-menu"
-                            aria-labelledby="right-top-btn"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            slotProps={{
-                                paper: {
-                                    className: { className },
-                                },
-                            }}
-                        >
-                            {user.username === post.username && (
-                                <Box>
-                                    <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
-                                    <MenuItem onClick={handleDeletePost}><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
-                                </Box>
-                            )}
+                            {/* menu desplegable */}
+                            <Menu
+                                id="btn-menu"
+                                aria-labelledby="right-top-btn"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                slotProps={{
+                                    paper: {
+                                        className: { className },
+                                    },
+                                }}
+                            >
+                                {user.username === post.username && (
+                                    <Box>
+                                        <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
+                                        <MenuItem onClick={handleDeletePost}><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
+                                    </Box>
+                                )}
 
-                            { user.username === undefined || user.username === post.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>}
-                        </Menu>
-                    </Box>}
+                                {user.username === undefined || user.username === post.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>}
+                            </Menu>
+                        </Box>}
                 </Box>
 
                 <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', borderRadius: '5px', padding: '8px' }}>
@@ -250,11 +274,13 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         {post.content}
                     </Typography>
                 </Box>
-                {post.images.length > 0 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '50%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
-                    </Box>
-                )}
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    {userImages !== undefined &&
+                        userImages.map((elem, key) => (
+                            <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '50%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy"/>
+                        ))
+                    }
+                </Box>
 
                 <Box sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
                     <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>

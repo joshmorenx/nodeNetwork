@@ -14,7 +14,7 @@ const staticRoutes = () => {
         }
     })
 
-    router.get('/api/public/uploads/users/:username/gallery/:filename', (req, res) => {
+    router.get('/api/public/uploads/users/:username/gallery/:filename', verifyToken, (req, res) => {
         const { username, filename } = req.params
         try {
             res.sendFile(path.resolve(__dirname, '../public/uploads/users', username, 'gallery', filename))
