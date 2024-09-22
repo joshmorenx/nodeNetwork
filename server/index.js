@@ -17,6 +17,8 @@ const permissionRoutes = require("./routes/permissionRoutes.js");
 const staticRoutes = require("./routes/staticRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
 const relationshipRoutes = require("./routes/relationshipRoutes.js");
+const recoveryRoutes = require("./routes/recoveryRoutes.js");
+
 
 const app = express();
 
@@ -74,6 +76,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/", authRoutes());
+app.use("/", recoveryRoutes());
 app.use("/", userRoutes(upload));
 app.use("/", permissionRoutes());
 app.use("/", staticRoutes());
