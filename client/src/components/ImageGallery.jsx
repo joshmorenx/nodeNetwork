@@ -10,6 +10,7 @@ const ImageGallery = ({ token, username }) => {
 
   // Puedes mostrar un mensaje de carga o un error si es necesario
   if (isLoading) return <div>Cargando...</div>;
+  if (userGallery.length === 0 && !isLoading) return <div>No hay imagenes disponibles</div>;
   if (error) return <div>Error: {error}</div>;
 
   const handleImageClicked = (event) => {
