@@ -17,6 +17,7 @@ import usePermissions from '../hooks/usePermissions.jsx';
 import useHandleTheme from '../hooks/useHandleTheme.jsx/';
 import Switch from '@mui/material/Switch';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import Notifications from './Notifications.jsx';
 
 export default function MobileNavMenu({ token, handleInputChange, encodedQuery, isSettingsRoute, setSelectedSection }) {
     const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
@@ -65,6 +66,11 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
             <Button onClick={() => setOpen(!open)} sx={{ height: '7vh' }}>
                 <MenuIcon sx={{ color: className === 'bgx-black' ? 'white' : 'black' }} />
             </Button>
+
+            <Box sx={{ alignContent: 'center' }}>
+                <Notifications token={token} newTheme={newTheme} />
+            </Box>
+            
             <Box className={className} visibility={open ? 'visible' : 'hidden'} sx={{ bgcolor: 'white', display: 'flex', flexDirection: 'column', position: 'fixed', top: '0', left: '0', right: '0', bottom: '0', zIndex: 1000 }}>
                 <Box>
                     <Button onClick={() => setOpen(!open)} sx={{ height: '10vh', ml: '2vw' }}>
@@ -109,7 +115,7 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={() => setOpen(!open)} href="/"><FeedIcon /> Feed </Link></Typography>
                             </li>
-                            {allAccess && <li>
+                            {(allAccess || user.userId === 1) && <li>
                                 <Typography><Link sx={linkStyles} onClick={() => handleSectionClick('assign')} href="#"><AccountBoxIcon /> Asignador de permisos </Link></Typography>
                             </li>}
                             <li>

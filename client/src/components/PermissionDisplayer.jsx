@@ -16,7 +16,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   const [disabledRemovePermission, setDisabledRemovePermission] = useState(true);
   const [message, setMessage] = useState('');
   const [permissionAmount, setPermissionAmount] = useState(0);
-  const { sendRequest, msg, error, succes, setMsg } = useUpdatePermissions(UserAssignedPermissions, selectedUser);
+  const { sendRequest, msg, error, success, setMsg } = useUpdatePermissions({ token, UserAssignedPermissions, selectedUser });
   const className = useSelector((state) => state.className);
   const isDesktop = useMediaQuery('(min-width: 900px)');
   const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
@@ -102,7 +102,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
   }, [UserAssignedPermissions, UserUnassignedPermissions])
 
   try {
-    if (allAccess) {
+    if (allAccess || user.userId === 1) {
       return (
         <>
           <Box className={isDesktop ? "available-permissions" : "available-permissions-mobile"}>
@@ -114,7 +114,7 @@ export default function PermissionDisplayer({ token, UserUnassignedPermissions, 
                 {selectedUser && getAllPermissions(UserUnassignedPermissions, 1)}
               </Box>
             </Box>
-        
+
             <Box className={(isDesktop ? "btnContainer" : "btnContainerMobile") + " " + className}>
               <Box>
                 <button onClick={moveFromUnassignedToAssigned} className='disabled:rounded-sm disabled:bg-gray-300 disabled:text-white rounded-sm bg-blue-500 mb-1 text-white font-bold' id={isDesktop ? "btnAdd" : "btnAddMobile"} disabled={disabledAddPermission}> + </button>

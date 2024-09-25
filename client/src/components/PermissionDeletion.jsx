@@ -5,8 +5,8 @@ import useAddOrDelPermission from '../hooks/useAddOrDelPermission'
 export default function PermissionDeletion({ token, selectedPermission, permissionDetails, setDelBtnClicked, delBtnClicked, gatherSuccess, gatheredValue }) {
     const [messageContent, setMessageContent] = useState('')
     const [auxP, setAuxP] = useState([])
-
-    const { sendRequest, msg, error, success, usersThatUseThisPermission, formData, handleInputChange, setSuccess } = useAddOrDelPermission('remove', auxP[0], auxP[1])
+    
+    const { sendRequest, msg, error, success, usersThatUseThisPermission, formData, handleInputChange, setSuccess } = useAddOrDelPermission({ token, typeUpdate: 'remove', permId: auxP[0], permName: auxP[1] })
 
     // console.log(permissionDescription);
     const handleSubmit = () => {
@@ -21,7 +21,7 @@ export default function PermissionDeletion({ token, selectedPermission, permissi
     }
 
     useEffect(() => {
-        if(selectedPermission !== '') setAuxP(selectedPermission.split(" : "))
+        if (selectedPermission !== '') setAuxP(selectedPermission.split(" : "))
     }, [selectedPermission])
 
     useEffect(() => {
@@ -29,13 +29,13 @@ export default function PermissionDeletion({ token, selectedPermission, permissi
     }, [delBtnClicked])
 
     useEffect(() => {
-        if(success) gatherSuccess(success, setSuccess)
-        setMessageContent(msg+" "+(usersThatUseThisPermission ? "los siguientes usuarios usan este permiso: "+usersThatUseThisPermission.map((user,index) => [user]) : ""))
+        if (success) gatherSuccess(success, setSuccess)
+        setMessageContent(msg + " " + (usersThatUseThisPermission ? "los siguientes usuarios usan este permiso: " + usersThatUseThisPermission.map((user, index) => [user]) : ""))
         setSuccess(false)
     }, [success])
 
     useEffect(() => {
-        if(messageContent){
+        if (messageContent) {
             alert(messageContent)
         }
         setMessageContent('')
@@ -43,7 +43,7 @@ export default function PermissionDeletion({ token, selectedPermission, permissi
 
     return (
         <div>
-            <Button disabled={ gatheredValue === '' } onClick={ handleSubmit } size='large' variant="contained" color="error" sx={{ mt: 2 }}>
+            <Button disabled={gatheredValue === ''} onClick={handleSubmit} size='large' variant="contained" color="error" sx={{ mt: 2 }}>
                 Eliminar
             </Button>
             {/* <p>{ msg ? msg : '' }</p> */}

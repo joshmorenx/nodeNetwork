@@ -49,12 +49,12 @@ const Dashboard = ({ token }) => {
         <>
             {isDesktop ? (
                 <div className="dashboard-container">
-                    <div className={"profile-container text-center "+ className}>
+                    <div className={"profile-container text-center " + className}>
                         <div>
                             {error ? (
                                 <p>Error al obtener el contenido del usuario: {error.message}</p>
                             ) : (
-                                <UserCard user={user} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} />
+                                <UserCard user={user} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} id={user.userId} />
                             )}
                         </div>
 
@@ -66,7 +66,7 @@ const Dashboard = ({ token }) => {
                                 Feed
                             </Box>
 
-                            {allAccess ? (
+                            {(allAccess || user.userId === 1) ? (
                                 <Box
                                     className={selectedSection === 'assign' ? 'bg-blue-800 mt-1 text-white cursor-pointer rounded-sm text-base' : 'bg-blue-500 mt-1 text-white cursor-pointer rounded-sm text-base'}
                                     onClick={() => showClickedContent('assign')}>
@@ -85,7 +85,7 @@ const Dashboard = ({ token }) => {
                         </Button>
                     </div>
 
-                    <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} />
+                    <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} id={user.userId} />
                     <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
 
                 </div>
@@ -94,7 +94,7 @@ const Dashboard = ({ token }) => {
                     <Box className={className} p={1} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <MobileNavMenu token={token} isSettingsRoute={isSettingsRoute} setSelectedSection={setSelectedSection} />
                     </Box>
-                    <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} />
+                    <ContentContainer token={token} allAccess={allAccess} selectedSection={selectedSection} id={user.userId} />
                 </>
             )}
 

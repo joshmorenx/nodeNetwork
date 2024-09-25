@@ -16,20 +16,21 @@ import EditIcon from '@mui/icons-material/Edit';
 import ReportIcon from '@mui/icons-material/Report';
 import useGetCurrentUser from '../hooks/useGetCurrentUser.jsx';
 import useDeletePost from '../hooks/useDeletePost.jsx';
-// import useEditPost from '../hooks/useEditPost.jsx';
-import PopUpEditPost from './PopUpEditPost.jsx';
+import PopUpEdit from './PopUpEdit.jsx';
 import { useMediaQuery } from '@mui/material';
 import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
+import useGetProfileImage from '../hooks/useGetProfileImage';
+import useGetGalleryImage from '../hooks/useGetGalleryImage';
 
-export default function PostedContent({ token, post, handleFeedReload }) {
+export default function PostedContent({ token, post, handleFeedReload, isolated }) {
     const { user, error } = useGetCurrentUser({ token });
     const [updatePost, setUpdatePost] = useState(false);
     const [comment, setComment] = useState([]);
     const [currentPost, setCurrentPost] = useState(post);
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
-    const [currentComments, setCurrentComments] = useState({});
+    const [currentComments, setCurrentComments] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
@@ -40,6 +41,10 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
     const className = useSelector((state) => state.className);
+    const images = []
+    const [userImages, setUserImages] = useState([])
+    const { image, imageError } = useGetProfileImage({ id: post.username })
+    const { galleryImage, getGalleryImage } = useGetGalleryImage({ username: post.username })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -125,6 +130,10 @@ export default function PostedContent({ token, post, handleFeedReload }) {
         }
     }
 
+    const handleRemoveCommentFromDOM = (commentId) => {
+        setCurrentComments(currentComments.filter(comment => comment.commentId !== commentId))
+    }
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress)
     }, [])
@@ -145,7 +154,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
 
     useEffect(() => {
         if (successComment) {
-            setCurrentComments(0);
+            // setCurrentComments(0);
             setCurrentComments(newCurrentComments);
             setSuccessComment(false);
         }
@@ -154,11 +163,32 @@ export default function PostedContent({ token, post, handleFeedReload }) {
     useEffect(() => {
         if (successDelete) {
             alert(msgDelPost);
+            (isolated) && window.location.reload()
             // document.querySelector('.post-container-id-' + post.postId).remove();
             handleFeedReload();
             setSuccessDelete(false);
         }
     })
+
+    useEffect(() => {
+        if (post.username && post.images !== undefined) {
+            post.images.forEach((item) => {
+                getGalleryImage(item.slice(item.indexOf('gallery') + 'gallery/'.length))
+            })
+        }
+    }, [post.username, post.images]);
+
+    useEffect(() => {
+        if (galleryImage) {
+            images.push(galleryImage)
+        }
+    }, [galleryImage])
+
+    useEffect(() => {
+        if (images.length > 0) {
+            setUserImages(images)
+        }
+    }, [images])
 
     return (
         <>
@@ -172,7 +202,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                                 <Box visibility={isDesktop ? 'visible' : 'hidden'} >
                                     <Typography color="inherit"></Typography>
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        <Link href="#" sx={{ textDecoration: 'none' }}><Avatar><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${post.username}/profile/profile.jpg`} /></Avatar></Link>
+                                        <Link href="#" sx={{ textDecoration: 'none' }}><Avatar><img src={image} /></Avatar></Link>
                                         <Link sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }} href="#"><p> {post.username} </p></Link>
                                     </Box>
                                     <Typography variant="h6">
@@ -186,7 +216,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                             }
                         >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${post.username}/profile/profile.jpg`} /></Avatar></Link>
+                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
                                 <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
                                     {/* <p>{post.firstName}</p> */}
                                     <Typography sx={userNameStyles}>{post.username}</Typography>
@@ -202,41 +232,41 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                         </Box>
                     </Box>
 
-                    <Box>
-                        <Button
-                            id="right-top-btn"
-                            aria-controls={open ? 'btn-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                        >
-                            <MoreHorizIcon />
-                        </Button>
+                    {user.username === post.username &&
+                        <Box>
+                            <Button
+                                id="right-top-btn"
+                                aria-controls={open ? 'btn-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={handleClick}
+                            >
+                                <MoreHorizIcon />
+                            </Button>
 
-                        {/* menu desplegable */}
-                        <Menu
-                            id="btn-menu"
-                            aria-labelledby="right-top-btn"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            slotProps={{
-                                paper: {
-                                    className: { className },
-                                },
-                            }}
-                        >
-                            {user.username === post.username && (
-                                <Box>
-                                    <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
-                                    <MenuItem onClick={handleDeletePost}><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
-                                </Box>
-                            )}
+                            {/* menu desplegable */}
+                            <Menu
+                                id="btn-menu"
+                                aria-labelledby="right-top-btn"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                slotProps={{
+                                    paper: {
+                                        className: { className },
+                                    },
+                                }}
+                            >
+                                {user.username === post.username && (
+                                    <Box>
+                                        <MenuItem onClick={handleEditPost}><EditIcon sx={{ mr: '2%' }} />Editar</MenuItem>
+                                        <MenuItem onClick={handleDeletePost}><DeleteIcon sx={{ mr: '2%' }} />Eliminar</MenuItem>
+                                    </Box>
+                                )}
 
-                            <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>
-                        </Menu>
-                    </Box>
-
+                                {user.username === undefined || user.username === post.username ? null : <MenuItem onClick={handleClose}><ReportIcon sx={{ mr: '2%' }} />Denunciar</MenuItem>}
+                            </Menu>
+                        </Box>}
                 </Box>
 
                 <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', borderRadius: '5px', padding: '8px' }}>
@@ -244,11 +274,13 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                         {post.content}
                     </Typography>
                 </Box>
-                {post.images.length > 0 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '50%' : '100%' }} src={`https://nodenetwork-backend.onrender.com${post.images}`} />
-                    </Box>
-                )}
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    {userImages !== undefined &&
+                        userImages.map((elem, key) => (
+                            <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '50%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy"/>
+                        ))
+                    }
+                </Box>
 
                 <Box sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
                     <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -267,7 +299,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                 {currentComments.length > 0 &&
                     <>
                         <Typography>Comentarios</Typography>
-                        {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} />)}
+                        {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} handleRemoveCommentFromDOM={handleRemoveCommentFromDOM} />)}
                     </>
                 }
 
@@ -293,7 +325,7 @@ export default function PostedContent({ token, post, handleFeedReload }) {
                     />
                 </Box>
             </Box>
-            {updatePost && <PopUpEditPost token={token} post={post} setUpdatePost={setUpdatePost} />}
+            {updatePost && <PopUpEdit token={token} post={post} setUpdatePost={setUpdatePost} type={'post'} />}
             <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
         </>
     )

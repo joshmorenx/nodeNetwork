@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function useUpdatePermissionDetails(id, newDescription) {
+export default function useUpdatePermissionDetails({ token, id, newDescription }) {
     const [msg, setMsg] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
@@ -10,6 +10,10 @@ export default function useUpdatePermissionDetails(id, newDescription) {
         await axios.post("https://nodenetwork-backend.onrender.com/api/modifyPermissions/", {
             id: id,
             newDescription: newDescription
+        },{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
         }).then((response) => {
             setMsg(response.data.message);
             setSuccess(response.data.success);

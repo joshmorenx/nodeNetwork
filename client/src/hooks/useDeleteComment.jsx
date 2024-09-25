@@ -6,11 +6,11 @@ export default function useDeleteComment({ token }) {
     const [msgDeleteComment, setMsgDeleteComment] = useState(null)
     const [errorDeleteComment, setErrorDeleteComment] = useState(null)
 
-    const deleteComment = async (id) => {
-        await axios.delete(`https://nodenetwork-backend.onrender.com/api/deleteComment/`, {
+    const deleteComment = async (commentId) => {
+        await axios.delete('https://nodenetwork-backend.onrender.com/api/comment/', {
             headers: {
                 Authorization: `Bearer ${token}`,
-                id: id
+                comment_id: commentId 
             }
         }).then((response) => {
             setCommentDeleteSuccess(response.data.success)
@@ -19,5 +19,5 @@ export default function useDeleteComment({ token }) {
             setErrorDeleteComment(error.data.error)
         })
     }
-    return { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment }
+    return { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment, setCommentDeleteSuccess }
 }

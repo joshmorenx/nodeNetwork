@@ -37,7 +37,7 @@ const Register = () => {
                 <div className={isDesktop ? 'register-container' : isTablet ? 'register-container-tablet' : 'register-container-mobile'}>
                     <h1 className="register-title">Registro Nuevo</h1>
                     <form className={isDesktop ? 'register-form' : isTablet ? 'register-form-tablet' : 'register-form-mobile'} method="post" action="/register">
-                        
+
                         {/* <input type="text" name="firstName" placeholder="Nombre" required value={formData.firstName} onChange={handleInputChange} />
                         <input type="text" name="lastName" placeholder="Apellido" required value={formData.lastName} onChange={handleInputChange} />
                         <br />
@@ -49,93 +49,95 @@ const Register = () => {
                         <button type="submit" onClick={sendForm}> Registro </button> */}
 
                         <TextField
-                        autoFocus={true}
-                        sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                        label='Primer Nombre'
-                        size='small'         
-                        type="text"  
-                        id="firstName"
-                        name="firstName"
-                        required
-                        value={formData.firstName}
-                        onChange={handleInputChange}/>
+                            autoFocus={true}
+                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                            label='Primer Nombre'
+                            size='small'
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            required
+                            value={formData.firstName}
+                            onChange={handleInputChange} />
 
                         <TextField
-                        sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                        label='Apellidos'
-                        size='small'           
-                        type="text"  
-                        id="lastName"
-                        name="lastName"
-                        required
-                        value={formData.lastName}
-                        onChange={handleInputChange}/>
+                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                            label='Apellidos'
+                            size='small'
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            required
+                            value={formData.lastName}
+                            onChange={handleInputChange} />
 
                         <TextField
-                        sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                        label='Nombre de usuario'
-                        size='small'           
-                        type="text"  
-                        id="username"
-                        name="username"
-                        required
-                        value={formData.username}
-                        onChange={handleInputChange}/>
+                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                            label='Nombre de usuario'
+                            size='small'
+                            type="text"
+                            id="username"
+                            name="username"
+                            required
+                            value={formData.username}
+                            onChange={handleInputChange} />
 
                         <TextField
-                        sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                        label='Correo Electronico'
-                        size='small'           
-                        type="text"  
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}/>
+                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                            label='Correo Electronico'
+                            size='small'
+                            type="text"
+                            id="email"
+                            name="email"
+                            required
+                            value={formData.email}
+                            onChange={handleInputChange} />
 
                         <div className='password-field' style={{ display: 'flex' }}>
                             <TextField
-                            sx={{ mt : 3, width: '100%', ml: 'auto', mr: '1vw' }}
-                            label='Contraseña'
-                            size='small'           
-                            type="password"  
-                            id="password"
-                            name="password"
-                            required
-                            value={formData.password}
-                            onChange={handleInputChange}/>
+                                sx={{ mt: 3, width: '100%', ml: 'auto', mr: '1vw' }}
+                                label='Contraseña'
+                                size='small'
+                                type="password"
+                                id="password"
+                                name="password"
+                                required
+                                value={formData.password}
+                                onChange={handleInputChange} />
 
                             <TextField
-                            sx={{ mt : 3, width: '100%', ml: '1vw', mr: 'auto' }}
-                            label='Confirma la contraseña'
-                            size='small'           
-                            type="password"  
-                            id="pwdConfirmation"
-                            name="pwdConfirmation"
-                            required
-                            value={formData.pwdConfirmation}
-                            onChange={handleInputChange}/>
+                                sx={{ mt: 3, width: '100%', ml: '1vw', mr: 'auto' }}
+                                label='Confirma la contraseña'
+                                size='small'
+                                type="password"
+                                id="pwdConfirmation"
+                                name="pwdConfirmation"
+                                required
+                                value={formData.pwdConfirmation}
+                                onChange={handleInputChange} />
                         </div>
 
-                        <Button 
-                        sx={{ mt : 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                        onClick={sendForm}
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        type=''>
+                        <Button
+                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                            onClick={sendForm}
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.username || !formData.password || !formData.pwdConfirmation}
+                        >
                             Registrar
                         </Button>
                     </form>
                     {/* { state } */}
-                    <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  open={open} autoHideDuration={5000} onClose={preHandleClose}>
+                    <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={5000} onClose={preHandleClose}>
                         <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
-                            { state }
+                            {state}
                         </Alert>
                     </Snackbar>
                     <p className='mt-5 mb-5'>Ya tienes una cuenta? <Link id="register" to='/'> Inicia sesión </Link></p>
                 </div>
-                
+
             </div>
         </>
     );

@@ -1,18 +1,19 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function useGetSelectedUserPermissions (selectedUserName){
+export default function useGetSelectedUserPermissions({ token, selectedUserName }) {
     const [UserUnassignedPermissions, setUserUnasignedPermissions] = useState({});
     const [UserAssignedPermissions, setUserAssignedPermissions] = useState({});
 
     const enviarSolicitud = async () => {
         try {
-            const response = await axios.get(`https://nodenetwork-backend.onrender.com/api/permissions/`,{
+            const response = await axios.get(`https://nodenetwork-backend.onrender.com/api/permissions/`, {
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     username: selectedUserName
                 }
             });
-            if(response){
+            if (response) {
                 setUserUnasignedPermissions(response.data.unassignedPermissions);
                 setUserAssignedPermissions(response.data.assignedPermissions);
             }

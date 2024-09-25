@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import { Typography, useMediaQuery, Link } from "@mui/material";
 import { useSelector } from 'react-redux';
+import useGetProfileImage from '../hooks/useGetProfileImage';
 
-export default function UserCard({ user, allAccess, cadena, handleImageClicked }) {
+export default function UserCard({ user, allAccess, cadena, handleImageClicked, id }) {
     const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
-
+    const { image, imageError } = useGetProfileImage({ id: user.username })
     const handleImageClick = (event) => {
         handleImageClicked(event)
     }
@@ -18,7 +19,7 @@ export default function UserCard({ user, allAccess, cadena, handleImageClicked }
                 <div className={className+' profile-card m-auto rounded-2xl bg-gray-200'}>
 
                     <div className="avatar-container rounded-2xl">
-                        <img style={isDesktop || isTablet ? {} : { width: '50vw', height: '50vw' }} onClick={(event) => { handleImageClick(event) }} className="avatar m-auto cursor-pointer" src={`https://nodenetwork-backend.onrender.com${user.profilePicture}`}></img>
+                        <img style={isDesktop || isTablet ? {} : { width: '50vw', height: '50vw' }} onClick={(event) => { handleImageClick(event) }} className="avatar m-auto cursor-pointer" src={image}></img>
                     </div>
 
                     <div className='user-data'>
@@ -28,7 +29,7 @@ export default function UserCard({ user, allAccess, cadena, handleImageClicked }
                         <Typography sx={{ fontSize: isDesktop ? '1vw' : isTablet ? '1.5vw' : '5vw' }}><Link href={`mailto:${user.email}`}>{user.email}</Link></Typography>
                     </div>
 
-                    {allAccess ?
+                    {(allAccess || id === 1) ?
                         (
                             <div className="user-type bg-blue-500 text-white font-bold py-1 px-2 border-blue-700 rounded">
                                 <b>{cadena && ("Administrador")}</b>
@@ -46,5 +47,6 @@ UserCard.propTypes = {
     user: PropTypes.object.isRequired,
     allAccess: PropTypes.bool.isRequired,
     cadena: PropTypes.string.isRequired,
-    handleImageClicked: PropTypes.func
+    handleImageClicked: PropTypes.func,
+    id: PropTypes.number
 }

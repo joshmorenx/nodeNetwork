@@ -82,6 +82,7 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
                             color="primary"
                             type="submit"
                             onClick={sendForm}
+                            disabled={!formData.password || !formData.username}
                         >
                             Iniciar sesión
                         </Button>

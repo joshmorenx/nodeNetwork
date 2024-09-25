@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function useUpdatePost({ token, initialForm = {} }) {
+export default function useUpdatePost({ token, initialForm = {}, type }) {
     const [postForm, setPostForm] = useState(initialForm);
     const [msg, setMsg] = useState('');
     const [error, setError] = useState('');
@@ -29,7 +29,7 @@ export default function useUpdatePost({ token, initialForm = {} }) {
             formData.append('image', image);
         }
 
-        await axios.put('https://nodenetwork-backend.onrender.com/api/updatePost/', formData,{
+        await axios.put(type === 'post' ? 'https://nodenetwork-backend.onrender.com/api/updatePost/' : 'https://nodenetwork-backend.onrender.com/api/comment/', formData,{
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'

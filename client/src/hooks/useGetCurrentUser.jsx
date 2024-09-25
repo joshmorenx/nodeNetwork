@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const useGetCurrentUser = ({ token }) => {
     const [user, setUser] = useState({});
@@ -20,6 +21,8 @@ const useGetCurrentUser = ({ token }) => {
             } catch (error) {
                 console.error('Error al enviar la solicitud:', error.message);
                 setError(error);
+                Cookies.remove('token');
+                window.location.reload();
             }
         };
 

@@ -7,7 +7,7 @@ import useGetSelectedUserPermissions from '../hooks/useGetSelectedUserPermission
 import PermissionAssigner from './PermissionAssigner';
 import PermissionModifier from './PermissionModifier';
 import PermissionCreateOrDelete from './PermissionCreateOrDelete';
-import { useState, useEffect } from 'react';   
+import { useState, useEffect } from 'react';
 import { Typography, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import '../assets/styles.css';
@@ -19,8 +19,8 @@ export default function PermissionManager({ token }) {
     let { allAccess } = usePermissions(user);
     const nombres = [];
     const { userNames } = useGetAllUsers();
-    const { permissionDetails, errorDetails, sendRequestedPermissions } = useGetAllPermissions();
-    const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions(selectedUser)
+    const { permissionDetails, errorDetails, sendRequestedPermissions } = useGetAllPermissions({ token });
+    const { UserUnassignedPermissions, UserAssignedPermissions, enviarSolicitud } = useGetSelectedUserPermissions({ token, selectedUserName: selectedUser })
     const [selectedTab, setSelectedTab] = useState('');
     const [delBtnClicked, setDelBtnClicked] = useState(false);
     const className = useSelector((state) => state.className);
@@ -28,8 +28,8 @@ export default function PermissionManager({ token }) {
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
 
-    const desktopStyle = className+" permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
-    const mobileStyle = className+" permission-tabs flex flex-col text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+    const desktopStyle = className + " permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+    const mobileStyle = className + " permission-tabs flex flex-col text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
 
     // let's make a trigger when delBtnClicked is true useGetAllPermissions will be called again (PREPARATION)
     // useEffect(() => {
@@ -42,27 +42,27 @@ export default function PermissionManager({ token }) {
     // }, [delBtnClicked])
 
     try {
-        if( userNames.length > 0 ){
+        if (userNames.length > 0) {
             userNames.map((user) => {
                 nombres.push(user.username)
-            })            
+            })
         }
     } catch (error) {
         console.error(error);
     }
-    
+
     const handleSelectedChange = async (selectedValue, type) => {
-        if(type === 'user') {
+        if (type === 'user') {
             await setSelectedUser(selectedValue)
         }
-        else if(type === 'permission') {
+        else if (type === 'permission') {
             await setSelectedPermission(selectedValue)
         }
     }
 
     const handleTabClick = async (tab) => {
         setSelectedTab(tab)
-        if(tab === 'modify' || tab === 'create') {
+        if (tab === 'modify' || tab === 'create') {
             setSelectedPermission('')
         }
     }
@@ -80,52 +80,52 @@ export default function PermissionManager({ token }) {
     }
 
     const PermissionTabs = () => {
-        return(
+        return (
             <ul className={isDesktop ? desktopStyle : mobileStyle}>
                 <li className="me-2">
-                    <a onClick={()=>handleTabClick('assign')} href="#" className={ selectedTab === 'assign' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Asignar Permisos</a>
+                    <a onClick={() => handleTabClick('assign')} href="#" className={selectedTab === 'assign' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300'}>Asignar Permisos</a>
                 </li>
                 <li className="me-2">
-                    <a onClick={()=>handleTabClick('modify')} href="#" className={ selectedTab === 'modify' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Modificar Permisos</a>
+                    <a onClick={() => handleTabClick('modify')} href="#" className={selectedTab === 'modify' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300'}>Modificar Permisos</a>
                 </li>
                 <li>
-                    <a onClick={()=>handleTabClick('create')} href="#" className={ selectedTab === 'create' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300' }>Crear/Eliminar Permisos</a>
+                    <a onClick={() => handleTabClick('create')} href="#" className={selectedTab === 'create' ? 'inline-block p-4 dark:bg-gray-800 text-blue-600 rounded-t-lg dark:text-blue-500' : 'inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300'}>Crear/Eliminar Permisos</a>
                 </li>
             </ul>
         )
     }
 
     const NonSelectedTab = () => {
-        return(
+        return (
             <Typography>Debe seleccionar una pestaña</Typography>
-        )    
+        )
     }
 
-    useEffect(()=>{
-        if(selectedUser !== '' ){
+    useEffect(() => {
+        if (selectedUser !== '') {
             enviarSolicitud()
         }
-    }, [selectedUser]) 
+    }, [selectedUser])
 
     return (
         <div>
             <div className="permission-manager-container">
                 {error ? <p>{error.message}</p> :
                     <PermissionTabs />}
-                {allAccess ? (
-                    <div className="permission-content"> 
+                {(allAccess || user.userId === 1) ? (
+                    <div className="permission-content">
 
-                        { selectedTab === 'assign' && (<PermissionAssigner nombres={ nombres } handleSelectedChange={handleSelectedChange} token={ token } UserUnassignedPermissions={ UserUnassignedPermissions } UserAssignedPermissions={ UserAssignedPermissions } selectedUser={ selectedUser } permissionDiff={ permissionDiff } />)}
+                        {selectedTab === 'assign' && (<PermissionAssigner nombres={nombres} handleSelectedChange={handleSelectedChange} token={token} UserUnassignedPermissions={UserUnassignedPermissions} UserAssignedPermissions={UserAssignedPermissions} selectedUser={selectedUser} permissionDiff={permissionDiff} />)}
 
-                        { selectedTab === 'modify' && (<PermissionModifier permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} token={ token } selectedPermission={ selectedPermission } />) }
-                        
-                        { selectedTab === 'create' && (<PermissionCreateOrDelete permissionDetails={ permissionDetails } handleSelectedChange={handleSelectedChange} token={ token } selectedPermission={ selectedPermission } setDelBtnClicked={ setDelBtnClicked } sendRequestedPermissions={ sendRequestedPermissions } delBtnClicked={ delBtnClicked } />) }
+                        {selectedTab === 'modify' && (<PermissionModifier permissionDetails={permissionDetails} handleSelectedChange={handleSelectedChange} token={token} selectedPermission={selectedPermission} />)}
 
-                        { selectedTab === '' && (<NonSelectedTab />) }
+                        {selectedTab === 'create' && (<PermissionCreateOrDelete permissionDetails={permissionDetails} handleSelectedChange={handleSelectedChange} token={token} selectedPermission={selectedPermission} setDelBtnClicked={setDelBtnClicked} sendRequestedPermissions={sendRequestedPermissions} delBtnClicked={delBtnClicked} />)}
 
-                    </div>                    
-                ):(
-                <p></p>)}
+                        {selectedTab === '' && (<NonSelectedTab />)}
+
+                    </div>
+                ) : (
+                    <p></p>)}
             </div>
         </div>
     )

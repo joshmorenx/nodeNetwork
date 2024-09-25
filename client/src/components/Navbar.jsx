@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { useMediaQuery } from '@mui/material';
+import { Menu, MenuItem, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setClassName } from '../redux/actions';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -18,14 +18,14 @@ import HomeIcon from '@mui/icons-material/Home';
 import MobileNavMenu from './MobileNavMenu.jsx';
 import Switch from '@mui/material/Switch';
 import useHandleTheme from '../hooks/useHandleTheme.jsx/';
+import Notifications from './Notifications.jsx';
 
 export default function Navbar({ token }) {
     const [query, setQuery] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { user } = useGetCurrentUser({ token });
+    const { user, error } = useGetCurrentUser({ token });
     const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
-
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
@@ -116,8 +116,6 @@ export default function Navbar({ token }) {
         document.body.style.backgroundColor = (newTheme === 'dark' ? 'black' : 'white')
     }, [newTheme])
 
-    
-
     return (
         <Box sx={{ mb: 9 }}>
             <Box className={className} sx={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}>
@@ -146,9 +144,9 @@ export default function Navbar({ token }) {
                                 {/* <Button>
                             <MessageIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></MessageIcon> // pending
                         </Button> */}
-                                {/* <Button onClick={ () => alert }>
-                            <NotificationsIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></NotificationsIcon> // pending
-                        </Button> */}
+                                
+                                <Notifications token={token} newTheme={newTheme} />
+
                                 <Button>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (

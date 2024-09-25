@@ -9,6 +9,7 @@ import ProfileEditEmail from './ProfileEditEmail.jsx';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import { useSelector } from 'react-redux';
+import useGetProfleImage from '../hooks/useGetProfileImage.jsx'
 
 export default function ProfileSettings({ token }) {
     const className = useSelector((state) => state.className);
@@ -20,6 +21,7 @@ export default function ProfileSettings({ token }) {
     const [selectedImage, setSelectedImage] = useState(null); // Default image file
     const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Default image URL
     const { user } = useGetCurrentUser({ token });
+    const { image, imageError } = useGetProfleImage({ id: user.username })
 
     const { formUserData, error, success, msg, handleInputChange, sendRequest, newToken } = useUpdateProfile({
         token, initialForm: {
@@ -38,9 +40,9 @@ export default function ProfileSettings({ token }) {
 
     useEffect(() => {
         if (user && user.profilePicture) {
-            setSelectedImageUrl(`https://nodenetwork-backend.onrender.com${user.profilePicture}`)
+            setSelectedImageUrl(image)
         }
-    }, [user]);
+    }, [user, image]);
 
     const handleEdit = (section, editNum) => {
         const result = window.confirm(`¿Seguro que quieres editar ${section}?`);

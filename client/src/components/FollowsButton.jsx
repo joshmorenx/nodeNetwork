@@ -30,7 +30,7 @@ export default function FollowsButton({ token, username, fontSizeStyles }) {
             {!user.username ? <CircularProgress /> : user.username === username ? null :
                 <Box>
                     {/* { isFollowing && <Button className="already-following" variant="contained" color="success"></Button> } */}
-                    {!isFollowing && <Button className="follow" variant="contained" onClick={() => follow(username)}> Seguir </Button>}
+                    {!isFollowing && <Button sx={fontSizeStyles} className="follow" variant="contained" onClick={() => follow(username)}> Seguir </Button>}
 
                     {isFollowing &&
                         <Button
