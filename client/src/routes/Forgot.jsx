@@ -14,25 +14,21 @@ export default function Forgot() {
         setFoundUser(found)
     }
 
-    useEffect(() => {
-        (foundUser) && console.log(foundUser)
-    }, [foundUser])
-
     return (
         <>
             <Box className="login-background">
                 {!foundUser ?
                     <SearchUsername isDesktop={isDesktop} isTablet={isTablet} isMobile={isMobile} handleFoundUser={handleFoundUser} /> :
                     (foundUser === "found" ?
-                        <Box className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
+                        <Box sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center', height: '30vh' }} className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
                             <Typography>
-                                usuario encontrado
+                                Correo de recuperación enviado, Verifica tu correo registrado para recuperar tu cuenta.
                             </Typography>
                         </Box> :
                         foundUser === "notFound" ?
-                            <Box className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
+                            <Box sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center', height: '30vh' }} className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
                                 <Typography>
-                                    usuario NO encontrado
+                                    usuario NO encontrado, por favor intenta de nuevo
                                 </Typography>
                             </Box>
                             : null

@@ -10,6 +10,7 @@ import Follows from './routes/Follows.jsx';
 import Search from './routes/Search.jsx';
 import Gallery from './routes/Gallery.jsx';
 import NotFound from './routes/NotFound.jsx';
+import Reset from './routes/Reset.jsx';
 import Cookies from 'js-cookie';
 
 export const App = () => {
@@ -28,6 +29,7 @@ export const App = () => {
             <Route path="/search/:query?" element={cookieToken ? <Search token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="/gallery/:username?" element={cookieToken ? <Gallery token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/reset/:token" element={<Reset />} />
         </Routes>
     );
 };

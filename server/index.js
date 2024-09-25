@@ -5,6 +5,7 @@ const multer = require("multer");
 const mongoose = require("mongoose"); // Asegúrate de tener mongoose instalado
 const http = require("http"); // Para crear el servidor HTTP
 const { Server } = require("socket.io"); // Importar Server de socket.io
+const nodemailer = require("nodemailer");
 
 const Notifications = require("./models/Notifications.js");
 const Posts = require("./models/Posts.js");
@@ -27,6 +28,31 @@ require('dotenv').config();
 
 // Conectarse a la base de datos
 connectDB();
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+});
+
+// let mail = {
+//     from: process.env.EMAIL,
+//     to: 'mohif32453@aiworldx.com',
+//     subject: 'test from nodemailer',
+//     text: 'test from nodemailer',
+//     html: '<b>test from nodemailer</b>'
+// }
+
+// transporter.sendMail(mail, (err, info) => {
+//     if(err) {
+//         console.log(err);
+//     } else {
+//         console.log("email sent");
+//     }
+// })
 
 // Middleware
 const allowedOrigins = [
@@ -76,7 +102,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/", authRoutes());
-app.use("/", recoveryRoutes());
+app.use("/", recoveryRoutes(transporter));
 app.use("/", userRoutes(upload));
 app.use("/", permissionRoutes());
 app.use("/", staticRoutes());
