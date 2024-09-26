@@ -1,9 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-    let token = undefined;
-
-    token = req.headers.authorization;
+    const { authorization: token } = req.headers
 
     if (!token) {
         return res.status(401).json({ mensaje: 'Token no proporcionado' });

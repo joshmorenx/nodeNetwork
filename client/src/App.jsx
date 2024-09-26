@@ -29,7 +29,7 @@ export const App = () => {
             <Route path="/search/:query?" element={cookieToken ? <Search token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="/gallery/:username?" element={cookieToken ? <Gallery token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="/reset/:token" element={<Reset />} />
+            <Route path="/reset/:token?" element={<Reset />} />
         </Routes>
     );
 };
