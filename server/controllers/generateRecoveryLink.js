@@ -8,7 +8,7 @@ const generateRecoveryLink = (transporter) => {
 
             const user = await User.findOne({ username: usr }).lean()
             const token = jwt.sign({ username: usr }, process.env.SECRET, {
-                expiresIn: '15m'
+                expiresIn: '5m',
             })
 
             // encode token so token will not have special characters
@@ -20,8 +20,8 @@ const generateRecoveryLink = (transporter) => {
                 let mail = {
                     from: process.env.EMAIL,
                     to: user.email,
-                    subject: 'test from nodemailer',
-                    text: `click on this link to reset your password: ${process.env.CLIENT_URL}/reset/${encodedToken}`,
+                    subject: 'nodenetwork email recovery link',
+                    html: `<p>be quick, this link will expire in 5 minutes. click on the following link to reset your password: <br>${process.env.CLIENT_URL}/reset/${encodedToken}</p>`,
                 }
 
                 transporter.sendMail(mail, (err) => {

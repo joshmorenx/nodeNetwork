@@ -7,10 +7,8 @@ const resetPassword = async (req, res) => {
     const decodedTkn = Buffer.from(token, 'base64').toString('utf-8');
 
     try {
-        if (password === passwordConfirmation) {
-            const user = await User.findOne({ username: username }).lean()
-            const hashedToken = await bcrypt.hash(decodedTkn, 10);
-            const updatePasswordRecoveryUsedTokens = await User.updateOne({ username: username }, { $push: { passwordRecoveryUsedTokens: hashedToken } });
+        if (password === passwordConfirmation && decodedTkn) {
+            await User.updateOne({ username: username }, { $push: { passwordRecoveryUsedTokens: token } });
             const hashedPassword = await bcrypt.hash(password, 10)
             await User.updateOne({ username: username }, { $set: { password: hashedPassword } })
 

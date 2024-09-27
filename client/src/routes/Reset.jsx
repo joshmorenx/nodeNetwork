@@ -14,12 +14,14 @@ export default function Reset() {
     const isMobile = useMediaQuery('(max-width: 425px)');
 
     useEffect(() => {
-        if (!token) {
+        if (token && !success) {
+            getVerifyExpiredToken(token);
+        } else if (!token) {
             navigate('/');
         } else {
-            getVerifyExpiredToken(token);
+            // Do nothing
         }
-    }, [token]);
+    }, [token, success]);
 
     return (
         <Box className="login-background">
