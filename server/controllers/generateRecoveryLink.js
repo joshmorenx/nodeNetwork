@@ -12,7 +12,8 @@ const generateRecoveryLink = (transporter) => {
             })
 
             // encode token so token will not have special characters
-            const encodedToken = btoa(token)
+            // const encodedToken = btoa(token)
+            const encodedToken = Buffer.from(token).toString('base64')
 
             if (user) {
                 console.log('sending email...')

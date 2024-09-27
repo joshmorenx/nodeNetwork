@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Box, Typography, useMediaQuery, TextField, Button } from "@mui/material";
 import { useGetVerifyExpiredToken } from "../hooks/useGetVerifyExpiredToken.jsx";
 import { CircularProgress } from '@mui/material';
+import ResetPassword from "../components/ResetPassword.jsx";
 
 export default function Reset() {
     const navigate = useNavigate();
@@ -34,41 +35,13 @@ export default function Reset() {
                             </Box>
                         ) : (
                             error ?
-                                (<Typography>
-                                    El token de recuperación no es valido.
-                                </Typography>) :
-                                (decodedToken &&
-                                    <Box>
-                                        <Typography sx={{ mt: 3, fontSize: isDesktop ? 20 : (isTablet ? 15 : 10) }}>
-                                            hola {decodedToken.username}! por favor, ingresa tu nueva contraseña.
-                                        </Typography>
-                                        <TextField
-                                            label="Contraseña"
-                                            sx={{ mt: 3, mb: 1, width: '100%', ml: 'auto', mr: 'auto' }}
-                                            size='small'
-                                            type="password"
-                                            id="password"
-                                            name="password"
-                                        />
-
-                                        <TextField
-                                            label="Confirmar contraseña"
-                                            sx={{ mt: 3, mb: 1, width: '100%', ml: 'auto', mr: 'auto' }}
-                                            size='small'
-                                            type="password"
-                                            id="passwordConfirmation"
-                                            name="passwordConfirmation"
-                                        />
-
-                                        <Button
-                                            sx={{ mt: 3, mb: 3, width: '100%', ml: 'auto', mr: 'auto' }} variant="contained"
-                                            onClick={() => {
-                                                decodedToken.token = token
-                                                decodedToken
-                                            }}>
-                                            Cambiar contraseña
-                                        </Button>
-                                    </Box>
+                                (
+                                    <Typography>
+                                        El token de recuperación no es valido.
+                                    </Typography>) :
+                                (
+                                    decodedToken &&
+                                    <ResetPassword token={token} decodedToken={decodedToken} isDesktop={isDesktop} isTablet={isTablet} isMobile={isMobile} />
                                 )
                         )
                     )}
