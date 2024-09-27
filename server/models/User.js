@@ -17,6 +17,7 @@ const UserSchema = new Schema({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     theme: { type: String, default: "light" },
+    passwordRecoveryUsedTokens: [{ type: String }],
 });
 
 const User = mongoose.model("User", UserSchema);

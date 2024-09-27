@@ -11,17 +11,21 @@ const generateRecoveryLink = (transporter) => {
                 expiresIn: '15m'
             })
 
-            if(user){
+            // encode token so token will not have special characters
+            // const encodedToken = btoa(token)
+            const encodedToken = Buffer.from(token).toString('base64')
+
+            if (user) {
                 console.log('sending email...')
                 let mail = {
                     from: process.env.EMAIL,
                     to: user.email,
                     subject: 'test from nodemailer',
-                    text: `click on this link to reset your password: ${process.env.CLIENT_URL}/reset?token=${token}`,
+                    text: `click on this link to reset your password: ${process.env.CLIENT_URL}/reset/${encodedToken}`,
                 }
 
                 transporter.sendMail(mail, (err) => {
-                    if(err) {
+                    if (err) {
                         console.log(err);
                     } else {
                         console.log("email sent");
