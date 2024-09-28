@@ -10,6 +10,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button'
+import { useSetViewedNotification } from '../hooks/useSetViewedNotification.jsx';
 
 export default function Notifications({ token, newTheme }) {
     // Estado para almacenar las notificaciones
@@ -22,8 +23,8 @@ export default function Notifications({ token, newTheme }) {
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
-
     const className = useSelector((state) => state.className);
+    const { errorViewed, successViewed, msgViewed, setViewedNotification } = useSetViewedNotification({ token });
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -34,11 +35,14 @@ export default function Notifications({ token, newTheme }) {
     };
 
     const viewNotification = (notification) => {
+        setViewedNotification(notification.notificationId);
         setAnchorEl(null)
         if (['like', 'dislike', 'comment'].includes(notification.reason)) {
-            window.location.replace(`https://node-network-chi.vercel.app/posts/${notification.postIdNumber}`)
+            // window.location.replace(`https://node-network-chi.vercel.app/posts/${notification.postIdNumber}`)
+            navigate(`/posts/${notification.postIdNumber}`)
         } else if (['follow'].includes(notification.reason)) {
-            window.location.replace(`https://node-network-chi.vercel.app/profile/${notification.followerUsername}`)
+            // window.location.replace(`https://node-network-chi.vercel.app/profile/${notification.followerUsername}`)
+            navigate(`/profile/${notification.followerUsername}`)
         }
     }
 
@@ -94,7 +98,7 @@ export default function Notifications({ token, newTheme }) {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                <Badge badgeContent={notifications.length + allNotifications.length} color="error">
+                <Badge badgeContent={allNotifications.filter(notification => !notification.read).length + notifications.filter(notification => !notification.read).length} color="error">
                     <NotificationsIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }} />
                 </Badge>
             </Button>
@@ -114,15 +118,15 @@ export default function Notifications({ token, newTheme }) {
                 }}
             >
                 {notifications.length + allNotifications.length === 0 &&
-                    <MenuItem sx={{ textWrap:'wrap' }} onClick={handleClose}>No tienes notificaciones</MenuItem>
+                    <MenuItem sx={{ textWrap: 'wrap' }} onClick={handleClose}>No tienes notificaciones</MenuItem>
                 }
 
                 {notifications.map((notification, index) => (
-                    <MenuItem sx={{ textWrap:'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                    <MenuItem sx={{ textWrap: 'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
                 ))}
 
                 {allNotifications.map((notification, index) => (
-                    <MenuItem sx={{ textWrap:'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                    <MenuItem sx={{ textWrap: 'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
                 ))}
             </Menu>
         </Box>
