@@ -117,14 +117,11 @@ app.use((err, req, res, next) => {
 
 // Configurar Socket.IO para escuchar cambios en la colección de notificaciones
 io.on('connection', (socket) => {
-    // console.log('Nuevo cliente conectado');
 
     // Escuchar el nombre de usuario que el cliente envía
     socket.on('username', async (username) => {
-        // console.log(`Usuario conectado: ${username}`);
 
         if (username) {
-            // console.log(`El cliente ${username} se ha conectado`);
             const user = await User.findOne({ username: username });
             const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
             socket.emit("notifications", notifications)
@@ -157,7 +154,6 @@ io.on('connection', (socket) => {
 
             changeStream.on('change', (change) => {
                 if (change.operationType === 'insert') {
-                    console.log('Cambio en la colección de notificaciones');
                     const notification = change.fullDocument;
                     socket.emit('newNotification', notification);
                 }
@@ -165,7 +161,6 @@ io.on('connection', (socket) => {
 
             changeStreamDelete.on('change', (change) => {
                 if (change.operationType === 'delete') {
-                    console.log('eliminando notificaciones');
                     const notificationId = change.documentKey._id;
                     socket.emit('deleteNotification', notificationId);
                 }
@@ -173,7 +168,6 @@ io.on('connection', (socket) => {
 
             changeStreamUpdate.on('change', (change) => {
                 if (change.operationType === 'update') {
-                    console.log('Actualizando notificaciones');
                     const notification = change.fullDocument;
                     socket.emit('updateNotification', notification);
                 }
@@ -181,7 +175,6 @@ io.on('connection', (socket) => {
 
             // Limpiar el changeStream cuando el socket se desconecta
             socket.on('disconnect', () => {
-                console.log(`Usuario desconectado: ${username}`);
                 changeStream.close();
             });
         } catch (error) {
