@@ -68,6 +68,7 @@ const useRegisterForm = (initialForm = {}) => {
                 username: formData.username,
                 password: formData.password,
                 pwdConfirmation: formData.pwdConfirmation,
+                option: 'register'
             }).then((response) => {
                 // console.log(response.data.msg);
                 // console.log(response.data.regState);
