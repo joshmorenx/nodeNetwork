@@ -47,6 +47,7 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
             setNewToken(response.data.token);
         }).catch((error) => {
             setError(error);
+            setMsg(error.response.data.message);
             console.log(error);
         })
     }

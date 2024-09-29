@@ -7,13 +7,14 @@ const updateProfile = require("../controllers/updateProfile.js");
 const getSpecificUserData = require("../controllers/getSpecificUserData.js");
 const handleTheme = require("../controllers/handleTheme.js");
 const getUserTheme = require("../controllers/getUserTheme.js");
+const verifyValidEmail = require("../middlewares/verifyValidEmail.js");
 
 const userRoutes = (upload) => {
 
     router.get('/api/usuario/', verifyToken, returnUserData);
     router.get('/api/usuarios/', getAllUsers);
     router.get('/api/getSpecificUserData/:username', verifyToken, getSpecificUserData);
-    router.post('/api/updateProfile/', verifyToken, upload.single('image'), updateProfile);
+    router.post('/api/updateProfile/', verifyToken, upload.single('image'), verifyValidEmail, updateProfile);
     router.put('/api/handleTheme/', verifyToken, handleTheme)
     router.get('/api/getUserTheme/', verifyToken, getUserTheme)
 
