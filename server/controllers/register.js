@@ -19,8 +19,8 @@ const register = async (req = request, res = response) => {
 
         const existingUser = await User.findOne({ username });
         const existingEmail = await User.findOne({ email });
-        errExisting = (err) => {
-            return res.status(401).json({ error: err });
+        const errExisting = (err) => {
+            return res.status(400).json({ msg: err });
         };
         if (firstName=='' || lastName=='' || email=='' || username=='' || password=='' || pwdConfirmation=='') {
             errExisting("Aún faltan datos por llenar");          

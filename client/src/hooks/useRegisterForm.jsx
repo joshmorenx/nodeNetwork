@@ -76,6 +76,7 @@ const useRegisterForm = (initialForm = {}) => {
             }).catch(error => {
                 // console.log(error.response.data.error);
                 setState(error.response.data.error);
+                setState(error.response.data.msg);
             });
     };
 
