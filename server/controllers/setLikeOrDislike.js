@@ -41,7 +41,7 @@ const setLikeOrDislike = async (req, res) => {
                 }
             }
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ error: "An error has occurred while liking the post" });
         }
     }
     if (option === "dislike") {
@@ -67,7 +67,6 @@ const setLikeOrDislike = async (req, res) => {
 
                 if (!notificationAlreadyExists && user._id.equals(post.author) === false) {
                     await Notifications.create({ from: user._id, reason: "dislike", to: post.author, postId: post._id, postIdNumber: post.postId, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "dislike", description: `${user.username} le dio un dislike a tu publicacion` });
-                    console.log(post.postId);
                 } 
     
                 if (result) {
@@ -78,7 +77,7 @@ const setLikeOrDislike = async (req, res) => {
                 }
             }
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ error: "An error has occurred while disliking the post" });
         }
     }
 }

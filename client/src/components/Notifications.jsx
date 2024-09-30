@@ -11,6 +11,7 @@ import Badge from '@mui/material/Badge';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@mui/material/Button'
 import { useSetViewedNotification } from '../hooks/useSetViewedNotification.jsx';
+import CircleIcon from '@mui/icons-material/Circle';
 
 export default function Notifications({ token, newTheme }) {
     // Estado para almacenar las notificaciones
@@ -37,7 +38,7 @@ export default function Notifications({ token, newTheme }) {
     const viewNotification = (notification) => {
         setViewedNotification(notification.notificationId);
         setAnchorEl(null)
-        if (['like', 'dislike', 'comment'].includes(notification.reason)) {
+        if (['like', 'dislike', 'comment', 'commentlike', 'commentdislike'].includes(notification.reason)) {
             // window.location.replace(`https://node-network-chi.vercel.app/posts/${notification.postIdNumber}`)
             navigate(`/posts/${notification.postIdNumber}`)
         } else if (['follow'].includes(notification.reason)) {
@@ -122,11 +123,11 @@ export default function Notifications({ token, newTheme }) {
                 }
 
                 {notifications.map((notification, index) => (
-                    <MenuItem sx={{ textWrap: 'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                    <MenuItem sx={{ textWrap: 'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} {notification.read ? <Box sx={{ bgcolor: '#00ff55', p:'0.2vw', borderRadius: '0.5vw', ml: '0.5vw' }}>Leído</Box> : <Box sx={{ bgcolor: '#ff9999', p:'0.2vw', borderRadius: '0.5vw', ml: '0.5vw' }}>No leído</Box>}</MenuItem>
                 ))}
 
                 {allNotifications.map((notification, index) => (
-                    <MenuItem sx={{ textWrap: 'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} ({notification.read ? 'leido' : 'no leido'})</MenuItem>
+                    <MenuItem sx={{ textWrap: 'wrap' }} onClick={() => (viewNotification(notification))} key={index}>{notification.description} {notification.read ? <Box sx={{ bgcolor: '#00ff55', p:'0.2vw', borderRadius: '0.5vw', ml: '0.5vw' }}>Leído</Box> : <Box sx={{ bgcolor: '#ff9999', p:'0.2vw', borderRadius: '0.5vw', ml: '0.5vw' }}>No leído</Box>}</MenuItem>
                 ))}
             </Menu>
         </Box>

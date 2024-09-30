@@ -8,7 +8,7 @@ const staticRoutes = () => {
     // Ruta para obtener la imagen de perfil (ya está bien configurada)
     router.get('/api/public/uploads/users/:username/profile/profile.jpg', verifyToken, (req, res) => {
         const { username } = req.params;
-        console.log(username);
+        // console.log(username);
         try {
             res.sendFile(path.resolve(__dirname, '../public/uploads/users', username, 'profile', 'profile.jpg'));
         } catch (error) {
