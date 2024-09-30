@@ -7,11 +7,16 @@ import useGetSpecificPosts from "../hooks/useGetSpecificPosts.jsx";
 import { CircularProgress } from '@mui/material';
 
 export default function SpecificFeedContent({ token, username, currentUsername, query }) {
-    const { sendRequest, error, success, msg, posts, loading, setLoading} = useGetSpecificPosts({ token, username });
+    //any changes here must be made also in FeedContent
+    const { posts, setPosts, error, setError, success, setSuccess, msg, setMsg, loading, setLoading, sendRequest } = useGetSpecificPosts({ token, username });
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
     const observer = useRef();
+
+    const handleFeedReload = () => {
+        window.location.reload();
+    };
 
     useEffect(() => {
         sendRequest(query);
@@ -48,15 +53,9 @@ export default function SpecificFeedContent({ token, username, currentUsername, 
         };
     }, [loadedPostsCount, totalCount, loading]);
 
-    const handleFeedReload = () => {
-        setAllPosts([]);
-        setLoadedPostsCount(5);
-        sendRequest();
-    };
-
     return (
         <Box>
-            { currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2, color: 'white' }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
+            {currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2, color: 'white' }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
             <Box>
                 {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
 

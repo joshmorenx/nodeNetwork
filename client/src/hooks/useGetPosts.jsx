@@ -11,7 +11,7 @@ export default function useGetPosts({ token, username }) {
 
     const sendRequest = async (query) => {
         await axios.get(`${backendUrl}/api/getPosts/`, {
-            headers:{
+            headers: {
                 Authorization: `Bearer ${token}`,
                 query: query
             }
@@ -25,5 +25,5 @@ export default function useGetPosts({ token, username }) {
             setLoading(false);
         })
     }
-    return { sendRequest, error, success, msg, posts, loading, setLoading}
+    return { sendRequest, error, success, msg, posts, loading, setLoading }
 }

@@ -8,11 +8,15 @@ import { CircularProgress } from '@mui/material';
 
 export default function FeedContent({ token, query }) {
     //any changes here must be made also in SpecificFeedContent
-    const { sendRequest, error, success, msg, posts, loading, setLoading } = useGetPosts({ token });
+    const { posts, setPosts, error, setError, success, setSuccess, msg, setMsg, loading, setLoading, sendRequest } = useGetPosts({ token });
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
     const observer = useRef();
+
+    const handleFeedReload = () => {
+        window.location.reload();
+    };
 
     useEffect(() => {
         sendRequest(query);
@@ -48,12 +52,6 @@ export default function FeedContent({ token, query }) {
             }
         };
     }, [loadedPostsCount, totalCount, loading]);
-
-    const handleFeedReload = () => {
-        setAllPosts([]);
-        setLoadedPostsCount(5);
-        sendRequest();
-    };
 
     return (
         <Box>

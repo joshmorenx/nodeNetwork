@@ -11,7 +11,7 @@ export default function useGetSpecificPosts({ token, username }) {
 
     const sendRequest = async (query) => {
         await axios.get(`${backendUrl}/api/getSpecificPosts/${username}/`, {
-            headers:{
+            headers: {
                 Authorization: `Bearer ${token}`,
                 query: query
             }
@@ -25,5 +25,5 @@ export default function useGetSpecificPosts({ token, username }) {
             setLoading(false);
         })
     }
-    return { sendRequest, error, success, msg, posts, loading, setLoading}
+    return { sendRequest, error, success, msg, posts, loading, setLoading }
 }
