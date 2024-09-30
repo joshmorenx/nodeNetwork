@@ -3,13 +3,14 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 const useGetCurrentUser = ({ token }) => {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [user, setUser] = useState({});
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const enviarSolicitud = async () => {
             try {
-                const response = await axios.get('https://nodenetwork-backend.onrender.com/api/usuario/', {
+                const response = await axios.get(`${backendUrl}/api/usuario/`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

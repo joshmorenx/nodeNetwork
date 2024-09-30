@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useCommentLikesAndDislikes({ comment, token }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
     const [error, setError] = useState(null)
@@ -9,7 +10,7 @@ export default function useCommentLikesAndDislikes({ comment, token }) {
     const [msg, setMsg] = useState(null)
 
     const getCommentLikesAndDislikes = async () => {
-        await axios.get('https://nodenetwork-backend.onrender.com/api/comment/', {
+        await axios.get(`${backendUrl}/api/comment/`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 comment: comment._id
@@ -25,7 +26,7 @@ export default function useCommentLikesAndDislikes({ comment, token }) {
     }
 
     const setCommentLike = async () => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/comment/like', {
+        await axios.post(`${backendUrl}/api/comment/like`, {
             comment: comment._id
         }, {
             headers: {
@@ -41,7 +42,7 @@ export default function useCommentLikesAndDislikes({ comment, token }) {
     }
 
     const setCommentDislike = async () => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/comment/dislike', {
+        await axios.post(`${backendUrl}/api/comment/dislike`, {
             comment: comment._id
         }, {
             headers: {

@@ -24,6 +24,7 @@ import useGetProfileImage from '../hooks/useGetProfileImage';
 import useGetGalleryImage from '../hooks/useGetGalleryImage';
 
 export default function PostedContent({ token, post, handleFeedReload, isolated }) {
+    const frontendUrl = import.meta.env.VITE_FRONTEND
     const { user, error } = useGetCurrentUser({ token });
     const [updatePost, setUpdatePost] = useState(false);
     const [comment, setComment] = useState([]);
@@ -216,8 +217,8 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                             }
                         >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
-                                <Link href={`https://node-network-chi.vercel.app/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
+                                <Link href={`${frontendUrl}/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
+                                <Link href={`${frontendUrl}/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
                                     {/* <p>{post.firstName}</p> */}
                                     <Typography sx={userNameStyles}>{post.username}</Typography>
                                 </Link>

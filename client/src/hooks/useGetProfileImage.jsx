@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default function useGetProfileImage({ id }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [image, setImage] = useState(null);
     const [imageError, setImageError] = useState(null);
     const token = Cookies.get('token');
@@ -10,7 +11,7 @@ export default function useGetProfileImage({ id }) {
     useEffect(() => {
         const getProfileImage = async () => {
             try {
-                const response = await axios.get(`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${id}/profile/profile.jpg`, {
+                const response = await axios.get(`${backendUrl}/api/public/uploads/users/${id}/profile/profile.jpg`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     },

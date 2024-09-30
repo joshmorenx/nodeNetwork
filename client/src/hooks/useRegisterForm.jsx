@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const useRegisterForm = (initialForm = {}) => {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [formData, setFormData] = useState(initialForm);
     const [state, setState] = useState('')
     const [registryCompletion, setRegistryCompletion] = useState(false)
@@ -60,7 +61,7 @@ const useRegisterForm = (initialForm = {}) => {
         }
 
         setOpen(true)
-        await axios.post('https://nodenetwork-backend.onrender.com/api/register/',
+        await axios.post(`${backendUrl}/api/register/`,
             {
                 firstName: formData.firstName,
                 lastName: formData.lastName,

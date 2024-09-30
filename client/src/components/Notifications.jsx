@@ -14,7 +14,7 @@ import { useSetViewedNotification } from '../hooks/useSetViewedNotification.jsx'
 import CircleIcon from '@mui/icons-material/Circle';
 
 export default function Notifications({ token, newTheme }) {
-    // Estado para almacenar las notificaciones
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
     const [allNotifications, setAllNotifications] = useState([]);
@@ -53,7 +53,7 @@ export default function Notifications({ token, newTheme }) {
             return null
         }
         // Conectar al servidor de Socket.IO
-        const socket = io('https://nodenetwork-backend.onrender.com'); // Cambia esta URL por la de tu servidor si es necesario
+        const socket = io(backendUrl); // Cambia esta URL por la de tu servidor si es necesario
         const username = user.username;
 
         // Enviar el nombre de usuario al servidor

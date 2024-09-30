@@ -2,12 +2,13 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function useGetAllPermissions({ token }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [permissionDetails, setPermissionDetails] = useState([]);
     const [errorDetails, setErrorDetails] = useState('');
 
     // useEffect(() => {
     const sendRequestedPermissions = async () => {
-        await axios.get('https://nodenetwork-backend.onrender.com/api/getAllPermissions/',{
+        await axios.get(`${backendUrl}/api/getAllPermissions/`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }

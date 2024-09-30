@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const useLoginForm = (initialForm = {}) => {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [formData, setFormData] = useState(initialForm);
     const [loginData, setLoginData] = useState('')
     const [tokenState, setToken] = useState('')
@@ -17,7 +18,7 @@ const useLoginForm = (initialForm = {}) => {
     const sendForm = async (event) => {
         event.preventDefault();
         setOpen(true)
-        await axios.post(`https://nodenetwork-backend.onrender.com/api/login/`,
+        await axios.post(`${backendUrl}/api/login/`,
             {
                 username: formData.username,
                 password: formData.password,

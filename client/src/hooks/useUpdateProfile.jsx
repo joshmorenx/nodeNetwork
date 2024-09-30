@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function useUpdateProfile({ token, initialForm = {}}) {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const allowedNameCharacters = /^[a-zA-Z\s]*$/;
     const allowedEmailCharacters = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     const [formUserData, setFormUserData] = useState(initialForm);
@@ -36,7 +37,7 @@ export default function useUpdateProfile({ token, initialForm = {}}) {
             return;
         }
         
-        await axios.post('https://nodenetwork-backend.onrender.com/api/updateProfile/', formData, {
+        await axios.post(`${backendUrl}/api/updateProfile/`, formData, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useCaptureAndSendComment({ token }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [messageComment, setMessageComment] = useState('');
     const [errorComment, setError] = useState('');
     const [successComment, setSuccessComment] = useState(false);
@@ -16,7 +17,7 @@ export default function useCaptureAndSendComment({ token }) {
     const sendComment = async (postId) => {
         // console.log(newComment)
         // console.log(postId)
-        await axios.post('https://nodenetwork-backend.onrender.com/api/comment/', 
+        await axios.post(`${backendUrl}/api/comment/`, 
             {
                 postId: postId,
                 content: newComment 

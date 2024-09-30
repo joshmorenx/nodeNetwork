@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function useGetUserGallery({ token, username }) {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [userGallery, setUserGallery] = useState([]);  // Almacenar los blobs de las imágenes
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,7 +15,7 @@ export default function useGetUserGallery({ token, username }) {
         setSuccess(false);
         try {
             // Obtener los nombres de las imágenes
-            const response = await axios.get("https://nodenetwork-backend.onrender.com/api/getUserGallery", {
+            const response = await axios.get(`${backendUrl}/api/getUserGallery`, {
                 params: {
                     username: username
                 },
@@ -28,7 +29,7 @@ export default function useGetUserGallery({ token, username }) {
             // Convertir las imágenes a Blob
             const galleryBlobs = await Promise.all(
                 imageFiles.map(async (filename) => {
-                    const imageResponse = await axios.get(`https://nodenetwork-backend.onrender.com/api/public/uploads/users/${username}/gallery/${filename}`, {
+                    const imageResponse = await axios.get(`${backendUrl}/api/public/uploads/users/${username}/gallery/${filename}`, {
                         headers: {
                             Authorization: `Bearer ${token}`
                         },

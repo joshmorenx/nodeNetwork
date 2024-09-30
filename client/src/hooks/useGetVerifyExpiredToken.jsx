@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export function useGetVerifyExpiredToken() {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [expired, setExpired] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -11,7 +12,7 @@ export function useGetVerifyExpiredToken() {
 
     const getVerifyExpiredToken = async (token) => {
         setLoading(true);
-        await axios.get('https://nodenetwork-backend.onrender.com/api/verifyExpiredToken/', {
+        await axios.get(`${backendUrl}/api/verifyExpiredToken/`, {
             params: {
                 token: token
             }

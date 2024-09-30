@@ -3,13 +3,14 @@ import axios from 'axios';
 
 
 export default function useUpdatePermissions({ token, UserAssignedPermissions, selectedUser }) {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [msg, setMsg] = useState('')
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
 
     const sendRequest = async () => {
         try {
-            const response = await axios.post('https://nodenetwork-backend.onrender.com/api/updatePermissions/', {
+            const response = await axios.post(`${backendUrl}/api/updatePermissions/`, {
                 newPermissions: UserAssignedPermissions,
                 username: selectedUser,
             }, {

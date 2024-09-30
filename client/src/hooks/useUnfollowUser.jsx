@@ -2,12 +2,13 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useUnfollowUser({ token, username }) {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [er, setEr] = useState(null);
     const [msj, setMsj] = useState(null);
     const [suc, setSuc] = useState(false);
 
     const sendUnfollowRequest = async () => {
-        await axios.delete("https://nodenetwork-backend.onrender.com/api/relationship/", {
+        await axios.delete(`${backendUrl}/api/relationship/`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 username_to_unfollow: username

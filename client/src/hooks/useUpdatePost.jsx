@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useUpdatePost({ token, initialForm = {}, type }) {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [postForm, setPostForm] = useState(initialForm);
     const [msg, setMsg] = useState('');
     const [error, setError] = useState('');
@@ -29,7 +30,7 @@ export default function useUpdatePost({ token, initialForm = {}, type }) {
             formData.append('image', image);
         }
 
-        await axios.put(type === 'post' ? 'https://nodenetwork-backend.onrender.com/api/updatePost/' : 'https://nodenetwork-backend.onrender.com/api/comment/', formData,{
+        await axios.put(type === 'post' ? `${backendUrl}/api/updatePost/` : `${backendUrl}/api/comment/`, formData,{
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'

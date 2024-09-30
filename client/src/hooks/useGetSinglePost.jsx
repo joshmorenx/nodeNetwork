@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useGetSinglePost({ token, id }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [post, setPost] = useState({});
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -9,9 +10,9 @@ export default function useGetSinglePost({ token, id }) {
     const [msg, setMsg] = useState(null);
 
     const getSinglePost = async () => {
-        await axios.get('https://nodenetwork-backend.onrender.com/api/getSinglePost/', {
+        await axios.get(`${backendUrl}/api/getSinglePost/`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${ token }`,
                 id: id
             }
         }).then((response)=>{

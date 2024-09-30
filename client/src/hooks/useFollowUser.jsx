@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useFollowUser({ token, username }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [loading, setLoading] = useState(true);
     const [followMsg, setFollowMsg] = useState(null);
     const [followError, setFollowError] = useState(null);
@@ -9,7 +10,7 @@ export default function useFollowUser({ token, username }) {
     const [isFollowing, setIsFollowing] = useState(false);
 
     const sendFollowRequest = async () => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/relationship/', {
+        await axios.post(`${backendUrl}/api/relationship/`, {
             username_to_follow: username,
         }, {
             headers: {
@@ -24,7 +25,7 @@ export default function useFollowUser({ token, username }) {
     }
 
     const checkFollowAlreadyExists = async () => {
-        await axios.get('https://nodenetwork-backend.onrender.com/api/relationship/', {
+        await axios.get(`${backendUrl}/api/relationship/`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 username_to_follow: username

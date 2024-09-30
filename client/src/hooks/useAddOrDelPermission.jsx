@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from "react";
 
 export default function useAddOrDelPermission({ token, typeUpdate, permId, permName, initialForm = {} }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [formData, setFormData] = useState(initialForm);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -14,7 +15,7 @@ export default function useAddOrDelPermission({ token, typeUpdate, permId, permN
     };
 
     const sendRequest = async () => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/lastPermission/', {
+        await axios.post(`${backendUrl}/api/lastPermission/`, {
             typeUpdate: typeUpdate,
             permId: permId,
             permName: permName,

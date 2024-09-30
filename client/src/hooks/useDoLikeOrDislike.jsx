@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useDoLikeOrDislike({ token }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [liked, setLiked] = useState(false);
     const [disliked, setDisliked] = useState(false);
     const [errorLD, setErrorLD] = useState('');
@@ -12,7 +13,7 @@ export default function useDoLikeOrDislike({ token }) {
     const [dislikes, setDislikes] = useState(0);
 
     const sendDoUndo_Like = async (post_id) => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/likeOrDislike/', { post_id: post_id, option: 'like' }, {
+        await axios.post(`${backendUrl}/api/likeOrDislike/`, { post_id: post_id, option: 'like' }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -26,7 +27,7 @@ export default function useDoLikeOrDislike({ token }) {
     }
 
     const sendDoUndo_Dislike = async (post_id) => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/likeOrDislike/', { post_id: post_id, option: 'dislike' }, {
+        await axios.post(`${backendUrl}/api/likeOrDislike/`, { post_id: post_id, option: 'dislike' }, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

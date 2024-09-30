@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useLogout = (token) => {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [logStatusRefresh, setLogStatusRefresh] = useState(false);
     
     const logout = async () => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/logout/', {
+        await axios.post(`${backendUrl}/api/logout/`, {
             token: token
         }).then((response) => {
             // console.log(response.data.msg);

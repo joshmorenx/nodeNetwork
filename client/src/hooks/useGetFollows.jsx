@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 export default function useGetFollows({ token }){
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [messageFollows, setMessageFollows] = useState('')
     const [successFollows, setSuccessFollows] = useState(false)
     const [errorFollows, setErrorFollows] = useState('')
@@ -9,7 +10,7 @@ export default function useGetFollows({ token }){
     const [following, setFollowing] = useState([])
 
     const getFollows = async(username) => {
-        await axios.get('https://nodenetwork-backend.onrender.com/api/relationships/', {
+        await axios.get(`${backendUrl}/api/relationships/`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 param_username: username

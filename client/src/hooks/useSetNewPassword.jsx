@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 
 export function useSetNewPassword({ resetForm = {} }) {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [formData, setFormData] = useState(resetForm)
     const [loading, setLoading] = useState(null)
     const [success, setSuccess] = useState(null)
@@ -10,9 +11,6 @@ export function useSetNewPassword({ resetForm = {} }) {
     const [state, setState] = useState('')
     const [open, setOpen] = useState(false);
 
-    const allowedNameCharacters = /^[a-zA-Z\s]*$/;
-    const allowedUserCharacters = /^[a-zA-Z0-9]*$/;
-    const allowedEmailCharacters = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     const allowedPasswordCharacters = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
     const handleInputChange = (event) => {
@@ -41,7 +39,7 @@ export function useSetNewPassword({ resetForm = {} }) {
 
         setOpen(true)
         setLoading(true)
-        await axios.post('https://nodenetwork-backend.onrender.com/api/resetPassword/', {
+        await axios.post(`${backendUrl}/api/resetPassword/`, {
             token: token,
             username: username,
             password: password,

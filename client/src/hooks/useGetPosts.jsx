@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function useGetPosts({ token, username }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -9,7 +10,7 @@ export default function useGetPosts({ token, username }) {
     const [loading, setLoading] = useState(true);
 
     const sendRequest = async (query) => {
-        await axios.get('https://nodenetwork-backend.onrender.com/api/getPosts/', {
+        await axios.get(`${backendUrl}/api/getPosts/`, {
             headers:{
                 Authorization: `Bearer ${token}`,
                 query: query

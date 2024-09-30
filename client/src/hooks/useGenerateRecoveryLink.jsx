@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function useGenerateRecoveryLink({ inputData }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [data, setData] = useState(inputData);
     const [userStatus, setUserStatus] = useState(null); // 'found', 'notFound' o null
     const [emailSent, setEmailSent] = useState(false);
@@ -13,7 +14,7 @@ export default function useGenerateRecoveryLink({ inputData }) {
     };
 
     const sendRequest = async () => {
-        await axios.post('https://nodenetwork-backend.onrender.com/api/generateRecoveryLink/', {
+        await axios.post(`${backendUrl}/api/generateRecoveryLink/`, {
             username: data.username
         }).then((response) => {
             setUserStatus(response.data.userFound);

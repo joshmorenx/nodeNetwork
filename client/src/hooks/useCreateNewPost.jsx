@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function useCreateNewPost({ token, initialForm = {} }) {
+    const backendUrl = import.meta.env.VITE_BACKEND;
     const [postForm, setPostForm] = useState(initialForm);
     const [msg, setMsg] = useState("");
     const [error, setError] = useState("");
@@ -31,7 +32,7 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
             formData.append('image', image);
         }
 
-        await axios.post('https://nodenetwork-backend.onrender.com/api/createNewPost/', formData,{
+        await axios.post(`${backendUrl}/api/createNewPost/`, formData,{
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'

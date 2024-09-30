@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function useHandleTheme({token}) {
+    const backendUrl = import.meta.env.VITE_BACKEND
     const [newTheme, setNewTheme] = useState(null)
     const [themeMsg, setThemeMsg] = useState(null)
     const [themeSuccess, setThemeSuccess] = useState(false)
@@ -10,7 +11,7 @@ export default function useHandleTheme({token}) {
 
     const updateHandleTheme = async (theme) => {
         setThemeLoading(true)
-        await axios.put('https://nodenetwork-backend.onrender.com/api/handleTheme/',{theme:theme},{
+        await axios.put(`${backendUrl}/api/handleTheme/`,{theme:theme},{
             headers:{
                 Authorization: `Bearer ${token}`,
             }
@@ -27,7 +28,7 @@ export default function useHandleTheme({token}) {
     
     const getUserTheme = async() =>{
         setThemeLoading(true)
-        await axios.get('https://nodenetwork-backend.onrender.com/api/getUserTheme/',{
+        await axios.get(`${backendUrl}/api/getUserTheme/`,{
             headers:{
                 Authorization: `Bearer ${token}`,
             }
