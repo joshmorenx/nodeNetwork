@@ -61,7 +61,7 @@ PASSWORD="Application_p455w0rd"
 PORT=3000
 SECRET="SeCr3T_Phr4s3"
 ```
-#### Note: Make sure that the "EMAIL" variable in the .env file from the server side is able to send emails.
+#### Note: Make sure that the "EMAIL" variable string in the .env file from the server side is able to send emails.
 #### Note: The port can be modified, but it is important that the frontend and backend are synchronized in the case of deployment, make sure to add environment variables pointing to the actual servers instead of localhost.
 
 # Running the project locally
@@ -74,6 +74,7 @@ npm start
 then visit the Url given by Vite to see it in action.
 
 ## Deployment Configuration
+#### Note: For deployment, it's recommended to use Vercel for the frontend and Render for the backend.
 When deploying the application, make sure the following:
 Update the environment variables to point to the actual URLs of your frontend and backend servers given from the actual providers.
 In the index.js file of the server side, add the URL of your frontend to the allowedOrigins array to allow the CORS frontend to consume the APIs, for example:
@@ -88,7 +89,3 @@ const allowedOrigins = [
     'https://node-network-chi.vercel.app'
 ];
 ```
-
-For deployment, it's recommended to use Vercel for the frontend and Render for the backend.
-
-
