@@ -41,6 +41,7 @@ To connect the new database to the project, it's needed an account for MongoDB A
 "mongodb+srv://username:password@cluster0.abcde.mongodb.net/databaseName?retryWrites=true&w=majority"
 ```
 #### Note: this url will be used in a little.
+#### Note: I recommend not to work in the same database as Production one, so create another database named e.g "Tests" or "Developement" and replace the string "databaseName" in the Url for the test database name.
 
 ## Configuration of the .env files
 
@@ -89,3 +90,12 @@ const allowedOrigins = [
     'https://node-network-chi.vercel.app'
 ];
 ```
+
+# Screenshots
+
+## Desktop Login & Mobile Login
+<div style="width:100%; display: flex; justify-content: center; gap: 10px; margin: auto; text-align: center; align-items: center;">
+    <img src="https://github.com/user-attachments/assets/2d71f9c6-dd0f-4c1b-9884-599e7c53cdf4" style="width: 52vw; height: 57vh; object-fit: cover;"/>
+    <img src="https://github.com/user-attachments/assets/e0c4fb16-7489-4816-ae1d-59734c52d831" style="width: 18vw; height: 57vh; object-fit: cover;"/>
+</div>
+
