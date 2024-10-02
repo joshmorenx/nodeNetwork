@@ -42,7 +42,7 @@ const autoping = () => {
         });
 }
 
-setInterval(autoping, 180000);
+setInterval(autoping, 60000);
 
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
