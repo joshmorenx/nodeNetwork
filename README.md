@@ -1,6 +1,8 @@
 # nodeNetwork
 This is an open-source social network built using the MERN stack (MongoDB, Express, React, Node.js). It includes core features such as user registration, login, and logout. Users can interact through a dynamic feed to share content, explore user profiles, and manage a following system to stay updated with others. The platform also offers a personal gallery for images, a post search bar for easy content discovery, an admin dashboard for managing user permissions, and a secure password recovery system. Notably, the first registered user will always have admin privileges, regardless of explicit permissions. Additionally, the platform includes a robust system for liking and disliking both posts and comments, along with real-time notifications. Users are notified instantly when others interact with their posts or comments (e.g., through likes or dislikes), ensuring they stay engaged with their content.
 
+## Take a look to the [screenshots](#screenshots)
+
 # First things first
 ##### This project uses a frontend environment with Vite, and a backend with Node.js and Express. Follow the steps to configure and run both environments locally.
 
@@ -41,6 +43,7 @@ To connect the new database to the project, it's needed an account for MongoDB A
 "mongodb+srv://username:password@cluster0.abcde.mongodb.net/databaseName?retryWrites=true&w=majority"
 ```
 #### Note: this url will be used in a little.
+#### Note: I recommend not to work in the same database as Production one, so create another database named e.g "Tests" or "Developement" and replace the string "databaseName" in the Url for the test database name.
 
 ## Configuration of the .env files
 
@@ -89,3 +92,43 @@ const allowedOrigins = [
     'https://node-network-chi.vercel.app'
 ];
 ```
+
+# Screenshots
+
+## Desktop Login
+<div align="center"><img src="https://github.com/user-attachments/assets/2d71f9c6-dd0f-4c1b-9884-599e7c53cdf4"/></div>
+
+## Mobile Login
+<div align="center"><img src="https://github.com/user-attachments/assets/e0c4fb16-7489-4816-ae1d-59734c52d831"/></div>
+
+## Desktop Register 
+<div align="center"><img src="https://github.com/user-attachments/assets/a2f8fd2a-a271-4268-bdac-0a58d3fc960f"/></div>
+
+## Mobile Register 
+<div align="center"><img src="https://github.com/user-attachments/assets/2297a165-e6ec-4a72-b973-32a62666ca94"/></div>
+
+## Desktop Password Recovery
+<div align="center"><img src="https://github.com/user-attachments/assets/692769da-e5a5-4ede-a988-e20687f0a310"/></div>
+
+## Mobile Password Recovery
+<div align="center"><img src="https://github.com/user-attachments/assets/2481c4eb-c046-42f2-9980-1663f0c6183a"/></div>
+
+## Desktop Feed
+<div align="center"><img src="https://github.com/user-attachments/assets/056ee439-d1af-4e69-ab6f-a25ccd264d03"/></div>
+
+## Mobile Feed
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/1decad4b-01d9-426d-ae19-471e81fbac5b"/>
+    <img src="https://github.com/user-attachments/assets/d708cbcf-d361-46cd-9617-549d76595c67"/>
+</div>
+
+## Desktop User Profile
+<img src="https://github.com/user-attachments/assets/3753c64a-01da-4f73-9357-36f398dd0546"/>
+
+## Mobile User Profile
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/a8be47d7-fb5c-45a2-92ef-4f15b5e6f61e"/>
+</div>
+
+
+
