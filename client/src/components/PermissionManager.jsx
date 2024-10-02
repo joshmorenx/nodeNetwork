@@ -29,7 +29,7 @@ export default function PermissionManager({ token }) {
     const isMobile = useMediaQuery('(max-width: 425px)');
 
     const desktopStyle = className + " permission-tabs flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
-    const mobileStyle = className + " permission-tabs flex flex-col text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+    const mobileStyle = className + " permission-tabs flex text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
 
     // let's make a trigger when delBtnClicked is true useGetAllPermissions will be called again (PREPARATION)
     // useEffect(() => {
