@@ -1,6 +1,8 @@
 # nodeNetwork
 This is an open-source social network built using the MERN stack (MongoDB, Express, React, Node.js). It includes core features such as user registration, login, and logout. Users can interact through a dynamic feed to share content, explore user profiles, and manage a following system to stay updated with others. The platform also offers a personal gallery for images, a post search bar for easy content discovery, an admin dashboard for managing user permissions, and a secure password recovery system. Notably, the first registered user will always have admin privileges, regardless of explicit permissions. Additionally, the platform includes a robust system for liking and disliking both posts and comments, along with real-time notifications. Users are notified instantly when others interact with their posts or comments (e.g., through likes or dislikes), ensuring they stay engaged with their content.
 
+## Take a look to the [screenshots](https://github.com/joshmorenx/nodeNetwork/edit/main/README.md#screenshots)
+
 # First things first
 ##### This project uses a frontend environment with Vite, and a backend with Node.js and Express. Follow the steps to configure and run both environments locally.
 
@@ -93,9 +95,15 @@ const allowedOrigins = [
 
 # Screenshots
 
-## Desktop Login & Mobile Login
+## Desktop & Mobile Login
 <div style="width:100%; display: flex; justify-content: center; gap: 10px; margin: auto; text-align: center; align-items: center;">
     <img src="https://github.com/user-attachments/assets/2d71f9c6-dd0f-4c1b-9884-599e7c53cdf4" style="width: 52vw; height: 57vh; object-fit: cover;"/>
     <img src="https://github.com/user-attachments/assets/e0c4fb16-7489-4816-ae1d-59734c52d831" style="width: 18vw; height: 57vh; object-fit: cover;"/>
+</div>
+
+## Desktop & Mobile Register 
+<div style="width:100%; display: flex; justify-content: center; gap: 10px; margin: auto; text-align: center; align-items: center;">
+    <img src="https://github.com/user-attachments/assets/a2f8fd2a-a271-4268-bdac-0a58d3fc960f" style="width: 52vw; height: 57vh; object-fit: cover;"/>
+    <img src="https://github.com/user-attachments/assets/2297a165-e6ec-4a72-b973-32a62666ca94" style="width: 18vw; height: 57vh; object-fit: cover;"/>
 </div>
 
