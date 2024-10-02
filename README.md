@@ -1,7 +1,7 @@
 # nodeNetwork
 This is an open-source social network built using the MERN stack (MongoDB, Express, React, Node.js). It includes core features such as user registration, login, and logout. Users can interact through a dynamic feed to share content, explore user profiles, and manage a following system to stay updated with others. The platform also offers a personal gallery for images, a post search bar for easy content discovery, an admin dashboard for managing user permissions, and a secure password recovery system. Notably, the first registered user will always have admin privileges, regardless of explicit permissions. Additionally, the platform includes a robust system for liking and disliking both posts and comments, along with real-time notifications. Users are notified instantly when others interact with their posts or comments (e.g., through likes or dislikes), ensuring they stay engaged with their content.
 
-## Take a look to the [screenshots](#screenshots)
+#### Take a look to the [screenshots](#screenshots) or... Visit the live demo https://node-network-chi.vercel.app
 
 # First things first
 ##### This project uses a frontend environment with Vite, and a backend with Node.js and Express. Follow the steps to configure and run both environments locally.
@@ -70,7 +70,7 @@ SECRET="SeCr3T_Phr4s3"
 # Running the project locally
 After the completion of all steps must move to the root folder, before ./server and ./client folders
 
-```
+```bash
 cd ..
 npm start
 ```
@@ -117,10 +117,7 @@ const allowedOrigins = [
 <div align="center"><img src="https://github.com/user-attachments/assets/056ee439-d1af-4e69-ab6f-a25ccd264d03"/></div>
 
 ## Mobile Feed
-<div align="center" style="display:inline-flex;">
-    <img src="https://github.com/user-attachments/assets/1decad4b-01d9-426d-ae19-471e81fbac5b"/>
-    <img src="https://github.com/user-attachments/assets/d708cbcf-d361-46cd-9617-549d76595c67"/>
-</div>
+<div align="center"><img src="https://github.com/user-attachments/assets/1decad4b-01d9-426d-ae19-471e81fbac5b"/></div>
 
 ## Desktop User Profile
 <img src="https://github.com/user-attachments/assets/3753c64a-01da-4f73-9357-36f398dd0546"/>
