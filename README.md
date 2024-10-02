@@ -117,7 +117,7 @@ const allowedOrigins = [
 <div align="center"><img src="https://github.com/user-attachments/assets/056ee439-d1af-4e69-ab6f-a25ccd264d03"/></div>
 
 ## Mobile Feed
-<div align="center">
+<div align="center" style="display:inline-flex;">
     <img src="https://github.com/user-attachments/assets/1decad4b-01d9-426d-ae19-471e81fbac5b"/>
     <img src="https://github.com/user-attachments/assets/d708cbcf-d361-46cd-9617-549d76595c67"/>
 </div>
