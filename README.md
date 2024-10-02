@@ -95,15 +95,40 @@ const allowedOrigins = [
 
 # Screenshots
 
-## Desktop & Mobile Login
-<div style="width:100%; display: flex; justify-content: center; gap: 10px; margin: auto; text-align: center; align-items: center;">
-    <img src="https://github.com/user-attachments/assets/2d71f9c6-dd0f-4c1b-9884-599e7c53cdf4" style="width: 52vw; height: 57vh; object-fit: cover;"/>
-    <img src="https://github.com/user-attachments/assets/e0c4fb16-7489-4816-ae1d-59734c52d831" style="width: 18vw; height: 57vh; object-fit: cover;"/>
+## Desktop Login
+<div align="center"><img src="https://github.com/user-attachments/assets/2d71f9c6-dd0f-4c1b-9884-599e7c53cdf4"/></div>
+
+## Mobile Login
+<div align="center"><img src="https://github.com/user-attachments/assets/e0c4fb16-7489-4816-ae1d-59734c52d831"/></div>
+
+## Desktop Register 
+<div align="center"><img src="https://github.com/user-attachments/assets/a2f8fd2a-a271-4268-bdac-0a58d3fc960f"/></div>
+
+## Mobile Register 
+<div align="center"><img src="https://github.com/user-attachments/assets/2297a165-e6ec-4a72-b973-32a62666ca94"/></div>
+
+## Desktop Password Recovery
+<div align="center"><img src="https://github.com/user-attachments/assets/692769da-e5a5-4ede-a988-e20687f0a310"/></div>
+
+## Mobile Password Recovery
+<div align="center"><img src="https://github.com/user-attachments/assets/2481c4eb-c046-42f2-9980-1663f0c6183a"/></div>
+
+## Desktop Feed
+<div align="center"><img src="https://github.com/user-attachments/assets/056ee439-d1af-4e69-ab6f-a25ccd264d03"/></div>
+
+## Mobile Feed
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/1decad4b-01d9-426d-ae19-471e81fbac5b"/>
+    <img src="https://github.com/user-attachments/assets/d708cbcf-d361-46cd-9617-549d76595c67"/>
 </div>
 
-## Desktop & Mobile Register 
-<div style="width:100%; display: flex; justify-content: center; gap: 10px; margin: auto; text-align: center; align-items: center;">
-    <img src="https://github.com/user-attachments/assets/a2f8fd2a-a271-4268-bdac-0a58d3fc960f" style="width: 52vw; height: 57vh; object-fit: cover;"/>
-    <img src="https://github.com/user-attachments/assets/2297a165-e6ec-4a72-b973-32a62666ca94" style="width: 18vw; height: 57vh; object-fit: cover;"/>
+## Desktop User Profile
+<img src="https://github.com/user-attachments/assets/3753c64a-01da-4f73-9357-36f398dd0546"/>
+
+## Mobile User Profile
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/a8be47d7-fb5c-45a2-92ef-4f15b5e6f61e"/>
 </div>
+
+
 
