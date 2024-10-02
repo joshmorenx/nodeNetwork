@@ -126,9 +126,13 @@ const allowedOrigins = [
 <img src="https://github.com/user-attachments/assets/3753c64a-01da-4f73-9357-36f398dd0546"/>
 
 ## Mobile User Profile
-<div align="center">
-    <img src="https://github.com/user-attachments/assets/a8be47d7-fb5c-45a2-92ef-4f15b5e6f61e"/>
-</div>
+<div align="center"><img src="https://github.com/user-attachments/assets/a8be47d7-fb5c-45a2-92ef-4f15b5e6f61e"/></div>
 
+## Settings and Admin dashboard
+### Desktop
+<div align="center"><img src="https://github.com/user-attachments/assets/c0b81b8a-1d21-49f9-ad91-c7102e709d6a"/></div>
+
+### Mobile
+<div align="center"><img src="https://github.com/user-attachments/assets/d7bcafc4-7b0e-4387-af41-fa5122e27450"/></div>
 
 
