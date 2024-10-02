@@ -20,7 +20,6 @@ const postRoutes = require("./routes/postRoutes.js");
 const relationshipRoutes = require("./routes/relationshipRoutes.js");
 const recoveryRoutes = require("./routes/recoveryRoutes.js");
 
-
 const app = express();
 
 // Configuración
@@ -28,6 +27,22 @@ require('dotenv').config();
 
 // Conectarse a la base de datos
 connectDB();
+
+// Autoping para no apagar el servidor
+const autoping = () => {
+    fetch(process.env.SERVER_URL)
+        .then((response) => {
+            if (response.ok) {
+                // console.log('Ping!');
+            } else {
+                // console.log('No Ping!');
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+}
+
+setInterval(autoping, 180000);
 
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -37,22 +52,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.PASSWORD
     }
 });
-
-// let mail = {
-//     from: process.env.EMAIL,
-//     to: 'mohif32453@aiworldx.com',
-//     subject: 'test from nodemailer',
-//     text: 'test from nodemailer',
-//     html: '<b>test from nodemailer</b>'
-// }
-
-// transporter.sendMail(mail, (err, info) => {
-//     if(err) {
-//         console.log(err);
-//     } else {
-//         console.log("email sent");
-//     }
-// })
 
 // Middleware
 const allowedOrigins = [
