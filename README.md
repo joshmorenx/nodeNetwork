@@ -58,11 +58,12 @@ VITE_FRONTEND="http://localhost:5173"
 #### .env file in the server folder (Here we will be using the MongoDB given url):
 ```.env
 CLIENT_URL="http://localhost:5173"
-EMAIL="example@domainprovider.com"
-MONGO_URL="mongodb+srv://username:password@cluster0.abcde.mongodb.net/databaseName?retryWrites=true&w=majority"
-PASSWORD="Application_p455w0rd"
+SERVER_URL="http://localhost:3000"
+EMAIL="joshuamoreno21@gmail.com"
+MONGO_URL="mongodb+srv://admin:12345@cluster0.iao1fmo.mongodb.net/Tests?retryWrites=true&w=majority&appName=Cluster0"
+PASSWORD="sjkktjtlrligkojt"
 PORT=3000
-SECRET="SeCr3T_Phr4s3"
+SECRET="secreto"
 ```
 #### Note: Make sure that the "EMAIL" variable string in the .env file from the server side is able to send emails.
 #### Note: The port can be modified, but it is important that the frontend and backend are synchronized in the case of deployment, make sure to add environment variables pointing to the actual servers instead of localhost.
