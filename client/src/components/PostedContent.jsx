@@ -217,8 +217,8 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                             }
                         >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Link href={`${frontendUrl}/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
-                                <Link href={`${frontendUrl}/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
+                                <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
+                                <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
                                     {/* <p>{post.firstName}</p> */}
                                     <Typography sx={userNameStyles}>{post.username}</Typography>
                                 </Link>
