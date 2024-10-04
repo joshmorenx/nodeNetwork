@@ -42,7 +42,7 @@ connectDB();
 //         });
 // }
 
-setInterval(autoping, 60000);
+// setInterval(autoping, 60000);
 
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
