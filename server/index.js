@@ -60,6 +60,7 @@ const allowedOrigins = [
     'http://127.0.0.1:8080',
     'http://localhost:5173',
     'https://node-network-chi.vercel.app',
+    'https://nodenetwork-backend.onrender.com',
     'https://nodenetwork.onrender.com'
 ];
 
