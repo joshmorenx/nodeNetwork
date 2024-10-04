@@ -29,18 +29,18 @@ require('dotenv').config();
 connectDB();
 
 // Autoping para no apagar el servidor
-const autoping = () => {
-    fetch(process.env.SERVER_URL)
-        .then((response) => {
-            if (response.ok) {
-                // console.log('Ping!');
-            } else {
-                // console.log('No Ping!');
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-}
+// const autoping = () => {
+//     fetch(process.env.SERVER_URL)
+//         .then((response) => {
+//             if (response.ok) {
+//                 // console.log('Ping!');
+//             } else {
+//                 // console.log('No Ping!');
+//             }
+//         }).catch((error) => {
+//             console.log(error);
+//         });
+// }
 
 setInterval(autoping, 60000);
 
