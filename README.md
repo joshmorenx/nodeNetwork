@@ -59,9 +59,9 @@ VITE_FRONTEND="http://localhost:5173"
 ```.env
 CLIENT_URL="http://localhost:5173"
 SERVER_URL="http://localhost:3000"
-EMAIL="joshuamoreno21@gmail.com"
+EMAIL="exampleemail@gmail.com"
 MONGO_URL="mongodb+srv://admin:12345@cluster0.iao1fmo.mongodb.net/Tests?retryWrites=true&w=majority&appName=Cluster0"
-PASSWORD="sjkktjtlrligkojt"
+PASSWORD="examplepassword"
 PORT=3000
 SECRET="secreto"
 ```
