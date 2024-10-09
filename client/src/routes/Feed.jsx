@@ -9,6 +9,7 @@ import ThreePIcon from '@mui/icons-material/ThreeP';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
+import '../assets/styles.css';
 
 export default function Feed({ token }) {
     const className = useSelector((state) => state.className);
@@ -48,7 +49,7 @@ export default function Feed({ token }) {
                     <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
 
                         {/* Contenedor para los elementos fijos (Eventos) */}
-                        <Box visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', left: '0', width: '20%', height: '100%' }}>
+                        <Box className={isDesktop && 'slideInLeft'} visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', left: '0', width: '20%', height: '100%' }}>
                             <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
@@ -80,12 +81,12 @@ export default function Feed({ token }) {
                         </Box>
 
                         {/* Contenedor para el contenido del feed */}
-                        <Box sx={isDesktop ? { marginLeft: '22%', marginRight: '22%' } : isTablet ? { marginLeft: '5%', marginRight: '5%' } : { marginLeft: '0%', marginRight: '0%' }}>
+                    <Box className={'fadeIn'} sx={isDesktop ? { marginLeft: '22%', marginRight: '22%' } : isTablet ? { marginLeft: '5%', marginRight: '5%' } : { marginLeft: '0%', marginRight: '0%' }}>
                             <FeedContent token={token} />
                         </Box>
 
                         {/* Contenedor para los elementos fijos (usuarios mas recientes) */}
-                        <Box visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', right: '0', width: '20%', height: '100%' }}>
+                        <Box className={isDesktop && 'slideInRight'} visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', right: '0', width: '20%', height: '100%' }}>
                             <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '10px' }}>Usuarios recien registrados</Typography>

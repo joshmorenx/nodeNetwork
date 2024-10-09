@@ -7,9 +7,10 @@ export default function useGetSpecificPosts({ token, username }) {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
     const [msg, setMsg] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(null);
 
     const sendRequest = async (query) => {
+        setLoading(true);
         await axios.get(`${backendUrl}/api/getSpecificPosts/${username}/`, {
             headers: {
                 Authorization: `Bearer ${token}`,

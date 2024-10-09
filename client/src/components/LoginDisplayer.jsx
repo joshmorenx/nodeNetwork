@@ -35,7 +35,7 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
     return (
         <>
             <Box className='login-background'>
-                <Box className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
+                <Box className={`${isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')} fadeIn`}>
                     <h1 className="login-title">Iniciar sesión</h1>
                     <form className={isDesktop ? 'login-form' : (isTablet ? 'login-form-tablet' : 'login-form-mobile')} method="post" action="/">
 

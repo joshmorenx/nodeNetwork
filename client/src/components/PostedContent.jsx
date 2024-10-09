@@ -22,6 +22,7 @@ import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
 import useGetProfileImage from '../hooks/useGetProfileImage';
 import useGetGalleryImage from '../hooks/useGetGalleryImage';
+import '../assets/styles.css';
 
 export default function PostedContent({ token, post, handleFeedReload, isolated }) {
     const frontendUrl = import.meta.env.VITE_FRONTEND
@@ -193,7 +194,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
 
     return (
         <>
-            <Box className={className + " post-container-id-" + post.postId} sx={{ borderRadius: '1vw', p: isDesktop ? 5 : 1, border: '1px solid gray', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
+            <Box className={`${className} post-container-id-${post.postId} fadeIn`} sx={{ borderRadius: '1vw', p: isDesktop ? 5 : 1, border: '1px solid gray', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
