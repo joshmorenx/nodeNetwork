@@ -11,6 +11,7 @@ import ImageViewer from '../components/ImageViewer';
 import { useMediaQuery } from '@mui/material';
 import MobileNavMenu from '../components/MobileNavMenu';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 const Dashboard = ({ token }) => {
     const navigate = useNavigate();
@@ -47,6 +48,9 @@ const Dashboard = ({ token }) => {
 
     return (
         <>
+        <Helmet>
+            <title>Dashboard - Node Network</title>
+        </Helmet>
             {isDesktop ? (
                 <div className="dashboard-container">
                     <div className={"profile-container text-center " + className}>

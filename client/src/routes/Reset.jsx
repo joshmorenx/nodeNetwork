@@ -4,6 +4,7 @@ import { Box, Typography, useMediaQuery, TextField, Button } from "@mui/material
 import { useGetVerifyExpiredToken } from "../hooks/useGetVerifyExpiredToken.jsx";
 import { CircularProgress } from '@mui/material';
 import ResetPassword from "../components/ResetPassword.jsx";
+import { Helmet } from "react-helmet";
 
 export default function Reset() {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function Reset() {
 
     return (
         <Box className="login-background">
+            <Helmet><title>Reset Password - Node Network</title></Helmet>
             <Box sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center', height: 'fit-content' }} className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
                 <Typography>
                     {loading ? <CircularProgress /> : (

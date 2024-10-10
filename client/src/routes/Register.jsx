@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useMediaQuery } from '@mui/material';
 import '../assets/styles.css';
 import '../assets/index.css';
+import { Helmet } from "react-helmet";
 
 const Register = () => {
     const isDesktop = useMediaQuery('(min-width: 900px)');
@@ -33,6 +34,9 @@ const Register = () => {
 
     return (
         <>
+        <Helmet>
+            <title>Register - Node Network</title>
+        </Helmet>
             <div className='register-background'>
                 <div className={isDesktop ? 'register-container' : isTablet ? 'register-container-tablet' : 'register-container-mobile'}>
                     <h1 className="register-title">Registro Nuevo</h1>

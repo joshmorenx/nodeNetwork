@@ -3,6 +3,7 @@ import '../assets/index.css';
 import { useMediaQuery, Box, Typography } from '@mui/material';
 import SearchUsername from '../components/SearchUsername.jsx'
 import { useState, useEffect } from 'react'
+import { Helmet } from "react-helmet";
 
 export default function Forgot() {
     const [foundUser, setFoundUser] = useState(null)
@@ -16,6 +17,9 @@ export default function Forgot() {
 
     return (
         <>
+        <Helmet>
+            <title>Recover Password - Node Network</title>
+        </Helmet>
             <Box className="login-background">
                 {!foundUser ?
                     <SearchUsername isDesktop={isDesktop} isTablet={isTablet} isMobile={isMobile} handleFoundUser={handleFoundUser} /> :

@@ -11,6 +11,7 @@ import useGetSinglePost from "../hooks/useGetSinglePost.jsx";
 import PostedContent from "../components/PostedContent.jsx";
 import { useSelector } from "react-redux";
 import { CircularProgress } from '@mui/material';
+import { Helmet } from "react-helmet";
 
 export default function Posts({ token }) {
     const { post_id } = useParams();
@@ -33,6 +34,9 @@ export default function Posts({ token }) {
 
     return (
         <>
+        <Helmet>
+            <title>Posts - Node Network</title>
+        </Helmet>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Navbar token={token} />
                 <Box className={className} sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }}></Box>

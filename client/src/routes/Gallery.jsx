@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import ImageGallery from "../components/ImageGallery.jsx";
+import { Helmet } from "react-helmet";
 
 export default function Gallery({ token }) {
     const { username } = useParams();
@@ -34,6 +35,9 @@ export default function Gallery({ token }) {
 
     return (
         <>
+            <Helmet>
+                <title>Gallery - Node Network</title>
+            </Helmet>
             <Navbar token={token} />
             <Typography sx={{color: 'white', fontSize: isDesktop ? '3vw' : isTablet ? '5vw' : '10vw', textAlign: 'center' }}> galería de {username} </Typography>
             <Box>

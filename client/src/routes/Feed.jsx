@@ -10,6 +10,7 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import '../assets/styles.css';
+import { Helmet } from 'react-helmet';
 
 export default function Feed({ token }) {
     const className = useSelector((state) => state.className);
@@ -45,6 +46,9 @@ export default function Feed({ token }) {
         return (
             ({ token } &&
                 <>
+                    <Helmet>
+                        <title>Feed - Node Network</title>
+                    </Helmet>
                     <Navbar token={token} />
                     <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
 

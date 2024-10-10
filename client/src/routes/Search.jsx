@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import { Box } from "@mui/material";
 import FeedContent from "../components/FeedContent";
+import { Helmet } from "react-helmet";
 
 export default function Search({ token }) {
     const { query } = useParams();
@@ -11,6 +12,9 @@ export default function Search({ token }) {
 
     return(
         <>
+            <Helmet>
+                <title>Search - Node Network</title>
+            </Helmet>
             <Navbar token={token} />;
             <Box sx={{ width: '80vw', display: 'flex', flexDirection: 'column', margin: 'auto', alignItems: 'center' }}>
                 <FeedContent token={token} query={query} />

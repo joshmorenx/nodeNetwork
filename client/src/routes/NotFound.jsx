@@ -1,6 +1,11 @@
+import { Helmet } from "react-helmet";
+
 export default function NotFound() {
     return (
         <>
+        <Helmet>
+            <title>404 - Node Network</title>
+        </Helmet>
             <div className="background"></div>
             <div className="container">
                 <div className="error">404</div>

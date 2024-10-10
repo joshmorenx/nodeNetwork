@@ -62,7 +62,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                 <Box className="fixed-profile" sx={{ position: isDesktop || isTablet ? 'sticky' : 'static', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                     <Box sx={isDesktop || isTablet ? { overflowY: 'auto', overflowX: 'hidden', height: '100vh' } : { overflowY: 'auto' }}>
                         <Box>
-                            <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} id={user.userId} />
+                            <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} id={user.username === userData.username ? user.userId : userData.userId} />
                         </Box>
 
                         <Box sx={{ mt: 2, mb: 2 }}>

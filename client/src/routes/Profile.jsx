@@ -5,7 +5,8 @@ import useGetCurrentUser from "../hooks/useGetCurrentUser";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import { Box } from "@mui/material";
 import ProfileDisplayer from "../components/ProfileDisplayer.jsx";
-
+import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 
 export default function Profile({ token }) {
     const { username } = useParams();
@@ -14,6 +15,7 @@ export default function Profile({ token }) {
     const [currentUsername, setCurrentUsername] = useState('');
     const [getSuccess, setGetSuccess] = useState(false);
     const [loading, setLoading] = useState(true);
+    const className = useSelector((state) => state.className);
 
     useEffect(() => {
         if (user.username) {
@@ -47,12 +49,15 @@ export default function Profile({ token }) {
 
     return (
         <Box>
+            <Helmet>
+                <title>Profile - Node Network</title>
+            </Helmet>
             <Navbar token={token} />
             { loading ? (<p>Cargando...</p>) : null }
             {getSuccess &&
                 (<ProfileDisplayer token={token} username={username} currentUsername={user.username} />)
             }
-            { err ? (<p>error al cargar el usuario o el usuario no existe</p>) : null }
+            { err ? (<p className={className}>error al cargar el usuario o el usuario no existe</p>) : null }
         </Box>
     )
 }

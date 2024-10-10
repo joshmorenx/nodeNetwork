@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import FollowContent from "../components/FollowContent";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
-// import useGetUserFollows from "../hooks/useGetUserFollows";
+import { Helmet } from "react-helmet";
 
 export default function Follows({ token }) {
     const { username } = useParams()
-    const { user, error } = useGetCurrentUser({ token });
+    const { user, error } = useGetCurrentUser({ token });   
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -19,6 +19,10 @@ export default function Follows({ token }) {
     }, [username, user.username])
     return (
         <>
+            <Helmet>
+                <title>Follows - Node Network</title>
+            </Helmet>
+
             <Navbar token={token} />
             <FollowContent token={token} username={username && username} />
         </>

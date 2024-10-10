@@ -6,6 +6,7 @@ import '../assets/styles.css';
 import '../assets/index.css';
 import LoginDisplayer from '../components/LoginDisplayer'
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 export default function Login(){
     const cookieToken = Cookies.get('token');
@@ -37,6 +38,9 @@ export default function Login(){
 
     return (
         <>
+            <Helmet>
+                <title>Login - Node Network</title>
+            </Helmet>
             {!cookieToken && <LoginDisplayer handleInputChange={handleInputChange} formData={formData} sendForm={sendForm} userInfo={userInfo} open={open} preHandleClose={preHandleClose} loginData={loginData} />}
         </>
     );
