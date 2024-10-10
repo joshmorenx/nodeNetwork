@@ -17,6 +17,13 @@ export default function FeedContent({ token, query }) {
 
     const handleFeedReload = async () => {
         // window.location.reload();
+        await setSuccess(false);
+        await setMsg(null);
+        await setError(null);
+        await setLoading(false);
+        await setPosts([]);
+        await setAllPosts([]);
+        await setTotalCount(0);
         await setMountComponent(false);
         await sendRequest(query);
         await setMountComponent(true);
@@ -26,6 +33,10 @@ export default function FeedContent({ token, query }) {
         sendRequest(query);
         setMountComponent(true);
     }, []);
+
+    useEffect(() => {
+        mountComponent && sendRequest(query);
+    }, [mountComponent])
 
     useEffect(() => {
         if (success) {

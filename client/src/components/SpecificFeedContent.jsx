@@ -12,15 +12,31 @@ export default function SpecificFeedContent({ token, username, currentUsername, 
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
+    const [mountComponent, setMountComponent] = useState(false);
     const observer = useRef();
 
-    const handleFeedReload = () => {
-        window.location.reload();
+    const handleFeedReload = async () => {
+        // window.location.reload();
+        await setSuccess(false);
+        await setMsg(null);
+        await setError(null);
+        await setLoading(false);
+        await setPosts([]);
+        await setAllPosts([]);
+        await setTotalCount(0);
+        await setMountComponent(false);
+        await sendRequest(query);
+        await setMountComponent(true);
     };
 
     useEffect(() => {
         sendRequest(query);
+        setMountComponent(true);
     }, []);
+
+    useEffect(() => {
+        mountComponent && sendRequest(query);
+    }, [mountComponent])
 
     useEffect(() => {
         if (success) {
@@ -54,7 +70,7 @@ export default function SpecificFeedContent({ token, username, currentUsername, 
     }, [loadedPostsCount, totalCount, loading]);
 
     return (
-        <Box>
+        mountComponent && <Box>
             {currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2, color: 'white' }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
             <Box>
                 {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
