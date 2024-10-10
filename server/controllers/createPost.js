@@ -18,6 +18,8 @@ const createPost = async (req, res) => {
             content: content,
             latitude: latitude ? latitude : 0,
             longitude: longitude ? longitude : 0,
+            date_created: new Date(),
+            date_updated: new Date(),
             images: [],
         });
 

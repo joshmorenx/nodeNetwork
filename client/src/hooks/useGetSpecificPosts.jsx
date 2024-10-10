@@ -26,5 +26,5 @@ export default function useGetSpecificPosts({ token, username }) {
             setLoading(false);
         })
     }
-    return { sendRequest, error, success, msg, posts, loading, setLoading }
+    return { posts, setPosts, error, setError, success, setSuccess, msg, setMsg, loading, setLoading, sendRequest }
 }

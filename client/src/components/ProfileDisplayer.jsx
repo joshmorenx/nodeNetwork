@@ -83,7 +83,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                             </Link>
                         </Box>}
 
-                        <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 0, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '20vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
+                        <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 0, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '30vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
                             {!user.username ? null : <Link href={`/gallery/${username}`}>
                                 <Button color="info" variant="contained" sx={{ mt: 2, fontSize: fontSizeStyles }}>
                                     {user.username === username ? 'ir a mi galeria' : 'ir a la galeria de ' + username}

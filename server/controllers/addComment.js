@@ -13,7 +13,14 @@ const addComment = async (req, res) => {
         const post = await Posts.findOne({ postId: postId }).lean();
         const lastComment = await Comments.findOne({}, {}, { sort: { commentId: -1 } }).lean();
 
-        const result = await Comments.create({ commentId: lastComment ? lastComment.commentId + 1 : 1, postId: post._id, author: user._id, content: content });
+        const result = await Comments.create({ 
+            commentId: lastComment ? lastComment.commentId + 1 : 1,
+            postId: post._id,
+            author: user._id,
+            content: content,
+            date_created: Date.now(),
+            date_updated: Date.now() 
+        });
 
         if (result) {
 

@@ -107,6 +107,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
     const toggleCommentBox = () => {
         const element = document.querySelector('.comment-box-' + post.postId);
         element.classList.toggle('hidden');
+        element.classList.toggle('fadeIn');
     }
 
     const handleEditPost = () => {
@@ -279,7 +280,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     {userImages !== undefined &&
                         userImages.map((elem, key) => (
-                            <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '50%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy"/>
+                            <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy" />
                         ))
                     }
                 </Box>
@@ -298,16 +299,9 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                     </Stack>
                 </Box>
 
-                {currentComments.length > 0 &&
-                    <>
-                        <Typography>Comentarios</Typography>
-                        {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} handleRemoveCommentFromDOM={handleRemoveCommentFromDOM} />)}
-                    </>
-                }
-
                 <Box id={"comment-box-" + post.postId} className={"hidden comment-box-" + post.postId}>
                     <TextField
-                        sx={{ borderRadius: '5px', mt: '2%' }}
+                        sx={{ borderRadius: '5px', mt: '2%', mb: '2%' }}
                         required
                         multiline
                         variant="outlined"
@@ -326,6 +320,13 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         }}
                     />
                 </Box>
+
+                {currentComments.length > 0 &&
+                    <>
+                        <Typography>Comentarios</Typography>
+                        {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} handleRemoveCommentFromDOM={handleRemoveCommentFromDOM} />)}
+                    </>
+                }
             </Box>
             {updatePost && <PopUpEdit token={token} post={post} setUpdatePost={setUpdatePost} type={'post'} />}
             <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
