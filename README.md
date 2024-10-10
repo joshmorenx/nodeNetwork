@@ -1,7 +1,7 @@
 # nodeNetwork
 This is an open-source social network built using the MERN stack (MongoDB, Express, React, Node.js). It includes core features such as user registration, login, and logout. Users can interact through a dynamic feed to share content, explore user profiles, and manage a following system to stay updated with others. The platform also offers a personal gallery for images, a post search bar for easy content discovery, an admin dashboard for managing user permissions, and a secure password recovery system. Notably, the first registered user will always have admin privileges, regardless of explicit permissions. Additionally, the platform includes a robust system for liking and disliking both posts and comments, along with real-time notifications. Users are notified instantly when others interact with their posts or comments (e.g., through likes or dislikes), ensuring they stay engaged with their content, this project does not intend to compete with other social networks, it was just made to grow up my portfolio.
 
-# Take a look to the [screenshots](#screenshots)
+# Take a look at the [screenshots](#screenshots)
 
 # First things first
 ##### This project uses a frontend environment with Vite, and a backend with Node.js and Express. Follow the steps to configure and run both environments locally.
