@@ -12,14 +12,19 @@ export default function FeedContent({ token, query }) {
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
+    const [mountComponent, setMountComponent] = useState(false);
     const observer = useRef();
 
-    const handleFeedReload = () => {
-        window.location.reload();
+    const handleFeedReload = async () => {
+        // window.location.reload();
+        await setMountComponent(false);
+        await sendRequest(query);
+        await setMountComponent(true);
     };
 
     useEffect(() => {
         sendRequest(query);
+        setMountComponent(true);
     }, []);
 
     useEffect(() => {
@@ -54,7 +59,7 @@ export default function FeedContent({ token, query }) {
     }, [loadedPostsCount, totalCount, loading]);
 
     return (
-        <Box>
+        mountComponent && <Box>
             {query ? null : <PostingBox token={token} handleFeedReload={handleFeedReload} />}
             <Box>
                 {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
