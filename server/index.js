@@ -61,7 +61,10 @@ const allowedOrigins = [
     'http://localhost:5173',
     'https://node-network-chi.vercel.app',
     'https://nodenetwork-backend.onrender.com',
-    'https://nodenetwork.onrender.com'
+    'https://nodenetwork.onrender.com',
+    'https://node-network-6r09t66kb-joshmorenxs-projects.vercel.app',
+    'https://node-network-joshmorenxs-projects.vercel.app',
+    'https://node-network-git-main-joshmorenxs-projects.vercel.app'
 ];
 
 // Crear servidor HTTP y servidor de Socket.IO
