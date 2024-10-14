@@ -16,6 +16,7 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import useDeleteComment from '../hooks/useDeleteComment';
 import PopUpEdit from './PopUpEdit.jsx';
 import useGetProfileImage from '../hooks/useGetProfileImage';
+import Badge from '@mui/material/Badge';
 
 export default function Comments({ comment, token, handleRemoveCommentFromDOM }) {
     const [updatePost, setUpdatePost] = useState(false);
@@ -101,7 +102,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
     }, [commentDeleteSuccess])  
 
     return (
-        <Box id={comment.commentId} value={comment.commentId} sx={{ bgcolor: className === 'bgx-black' ? '#282828' : 'whitesmoke', display: 'block', alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', padding: '1vw', mb: '1vw' }}>
+        <Box id={comment.commentId} className={className} value={comment.commentId} sx={{ display: 'block', alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', padding: '1vw', mb: '1vw' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
@@ -149,12 +150,12 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
             <Box sx={{ alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', margin: '8px', padding: '8px' }}>
                 <Typography variant="body2"> {comment.content} </Typography>
             </Box>
-            <Stack direction="row" sx={{ display: 'flex' }}>
+            <Stack direction="row" sx={{ display: 'flex', gap: '10vw' }}>
                 <Button onClick={setCommentLike}>
-                    <ThumbUpIcon sx={reactionIconStyles} /> <span style={reactionTextStyles}> Me Gusta ({currentLikes}) </span>
+                    <ThumbUpIcon sx={reactionIconStyles} /> <span className={className} style={reactionTextStyles}> Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentLikes === 0 ? '0' : currentLikes} color="primary"/> </span>
                 </Button>
                 <Button onClick={setCommentDislike}>
-                    <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span style={reactionTextStyles}> No Me Gusta ({currentDislikes}) </span>
+                    <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span className={className} style={reactionTextStyles}> No Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentDislikes > 0 ? currentDislikes : '0'} color="error"/> </span>
                 </Button>
             </Stack>
             {updatePost && <PopUpEdit token={token} post={comment} setUpdatePost={setUpdatePost} type={'comment'} />}
