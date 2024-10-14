@@ -66,7 +66,10 @@ export default function Feed({ token }) {
                         <title>Feed - Node Network</title>
                     </Helmet>
                     <Navbar token={token} />
-                    <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
+                    
+                    <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1, bgcolor: '#00000099' }} />
+
+                    <Box sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
 
                         {/* Contenedor para los elementos fijos (Eventos) */}
                         <Box className={isDesktop && 'slideInLeft'} visibility={isDesktop ? 'visible' : 'hidden'} sx={leftSectionStyles}>
