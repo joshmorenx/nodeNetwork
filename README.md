@@ -114,6 +114,18 @@ const allowedOrigins = [
 ## Mobile Password Recovery
 <div align="center"><img src="https://github.com/user-attachments/assets/2481c4eb-c046-42f2-9980-1663f0c6183a"/></div>
 
+## Desktop Feed dark mode
+<div align="center"><img src="https://github.com/user-attachments/assets/105a5a2c-2197-465e-8a2f-c643c793ed67"/></div>
+
+## Comment in a post dark mode
+<div align="center"><img src="https://github.com/user-attachments/assets/f8fc30c2-042b-41a8-a4a2-3df0e816f5af"/></div>
+
+## Notifications in real-time Mobile
+<div align="center"><img src="https://github.com/user-attachments/assets/a25d7b76-8def-4843-85f2-8d2f19ac7923"/></div>
+
+## Notifications in real-time Desktop
+<div align="center"><img src="https://github.com/user-attachments/assets/7b50f845-33ee-41c8-85d2-c9d33e5403f9"/></div>
+
 ## Desktop Feed
 <div align="center"><img src="https://github.com/user-attachments/assets/056ee439-d1af-4e69-ab6f-a25ccd264d03"/></div>
 
@@ -132,5 +144,3 @@ const allowedOrigins = [
 
 ### Mobile
 <div align="center"><img src="https://github.com/user-attachments/assets/d7bcafc4-7b0e-4387-af41-fa5122e27450"/></div>
-
-
