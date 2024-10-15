@@ -110,7 +110,7 @@ export default function Feed({ token }) {
 
                         {/* Contenedor para los elementos fijos (usuarios mas recientes) */}
                         <Box className={isDesktop && 'slideInRight'} visibility={isDesktop ? 'visible' : 'hidden'} sx={rightSectionStyles}>
-                            <Box className={className} style={{ width: '100%', height: '100%', padding: '40px', borderRadius: '10px', boxShadow: '0px 5px 5px black' }}>
+                            <Box className={className} style={{ width: '100%', height: '100%', padding: '15px', borderRadius: '10px', boxShadow: '0px 5px 5px black' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '10px' }}>Usuarios recien registrados</Typography>
                                 </Box>
@@ -123,6 +123,12 @@ export default function Feed({ token }) {
                                         )
                                     })
                                 }
+                            </Box>
+                            <Box className={className} style={{ width: '100%', height: '100%', padding: '15px', borderRadius: '10px', boxShadow: '0px 5px 5px black', marginTop: '15px' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '0' }}>Publicidad</Typography>
+                                </Box>
+                                <Link href="https://picsum.photos/id/237/500/500"><img src={`https://picsum.photos/id/237/500/500`} alt="anuncio" style={{ width: '100%', height: '100%' }} /></Link>
                             </Box>
                         </Box>
 
