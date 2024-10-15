@@ -25,6 +25,22 @@ export default function Feed({ token }) {
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
 
+    const leftSectionStyles = {
+        position: 'fixed',
+        top: '102px',
+        left: '0',
+        width: '20%',
+        pl: '10px',
+    }
+
+    const rightSectionStyles = {
+        position: 'fixed',
+        top: '102px',
+        right: '0',
+        width: '20%',
+        pr: '10px',
+    }
+
     useEffect(() => {
         try {
             if (userNames) {
@@ -50,12 +66,15 @@ export default function Feed({ token }) {
                         <title>Feed - Node Network</title>
                     </Helmet>
                     <Navbar token={token} />
-                    <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
+                    
+                    <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1, bgcolor: '#00000099' }} />
+
+                    <Box sx={{ position: 'relative', width: '100%', height: '100%', pt: '9px' }}>
 
                         {/* Contenedor para los elementos fijos (Eventos) */}
-                        <Box className={isDesktop && 'slideInLeft'} visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', left: '0', width: '20%', height: '100%' }}>
-                            <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: '10px' }}>
+                        <Box className={isDesktop && 'slideInLeft'} visibility={isDesktop ? 'visible' : 'hidden'} sx={leftSectionStyles}>
+                            <Box className={className} style={{ width: '100%', height: '100%', padding: '40px', borderRadius: '10px', boxShadow: '0px 5px 5px black' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (
                                             <Link href={`/profile/${user.username}`} sx={usernameLinkStyles[0]}>
@@ -85,13 +104,13 @@ export default function Feed({ token }) {
                         </Box>
 
                         {/* Contenedor para el contenido del feed */}
-                    <Box className={'fadeIn'} sx={isDesktop ? { marginLeft: '22%', marginRight: '22%' } : isTablet ? { marginLeft: '5%', marginRight: '5%' } : { marginLeft: '0%', marginRight: '0%' }}>
+                        <Box className={'fadeIn'} sx={isDesktop ? { marginLeft: '22%', marginRight: '22%' } : isTablet ? { marginLeft: '5%', marginRight: '5%' } : { marginLeft: '0%', marginRight: '0%' }}>
                             <FeedContent token={token} />
                         </Box>
 
                         {/* Contenedor para los elementos fijos (usuarios mas recientes) */}
-                        <Box className={isDesktop && 'slideInRight'} visibility={isDesktop ? 'visible' : 'hidden'} sx={{ position: 'fixed', top: '73px', right: '0', width: '20%', height: '100%' }}>
-                            <Box className={className} style={{ width: '100%', height: '100%', marginBottom: '10px' }}>
+                        <Box className={isDesktop && 'slideInRight'} visibility={isDesktop ? 'visible' : 'hidden'} sx={rightSectionStyles}>
+                            <Box className={className} style={{ width: '100%', height: '100%', padding: '15px', borderRadius: '10px', boxShadow: '0px 5px 5px black' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '10px' }}>Usuarios recien registrados</Typography>
                                 </Box>
@@ -104,6 +123,12 @@ export default function Feed({ token }) {
                                         )
                                     })
                                 }
+                            </Box>
+                            <Box className={className} style={{ width: '100%', height: '100%', padding: '15px', borderRadius: '10px', boxShadow: '0px 5px 5px black', marginTop: '15px' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '0' }}>Publicidad</Typography>
+                                </Box>
+                                <Link href="https://picsum.photos/id/237/500/500"><img src={`https://picsum.photos/id/237/500/500`} alt="anuncio" style={{ width: '100%', height: '100%' }} /></Link>
                             </Box>
                         </Box>
 

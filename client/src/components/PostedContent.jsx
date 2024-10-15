@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import useGetProfileImage from '../hooks/useGetProfileImage';
 import useGetGalleryImage from '../hooks/useGetGalleryImage';
 import '../assets/styles.css';
+import Badge from '@mui/material/Badge';
 
 export default function PostedContent({ token, post, handleFeedReload, isolated }) {
     const frontendUrl = import.meta.env.VITE_FRONTEND
@@ -61,7 +62,8 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
 
     const reactionTextStyles = {
         fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '2.5vw',
-        marginLeft: '5px'
+        marginLeft: '5px',
+        display: 'inline'
     }
 
     const avatarStyles = {
@@ -288,13 +290,13 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                 <Box sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
                     <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button onClick={likeThePost}>
-                            <ThumbUpIcon sx={reactionIconStyles} /> <span style={reactionTextStyles}> Me Gusta ({currentLikes}) </span>
+                            <ThumbUpIcon sx={reactionIconStyles} /> <span className={className} style={reactionTextStyles}> Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentLikes > 0 ? currentLikes : '0'} color="primary"/> </span>
                         </Button>
                         <Button onClick={dislikeThePost}>
-                            <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span style={reactionTextStyles}> No Me Gusta ({currentDislikes}) </span>
+                            <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span className={className} style={reactionTextStyles}> No Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentDislikes > 0 ? currentDislikes : '0'} color="error"/> </span>
                         </Button>
                         <Button onClick={() => toggleCommentBox(post.postId)}>
-                            <AddCommentIcon sx={reactionIconStyles} color="warning" /> <span style={reactionTextStyles}> Comentar </span>
+                            <AddCommentIcon sx={reactionIconStyles} color="warning" /> <span className={className} style={reactionTextStyles}> Comentar </span>
                         </Button>
                     </Stack>
                 </Box>

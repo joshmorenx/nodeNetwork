@@ -60,7 +60,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
             <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'fixed', width: '100%', height: '100%', zIndex: -1 }}></Box>
             <Box sx={{ width: '100%', display: isDesktop || isTablet ? 'flex' : 'block', alignItems: 'flex-start' }}>
                 <Box className="fixed-profile" sx={{ position: isDesktop || isTablet ? 'sticky' : 'static', top: 80, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                    <Box sx={isDesktop || isTablet ? { overflowY: 'auto', overflowX: 'hidden', height: '100vh' } : { overflowY: 'auto' }}>
+                    <Box sx={isDesktop || isTablet ? { overflowY: 'auto', overflowX: 'hidden', height: '100vh', width: '25vw' } : { overflowY: 'auto' }}>
                         <Box>
                             <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} id={user.username === userData.username ? user.userId : userData.userId} />
                         </Box>
@@ -69,26 +69,32 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                             {loading ? null : <FollowsButton token={token} username={username} fontSizeStyles={fontSizeStyles} />}
                         </Box>
 
-                        {loading ? null : 
-                        <Box sx={{ gap: 2, display: 'flex', justifyContent: 'center' }}>
-                            <Link href={`/follows/${username}#followers`}>
-                                <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="contained">
-                                    Seguidores ({followers.length})
-                                </Button>
-                            </Link>
-                            <Link href={`/follows/${username}#following`} variant="contained">
-                                <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="contained">
-                                    Siguiendo ({following.length})
-                                </Button>
-                            </Link>
-                        </Box>}
+                        <Box sx={{ bgcolor: className === 'bgx-black' ? 'rgba(77, 77, 77, 0.5)' : 'rgba(255, 255, 255, 0.5)', width: '90%', margin: 'auto', borderRadius: '5px', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>
+                            {loading ? null :
+                                <Box sx={{ gap: 0, display: 'flex', justifyContent: 'center' }}>
+                                    <Box sx={{ width: '100%', borderRight: '1px solid grey' }}>
+                                        <Link href={`/follows/${username}#followers`}>
+                                            <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="filled">
+                                                Seguidores ({followers.length})
+                                            </Button>
+                                        </Link>
+                                    </Box>
+                                    <Box sx={{ width: '100%'}}>
+                                        <Link href={`/follows/${username}#following`} variant="contained">
+                                            <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="filled">
+                                                Siguiendo ({following.length})
+                                            </Button>
+                                        </Link>
+                                    </Box>
+                                </Box>}
 
-                        <Box sx={{ ml: isDesktop || isTablet ? 2 : 'auto', mt: 0, mr: isDesktop || isTablet ? 2 : 'auto', width: isDesktop ? '30vw' : isTablet ? '25vw' : '80vw', height: '40%' }}>
-                            {!user.username ? null : <Link href={`/gallery/${username}`}>
-                                <Button color="info" variant="contained" sx={{ mt: 2, fontSize: fontSizeStyles }}>
-                                    {user.username === username ? 'ir a mi galeria' : 'ir a la galeria de ' + username}
-                                </Button>
-                            </Link>}
+                            <Box sx={{ borderTop: '1px solid grey', width: '100%' }}>
+                                {!user.username ? null : <Link href={`/gallery/${username}`}>
+                                    <Button color="info" variant="filled" sx={{ fontSize: fontSizeStyles }}>
+                                        {user.username === username ? 'ir a mi galeria' : 'ir a la galeria de ' + username}
+                                    </Button>
+                                </Link>}
+                            </Box>
                         </Box>
 
                     </Box>
