@@ -10,6 +10,7 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  base: '/',
   optimizeDeps: {
     include: ['js-cookie'],
   },
