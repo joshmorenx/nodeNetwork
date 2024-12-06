@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button, TextField, Alert, Snackbar, Box } from '@mui/material/';
 import { Link } from 'react-router-dom';
@@ -8,6 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export default function LoginDisplayer({ handleInputChange, formData, sendForm, userInfo, open, preHandleClose, loginData }) {
     const [showPassword, setShowPassword] = useState(false);
+    const [gatheredLoginData, setGatheredLoginData] = useState('');
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
@@ -31,6 +33,10 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
         width: '100vw',
         backgroundColor: 'black',
     }
+
+    useEffect(() => {
+        loginData ? setGatheredLoginData(loginData) : setGatheredLoginData('Por favor, Espere...');
+    }, [loginData])
 
     return (
         <>
@@ -96,9 +102,9 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
 
                 </Box>
                 {/* <Box className="login-message">{loginData}</Box> */}
-                <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={5000} onClose={preHandleClose}>
+                <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={!loginData ? 999999 : 5000} onClose={preHandleClose}>
                     <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
-                        {loginData}
+                        {gatheredLoginData}
                     </Alert>
                 </Snackbar>
             </Box>

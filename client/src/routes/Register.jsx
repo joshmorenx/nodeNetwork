@@ -7,6 +7,7 @@ import { useMediaQuery } from '@mui/material';
 import '../assets/styles.css';
 import '../assets/index.css';
 import { Helmet } from "react-helmet";
+import { useEffect, useState } from 'react';
 
 const Register = () => {
     const isDesktop = useMediaQuery('(min-width: 900px)');
@@ -21,6 +22,7 @@ const Register = () => {
         password: '',
         pwdConfirmation: '',
     })
+    const [gatheredState, setGatheredState] = useState('');
 
     if (registryCompletion) {
         setTimeout(() => {
@@ -32,11 +34,15 @@ const Register = () => {
         handleClose(event, reason);
     }
 
+    useEffect(() => {
+        state ? setGatheredState(state) : setGatheredState('Por favor, Espere...');
+    }, [state])
+
     return (
         <>
-        <Helmet>
-            <title>Register - Node Network</title>
-        </Helmet>
+            <Helmet>
+                <title>Register - Node Network</title>
+            </Helmet>
             <div className='register-background'>
                 <div className={isDesktop ? 'register-container' : isTablet ? 'register-container-tablet' : 'register-container-mobile'}>
                     <h1 className="register-title">Registro Nuevo</h1>
@@ -134,9 +140,9 @@ const Register = () => {
                         </Button>
                     </form>
                     {/* { state } */}
-                    <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={5000} onClose={preHandleClose}>
+                    <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={!state ? 999999 : 5000} onClose={preHandleClose}>
                         <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
-                            {state}
+                            {gatheredState}
                         </Alert>
                     </Snackbar>
                     <p className='mt-5 mb-5'>Ya tienes una cuenta? <Link id="register" to='/'> Inicia sesión </Link></p>
