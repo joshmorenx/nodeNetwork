@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tsx": "npx tsx src/main.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -36,14 +37,15 @@
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
-    "@types/react": "^18.0.37",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "tailwindcss": "^3.4.3",
+    "typescript": "^5.9.3",
     "vite": "^6.2.0"
   }
 }
