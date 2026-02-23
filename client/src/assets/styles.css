@@ -70,16 +70,27 @@ body {
 
 .login-container,
 .register-container {
-  background-color: rgb(254, 249, 239);
-  box-shadow: 0 3px 10px -1px black;
-  width: 30%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 7px;
+  width: 50%;
+  height: 100%;
+  position: fixed;
+  right: 0;
   padding-left: 1%;
   padding-right: 1%;
+
+  background:
+    radial-gradient(
+      800px circle at 100% 0%,
+      rgba(125, 106, 155, 0.18),
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      #daa8a8 0%,
+      #9f90b8 60%,
+      #472b6c 100%
+    );
+
+  box-shadow: 0 3px 10px -1px rgba(0,0,0,0.3);
 }
 
 .login-container-tablet,
@@ -142,6 +153,12 @@ body {
   flex-direction: column;
   margin-bottom: 3%;
   text-align: center;
+}
+
+.login-form {
+  width: 70%;
+  position: relative;
+  left: 15%;
 }
 
 .login-form-tablet,
@@ -215,10 +232,40 @@ body {
 .login-background,
 .register-background,
 .profile-background {
-  background-color: rgb(125, 106, 155);
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+
+  background:
+    radial-gradient(800px circle at 15% 20%,
+      rgba(255, 255, 255, 0.06),
+      transparent 60%),
+    radial-gradient(600px circle at 85% 80%,
+      rgba(0, 0, 0, 0.35),
+      transparent 60%),
+    linear-gradient(135deg,
+      #2e1f47 0%,
+      #4b3c73 40%,
+      #6a5a94 70%,
+      #3b2c5e 100%);
+
+  overflow: hidden;
+}
+
+.login-background::after,
+.register-background::after,
+.profile-background::after {
+  content: "";
   position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(255,255,255,0.03) 1px,
+    transparent 1px
+  );
+  background-size: 3px 3px;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .dashboard-container {
@@ -322,15 +369,15 @@ body {
 }
 
 .mobileBarStyles {
-    display: flex;
-    background-color: white;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
 }
 
 @-webkit-keyframes slideInLeft {
