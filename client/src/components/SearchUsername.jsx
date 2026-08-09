@@ -11,55 +11,49 @@ export default function SearchUsername({ isDesktop, isTablet, isMobile, handleFo
         }
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         (userStatus) && handleFoundUser(userStatus)
     }, [userStatus])
 
-    const cardClass = isMobile ? 'auth-card auth-card-mobile' : 'auth-card auth-card-narrow';
-
     return (
-        <Box className={cardClass}>
-            <Box className="auth-panel auth-panel-narrow">
-                <Box className="auth-panel-inner">
-                    <h1 className="login-title">Recupera tu cuenta</h1>
-                    <p className="auth-subtitle">Ingresa tu nombre de usuario y te enviaremos un enlace de recuperación.</p>
+        <Box sx={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} className={isDesktop ? 'login-container' : (isTablet ? 'login-container-tablet' : 'login-container-mobile')}>
 
-                    <Box className="auth-info-box">
-                        Ingresa tu nombre de usuario y después haz clic en recuperar.
-                    </Box>
+            <Typography sx={{ mt: 3, fontSize: isDesktop ? 35 : (isTablet ? 30 : 20) }} className="login-title">Recupera tu cuenta</Typography>
+            <Box sx={{ mt: 2, borderRadius: '5px', width: '70%', textAlign: 'left', border: '1px solid black', bgcolor: '#fadea7', ml: 'auto', mr: 'auto' }}>
+                <Typography sx={{ m: 2, fontSize: isDesktop ? 15 : (isTablet ? 15 : 10) }} >Ingresa tu nombre de usuario y despues haz click en recuperar</Typography>
+            </Box>
 
-                    <Box className="login-form">
-                        <TextField
-                            autoFocus={true}
-                            sx={authFieldSx}
-                            fullWidth
-                            size='medium'
-                            type="text"
-                            id="username"
-                            name="username"
-                            required
-                            label="Nombre de usuario"
-                            value={data.username}
-                            onChange={handleInputChange}
-                        />
+            <Box className={isDesktop ? 'login-form' : (isTablet ? 'login-form-tablet' : 'login-form-mobile')}>
 
-                        <Button
-                            sx={{ ...authPrimaryButtonSx, mt: '6px' }}
-                            size='large'
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            onClick={sendRequest}
-                            disabled={!data.username}
-                        >
-                            Recuperar
-                        </Button>
-                    </Box>
+                <TextField
+                    autoFocus={true}
+                    sx={{ mt: 3, mb: 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                    size='small'
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                    label="Nombre de usuario"
+                    value={data.username}
+                    onChange={handleInputChange}
+                />
 
-                    <Box className="auth-back-link">
-                        <Link to='/'>Volver al inicio</Link>
-                    </Box>
-                </Box>
+                <Button
+                    sx={{ mb: 2, width: '100%', ml: 'auto', mr: 'auto' }}
+                    size='large'
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    onClick={sendRequest}
+                    disabled={!data.username}
+                >
+                    Recuperar
+                </Button>
+
+            </Box>
+
+            <Box sx={{ width: '100%', textAlign: 'center', mb: 2 }}>
+                <Link sx={{ cursor: 'pointer' }} onClick={() => (Navigate('/'))}>Volver</Link>
             </Box>
         </Box>
     )
