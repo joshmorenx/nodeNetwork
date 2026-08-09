@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 export default function useGetSpecificPosts({ token, username }) {
     const backendUrl = import.meta.env.VITE_BACKEND
@@ -9,7 +9,7 @@ export default function useGetSpecificPosts({ token, username }) {
     const [msg, setMsg] = useState(null);
     const [loading, setLoading] = useState(null);
 
-    const sendRequest = async (query) => {
+    const sendRequest = useCallback(async (query) => {
         setLoading(true);
         await axios.get(`${backendUrl}/api/getSpecificPosts/${username}/`, {
             headers: {
@@ -25,6 +25,6 @@ export default function useGetSpecificPosts({ token, username }) {
             setError(error);
             setLoading(false);
         })
-    }
+    }, [token, username, backendUrl]);
     return { posts, setPosts, error, setError, success, setSuccess, msg, setMsg, loading, setLoading, sendRequest }
 }

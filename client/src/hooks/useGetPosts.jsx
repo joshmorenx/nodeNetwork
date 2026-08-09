@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 
-export default function useGetPosts({ token, username }) {
+export default function useGetPosts({ token }) {
     const backendUrl = import.meta.env.VITE_BACKEND;
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
@@ -9,7 +9,7 @@ export default function useGetPosts({ token, username }) {
     const [msg, setMsg] = useState(null);
     const [loading, setLoading] = useState(null);
 
-    const sendRequest = async (query) => {
+    const sendRequest = useCallback(async (query) => {
         setLoading(true);
         await axios.get(`${backendUrl}/api/getPosts/`, {
             headers: {
@@ -25,6 +25,6 @@ export default function useGetPosts({ token, username }) {
             setError(error);
             setLoading(false);
         })
-    }
+    }, [token, backendUrl]);
     return { posts, setPosts, error, setError, success, setSuccess, msg, setMsg, loading, setLoading, sendRequest }
 }

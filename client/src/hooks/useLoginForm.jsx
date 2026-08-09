@@ -8,6 +8,7 @@ const useLoginForm = (initialForm = {}) => {
     const [tokenState, setToken] = useState('')
     const [userInfo, setUserInfo] = useState('')
     const [open, setOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('info');
 
 
     const handleInputChange = (event) => {
@@ -18,6 +19,7 @@ const useLoginForm = (initialForm = {}) => {
     const sendForm = async (event) => {
         event.preventDefault();
         setOpen(true)
+        setAlertSeverity('info')
         await axios.post(`${backendUrl}/api/login/`,
             {
                 username: formData.username,
@@ -27,8 +29,10 @@ const useLoginForm = (initialForm = {}) => {
                 setLoginData(response.data.msg)
                 setToken(response.data.token)
                 setUserInfo(response.data.user)
+                setAlertSeverity('success')
             }).catch(error => {
                 setLoginData(error.response.data.error);
+                setAlertSeverity('error')
             });
     };
 
@@ -47,7 +51,8 @@ const useLoginForm = (initialForm = {}) => {
         formData,
         tokenState,
         userInfo,
-        open
+        open,
+        alertSeverity
     }
 }
 

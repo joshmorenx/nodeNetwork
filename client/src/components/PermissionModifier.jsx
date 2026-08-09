@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import ListaPermisos from "./ListaPermisos"
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from "@mui/material/"
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from "@mui/material"
 import PermissionDescriptionDetails from "./PermissionDescriptionDetails"
 import { useSelector } from 'react-redux'
 

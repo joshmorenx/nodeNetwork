@@ -1,5 +1,5 @@
 import ListaNombres from "./ListaNombres"
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from "@mui/material/"
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from "@mui/material"
 import PermissionDisplayer from "./PermissionDisplayer"
 import { useSelector } from "react-redux"
 

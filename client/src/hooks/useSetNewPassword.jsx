@@ -10,6 +10,7 @@ export function useSetNewPassword({ resetForm = {} }) {
     const [msg, setMsg] = useState(null)
     const [state, setState] = useState('')
     const [open, setOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('info');
 
     const allowedPasswordCharacters = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
@@ -24,12 +25,14 @@ export function useSetNewPassword({ resetForm = {} }) {
 
         if (!allowedPasswordCharacters.test(formData.password)) {
             setState('Contraseña debe contener al menos 8 caracteres, incluyendo al menos un número, una letra mayúscula y una letra minúscula.');
+            setAlertSeverity('error');
             setOpen(true);
             return;
         }
 
         else if (formData.password !== formData.passwordConfirmation) {
             setState('Las contraseñas no coinciden.');
+            setAlertSeverity('error');
             setOpen(true);
             return;
         } else {
@@ -38,6 +41,7 @@ export function useSetNewPassword({ resetForm = {} }) {
         }
 
         setOpen(true)
+        setAlertSeverity('info')
         setLoading(true)
         await axios.post(`${backendUrl}/api/resetPassword/`, {
             token: token,
@@ -47,10 +51,12 @@ export function useSetNewPassword({ resetForm = {} }) {
         }).then((response) => {
             setSuccess(response.data.success)
             setMsg(response.data.msg)
-            setState(msg)
+            setState(response.data.msg)
+            setAlertSeverity('success')
             setLoading(false)
         }).catch((error) => {
             setError(error.response.data.error)
+            setAlertSeverity('error')
             setLoading(false)
         })
     }
@@ -63,5 +69,5 @@ export function useSetNewPassword({ resetForm = {} }) {
     }
 
 
-    return { setNewPassword, formData, handleInputChange, loading, success, error, msg, state, open, handleClose }
+    return { setNewPassword, formData, handleInputChange, loading, success, error, msg, state, open, handleClose, alertSeverity }
 }

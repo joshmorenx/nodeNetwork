@@ -187,7 +187,7 @@ io.on('connection', (socket) => {
 });
 
 // Iniciar el servidor
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor iniciado en el puerto ${PORT}`);
     console.log(`http://localhost:${PORT}`);

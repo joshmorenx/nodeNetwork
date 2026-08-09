@@ -24,11 +24,6 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
-
-    const fontSizeStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '1vw' : '3vw'
-    }
 
     const handleImageClicked = (event) => {
         if (event) {
@@ -66,31 +61,31 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                         </Box>
 
                         <Box sx={{ mt: 2, mb: 2 }}>
-                            {loading ? null : <FollowsButton token={token} username={username} fontSizeStyles={fontSizeStyles} />}
+                            {loading ? null : <FollowsButton token={token} username={username} />}
                         </Box>
 
-                        <Box sx={{ bgcolor: className === 'bgx-black' ? 'rgba(77, 77, 77, 0.5)' : 'rgba(255, 255, 255, 0.5)', width: '90%', margin: 'auto', borderRadius: '5px', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>
+                        <Box className={`${className} profile-stats-card`} sx={{ width: '90%', margin: 'auto' }}>
                             {loading ? null :
                                 <Box sx={{ gap: 0, display: 'flex', justifyContent: 'center' }}>
-                                    <Box sx={{ width: '100%', borderRight: '1px solid grey' }}>
-                                        <Link href={`/follows/${username}#followers`}>
-                                            <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="filled">
+                                    <Box className="divider-line" sx={{ width: '100%', borderRight: '1px solid grey' }}>
+                                        <Link href={`/follows/${username}#followers`} style={{ textDecoration: 'none' }}>
+                                            <Button className="profile-stat-btn">
                                                 Seguidores ({followers.length})
                                             </Button>
                                         </Link>
                                     </Box>
-                                    <Box sx={{ width: '100%'}}>
-                                        <Link href={`/follows/${username}#following`} variant="contained">
-                                            <Button sx={{ fontSize: fontSizeStyles }} color="success" variant="filled">
+                                    <Box className="divider-line" sx={{ width: '100%' }}>
+                                        <Link href={`/follows/${username}#following`} style={{ textDecoration: 'none' }}>
+                                            <Button className="profile-stat-btn">
                                                 Siguiendo ({following.length})
                                             </Button>
                                         </Link>
                                     </Box>
                                 </Box>}
 
-                            <Box sx={{ borderTop: '1px solid grey', width: '100%' }}>
-                                {!user.username ? null : <Link href={`/gallery/${username}`}>
-                                    <Button color="info" variant="filled" sx={{ fontSize: fontSizeStyles }}>
+                            <Box className="divider-line" sx={{ borderTop: '1px solid grey', width: '100%' }}>
+                                {!user.username ? null : <Link href={`/gallery/${username}`} style={{ textDecoration: 'none' }}>
+                                    <Button className="profile-stat-btn">
                                         {user.username === username ? 'ir a mi galeria' : 'ir a la galeria de ' + username}
                                     </Button>
                                 </Link>}

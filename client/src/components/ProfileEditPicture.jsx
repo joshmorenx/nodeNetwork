@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 export default function ProfileEditPicture({ selectedImage, selectedImageUrl, handleImageChange, sendRequest }) {
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
+    const isMobile = useMediaQuery('(max-width: 425px)');
     const className = useSelector((state) => state.className);
 
     return (
@@ -18,11 +18,11 @@ export default function ProfileEditPicture({ selectedImage, selectedImageUrl, ha
                 aria-label="Expand"
                 aria-controls="-content"
                 id="-header"
-                sx={{ mt: 1, bgcolor: '#f9f0ce' }}
+                sx={{ mt: 1 }}
             >
                 <Typography>Modificar imagen de perfil</Typography>
             </AccordionSummary>
-            <AccordionDetails className={className} sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className={className}>
                 <Box>
                     <p>Foto de perfil</p>
                     <Box sx={{ display: isDesktop ? 'inline-flex' : 'block', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { Menu, MenuItem, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setClassName } from '../redux/actions';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -17,18 +17,17 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser'
 import HomeIcon from '@mui/icons-material/Home';
 import MobileNavMenu from './MobileNavMenu.jsx';
 import Switch from '@mui/material/Switch';
-import useHandleTheme from '../hooks/useHandleTheme.jsx/';
+import useHandleTheme from '../hooks/useHandleTheme.jsx';
 import Notifications from './Notifications.jsx';
 
 export default function Navbar({ token }) {
     const [query, setQuery] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { user, error } = useGetCurrentUser({ token });
-    const { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
+    const { user } = useGetCurrentUser({ token });
+    const { newTheme, themeLoading, updateHandleTheme, getUserTheme } = useHandleTheme({ token })
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 425px)');
 
     const className = useSelector((state) => state.className);
 
@@ -106,15 +105,15 @@ export default function Navbar({ token }) {
         handleClassChange(event.target.checked)
     }
 
-    const handleClassChange = (checked) => {
+    const handleClassChange = useCallback((checked) => {
         dispatch(setClassName(checked ? 'bgx-black' : 'bgx-white'));
-    };
+    }, [dispatch]);
 
     useEffect(() => {
         getUserTheme()
         handleClassChange(newTheme === 'dark' ? true : false)
         document.body.style.backgroundColor = (newTheme === 'dark' ? 'black' : 'white')
-    }, [newTheme])
+    }, [newTheme, getUserTheme, handleClassChange])
 
     return (
         <Box sx={{ mb: 9 }}>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export default function useHandleTheme({token}) {
     const backendUrl = import.meta.env.VITE_BACKEND
@@ -9,7 +9,7 @@ export default function useHandleTheme({token}) {
     const [themeLoading, setThemeLoading] = useState(false)
     const [themeError, setThemeError] = useState(null)
 
-    const updateHandleTheme = async (theme) => {
+    const updateHandleTheme = useCallback(async (theme) => {
         setThemeLoading(true)
         await axios.put(`${backendUrl}/api/handleTheme/`,{theme:theme},{
             headers:{
@@ -24,9 +24,9 @@ export default function useHandleTheme({token}) {
             setThemeError(error.data.error)
             setThemeLoading(false)
         })
-    }
+    }, [token, backendUrl])
     
-    const getUserTheme = async() =>{
+    const getUserTheme = useCallback(async() =>{
         setThemeLoading(true)
         await axios.get(`${backendUrl}/api/getUserTheme/`,{
             headers:{
@@ -39,6 +39,6 @@ export default function useHandleTheme({token}) {
             setThemeError(error.data.error)
             setThemeLoading(false)
         })
-    }
+    }, [token, backendUrl])
     return { newTheme, themeMsg, themeSuccess, themeLoading, themeError, updateHandleTheme, getUserTheme }
 }

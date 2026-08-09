@@ -1,14 +1,18 @@
-import { Avatar, Box, Button, Link, Menu, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Link, Menu, MenuItem, Stack, TextField, Typography, CircularProgress } from "@mui/material";
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import AddCommentIcon from '@mui/icons-material/AddComment';
+import ShareIcon from '@mui/icons-material/Share';
+import CheckIcon from '@mui/icons-material/Check';
 import useDoLikeOrDislike from '../hooks/useDoLikeOrDislike.jsx';
 import useCaptureAndSendComment from '../hooks/useCaptureAndSendComment.jsx';
 import Comments from "./Comments.jsx";
+import CommentSkeleton from './CommentSkeleton.jsx';
 import { InputAdornment } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,32 +26,33 @@ import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
 import useGetProfileImage from '../hooks/useGetProfileImage';
 import useGetGalleryImage from '../hooks/useGetGalleryImage';
+import { formatDistanceToNow } from 'date-fns';
+import { es } from 'date-fns/locale';
 import '../assets/styles.css';
-import Badge from '@mui/material/Badge';
 
 export default function PostedContent({ token, post, handleFeedReload, isolated }) {
-    const frontendUrl = import.meta.env.VITE_FRONTEND
-    const { user, error } = useGetCurrentUser({ token });
+    const { user } = useGetCurrentUser({ token });
     const [updatePost, setUpdatePost] = useState(false);
     const [comment, setComment] = useState([]);
-    const [currentPost, setCurrentPost] = useState(post);
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
     const [currentComments, setCurrentComments] = useState([]);
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
+    const [commentBoxOpen, setCommentBoxOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [shareCopied, setShareCopied] = useState(false);
+    const [relativeDate, setRelativeDate] = useState('');
     const open = Boolean(anchorEl);
-    const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
-    const { sendComment, handleCapture, newComment, messageComment, errorComment, successComment, setSuccessComment, newCurrentComments } = useCaptureAndSendComment({ token })
-    const { deletePost, msgDelPost, errDel, successDelete, setSuccessDelete } = useDeletePost({ token, postId: post.postId })
+    const { sendDoUndo_Like, sendDoUndo_Dislike, successLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
+    const { sendComment, handleCapture, successComment, setSuccessComment, newCurrentComments, commentSending } = useCaptureAndSendComment({ token })
+    const { deletePost, msgDelPost, successDelete, setSuccessDelete } = useDeletePost({ token, postId: post.postId })
     const [imgClickedPath, setImgClickedPath] = useState(null)
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
     const className = useSelector((state) => state.className);
-    const images = []
-    const [userImages, setUserImages] = useState([])
-    const { image, imageError } = useGetProfileImage({ id: post.username })
-    const { galleryImage, getGalleryImage } = useGetGalleryImage({ username: post.username })
+    const { image } = useGetProfileImage({ id: post.username })
+    const { images: userImages } = useGetGalleryImage({ username: post.username, paths: post.images })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -56,23 +61,19 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
         setAnchorEl(null);
     };
 
-    const reactionIconStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '5vw'
-    }
-
     const reactionTextStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '2.5vw',
-        marginLeft: '5px',
+        marginLeft: '6px',
         display: 'inline'
     }
 
     const avatarStyles = {
-        width: isDesktop ? '50px' : isTablet ? '50px' : '30px',
-        height: isDesktop ? '50px' : isTablet ? '50px' : '30px'
+        width: isDesktop ? '48px' : '38px',
+        height: isDesktop ? '48px' : '38px'
     }
 
     const userNameStyles = {
-        fontSize: isDesktop ? '20px' : isTablet ? '20px' : '12px'
+        fontSize: '15px',
+        fontWeight: 600
     }
 
     const HtmlTooltip = styled(({ className, ...props }) => (
@@ -89,10 +90,14 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
 
     const likeThePost = async () => {
         sendDoUndo_Like(post.postId);
+        setLiked((prev) => !prev);
+        setDisliked(false);
     }
 
     const dislikeThePost = async () => {
         sendDoUndo_Dislike(post.postId);
+        setDisliked((prev) => !prev);
+        setLiked(false);
     }
 
     const handleChangeCapture = (event) => {
@@ -110,6 +115,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
         const element = document.querySelector('.comment-box-' + post.postId);
         element.classList.toggle('hidden');
         element.classList.toggle('fadeIn');
+        setCommentBoxOpen((prev) => !prev);
     }
 
     const handleEditPost = () => {
@@ -123,9 +129,26 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
         (result) && deletePost();
     }
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Escape') {
-            setUpdatePost(false);
+    const handleSharePost = async () => {
+        const frontendUrl = import.meta.env.VITE_FRONTEND || window.location.origin;
+        const shareUrl = `${frontendUrl}/posts/${post.postId}`;
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'Node Network',
+                    text: post.content,
+                    url: shareUrl
+                });
+            } else if (navigator.clipboard) {
+                await navigator.clipboard.writeText(shareUrl);
+                setShareCopied(true);
+                setTimeout(() => setShareCopied(false), 2000);
+            } else {
+                // Sin API de compartir ni portapapeles disponible
+                window.prompt('Copia el enlace de la publicación:', shareUrl);
+            }
+        } catch (error) {
+            // usuario canceló el compartir o falló el portapapeles
         }
     }
 
@@ -140,14 +163,28 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
     }
 
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyPress)
+        const onKey = (event) => {
+            if (event.key === 'Escape') {
+                setUpdatePost(false);
+            }
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
     }, [])
 
     useEffect(() => {
         setCurrentLikes(post.likesAuthors.length);
         setCurrentDislikes(post.dislikesAuthors.length);
-        setCurrentComments(post.comments.map(comment => comment))
-    }, [post])
+        setCurrentComments(post.comments.map(comment => comment));
+        setLiked((post.likesAuthors || []).some((author) => String(author) === String(user.userId)));
+        setDisliked((post.dislikesAuthors || []).some((author) => String(author) === String(user.userId)));
+        try {
+            const date = new Date(post.date_created);
+            setRelativeDate(formatDistanceToNow(date, { addSuffix: true, locale: es }));
+        } catch (error) {
+            setRelativeDate('');
+        }
+    }, [post, user.userId])
 
     useEffect(() => {
         if (successLD) {
@@ -155,7 +192,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
             setCurrentDislikes(dislikes);
             setSuccessLD(false);
         }
-    }, [successLD])
+    }, [successLD, likes, dislikes, setSuccessLD])
 
     useEffect(() => {
         if (successComment) {
@@ -163,7 +200,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
             setCurrentComments(newCurrentComments);
             setSuccessComment(false);
         }
-    }, [successComment])
+    }, [successComment, newCurrentComments, setSuccessComment])
 
     useEffect(() => {
         if (successDelete) {
@@ -175,29 +212,10 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
         }
     })
 
-    useEffect(() => {
-        if (post.username && post.images !== undefined) {
-            post.images.forEach((item) => {
-                getGalleryImage(item.slice(item.indexOf('gallery') + 'gallery/'.length))
-            })
-        }
-    }, [post.username, post.images]);
-
-    useEffect(() => {
-        if (galleryImage) {
-            images.push(galleryImage)
-        }
-    }, [galleryImage])
-
-    useEffect(() => {
-        if (images.length > 0) {
-            setUserImages(images)
-        }
-    }, [images])
 
     return (
         <>
-            <Box className={`${className} post-container-id-${post.postId} fadeIn`} sx={{ borderRadius: '1vw', p: isDesktop ? 5 : 1, border: '1px solid gray', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
+            <Box className={`${className} feed-post-card post-container-id-${post.postId} fadeIn`}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
@@ -221,7 +239,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                             }
                         >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
+                                <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar className="feed-avatar" sx={avatarStyles} ><img src={image} /></Avatar></Link>
                                 <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
                                     {/* <p>{post.firstName}</p> */}
                                     <Typography sx={userNameStyles}>{post.username}</Typography>
@@ -230,10 +248,17 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         </HtmlTooltip>
 
                         <Box sx={isDesktop ? { mt: '2%' } : { mt: '1%' }}>
-                            <Typography sx={{ bgcolor: 'black', color: 'white', pl: '6px', pr: '6px', pt: '6px', pb: '6px', border: '1px solid grey', borderRadius: '5px' }} style={reactionTextStyles}>
-                                {/* {'creado el '+new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })} */}
-                                {'creado el ' + new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Mexico_City' })}
-                            </Typography>
+                            <HtmlTooltip
+                                title={
+                                    <Typography color="inherit">
+                                        {'Creado el ' + new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })}
+                                    </Typography>
+                                }
+                            >
+                                <Typography className={`feed-date-pill ${className}`}>
+                                    {relativeDate || 'Recién publicado'}
+                                </Typography>
+                            </HtmlTooltip>
                         </Box>
                     </Box>
 
@@ -258,7 +283,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                                 onClose={handleClose}
                                 slotProps={{
                                     paper: {
-                                        className: { className },
+                                        className: className,
                                     },
                                 }}
                             >
@@ -274,65 +299,91 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         </Box>}
                 </Box>
 
-                <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', borderRadius: '5px', padding: '8px' }}>
-                    <Typography sx={{ wordWrap: 'break-word', whiteSpace: 'normal', multiline: true, textAlign: 'justify' }}>
+                <Box className={`feed-post-body ${className}`}>
+                    <Typography sx={{ wordWrap: 'break-word', whiteSpace: 'normal', multiline: true }}>
                         {post.content}
                     </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box className={`feed-post-media${userImages.length > 1 ? ' is-grid' : ''}`}>
                     {userImages !== undefined &&
                         userImages.map((elem, key) => (
-                            <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy" />
+                            <img onClick={handleImageClicked} className="feed-post-img" style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy" />
                         ))
                     }
+                    {userImages.length > 1 && (
+                        <Box className={`feed-media-badge ${className}`}>
+                            {userImages.length} imágenes
+                        </Box>
+                    )}
                 </Box>
 
-                <Box sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
-                    <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button onClick={likeThePost}>
-                            <ThumbUpIcon sx={reactionIconStyles} /> <span className={className} style={reactionTextStyles}> Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentLikes > 0 ? currentLikes : '0'} color="primary"/> </span>
+                {currentComments.length > 0 && (
+                    <Box className={`feed-stats ${className}`}>
+                        <span><AddCommentIcon fontSize="inherit" /> {currentComments.length} Comentarios</span>
+                    </Box>
+                )}
+
+                <Box sx={{ width: '100%' }}>
+                    <Stack direction="row" className="feed-reactions">
+                        <Button className={`feed-reaction-btn like-btn${liked ? ' is-active' : ''}`} onClick={likeThePost}>
+                            <ThumbUpIcon /> <span className={`${className} feed-reaction-label`} style={reactionTextStyles}> Me Gusta {currentLikes > 0 && <span className="feed-count-pill has-count">{currentLikes}</span>} </span>
                         </Button>
-                        <Button onClick={dislikeThePost}>
-                            <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span className={className} style={reactionTextStyles}> No Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentDislikes > 0 ? currentDislikes : '0'} color="error"/> </span>
+                        <Button className={`feed-reaction-btn dislike-btn${disliked ? ' is-active' : ''}`} onClick={dislikeThePost}>
+                            <ThumbDownIcon color="error" /> <span className={`${className} feed-reaction-label`} style={reactionTextStyles}> No Me Gusta {currentDislikes > 0 && <span className="feed-count-pill has-count">{currentDislikes}</span>} </span>
                         </Button>
-                        <Button onClick={() => toggleCommentBox(post.postId)}>
-                            <AddCommentIcon sx={reactionIconStyles} color="warning" /> <span className={className} style={reactionTextStyles}> Comentar </span>
+                        <Button className={`feed-reaction-btn comment-btn${commentBoxOpen ? ' is-active' : ''}`} onClick={() => toggleCommentBox(post.postId)}>
+                            <AddCommentIcon /> <span className={`${className} feed-reaction-label`} style={reactionTextStyles}> Comentar {currentComments.length > 0 && <span className="feed-count-pill has-count">{currentComments.length}</span>} </span>
+                        </Button>
+                        <Button className={`feed-reaction-btn share-btn${shareCopied ? ' is-active' : ''}`} onClick={handleSharePost}>
+                            {shareCopied ? <CheckIcon /> : <ShareIcon />} <span className={`${className} feed-reaction-label`} style={reactionTextStyles}> {shareCopied ? 'Copiado' : 'Compartir'} </span>
                         </Button>
                     </Stack>
                 </Box>
 
                 <Box id={"comment-box-" + post.postId} className={"hidden comment-box-" + post.postId}>
                     <TextField
-                        sx={{ borderRadius: '5px', mt: '2%', mb: '2%' }}
+                        sx={{ mt: '2%', mb: '2%' }}
                         required
                         multiline
                         variant="outlined"
                         size="small"
                         label="comentar en la publicacion"
                         fullWidth
-                        className="bgx-white"
+                        className={`feed-comment-input ${className}`}
                         value={comment}
                         onChange={handleChangeCapture}
                         InputProps={{
                             endAdornment: (
-                                <InputAdornment sx={{ cursor: "pointer" }} onClick={(event) => { handleSubmitComment(event) }} position="end">
-                                    <SendIcon />
+                                <InputAdornment
+                                    sx={{ cursor: commentSending ? 'default' : 'pointer', opacity: commentSending ? 0.5 : 1 }}
+                                    onClick={(event) => { if (!commentSending) handleSubmitComment(event) }}
+                                    position="end"
+                                >
+                                    {commentSending ? <CircularProgress size={18} /> : <SendIcon />}
                                 </InputAdornment>
                             ),
                         }}
                     />
                 </Box>
 
-                {currentComments.length > 0 &&
+                {(currentComments.length > 0 || commentSending) &&
                     <>
-                        <Typography>Comentarios</Typography>
+                        <Typography className="feed-comments-heading">Comentarios</Typography>
+                        {commentSending && <CommentSkeleton count={1} />}
                         {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} handleRemoveCommentFromDOM={handleRemoveCommentFromDOM} />)}
                     </>
                 }
             </Box>
             {updatePost && <PopUpEdit token={token} post={post} setUpdatePost={setUpdatePost} type={'post'} />}
-            <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
+            <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} images={userImages} />
         </>
     )
 }
+
+PostedContent.propTypes = {
+    token: PropTypes.string,
+    post: PropTypes.object.isRequired,
+    handleFeedReload: PropTypes.func,
+    isolated: PropTypes.bool
+};
 

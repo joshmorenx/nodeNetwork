@@ -1,22 +1,33 @@
 import useLoginForm from '../hooks/useLoginForm';
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 // import AppContext from '../contexts/AppContext';
 import Cookies from 'js-cookie'
 import '../assets/styles.css';
 import '../assets/index.css';
 import LoginDisplayer from '../components/LoginDisplayer'
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 
 export default function Login(){
     const cookieToken = Cookies.get('token');
-    const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, formData } = useLoginForm({
+    const location = useLocation();
+    const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, formData, alertSeverity } = useLoginForm({
         username: '',
         password: '',
     });
+    const [redirectNotice, setRedirectNotice] = useState(location.state?.msg || '');
 
     const preHandleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
         handleClose(event, reason);
+        setRedirectNotice('');
+    }
+
+    const handleSendForm = (event) => {
+        setRedirectNotice('');
+        sendForm(event);
     }
 
     useEffect(() => {
@@ -41,7 +52,16 @@ export default function Login(){
             <Helmet>
                 <title>Login - Node Network</title>
             </Helmet>
-            {!cookieToken && <LoginDisplayer handleInputChange={handleInputChange} formData={formData} sendForm={sendForm} userInfo={userInfo} open={open} preHandleClose={preHandleClose} loginData={loginData} />}
+            {!cookieToken && <LoginDisplayer
+                handleInputChange={handleInputChange}
+                formData={formData}
+                sendForm={handleSendForm}
+                userInfo={userInfo}
+                open={open || !!redirectNotice}
+                preHandleClose={preHandleClose}
+                loginData={loginData || redirectNotice}
+                alertSeverity={redirectNotice ? 'success' : alertSeverity}
+            />}
         </>
     );
 }

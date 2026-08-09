@@ -1,9 +1,6 @@
-import React from 'react';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import CollectionsIcon from '@mui/icons-material/Collections';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import useUpdatePost from '../hooks/useUpdatePost.jsx';
 import { useMediaQuery } from '@mui/material';
 import { CircularProgress } from '@mui/material';
@@ -11,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 export default function PopUpEdit({ token, post, setUpdatePost, type }) {
     const className = useSelector((state) => state.className);
-    const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost, loading } = useUpdatePost({
+    const { postForm, success, handleInputChange, updatePost, updatedPost, loading } = useUpdatePost({
         token, initialForm: {
             id: type === 'post' ? post.postId : post.commentId,
             content: post.content,
@@ -24,7 +21,6 @@ export default function PopUpEdit({ token, post, setUpdatePost, type }) {
 
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
 
     const popUpEditStyles = {
         width: isDesktop ? '35rem' : isTablet ? '60%' : '95%',
@@ -39,11 +35,11 @@ export default function PopUpEdit({ token, post, setUpdatePost, type }) {
     }
 
     useEffect(() => {
-        if (success) {
+        if (success && updatedPost) {
             post.content = updatedPost.content;
             setUpdatePost(false);
         }
-    }, [success])
+    }, [success, post, setUpdatePost, updatedPost])
 
     return (
         <Box className="posting-box-popup">
@@ -110,3 +106,10 @@ export default function PopUpEdit({ token, post, setUpdatePost, type }) {
         </Box>
     )
 }
+
+PopUpEdit.propTypes = {
+    token: PropTypes.string,
+    post: PropTypes.object.isRequired,
+    setUpdatePost: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
+};

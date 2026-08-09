@@ -1,20 +1,21 @@
-// import { handleInputChange, sendForm, state, formData } from './hooks/useForm.jsx'
 import useRegisterForm from '../hooks/useRegisterForm';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Alert, Snackbar } from '@mui/material/'
+import { Button, TextField, Box, useMediaQuery } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { useMediaQuery } from '@mui/material';
 import '../assets/styles.css';
 import '../assets/index.css';
 import { Helmet } from "react-helmet";
 import { useEffect, useState } from 'react';
+import HubIcon from '@mui/icons-material/Hub';
+import { authFieldSx, authPrimaryButtonSx } from '../components/authSx';
+import AuthSnackbar from '../components/AuthSnackbar';
 
 const Register = () => {
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 425px)');
     const navigate = useNavigate();
-    const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, formData } = useRegisterForm({
+    const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, formData, alertSeverity } = useRegisterForm({
         firstName: '',
         lastName: '',
         email: '',
@@ -24,12 +25,6 @@ const Register = () => {
     })
     const [gatheredState, setGatheredState] = useState('');
 
-    if (registryCompletion) {
-        setTimeout(() => {
-            navigate('/');
-        }, 1000 + 3000 * Math.random());
-    }
-
     const preHandleClose = (event, reason) => {
         handleClose(event, reason);
     }
@@ -38,116 +33,152 @@ const Register = () => {
         state ? setGatheredState(state) : setGatheredState('Por favor, Espere...');
     }, [state])
 
+    useEffect(() => {
+        if (!registryCompletion) return;
+        const redirectTimer = setTimeout(() => {
+            navigate('/', { state: { msg: 'Registro exitoso, ahora puedes iniciar sesión.' } });
+        }, 4000);
+        return () => clearTimeout(redirectTimer);
+    }, [registryCompletion, navigate])
+
+    const cardClass = isMobile
+        ? 'auth-card auth-card-mobile'
+        : isTablet
+            ? 'auth-card auth-card-tablet'
+            : 'auth-card auth-card-desktop';
+
     return (
         <>
             <Helmet>
                 <title>Register - Node Network</title>
             </Helmet>
             <div className='register-background'>
-                <div className={isDesktop ? 'register-container' : isTablet ? 'register-container-tablet' : 'register-container-mobile'}>
-                    <h1 className="register-title">Registro Nuevo</h1>
-                    <form className={isDesktop ? 'register-form' : isTablet ? 'register-form-tablet' : 'register-form-mobile'} method="post" action="/register">
+                <div className={cardClass}>
+                    {isDesktop && (
+                        <Box className='auth-brand'>
+                            <Box className='auth-brand-header'>
+                                <Box className='auth-brand-badge'>
+                                    <HubIcon sx={{ fontSize: 34 }} />
+                                </Box>
+                                <Box className='auth-brand-name'>Node Network</Box>
+                            </Box>
+                            <p className='auth-brand-sub'>
+                                Únete a la red, crea tu perfil y empieza a compartir con tu comunidad.
+                            </p>
+                            <ul className='auth-brand-features'>
+                                <li className='auth-brand-feature'>Crea tu perfil público</li>
+                                <li className='auth-brand-feature'>Publica y comparte contenido</li>
+                                <li className='auth-brand-feature'>Conecta con otros usuarios</li>
+                            </ul>
+                        </Box>
+                    )}
 
-                        {/* <input type="text" name="firstName" placeholder="Nombre" required value={formData.firstName} onChange={handleInputChange} />
-                        <input type="text" name="lastName" placeholder="Apellido" required value={formData.lastName} onChange={handleInputChange} />
-                        <br />
-                        <input type="text" name="email" placeholder="Correo" required value={formData.email} onChange={handleInputChange} />
-                        <input type="text" name="username" placeholder="Usuario" required value={formData.username} onChange={handleInputChange} />
-                        <br />
-                        <input type="password" name="password" placeholder="Contraseña" required value={formData.password} onChange={handleInputChange} />
-                        <input type="password" name="pwdConfirmation" placeholder="Confirmación Contraseña" required value={formData.pwdConfirmation} onChange={handleInputChange} />
-                        <button type="submit" onClick={sendForm}> Registro </button> */}
+                    <Box className='auth-panel'>
+                        <Box className='auth-panel-inner'>
+                            <h1 className='register-title'>Crea tu cuenta</h1>
+                            <p className='auth-subtitle'>Únete a Node Network y empieza a conectar</p>
 
-                        <TextField
-                            autoFocus={true}
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Primer Nombre'
-                            size='small'
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            required
-                            value={formData.firstName}
-                            onChange={handleInputChange} />
+                            <form className='register-form' method='post' action='/register'>
+                                <div className='auth-field-grid'>
+                                    <TextField
+                                        autoFocus={true}
+                                        sx={authFieldSx}
+                                        fullWidth
+                                        size='medium'
+                                        type='text'
+                                        id='firstName'
+                                        name='firstName'
+                                        required
+                                        label='Primer Nombre'
+                                        value={formData.firstName}
+                                        onChange={handleInputChange} />
 
-                        <TextField
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Apellidos'
-                            size='small'
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            required
-                            value={formData.lastName}
-                            onChange={handleInputChange} />
+                                    <TextField
+                                        sx={authFieldSx}
+                                        fullWidth
+                                        size='medium'
+                                        type='text'
+                                        id='lastName'
+                                        name='lastName'
+                                        required
+                                        label='Apellidos'
+                                        value={formData.lastName}
+                                        onChange={handleInputChange} />
+                                </div>
 
-                        <TextField
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Nombre de usuario'
-                            size='small'
-                            type="text"
-                            id="username"
-                            name="username"
-                            required
-                            value={formData.username}
-                            onChange={handleInputChange} />
+                                <div className='auth-field-grid'>
+                                    <TextField
+                                        sx={authFieldSx}
+                                        fullWidth
+                                        size='medium'
+                                        type='text'
+                                        id='username'
+                                        name='username'
+                                        required
+                                        label='Nombre de usuario'
+                                        value={formData.username}
+                                        onChange={handleInputChange} />
 
-                        <TextField
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Correo Electronico'
-                            size='small'
-                            type="text"
-                            id="email"
-                            name="email"
-                            required
-                            value={formData.email}
-                            onChange={handleInputChange} />
+                                    <TextField
+                                        sx={authFieldSx}
+                                        fullWidth
+                                        size='medium'
+                                        type='text'
+                                        id='email'
+                                        name='email'
+                                        required
+                                        label='Correo Electronico'
+                                        value={formData.email}
+                                        onChange={handleInputChange} />
+                                </div>
 
-                        <div className='password-field' style={{ display: 'flex' }}>
-                            <TextField
-                                sx={{ mt: 3, width: '100%', ml: 'auto', mr: '1vw' }}
-                                label='Contraseña'
-                                size='small'
-                                type="password"
-                                id="password"
-                                name="password"
-                                required
-                                value={formData.password}
-                                onChange={handleInputChange} />
+                                <div className='password-field'>
+                                    <TextField
+                                        sx={authFieldSx}
+                                        fullWidth
+                                        size='medium'
+                                        type='password'
+                                        id='password'
+                                        name='password'
+                                        required
+                                        label='Contraseña'
+                                        value={formData.password}
+                                        onChange={handleInputChange} />
 
-                            <TextField
-                                sx={{ mt: 3, width: '100%', ml: '1vw', mr: 'auto' }}
-                                label='Confirma la contraseña'
-                                size='small'
-                                type="password"
-                                id="pwdConfirmation"
-                                name="pwdConfirmation"
-                                required
-                                value={formData.pwdConfirmation}
-                                onChange={handleInputChange} />
-                        </div>
+                                    <TextField
+                                        sx={authFieldSx}
+                                        fullWidth
+                                        size='medium'
+                                        type='password'
+                                        id='pwdConfirmation'
+                                        name='pwdConfirmation'
+                                        required
+                                        label='Confirma la contraseña'
+                                        value={formData.pwdConfirmation}
+                                        onChange={handleInputChange} />
+                                </div>
 
-                        <Button
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            onClick={sendForm}
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.username || !formData.password || !formData.pwdConfirmation}
-                        >
-                            Registrar
-                        </Button>
-                    </form>
-                    {/* { state } */}
-                    <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={!state ? 999999 : 5000} onClose={preHandleClose}>
-                        <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
-                            {gatheredState}
-                        </Alert>
-                    </Snackbar>
-                    <p className='mt-5 mb-5'>Ya tienes una cuenta? <Link id="register" to='/'> Inicia sesión </Link></p>
+                                <Button
+                                    sx={{ ...authPrimaryButtonSx, mt: '6px' }}
+                                    fullWidth
+                                    variant='contained'
+                                    color='primary'
+                                    type='submit'
+                                    onClick={sendForm}
+                                    disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.username || !formData.password || !formData.pwdConfirmation}
+                                >
+                                    Registrar
+                                </Button>
+                            </form>
+
+                            <Box className='register-link'>
+                                <p><span className='muted'>¿Ya tienes una cuenta?</span> <Link id='register' to='/'>Inicia sesión</Link></p>
+                            </Box>
+                        </Box>
+                    </Box>
                 </div>
 
+                <AuthSnackbar open={open} message={gatheredState} severity={alertSeverity} pending={!state} onClose={preHandleClose} />
             </div>
         </>
     );

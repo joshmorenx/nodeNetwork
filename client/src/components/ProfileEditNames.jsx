@@ -14,11 +14,11 @@ export default function ProfileEditNames({ user, formUserData, handleInputChange
                 aria-label="Expand"
                 aria-controls="-content"
                 id="-header"
-                sx={{ mt: 1, bgcolor: '#f9f0ce' }}
+                sx={{ mt: 1 }}
             >
                 <Typography>Modificar nombre y apellidos</Typography>
             </AccordionSummary>
-            <AccordionDetails className={className} sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className={className}>
                 <Box>
                     <Box>
                         <Typography>Nombres actuales: {user.firstName}</Typography>

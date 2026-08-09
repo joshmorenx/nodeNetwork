@@ -18,11 +18,11 @@ const commentLike = async (req, res) => {
         if(like) {
             await CommentLikes.findOneAndDelete({ commentId: comment, author: user._id })
 
-            const likes = await CommentLikes.find({ commentId: comment }).lean()
-            const dislikes = await CommentDislikes.find({ commentId: comment }).lean()
+                const likes = await CommentLikes.find({ commentId: comment }).lean()
+                const dislikes = await CommentDislikes.find({ commentId: comment }).lean()
 
-            return res.status(200).json({ success: true, likes: likes.length, dislikes: dislikes.length })
-        } else {
+                return res.status(200).json({ success: true, likes: likes.length, dislikes: dislikes.length, liked: false, disliked: false })
+            } else {
             await CommentDislikes.findOneAndDelete({ commentId: comment, author: user._id })
             await CommentLikes.create({ commentId: comment, author: user._id })
 
@@ -36,7 +36,7 @@ const commentLike = async (req, res) => {
             const likes = await CommentLikes.find({ commentId: comment }).lean()
             const dislikes = await CommentDislikes.find({ commentId: comment }).lean()
 
-            return res.status(200).json({ success: true, likes: likes.length, dislikes: dislikes.length })
+            return res.status(200).json({ success: true, likes: likes.length, dislikes: dislikes.length, liked: true, disliked: false })
         }
     } catch (error) {
         res.json({ error: error })    

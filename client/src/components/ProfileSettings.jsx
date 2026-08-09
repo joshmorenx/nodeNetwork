@@ -75,17 +75,17 @@ export default function ProfileSettings({ token }) {
 
     return (
         <>
-            <Accordion className={className} sx={{ overflowY: 'auto', height: '98%', bgcolor: '#f9f0ce' }} expanded={true} color='primary'>
+            <Accordion className={className + ' dashboard-settings-accordion'} sx={{ overflowY: 'auto', height: '98%' }} expanded={true} color='primary'>
                 <AccordionSummary
                     // expandIcon={<ArrowDropDownIcon />}
                     className={className}
                     aria-controls="panel2-content"
                     id="panel2-header"
-                    sx={{ mt: 1, bgcolor: '#f9f0ce', cursor: 'default!important' }}
+                    sx={{ mt: 1, cursor: 'default!important' }}
                 >
                     <Typography>Modificar detalles de perfil</Typography>
                 </AccordionSummary>
-                <AccordionDetails className={className} sx={{ bgcolor: '#faf1de' }}>
+                <AccordionDetails className={className}>
                     <Box className="avatar-container" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
                         <ProfileEditPicture selectedImage={selectedImage} selectedImageUrl={selectedImageUrl} handleImageChange={handleImageChange} sendRequest={sendRequest} />
                         

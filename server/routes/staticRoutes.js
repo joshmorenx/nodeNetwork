@@ -9,21 +9,21 @@ const staticRoutes = () => {
     router.get('/api/public/uploads/users/:username/profile/profile.jpg', verifyToken, (req, res) => {
         const { username } = req.params;
         // console.log(username);
-        try {
-            res.sendFile(path.resolve(__dirname, '../public/uploads/users', username, 'profile', 'profile.jpg'));
-        } catch (error) {
-            res.status(500).send('Error al obtener la imagen de perfil del usuario');
-        }
+        res.sendFile(path.resolve(__dirname, '../public/uploads/users', username, 'profile', 'profile.jpg'), (err) => {
+            if (err) {
+                res.status(404).send('Imagen de perfil no encontrada');
+            }
+        });
     });
 
     // Ruta para obtener imágenes individuales de la galería (ya está bien configurada)
     router.get('/api/public/uploads/users/:username/gallery/:filename', verifyToken, (req, res) => {
         const { username, filename } = req.params;
-        try {
-            res.sendFile(path.resolve(__dirname, '../public/uploads/users', username, 'gallery', filename));
-        } catch (error) {
-            res.status(500).send('Error al obtener la imagen de la galería');
-        }
+        res.sendFile(path.resolve(__dirname, '../public/uploads/users', username, 'gallery', filename), (err) => {
+            if (err) {
+                res.status(404).send('Imagen de la galería no encontrada');
+            }
+        });
     });
 
     // Nueva ruta para obtener los nombres de los archivos de la galería del usuario

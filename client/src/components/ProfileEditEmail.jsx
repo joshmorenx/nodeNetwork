@@ -13,11 +13,11 @@ export default function ProfileEditEmail({ formUserData, handleInputChange, send
                 aria-label="Expand"
                 aria-controls="-content"
                 id="-header"
-                sx={{ mt: 1, bgcolor: '#f9f0ce' }}
+                sx={{ mt: 1 }}
             >
                 <Typography>Modificar Email</Typography>
             </AccordionSummary>
-            <AccordionDetails className={className} sx={{ bgcolor: '#faf1de' }}>
+            <AccordionDetails className={className}>
 
                 <Box>
                     <Typography>Correo Actual: {user.email}</Typography>

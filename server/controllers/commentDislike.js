@@ -21,7 +21,7 @@ const commentDislike = async (req, res) => {
             const likes = await CommentLikes.find({ commentId: comment }).lean()
             const dislikes = await CommentDislikes.find({ commentId: comment }).lean()
 
-            res.json({ success: true, likes: likes.length, dislikes: dislikes.length })
+            res.json({ success: true, likes: likes.length, dislikes: dislikes.length, liked: false, disliked: false })
         } else {
             await CommentLikes.findOneAndDelete({ commentId: comment, author: user._id })
             await CommentDislikes.create({ commentId: comment, author: user._id })
@@ -36,7 +36,7 @@ const commentDislike = async (req, res) => {
             const likes = await CommentLikes.find({ commentId: comment }).lean()
             const dislikes = await CommentDislikes.find({ commentId: comment }).lean()
 
-            res.json({ success: true, likes: likes.length, dislikes: dislikes.length })
+            res.json({ success: true, likes: likes.length, dislikes: dislikes.length, liked: false, disliked: true })
         }
     } catch (error) {
         res.json({ error: error })

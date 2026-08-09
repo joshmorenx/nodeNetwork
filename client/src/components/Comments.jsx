@@ -3,54 +3,47 @@ import { Box, Button, Avatar, Typography, Stack, Link, Menu, MenuItem } from '@m
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import ReportIcon from '@mui/icons-material/Report';
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import useCommentLikesAndDislikes from '../hooks/useCommentLikesAndDislikes';
-import { useMediaQuery } from '@mui/material';
 import { useSelector } from "react-redux";
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import useDeleteComment from '../hooks/useDeleteComment';
 import PopUpEdit from './PopUpEdit.jsx';
 import useGetProfileImage from '../hooks/useGetProfileImage';
-import Badge from '@mui/material/Badge';
+import { Skeleton } from '@mui/material';
 
 export default function Comments({ comment, token, handleRemoveCommentFromDOM }) {
     const [updatePost, setUpdatePost] = useState(false);
-    const { commentDeleteSuccess, msgDeleteComment, errorDeleteComment, deleteComment, setCommentDeleteSuccess } = useDeleteComment({ token });
+    const { commentDeleteSuccess, deleteComment, setCommentDeleteSuccess } = useDeleteComment({ token });
     const { user } = useGetCurrentUser({ token });
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [formattedDate, setFormattedDate] = useState('');
     const [currentLikes, setCurrentLikes] = useState(0);
     const [currentDislikes, setCurrentDislikes] = useState(0);
-    const { getCommentLikesAndDislikes, setCommentLike, setCommentDislike, likes, dislikes, error, success, setSuccess, msg } = useCommentLikesAndDislikes({ comment, token });
-    const { image, imageError } = useGetProfileImage({ id: comment.username })
-    const isDesktop = useMediaQuery('(min-width: 900px)');
-    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
+    const { getCommentLikesAndDislikes, setCommentLike, setCommentDislike, likes, dislikes, liked: hookLiked, disliked: hookDisliked, success, loading } = useCommentLikesAndDislikes({ comment, token });
+    const { image } = useGetProfileImage({ id: comment.username })
 
     const className = useSelector((state) => state.className);
 
-    const reactionIconStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '5vw'
-    }
-
     const reactionTextStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '2.5vw',
-        marginLeft: '5px'
+        marginLeft: '6px'
     }
 
     const avatarStyles = {
-        width: isDesktop ? '50px' : isTablet ? '50px' : '30px',
-        height: isDesktop ? '50px' : isTablet ? '50px' : '30px'
+        width: '36px',
+        height: '36px'
     }
 
     const userNameStyles = {
-        fontSize: isDesktop ? '20px' : isTablet ? '20px' : '12px'
+        fontSize: '14px',
+        fontWeight: 600
     }
 
     const handleClick = (event) => {
@@ -80,18 +73,20 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
 
     useEffect(() => { // se ejecuta unicamente una vez, al montar el componente
         getCommentLikesAndDislikes();
-    }, [])
+    }, [getCommentLikesAndDislikes])
 
     useEffect(() => {
         if (likes !== undefined) setCurrentLikes(likes);
         if (dislikes !== undefined) setCurrentDislikes(dislikes);
-    }, [likes, dislikes])
+        if (hookLiked !== undefined) setLiked(hookLiked);
+        if (hookDisliked !== undefined) setDisliked(hookDisliked);
+    }, [likes, dislikes, hookLiked, hookDisliked])
 
     useEffect(() => {
         if (success) {
             getCommentLikesAndDislikes();
         }
-    }, [success])
+    }, [success, getCommentLikesAndDislikes])
 
     useEffect(() => {
         if (commentDeleteSuccess) {
@@ -99,17 +94,17 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
             handleRemoveCommentFromDOM(comment.commentId)
             setCommentDeleteSuccess(false)
         }
-    }, [commentDeleteSuccess])  
+    }, [commentDeleteSuccess, comment.commentId, handleRemoveCommentFromDOM, setCommentDeleteSuccess])  
 
     return (
-        <Box id={comment.commentId} className={className} value={comment.commentId} sx={{ display: 'block', alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', padding: '1vw', mb: '1vw' }}>
+        <Box id={comment.commentId} className={`${className} feed-comment`} value={comment.commentId} sx={{ display: 'block', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                        <Avatar sx={avatarStyles}><img src={image} /></Avatar>
+                        <Avatar className="feed-avatar" sx={avatarStyles}><img src={image} /></Avatar>
                         <Typography sx={userNameStyles}> {comment.username} </Typography>
                     </Link>
-                    <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black', borderRadius: '5px', width: 'fit-content' }}> creado el {formattedDate} </Typography>
+                    <Typography className={`feed-comment-date ${className}`} style={reactionTextStyles}> creado el {formattedDate} </Typography>
                 </Box>
                 {user.username === comment.username &&
                     <Box>
@@ -132,7 +127,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
                             onClose={handleClose}
                             slotProps={{
                                 paper: {
-                                    className: { className },
+                                    className: className,
                                 },
                             }}
                         >
@@ -147,23 +142,31 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
                         </Menu>
                     </Box>}
             </Box>
-            <Box sx={{ alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', margin: '8px', padding: '8px' }}>
+            <Box className={`feed-comment-body ${className}`}>
                 <Typography variant="body2"> {comment.content} </Typography>
             </Box>
-            <Stack direction="row" sx={{ display: 'flex', gap: '10vw' }}>
-                <Button onClick={setCommentLike}>
-                    <ThumbUpIcon sx={reactionIconStyles} /> <span className={className} style={reactionTextStyles}> Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentLikes === 0 ? '0' : currentLikes} color="primary"/> </span>
-                </Button>
-                <Button onClick={setCommentDislike}>
-                    <ThumbDownIcon sx={reactionIconStyles} color="error" /> <span className={className} style={reactionTextStyles}> No Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentDislikes > 0 ? currentDislikes : '0'} color="error"/> </span>
-                </Button>
-            </Stack>
+            {loading ? (
+                <Box className="feed-comment-actions">
+                    <Skeleton variant="rounded" width={120} height={34} sx={{ bgcolor: className === 'bgx-black' ? '#2a2a34' : '#e5e7eb' }} />
+                    <Skeleton variant="rounded" width={140} height={34} sx={{ bgcolor: className === 'bgx-black' ? '#2a2a34' : '#e5e7eb' }} />
+                </Box>
+            ) : (
+                <Stack direction="row" className="feed-comment-actions">
+                    <Button className={`feed-reaction-btn like-btn${liked ? ' is-active' : ''}`} onClick={setCommentLike}>
+                        <ThumbUpIcon /> <span className={`${className} feed-reaction-label`} style={reactionTextStyles}> Me Gusta {currentLikes > 0 && <span className="feed-count-pill has-count">{currentLikes}</span>} </span>
+                    </Button>
+                    <Button className={`feed-reaction-btn dislike-btn${disliked ? ' is-active' : ''}`} onClick={setCommentDislike}>
+                        <ThumbDownIcon color="error" /> <span className={`${className} feed-reaction-label`} style={reactionTextStyles}> No Me Gusta {currentDislikes > 0 && <span className="feed-count-pill has-count">{currentDislikes}</span>} </span>
+                    </Button>
+                </Stack>
+            )}
             {updatePost && <PopUpEdit token={token} post={comment} setUpdatePost={setUpdatePost} type={'comment'} />}
         </Box>
     )
 }
 
-PropTypes.propTypes = {
-    comment: PropTypes.object,
-    token: PropTypes.string
+Comments.propTypes = {
+    comment: PropTypes.object.isRequired,
+    token: PropTypes.string,
+    handleRemoveCommentFromDOM: PropTypes.func
 }

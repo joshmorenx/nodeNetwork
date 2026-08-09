@@ -1,7 +1,7 @@
 import PermissionAdd from './PermissionAdd';
 import ListaPermisos from './ListaPermisos';
 import PermissionDeletion from './PermissionDeletion';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material/'
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';

@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState, useRef } from 'react';
-import { Box, Typography } from "@mui/material";
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { Box, Typography, Button } from "@mui/material";
+import { useSelector } from 'react-redux';
 import PostingBox from './PostingBox.jsx';
 import PostedContent from './PostedContent.jsx';
+import FeedSkeleton from './FeedSkeleton.jsx';
 import useGetPosts from "../hooks/useGetPosts.jsx";
-import { CircularProgress } from '@mui/material';
 
-export default function FeedContent({ token, query }) {
+export default function FeedContent({ token, query, onPostsLoaded }) {
     //any changes here must be made also in SpecificFeedContent
-    const { posts, setPosts, error, setError, success, setSuccess, msg, setMsg, loading, setLoading, sendRequest } = useGetPosts({ token });
+    const className = useSelector((state) => state.className);
+    const { posts, setPosts, setError, success, setSuccess, setMsg, loading, setLoading, sendRequest } = useGetPosts({ token });
     const [allPosts, setAllPosts] = useState([]);
     const [loadedPostsCount, setLoadedPostsCount] = useState(5);
     const [totalCount, setTotalCount] = useState(0);
@@ -29,31 +31,39 @@ export default function FeedContent({ token, query }) {
         await setMountComponent(true);
     };
 
+    const loadMorePosts = useCallback(() => {
+        if (loading || loadedPostsCount >= totalCount) return;
+        setLoading(true);
+        setTimeout(() => {
+            setLoadedPostsCount(prevCount => Math.min(prevCount + 5, totalCount));
+            setLoading(false);
+        }, 600);
+    }, [loading, loadedPostsCount, totalCount, setLoading]);
+
     useEffect(() => {
         sendRequest(query);
         setMountComponent(true);
-    }, []);
+    }, [sendRequest, query]);
 
     useEffect(() => {
         mountComponent && sendRequest(query);
-    }, [mountComponent])
+    }, [mountComponent, sendRequest, query])
 
     useEffect(() => {
         if (success) {
             setAllPosts(posts);
             setTotalCount(posts.length);
+            if (onPostsLoaded) {
+                onPostsLoaded(posts);
+            }
         }
-    }, [success, posts]);
+    }, [success, posts, onPostsLoaded]);
 
     useEffect(() => {
         if (!loading && loadedPostsCount < totalCount) {
             observer.current = new IntersectionObserver(entries => {
                 if (entries[0].isIntersecting) {
-                    setLoading(true);
-                    setTimeout(() => {
-                        setLoadedPostsCount(prevCount => Math.min(prevCount + 5, totalCount));
-                        setLoading(false);
-                    }, 1000);
+                    loadMorePosts();
                 }
             });
 
@@ -67,33 +77,37 @@ export default function FeedContent({ token, query }) {
                 observer.current.disconnect();
             }
         };
-    }, [loadedPostsCount, totalCount, loading]);
+    }, [loadedPostsCount, totalCount, loading, loadMorePosts]);
 
     return (
-        mountComponent && <Box>
+        mountComponent && <Box className="feed-content">
             {query ? null : <PostingBox token={token} handleFeedReload={handleFeedReload} />}
             <Box>
-                {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
+                {query && !loading && allPosts.length === 0 && <Typography className={`feed-empty-state ${className}`}>No se encontraron resultados</Typography>}
 
-                {!query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px', alignItems: 'center' }} variant="h3">Aun no hay publicaciones</Typography>}
+                {!query && !loading && allPosts.length === 0 && <Typography className={`feed-empty-state ${className}`}>Aun no hay publicaciones</Typography>}
 
                 {allPosts.length === 0 && loading && (
-                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
-                        <CircularProgress />
-                    </Box>
+                    <FeedSkeleton count={3} />
                 )}
 
                 {allPosts.length > 0 && (
                     <>
                         {allPosts.slice(0, loadedPostsCount).map((post, index) => (
-                            <PostedContent token={token} key={index} post={post} handleFeedReload={handleFeedReload} />
+                            <PostedContent token={token} key={post.postId || index} post={post} handleFeedReload={handleFeedReload} />
                         ))}
                     </>
                 )}
 
                 {allPosts.length > 0 && loadedPostsCount < totalCount && loading && (
-                    <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
-                        <CircularProgress />
+                    <FeedSkeleton count={1} />
+                )}
+
+                {allPosts.length > 0 && loadedPostsCount < totalCount && !loading && (
+                    <Box className="feed-load-more">
+                        <Button className={`feed-load-more-btn ${className}`} onClick={loadMorePosts}>
+                            Cargar más publicaciones
+                        </Button>
                     </Box>
                 )}
                 <div id="loadMoreTrigger" style={{ height: '20px' }}></div>
@@ -104,5 +118,6 @@ export default function FeedContent({ token, query }) {
 
 FeedContent.propTypes = {
     token: PropTypes.string,
-    query: PropTypes.string
+    query: PropTypes.string,
+    onPostsLoaded: PropTypes.func
 };

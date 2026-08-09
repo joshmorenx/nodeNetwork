@@ -2,13 +2,10 @@ import Navbar from "../components/Navbar.jsx";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Typography, Link, Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import useGetCurrentUser from "../hooks/useGetCurrentUser.jsx";
 import { Box } from "@mui/material";
-import useGetSinglePost from "../hooks/useGetSinglePost.jsx";
-import PostedContent from "../components/PostedContent.jsx";
 import { useSelector } from "react-redux";
-import { useMediaQuery } from "@mui/material";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import ImageGallery from "../components/ImageGallery.jsx";
 import { Helmet } from "react-helmet";
@@ -19,9 +16,6 @@ export default function Gallery({ token }) {
     const { user, error } = useGetCurrentUser({ token });
     const className = useSelector((state) => state.className);
     const { sendRequest, userData, success, err } = useGetSpecificUserData({ token, username });
-    const isDesktop = useMediaQuery('(min-width: 900px)');
-    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
 
     useEffect(() => {
         if (!username && user.username) {
@@ -39,8 +33,9 @@ export default function Gallery({ token }) {
                 <title>Gallery - Node Network</title>
             </Helmet>
             <Navbar token={token} />
-            <Typography sx={{color: 'white', fontSize: isDesktop ? '3vw' : isTablet ? '5vw' : '10vw', textAlign: 'center' }}> galería de {username} </Typography>
-            <Box>
+            <Box className={className === 'bgx-black' ? 'bgx-black-semi' : 'bgx-white-semi'} sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }} />
+            <Typography className={`gallery-page-title ${className}`}> galería de {username} </Typography>
+            <Box sx={{ px: { xs: 1, md: 2 } }}>
                 <ImageGallery token={token} username={username} userData={userData} />
             </Box>
         </>

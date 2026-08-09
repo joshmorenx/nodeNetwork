@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
-import { Box, Button, TextField } from "@mui/material";
+import { useState } from 'react';
+import { Box, TextField } from "@mui/material";
+import { useSelector } from 'react-redux';
 import PopUpPostingBox from './PopUpPostingBox.jsx'
 
 export default function PostingBox({ token, handleFeedReload }) {
     const [showPostingBox, setShowPostingBox] = useState(false);
+    const className = useSelector((state) => state.className);
 
     const handleOpenPostingBoxPopUp = () => {
         setShowPostingBox(true)
@@ -19,7 +21,7 @@ export default function PostingBox({ token, handleFeedReload }) {
             <>
                 {showPostingBox && <PopUpPostingBox token={token} handleClosePostingBoxPopUp={handleClosePostingBoxPopUp} handleFeedReload={handleFeedReload} />}
 
-                <Box sx={{ borderRadius: '10px', margin: '20px', display: 'flex', bgcolor: '#EEEEEEEE' }}>
+                <Box className={`feed-composer ${className}`} sx={{ display: 'flex' }}>
                     <TextField
                         size="small"
                         placeholder="Escribe lo que piensas..."
@@ -34,5 +36,6 @@ export default function PostingBox({ token, handleFeedReload }) {
 }
 
 PostingBox.propTypes = {
-    token: PropTypes.string
+    token: PropTypes.string,
+    handleFeedReload: PropTypes.func
 }

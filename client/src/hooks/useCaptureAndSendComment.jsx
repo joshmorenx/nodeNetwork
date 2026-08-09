@@ -8,6 +8,7 @@ export default function useCaptureAndSendComment({ token }) {
     const [successComment, setSuccessComment] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [newCurrentComments, setNewCurrentComments] = useState([]);
+    const [commentSending, setCommentSending] = useState(false);
 
     const handleCapture = (event) => {
         event.preventDefault();
@@ -17,6 +18,7 @@ export default function useCaptureAndSendComment({ token }) {
     const sendComment = async (postId) => {
         // console.log(newComment)
         // console.log(postId)
+        setCommentSending(true);
         await axios.post(`${backendUrl}/api/comment/`, 
             {
                 postId: postId,
@@ -30,10 +32,12 @@ export default function useCaptureAndSendComment({ token }) {
                 setSuccessComment(response.data.success);
                 setMessageComment(response.data.message);
                 setNewCurrentComments(response.data.newCurrentComments);
+                setCommentSending(false);
             }).catch((error)=>{
                 setError(error);
+                setCommentSending(false);
             })
     }
 
-    return { sendComment, handleCapture, newComment, messageComment, errorComment, successComment, setSuccessComment, newCurrentComments };
+    return { sendComment, handleCapture, newComment, messageComment, errorComment, successComment, setSuccessComment, newCurrentComments, commentSending };
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 // import { useState, useEffect } from 'react';
 
 export default function ListaNombres({ nombres, handleSelectedChange }) {

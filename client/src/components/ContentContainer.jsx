@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from "react";
 import PermissionManager from "../components/PermissionManager";
 import ProfileSettings from "../components/ProfileSettings";
-import { useDispatch, useSelector } from 'react-redux';
-import { setClassName } from '../redux/actions';
+import { useSelector } from 'react-redux';
 
 export default function ContentContainer({ token, allAccess, selectedSection, id }) {
     const [choosenSection, setChoosenSection] = useState('');

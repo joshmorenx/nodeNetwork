@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material/'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 
 export default function ListaPermisos({ permissionDetails, handleSelectedChange, delBtnClicked, sendRequestedPermissions, succeed, setSucceed, gatherSelectedValue }) {
     const [selectedValue, setSelectedValue] = useState('');

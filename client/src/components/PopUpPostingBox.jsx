@@ -2,18 +2,24 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Box, Button, Input, Link, TextField, Typography } from "@mui/material";
+import TagIcon from '@mui/icons-material/Tag';
+import { Box, Button, IconButton, TextField, Typography, Avatar } from "@mui/material";
 import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
+import useGetCurrentUser from '../hooks/useGetCurrentUser.jsx';
+import useGetProfileImage from '../hooks/useGetProfileImage';
 import { useMediaQuery } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 
+const EMOJI_QUICK_PICKS = ['😀', '😂', '😍', '🔥', '👍', '🎉', '❤️', '😎', '🙌', '💯'];
+
+const HASHTAG_SUGGESTIONS = ['#programacion', '#react', '#node', '#javascript', '#web', '#musica', '#deporte', '#gaming'];
+
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, handleFeedReload }) {
     const [selectedImageFile, setSelectedImageFile] = useState(null); // Default image file
     const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Default image URL
-    const [imageOver, setImageOver] = useState(false);
-    const { sendRequest, msg, error, success, handleInputChange, postForm, loading } = useCreateNewPost({
+    const { sendRequest, success, handleInputChange, postForm, loading } = useCreateNewPost({
         token, initialForm: {
             content: '',
             latitude: '',
@@ -21,33 +27,10 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
             image: null
         }
     })
+    const { user } = useGetCurrentUser({ token });
+    const { image } = useGetProfileImage({ id: user.username });
     const className = useSelector((state) => state.className);
     const isDesktop = useMediaQuery('(min-width: 900px)');
-    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
-
-    const reactionTextStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '2.5vw',
-        marginLeft: '5px'
-    }
-
-    const popUpEditStyles = {
-        width: isDesktop ? '35rem' : isTablet ? '60%' : '95%',
-        borderRadius: '5px',
-        padding: '0.5%',
-        bgcolor: '#fadea7',
-        position: 'fixed',
-        top: '40%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 1002
-    }
-
-    const handleKeyPress = (event) => {
-        if (event.key === 'Escape') {
-            handleClosePostingBoxPopUp()
-        }
-    }
 
     const getGeoLocation = () => {
         if (navigator.geolocation) {
@@ -77,93 +60,139 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
         setSelectedImageUrl(null)
     }
 
+    const appendToContent = (text) => {
+        const current = postForm.content || '';
+        const separator = current.length > 0 && !current.endsWith(' ') ? ' ' : '';
+        handleInputChange({ target: { name: 'content', value: current + separator + text } });
+    }
+
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyPress)
-    }, [])
+        const onKey = (event) => {
+            if (event.key === 'Escape') {
+                handleClosePostingBoxPopUp()
+            }
+            if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && postForm.content && !loading) {
+                sendRequest(selectedImageFile)
+            }
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [handleClosePostingBoxPopUp, postForm.content, loading, selectedImageFile, sendRequest])
 
     useEffect(() => {
         if (success) {
             handleClosePostingBoxPopUp()
             handleFeedReload()
         }
-    }, [success])
+    }, [success, handleClosePostingBoxPopUp, handleFeedReload])
 
 
     return (
         <Box className="posting-box-popup">
-            <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001, bgcolor: '#00000099' }} onClick={handleClosePostingBoxPopUp}></Box>
-            <Box className={className} sx={popUpEditStyles}>
+            <Box className="composer-backdrop" onClick={handleClosePostingBoxPopUp}></Box>
+            <Box className={`composer-modal ${className}`}>
 
-                <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant={isDesktop ? 'h4' : isTablet ? 'h6' : 'h7'} sx={{ fontWeight: 'bold' }} align='center' >Crear una publicación</Typography>
+                <Box className="composer-header">
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <Avatar className="feed-avatar" src={image}>
+                            {user.username ? user.username.charAt(0).toUpperCase() : ''}
+                        </Avatar>
+                        <Box>
+                            <Typography className="composer-title">Crear una publicación</Typography>
+                            {user.username && <Typography className="composer-subtitle">Publicando como @{user.username}</Typography>}
+                        </Box>
+                    </Box>
+                    <IconButton
+                        aria-label="Cerrar"
+                        className="composer-close-btn"
+                        onClick={handleClosePostingBoxPopUp}
+                    >
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
                 </Box>
 
-                <Box sx={{ mr: 0, mb: 0, ml: 0 }}>
+                <Box className="composer-body">
                     <TextField
-                        className='bgx-white'
+                        className={`composer-textarea ${className}`}
                         multiline
-                        variant="filled"
-                        size="small"
-                        label="Escribe lo que piensas..."
+                        variant="outlined"
+                        size="medium"
+                        placeholder="¿Qué está pasando? Escribe y usa #hashtags..."
                         sx={{ width: '100%' }}
-                        rows={isDesktop ? 10 : isTablet ? 9 : 6}
+                        rows={isDesktop ? 7 : 6}
                         onChange={handleInputChange}
                         value={postForm.content}
                         id="content"
                         name="content"
-                        inputProps={{ autoFocus: true }}
+                        inputProps={{ autoFocus: true, maxLength: 500 }}
                         required
                     />
-                </Box>
+                    <Box className="composer-counter">{postForm.content ? postForm.content.length : 0}/500</Box>
 
-                <Box sx={{ display: 'none', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
-                    <TextField
-                        type='number'
-                        name="latitude"
-                        id="latitude"
-                        label="Latitud"
-                        onChange={handleInputChange}
-                        value={postForm.latitude}
-                    />
+                    <Box className="composer-emoji-row">
+                        {EMOJI_QUICK_PICKS.map(emoji => (
+                            <Button key={emoji} className="composer-emoji-btn" onClick={() => appendToContent(emoji)} aria-label={`Insertar ${emoji}`}>
+                                {emoji}
+                            </Button>
+                        ))}
+                    </Box>
 
-                    <TextField
-                        type='number'
-                        name="longitude"
-                        id="longitude"
-                        label="Longitud"
-                        onChange={handleInputChange}
-                        value={postForm.longitude}
-                    />
-
-                </Box>
-                <Box>
-                    <input style={{ display: 'none' }} id='imagefile' type='file' onChange={handleImageChange} accept=".jpg, .jpeg, .png, .jfif, .raw" />
-                    {selectedImageUrl && (
-                        <Box sx={{ display: 'inline-flex', alignItems: 'top', mt: 2, width: '100%', border: '1px solid gray' }}>
-                            <CloseIcon onClick={clearInput} sx={{ bgcolor: 'red', cursor: 'pointer' }} />
-                            <img src={selectedImageUrl} style={{ width: '10%', height: 'auto' }} />
+                    <Box className="composer-hashtags">
+                        <Box className="composer-hashtag-title">
+                            <TagIcon fontSize="small" />
+                            <Typography>Hashtags populares</Typography>
                         </Box>
-                    )}
-                </Box>
+                        <Box className="composer-hashtag-chips">
+                            {HASHTAG_SUGGESTIONS.map(tag => (
+                                <Button key={tag} className={`composer-hashtag-chip ${className}`} onClick={() => appendToContent(tag)}>
+                                    {tag}
+                                </Button>
+                            ))}
+                        </Box>
+                    </Box>
 
-                <Box sx={{ display: 'inline-flex', justifyContent: 'center', mt: 2, width: '100%' }}>
+                    <Box>
+                        <input style={{ display: 'none' }} id='imagefile' type='file' onChange={handleImageChange} accept=".jpg, .jpeg, .png, .jfif, .raw" />
+                        {selectedImageUrl && (
+                            <Box className="composer-preview">
+                                <img src={selectedImageUrl} alt="Vista previa" />
+                                <Box className="composer-preview-name">
+                                    {selectedImageFile ? selectedImageFile.name : 'Imagen adjunta'}
+                                </Box>
+                                <Button
+                                    size="small"
+                                    variant="outlined"
+                                    className="composer-preview-remove"
+                                    onClick={clearInput}
+                                >
+                                    Quitar
+                                </Button>
+                            </Box>
+                        )}
+                    </Box>
 
-                    <Link onClick={openFileSelector} sx={{ color: 'blueviolet', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon fontSize='small' /> {
-                        !selectedImageFile ? 'Añadir una imagen' : 'imagen añadida'} </Link>
-
-                    <Link onClick={getGeoLocation} sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación </Link>
-
-                </Box>
-
-                <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
-                    {!postForm.content ?
-                        <Button size="small" fullWidth>
-                            Publicar
-                        </Button> :
-                        <Button disabled={loading} sx={{ color: 'white' }} onClick={() => sendRequest(selectedImageFile)} variant="contained" size="small" fullWidth>
-                            {!loading ? 'Publicar' : <CircularProgress size={'3vw'} sx={{ color: 'white' }} />}
+                    <Box className="composer-actions">
+                        <Button className="composer-action-btn" onClick={openFileSelector} startIcon={<CollectionsIcon />}>
+                            {!selectedImageFile ? 'Añadir una imagen' : 'Cambiar imagen'}
                         </Button>
-                    }
+
+                        <Button className="composer-action-btn" onClick={getGeoLocation} startIcon={<LocationOnIcon />}>
+                            Añadir una ubicación
+                        </Button>
+                    </Box>
+
+                    <Button
+                        className="composer-publish"
+                        disabled={!postForm.content || loading}
+                        onClick={() => sendRequest(selectedImageFile)}
+                        variant="contained"
+                    >
+                        {!loading ? 'Publicar' : <CircularProgress size={22} sx={{ color: 'white' }} />}
+                    </Button>
+
+                    <Box className="composer-hint">
+                        Consejo: pulsa <strong>Ctrl + Enter</strong> para publicar más rápido
+                    </Box>
                 </Box>
 
             </Box>
@@ -173,5 +202,6 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
 
 PopUpPostingBox.propTypes = {
     token: PropTypes.string,
-    handleClosePostingBoxPopUp: PropTypes.func
+    handleClosePostingBoxPopUp: PropTypes.func,
+    handleFeedReload: PropTypes.func
 }
