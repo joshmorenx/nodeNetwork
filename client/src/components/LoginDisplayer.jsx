@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Button, TextField, Box, IconButton, useMediaQuery } from '@mui/material';
+import { Button, TextField, Box, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import HubIcon from '@mui/icons-material/Hub';
-import { authFieldSx, authPrimaryButtonSx } from './authSx';
 import AuthSnackbar from './AuthSnackbar';
 
 export default function LoginDisplayer({ handleInputChange, formData, sendForm, userInfo, open, preHandleClose, loginData, alertSeverity }) {
@@ -17,8 +15,6 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
     useEffect(() => {
         loginData ? setGatheredLoginData(loginData) : setGatheredLoginData('Por favor, Espere...');
     }, [loginData])
-
-    const cardClass = isDesktop ? 'auth-card auth-card-desktop' : isTablet ? 'auth-card auth-card-tablet' : 'auth-card auth-card-mobile';
 
     return (
         <Box className='login-background'>
@@ -78,12 +74,13 @@ export default function LoginDisplayer({ handleInputChange, formData, sendForm, 
                 </Box>
 
             </Box>
-            {/* <Box className="login-message">{loginData}</Box> */}
-            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={!loginData ? 999999 : 5000} onClose={preHandleClose}>
-                <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
-                    {gatheredLoginData}
-                </Alert>
-            </Snackbar>
+            <AuthSnackbar
+                open={open}
+                message={gatheredLoginData}
+                severity={alertSeverity}
+                pending={!loginData}
+                onClose={preHandleClose}
+            />
         </Box>
     )
 }
