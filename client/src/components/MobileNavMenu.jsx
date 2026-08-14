@@ -8,6 +8,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import SettingsIcon from '@mui/icons-material/Settings'
 import ThreePIcon from '@mui/icons-material/ThreeP'
 import HowToRegIcon from '@mui/icons-material/HowToReg'
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble'
 import LogoutIcon from '@mui/icons-material/Logout'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import { setClassName } from '../redux/actions'
@@ -104,7 +105,7 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
                     <Box sx={{ pl: '8vw' }}>
                         <ol className="mobile-menu-list">
                             <li>
-                                <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} />
+                                <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} token={token} />
                             </li>
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={closeMenu} href="/"><FeedIcon /> Feed </Link></Typography>
@@ -120,6 +121,9 @@ export default function MobileNavMenu({ token, handleInputChange, encodedQuery, 
                             </li>
                             <li>
                                 <Typography><Link sx={linkStyles} onClick={closeMenu} href={`/follows/${user.username}#following`}><HowToRegIcon /> Siguiendo </Link></Typography>
+                            </li>
+                            <li>
+                                <Typography><Link sx={linkStyles} onClick={closeMenu} href="/chat"><ChatBubbleIcon /> Mensajes </Link></Typography>
                             </li>
                             <li>
                                 <Typography sx={linkStyles}><DarkModeIcon /> Modo oscuro

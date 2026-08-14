@@ -1,27 +1,35 @@
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Link } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useMediaQuery } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { createPortal } from 'react-dom';
 
 export default function ImageViewer({ image, setImgClickedPath }) {
     const [img, setImg] = useState(null)
-    const isDesktop = useMediaQuery('(min-width: 900px)');
-    const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 423vw)');
-    const className = useSelector((state) => state.className);
 
     useEffect(() => {
         setImg(image)
     }, [image])
+
+    // Bloquear el scroll de la página mientras el visor está abierto
+    useEffect(() => {
+        if (img) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+        return () => {
+            document.body.style.overflow = ''
+        }
+    }, [img])
 
     const handleClose = () => {
         setImg(null)
         setImgClickedPath(null)
     }
 
-    //addeventlistener to ESC key to onClick={handleClose}
+    // Cerrar con la tecla ESC
     const handleKeyPress = (event) => {
         if (event.key === 'Escape') {
             handleClose()
@@ -32,64 +40,32 @@ export default function ImageViewer({ image, setImgClickedPath }) {
         document.addEventListener('keydown', handleKeyPress)
     }, [])
 
+    // Render at document.body level so no parent stacking context can
+    // trap the viewer below other overlays; its z-index then competes globally
     return (
-        (img ?
-            (<>
-                <Box
-                    sx={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        zIndex: 1000,
-                        bgcolor: '#00000099'
-                    }}
-                    onClick={handleClose}
-                >
+        img && createPortal(
+            <>
+                <Box className="feed-image-viewer-backdrop" onClick={handleClose} />
+                <Box className="feed-image-viewer">
+                    <Box className="feed-image-viewer-close" onClick={handleClose} role="button" aria-label="Cerrar imagen">
+                        <CloseIcon />
+                    </Box>
+                    <img className="feed-image-viewer-img" src={img} alt="" />
+                    <a
+                        className="feed-image-viewer-open"
+                        href={img}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <OpenInNewIcon fontSize="small" />
+                        <span>Ver original</span>
+                    </a>
                 </Box>
-
-                <Box
-                    className={className}
-                    sx={{
-                        width: isDesktop ? '35rem' : isTablet ? '60%' : '95%',
-                        borderRadius: '5px',
-                        padding: '2%',
-                        position: 'fixed',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        zIndex: 1001
-                    }}
-                >
-
-                    <Link
-                        onClick={handleClose}
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
-                            bottom: '100%',
-                            cursor: 'pointer',
-                            zIndex: 102
-                        }} href="#">
-                        <CloseIcon color='error' />
-                    </Link>
-
-                    <img
-                        src={img}
-                        alt=""
-                        style={{
-                            width: '100%'
-                        }}
-                    />
-                </Box>
-            </>)
-            : null)
+            </>,
+            document.body
+        )
     )
 }
-
-// not really needed but just because proptypes is telling me to put this
 
 ImageViewer.propTypes = {
     image: PropTypes.string,

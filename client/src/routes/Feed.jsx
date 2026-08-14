@@ -73,11 +73,11 @@ export default function Feed({ token }) {
 
                         {/* Contenedor para los elementos fijos (Eventos) */}
                         <Box className={isDesktop && 'slideInLeft'} visibility={isDesktop ? 'visible' : 'hidden'} sx={leftSectionStyles}>
-                            <Box className={className} style={{ width: '100%', height: '100%', padding: '40px', borderRadius: '10px', boxShadow: '0px 5px 5px black' }}>
+                            <Box className={`feed-sidebar ${className}`} style={{ width: '100%', height: '100%', padding: '40px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Stack direction="row" spacing={2}>
                                         {user.username ? (
-                                            <Link href={`/profile/${user.username}`} sx={usernameLinkStyles[0]}>
+                                            <Link href={`/profile/${user.username}`} className="feed-sidebar-link" sx={usernameLinkStyles[0]}>
                                                 <Avatar> {user.username.charAt(0).toUpperCase()}</Avatar>
                                                 <Typography sx={usernameLinkStyles[1]}>{user.username}</Typography>
                                             </Link>
@@ -86,7 +86,7 @@ export default function Feed({ token }) {
                                 </Box>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
-                                        <Link href={`/follows/${user.username}#followers`} sx={usernameLinkStyles[0]}>
+                                        <Link href={`/follows/${user.username}#followers`} className="feed-sidebar-link" sx={usernameLinkStyles[0]}>
                                             <ThreePIcon sx={usernameLinkStyles[1]} />
                                             <Typography sx={usernameLinkStyles[1]}>Seguidores</Typography>
                                         </Link>
@@ -94,7 +94,7 @@ export default function Feed({ token }) {
                                 </Box>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: '10px' }}>
                                     <Stack direction="row" spacing={2}>
-                                        <Link href={`/follows/${user.username}#following`} sx={usernameLinkStyles[0]}>
+                                        <Link href={`/follows/${user.username}#following`} className="feed-sidebar-link" sx={usernameLinkStyles[0]}>
                                             <HowToRegIcon sx={usernameLinkStyles[1]} />
                                             <Typography sx={usernameLinkStyles[1]}>Siguiendo</Typography>
                                         </Link>
@@ -110,23 +110,23 @@ export default function Feed({ token }) {
 
                         {/* Contenedor para los elementos fijos (usuarios mas recientes) */}
                         <Box className={isDesktop && 'slideInRight'} visibility={isDesktop ? 'visible' : 'hidden'} sx={rightSectionStyles}>
-                            <Box className={className} style={{ width: '100%', height: '100%', padding: '15px', borderRadius: '10px', boxShadow: '0px 5px 5px black' }}>
+                            <Box className={`feed-sidebar ${className}`} style={{ width: '100%', height: '100%', padding: '15px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '10px' }}>Usuarios recien registrados</Typography>
+                                    <Typography className="feed-sidebar-title" sx={{ fontSize: '1.3vw', mt: '10px' }}>Usuarios recien registrados</Typography>
                                 </Box>
                                 {
                                     nombres.map((nombre, index) => {
                                         return (
-                                            <Link href={`/profile/${nombre}/`} key={index} sx={usernameLinkStyles[0]}>
+                                            <Link href={`/profile/${nombre}/`} className="feed-sidebar-link" key={index} sx={usernameLinkStyles[0]}>
                                                 <Avatar>{nombre.charAt(0)}</Avatar><Typography sx={usernameLinkStyles[1]}>{nombre}</Typography>
                                             </Link>
                                         )
                                     })
                                 }
                             </Box>
-                            <Box className={className} style={{ width: '100%', height: '100%', padding: '15px', borderRadius: '10px', boxShadow: '0px 5px 5px black', marginTop: '15px' }}>
+                            <Box className={`feed-sidebar ${className}`} style={{ width: '100%', height: '100%', padding: '15px', marginTop: '15px' }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Typography sx={{ fontSize: '1.3vw', color: className === 'bgx-black' ? 'white' : 'black', mt: '0' }}>Publicidad</Typography>
+                                    <Typography className="feed-sidebar-title" sx={{ fontSize: '1.3vw', mt: '0' }}>Publicidad</Typography>
                                 </Box>
                                 <Link href="https://picsum.photos/id/237/500/500"><img src={`https://picsum.photos/id/237/500/500`} alt="anuncio" style={{ width: '100%', height: '100%' }} /></Link>
                             </Box>

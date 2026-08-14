@@ -8,6 +8,7 @@ const useLoginForm = (initialForm = {}) => {
     const [tokenState, setToken] = useState('')
     const [userInfo, setUserInfo] = useState('')
     const [open, setOpen] = useState(false);
+    const [isError, setIsError] = useState(false);
 
 
     const handleInputChange = (event) => {
@@ -27,8 +28,10 @@ const useLoginForm = (initialForm = {}) => {
                 setLoginData(response.data.msg)
                 setToken(response.data.token)
                 setUserInfo(response.data.user)
+                setIsError(false)
             }).catch(error => {
                 setLoginData(error.response.data.error);
+                setIsError(true)
             });
     };
 
@@ -47,7 +50,8 @@ const useLoginForm = (initialForm = {}) => {
         formData,
         tokenState,
         userInfo,
-        open
+        open,
+        isError
     }
 }
 
