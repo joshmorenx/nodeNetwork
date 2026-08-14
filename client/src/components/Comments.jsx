@@ -102,14 +102,14 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
     }, [commentDeleteSuccess])  
 
     return (
-        <Box id={comment.commentId} className={className} value={comment.commentId} sx={{ display: 'block', alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', padding: '1vw', mb: '1vw' }}>
+        <Box id={comment.commentId} className={`feed-comment-card ${className}`} value={comment.commentId} sx={{ display: 'block', alignItems: 'center', padding: '1vw' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <Link sx={{ display: 'flex', alignItems: 'center', gap: '10px' }} href={`/profile/${comment.username}`} style={{ textDecoration: 'none', cursor: 'pointer' }}>
-                        <Avatar sx={avatarStyles}><img src={image} /></Avatar>
+                        <Avatar className="feed-avatar" sx={avatarStyles}><img src={image} /></Avatar>
                         <Typography sx={userNameStyles}> {comment.username} </Typography>
                     </Link>
-                    <Typography style={reactionTextStyles} sx={{ ml: '10px', border: '1px solid grey', padding: '5px', color: 'white', bgcolor: 'black', borderRadius: '5px', width: 'fit-content' }}> creado el {formattedDate} </Typography>
+                    <Typography className="feed-date-chip" style={reactionTextStyles} sx={{ ml: '10px', width: 'fit-content' }}> creado el {formattedDate} </Typography>
                 </Box>
                 {user.username === comment.username &&
                     <Box>

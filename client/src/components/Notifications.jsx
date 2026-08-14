@@ -44,6 +44,8 @@ export default function Notifications({ token, newTheme }) {
         } else if (['follow'].includes(notification.reason)) {
             // window.location.replace(`https://node-network-chi.vercel.app/profile/${notification.followerUsername}`)
             navigate(`/profile/${notification.followerUsername}`)
+        } else if (['message'].includes(notification.reason)) {
+            navigate(`/chat/${notification.followerUsername}`)
         }
     }
 

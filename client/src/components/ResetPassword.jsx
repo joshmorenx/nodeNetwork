@@ -1,13 +1,19 @@
-import { Box, Typography, useMediaQuery, TextField, Button, Alert, Snackbar } from "@mui/material";
+import { Box, TextField, Button, Alert, Snackbar } from "@mui/material";
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types';
 import { useSetNewPassword } from '../hooks/useSetNewPassword.jsx'
 import { useNavigate } from "react-router";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-export default function ResetPassword({ token, decodedToken, isDesktop, isTablet, isMobile }) {
+export default function ResetPassword({ token, decodedToken }) {
     const navigate = useNavigate()
     const [oddPasswords, setOddPasswords] = useState(true)
     const [idleState, setIdleState] = useState(true)
-    const { setNewPassword, formData, handleInputChange, loading, success, error, msg, state, open, handleClose } = useSetNewPassword({ resetForm: { password: '', passwordConfirmation: '' } })
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmation, setShowConfirmation] = useState(false)
+    const { setNewPassword, formData, handleInputChange, success, state, open, handleClose } = useSetNewPassword({ resetForm: { password: '', passwordConfirmation: '' } })
 
     const preHandleClose = (event, reason) => {
         handleClose(event, reason);
@@ -31,38 +37,63 @@ export default function ResetPassword({ token, decodedToken, isDesktop, isTablet
     return (
         <>
             {idleState ? <Box>
-                <Typography sx={{ mt: 3, fontSize: isDesktop ? 20 : (isTablet ? 15 : 10) }}>
-                    hola {decodedToken.username}! por favor, ingresa tu nueva contraseña.
-                </Typography>
+                <h1 className="login-title">Nueva contraseña</h1>
+                <p className="login-subtitle">hola {decodedToken.username}! por favor, ingresa tu nueva contraseña.</p>
                 <TextField
-                    label="Contraseña"
-                    sx={{ mt: 3, mb: 1, width: '100%', ml: 'auto', mr: 'auto' }}
-                    size='small'
-                    type="password"
+                    label="Contraseña"
+                    sx={{ mb: 2 }}
+                    fullWidth
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
+                    InputProps={{
+                        startAdornment: (<LockOutlinedIcon className="login-field-icon" />),
+                        endAdornment: (
+                            <Button
+                                className="login-toggle-button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                            >
+                                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                            </Button>
+                        )
+                    }}
                 />
 
                 <TextField
-                    label="Confirmar contraseña"
-                    sx={{ mt: 3, mb: 1, width: '100%', ml: 'auto', mr: 'auto' }}
-                    size='small'
-                    type="password"
+                    label="Confirmar contraseña"
+                    sx={{ mb: 1 }}
+                    fullWidth
+                    type={showConfirmation ? "text" : "password"}
                     id="passwordConfirmation"
                     name="passwordConfirmation"
                     value={formData.passwordConfirmation}
                     onChange={handleInputChange}
+                    InputProps={{
+                        startAdornment: (<LockOutlinedIcon className="login-field-icon" />),
+                        endAdornment: (
+                            <Button
+                                className="login-toggle-button"
+                                onClick={() => setShowConfirmation(!showConfirmation)}
+                                aria-label={showConfirmation ? "Ocultar confirmación" : "Mostrar confirmación"}
+                            >
+                                {showConfirmation ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                            </Button>
+                        )
+                    }}
                 />
 
                 <Button
-                    sx={{ mt: 3, mb: 3, width: '100%', ml: 'auto', mr: 'auto' }}
+                    className="login-submit-button"
+                    sx={{ mt: 2.5, mb: 0.5 }}
+                    fullWidth
                     variant="contained"
                     disabled={oddPasswords}
                     onClick={(event) => { setNewPassword(event, token, decodedToken.username, formData.password, formData.passwordConfirmation) }}
                 >
-                    Cambiar contraseña
+                    Cambiar contraseña
                 </Button>
                 <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={5000} onClose={preHandleClose}>
                     <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
@@ -71,14 +102,20 @@ export default function ResetPassword({ token, decodedToken, isDesktop, isTablet
                 </Snackbar>
             </Box> :
                 <Box>
-                    <Typography sx={{ mt: 3, fontSize: isDesktop ? 20 : (isTablet ? 15 : 10) }}>
-                        Tu contraseña fue actualizada con exito, ahora puedes iniciar sesion.
-                    </Typography>
-                    <Button onClick={()=>{navigate('/')}}>
+                    <h1 className="login-title">¡Contraseña actualizada!</h1>
+                    <p className="login-subtitle">Tu contraseña fue actualizada con exito, ahora puedes iniciar sesion.</p>
+                    <Button className="login-submit-button" fullWidth variant="contained" color="primary" onClick={() => { navigate('/') }}>
                         Iniciar sesion
                     </Button>
                 </Box>
             }
         </>
     )
+}
+
+ResetPassword.propTypes = {
+    token: PropTypes.string.isRequired,
+    decodedToken: PropTypes.shape({
+        username: PropTypes.string
+    }).isRequired
 }

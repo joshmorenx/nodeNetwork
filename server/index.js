@@ -18,6 +18,7 @@ const permissionRoutes = require("./routes/permissionRoutes.js");
 const staticRoutes = require("./routes/staticRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
 const relationshipRoutes = require("./routes/relationshipRoutes.js");
+const messageRoutes = require("./routes/messageRoutes.js");
 const recoveryRoutes = require("./routes/recoveryRoutes.js");
 
 const app = express();
@@ -111,6 +112,7 @@ app.use("/", permissionRoutes());
 app.use("/", staticRoutes());
 app.use("/", postRoutes(upload));
 app.use("/", relationshipRoutes());
+app.use("/", messageRoutes(io));
 
 // Middleware para manejar errores
 app.use((err, req, res, next) => {
@@ -124,12 +126,6 @@ io.on('connection', (socket) => {
     // Escuchar el nombre de usuario que el cliente envía
     socket.on('username', async (username) => {
 
-        if (username) {
-            const user = await User.findOne({ username: username });
-            const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
-            socket.emit("notifications", notifications)
-        }
-
         try {
             // Buscar el ID del usuario en la base de datos usando el nombre de usuario
             const user = await User.findOne({ username })
@@ -139,6 +135,14 @@ io.on('connection', (socket) => {
             }
 
             const userId = user._id;
+
+            // Unir al socket a la sala del usuario para recibir mensajes privados en tiempo real
+            socket.join(`user:${user._id.toString()}`);
+
+            if (username) {
+                const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
+                socket.emit("notifications", notifications)
+            }
 
             // Pipeline para filtrar las notificaciones por el ID de usuario y no mostrar las notificaciones de otros usuarios dentro de las notificaciones de otro usuario
             const pipeline = [

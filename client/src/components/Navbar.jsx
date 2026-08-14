@@ -15,6 +15,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import useLogout from '../hooks/useLogout'
 import useGetCurrentUser from '../hooks/useGetCurrentUser'
 import HomeIcon from '@mui/icons-material/Home';
+import MessageIcon from '@mui/icons-material/Message';
 import MobileNavMenu from './MobileNavMenu.jsx';
 import Switch from '@mui/material/Switch';
 import useHandleTheme from '../hooks/useHandleTheme.jsx/';
@@ -129,7 +130,7 @@ export default function Navbar({ token }) {
                                 </Button>
                             </Box>
 
-                            <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} />
+                            <Search handleInputChange={handleInputChange} encodedQuery={encodedQuery} token={token} />
 
                             <Box sx={{ display: 'flex', alignItems: 'center' }} className="notification-section">
                                 <Box>
@@ -141,9 +142,9 @@ export default function Navbar({ token }) {
                                 <Button onClick={gotoFeed}>
                                     <HomeIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }} />
                                 </Button>
-                                {/* <Button>
-                            <MessageIcon sx={{ color: newTheme === 'dark' ? 'white':'black' }}></MessageIcon> // pending
-                        </Button> */}
+                                <Button onClick={() => navigate('/chat')}>
+                                    <MessageIcon sx={{ color: newTheme === 'dark' ? 'white' : 'black' }} />
+                                </Button>
                                 
                                 <Notifications token={token} newTheme={newTheme} />
 

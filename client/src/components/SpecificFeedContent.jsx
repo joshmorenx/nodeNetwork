@@ -71,11 +71,11 @@ export default function SpecificFeedContent({ token, username, currentUsername, 
 
     return (
         mountComponent && <Box>
-            {currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography variant="h5" sx={{ textAlign: 'center', mt: 2, color: 'white' }}> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
+            {currentUsername === username ? <PostingBox token={token} handleFeedReload={handleFeedReload} /> : <Typography className="feed-profile-heading" variant="h5"> Publicaciones hechas por el usuario <span style={{ fontWeight: 'bold' }}>{username}</span> </Typography>}
             <Box>
-                {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
+                {query && !loading && allPosts.length === 0 && <Typography className="feed-empty-message" variant="h5">No se encontraron publicaciones</Typography>}
 
-                {!query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px', alignItems: 'center' }} variant="h3">Aun no hay publicaciones</Typography>}
+                {!query && !loading && allPosts.length === 0 && <Typography className="feed-empty-message" variant="h5">Aun no hay publicaciones</Typography>}
 
                 {allPosts.length === 0 && loading && (
                     <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>

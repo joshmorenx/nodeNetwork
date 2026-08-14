@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet";
 
 export default function Login(){
     const cookieToken = Cookies.get('token');
-    const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, formData } = useLoginForm({
+    const { handleInputChange, sendForm, handleClose, loginData, tokenState, userInfo, open, formData, isError } = useLoginForm({
         username: '',
         password: '',
     });
@@ -41,7 +41,7 @@ export default function Login(){
             <Helmet>
                 <title>Login - Node Network</title>
             </Helmet>
-            {!cookieToken && <LoginDisplayer handleInputChange={handleInputChange} formData={formData} sendForm={sendForm} userInfo={userInfo} open={open} preHandleClose={preHandleClose} loginData={loginData} />}
+            {!cookieToken && <LoginDisplayer handleInputChange={handleInputChange} formData={formData} sendForm={sendForm} userInfo={userInfo} open={open} preHandleClose={preHandleClose} loginData={loginData} isError={isError} />}
         </>
     );
 }

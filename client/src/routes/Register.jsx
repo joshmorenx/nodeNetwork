@@ -1,9 +1,17 @@
 // import { handleInputChange, sendForm, state, formData } from './hooks/useForm.jsx'
 import useRegisterForm from '../hooks/useRegisterForm';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Alert, Snackbar } from '@mui/material/'
+import { Button, TextField, Alert, Snackbar, Box } from '@mui/material/'
 import { Link } from 'react-router-dom'
 import { useMediaQuery } from '@mui/material';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import AuthBrand from '../components/AuthBrand';
 import '../assets/styles.css';
 import '../assets/index.css';
 import { Helmet } from "react-helmet";
@@ -12,7 +20,6 @@ import { useEffect, useState } from 'react';
 const Register = () => {
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
-    const isMobile = useMediaQuery('(max-width: 425px)');
     const navigate = useNavigate();
     const { handleInputChange, sendForm, handleClose, registryCompletion, state, open, formData } = useRegisterForm({
         firstName: '',
@@ -23,6 +30,8 @@ const Register = () => {
         pwdConfirmation: '',
     })
     const [gatheredState, setGatheredState] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
     if (registryCompletion) {
         setTimeout(() => {
@@ -44,109 +53,156 @@ const Register = () => {
                 <title>Register - Node Network</title>
             </Helmet>
             <div className='register-background'>
-                <div className={isDesktop ? 'register-container' : isTablet ? 'register-container-tablet' : 'register-container-mobile'}>
-                    <h1 className="register-title">Registro Nuevo</h1>
-                    <form className={isDesktop ? 'register-form' : isTablet ? 'register-form-tablet' : 'register-form-mobile'} method="post" action="/register">
+                <Box className="login-page">
+                    {isDesktop && <AuthBrand />}
+                    <Box className="login-card-wrap">
+                        <div className={`login-card ${isDesktop ? 'register-container' : isTablet ? 'register-container-tablet' : 'register-container-mobile'}`}>
+                            <h1 className="register-title">Registro Nuevo</h1>
+                            <p className="login-subtitle">Crea tu cuenta y forma parte de la red</p>
+                            <form className={isDesktop ? 'register-form' : isTablet ? 'register-form-tablet' : 'register-form-mobile'} method="post" action="/register">
 
-                        {/* <input type="text" name="firstName" placeholder="Nombre" required value={formData.firstName} onChange={handleInputChange} />
-                        <input type="text" name="lastName" placeholder="Apellido" required value={formData.lastName} onChange={handleInputChange} />
-                        <br />
-                        <input type="text" name="email" placeholder="Correo" required value={formData.email} onChange={handleInputChange} />
-                        <input type="text" name="username" placeholder="Usuario" required value={formData.username} onChange={handleInputChange} />
-                        <br />
-                        <input type="password" name="password" placeholder="Contraseña" required value={formData.password} onChange={handleInputChange} />
-                        <input type="password" name="pwdConfirmation" placeholder="Confirmación Contraseña" required value={formData.pwdConfirmation} onChange={handleInputChange} />
-                        <button type="submit" onClick={sendForm}> Registro </button> */}
+                                <TextField
+                                    autoFocus={true}
+                                    sx={{ mb: 2 }}
+                                    fullWidth
+                                    label='Primer Nombre'
+                                    type="text"
+                                    id="firstName"
+                                    name="firstName"
+                                    required
+                                    autoComplete="given-name"
+                                    value={formData.firstName}
+                                    onChange={handleInputChange}
+                                    InputProps={{
+                                        startAdornment: (<PersonOutlineIcon className="login-field-icon" />)
+                                    }}
+                                />
 
-                        <TextField
-                            autoFocus={true}
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Primer Nombre'
-                            size='small'
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            required
-                            value={formData.firstName}
-                            onChange={handleInputChange} />
+                                <TextField
+                                    sx={{ mb: 2 }}
+                                    fullWidth
+                                    label='Apellidos'
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    required
+                                    autoComplete="family-name"
+                                    value={formData.lastName}
+                                    onChange={handleInputChange}
+                                    InputProps={{
+                                        startAdornment: (<BadgeOutlinedIcon className="login-field-icon" />)
+                                    }}
+                                />
 
-                        <TextField
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Apellidos'
-                            size='small'
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            required
-                            value={formData.lastName}
-                            onChange={handleInputChange} />
+                                <TextField
+                                    sx={{ mb: 2 }}
+                                    fullWidth
+                                    label='Nombre de usuario'
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    required
+                                    autoComplete="username"
+                                    value={formData.username}
+                                    onChange={handleInputChange}
+                                    InputProps={{
+                                        startAdornment: (<AlternateEmailIcon className="login-field-icon" />)
+                                    }}
+                                />
 
-                        <TextField
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Nombre de usuario'
-                            size='small'
-                            type="text"
-                            id="username"
-                            name="username"
-                            required
-                            value={formData.username}
-                            onChange={handleInputChange} />
+                                <TextField
+                                    sx={{ mb: 2 }}
+                                    fullWidth
+                                    label='Correo Electronico'
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    autoComplete="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    InputProps={{
+                                        startAdornment: (<EmailOutlinedIcon className="login-field-icon" />)
+                                    }}
+                                />
 
-                        <TextField
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            label='Correo Electronico'
-                            size='small'
-                            type="text"
-                            id="email"
-                            name="email"
-                            required
-                            value={formData.email}
-                            onChange={handleInputChange} />
+                                <div className='password-field'>
+                                    <TextField
+                                        sx={{ mb: 2 }}
+                                        label='Contraseña'
+                                        type={showPassword ? "text" : "password"}
+                                        id="password"
+                                        name="password"
+                                        required
+                                        autoComplete="new-password"
+                                        value={formData.password}
+                                        onChange={handleInputChange}
+                                        InputProps={{
+                                            startAdornment: (<LockOutlinedIcon className="login-field-icon" />),
+                                            endAdornment: (
+                                                <Button
+                                                    className="login-toggle-button"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                                >
+                                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                                </Button>
+                                            )
+                                        }}
+                                    />
 
-                        <div className='password-field' style={{ display: 'flex' }}>
-                            <TextField
-                                sx={{ mt: 3, width: '100%', ml: 'auto', mr: '1vw' }}
-                                label='Contraseña'
-                                size='small'
-                                type="password"
-                                id="password"
-                                name="password"
-                                required
-                                value={formData.password}
-                                onChange={handleInputChange} />
+                                    <TextField
+                                        sx={{ mb: 2 }}
+                                        label='Confirma la contraseña'
+                                        type={showConfirmation ? "text" : "password"}
+                                        id="pwdConfirmation"
+                                        name="pwdConfirmation"
+                                        required
+                                        autoComplete="new-password"
+                                        value={formData.pwdConfirmation}
+                                        onChange={handleInputChange}
+                                        InputProps={{
+                                            startAdornment: (<LockOutlinedIcon className="login-field-icon" />),
+                                            endAdornment: (
+                                                <Button
+                                                    className="login-toggle-button"
+                                                    onClick={() => setShowConfirmation(!showConfirmation)}
+                                                    aria-label={showConfirmation ? "Ocultar confirmación" : "Mostrar confirmación"}
+                                                >
+                                                    {showConfirmation ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                                </Button>
+                                            )
+                                        }}
+                                    />
+                                </div>
 
-                            <TextField
-                                sx={{ mt: 3, width: '100%', ml: '1vw', mr: 'auto' }}
-                                label='Confirma la contraseña'
-                                size='small'
-                                type="password"
-                                id="pwdConfirmation"
-                                name="pwdConfirmation"
-                                required
-                                value={formData.pwdConfirmation}
-                                onChange={handleInputChange} />
+                                <Button
+                                    className="login-submit-button"
+                                    sx={{ mt: 0.5, mb: 0.5 }}
+                                    onClick={sendForm}
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.username || !formData.password || !formData.pwdConfirmation}
+                                >
+                                    Registrar
+                                </Button>
+                            </form>
+                            <Box className="login-separator"><span>¿Ya tienes una cuenta?</span></Box>
+                            <div className="register-link">
+                                <p id="register"><Link to='/'> Inicia sesión </Link></p>
+                            </div>
+
                         </div>
-
-                        <Button
-                            sx={{ mt: 3, width: '100%', ml: 'auto', mr: 'auto' }}
-                            onClick={sendForm}
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.username || !formData.password || !formData.pwdConfirmation}
-                        >
-                            Registrar
-                        </Button>
-                    </form>
-                    {/* { state } */}
-                    <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={!state ? 999999 : 5000} onClose={preHandleClose}>
-                        <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
-                            {gatheredState}
-                        </Alert>
-                    </Snackbar>
-                    <p className='mt-5 mb-5'>Ya tienes una cuenta? <Link id="register" to='/'> Inicia sesión </Link></p>
-                </div>
+                    </Box>
+                </Box>
+                {/* { state } */}
+                <Snackbar sx={{ width: '100%', ml: 'auto', mr: 'auto', mt: '-13vh' }} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={open} autoHideDuration={!state ? 999999 : 5000} onClose={preHandleClose}>
+                    <Alert onClose={preHandleClose} severity="info" sx={{ width: '100%' }}>
+                        {gatheredState}
+                    </Alert>
+                </Snackbar>
 
             </div>
         </>

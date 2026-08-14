@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Box, Button, TextField } from "@mui/material";
 import PopUpPostingBox from './PopUpPostingBox.jsx'
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 export default function PostingBox({ token, handleFeedReload }) {
     const [showPostingBox, setShowPostingBox] = useState(false);
@@ -19,7 +20,8 @@ export default function PostingBox({ token, handleFeedReload }) {
             <>
                 {showPostingBox && <PopUpPostingBox token={token} handleClosePostingBoxPopUp={handleClosePostingBoxPopUp} handleFeedReload={handleFeedReload} />}
 
-                <Box sx={{ borderRadius: '10px', margin: '20px', display: 'flex', bgcolor: '#EEEEEEEE' }}>
+                <Box className="feed-posting-box">
+                    <EditNoteIcon className="feed-posting-icon" />
                     <TextField
                         size="small"
                         placeholder="Escribe lo que piensas..."
