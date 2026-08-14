@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Link } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import UserCard from "./UserCard.jsx";
 import useGetSpecificUserData from "../hooks/useGetSpecificUserData.jsx";
 import usePermissions from "../hooks/usePermissions.jsx";
@@ -14,6 +15,7 @@ import useGetFollows from "../hooks/useGetFollows.jsx"
 import useGetCurrentUser from "../hooks/useGetCurrentUser.jsx";
 
 export default function ProfileDisplayer({ token, username, currentUsername }) {
+    const navigate = useNavigate();
     const { user, error } = useGetCurrentUser({ token });
     const { sendFollowRequest, checkFollowAlreadyExists, isFollowing, followMsg, followError, followSuccess, loading } = useFollowUser({ token, username });
     const { sendUnfollowRequest, er, msj, suc } = useUnfollowUser({ token, username });
@@ -65,8 +67,13 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
                             <UserCard user={userData} allAccess={allAccess} cadena={cadena} handleImageClicked={handleImageClicked} id={user.username === userData.username ? user.userId : userData.userId} />
                         </Box>
 
-                        <Box sx={{ mt: 2, mb: 2 }}>
+                        <Box sx={{ mt: 2, mb: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                             {loading ? null : <FollowsButton token={token} username={username} fontSizeStyles={fontSizeStyles} />}
+                            {user.username && user.username !== username && (
+                                <Button variant="contained" color="primary" sx={fontSizeStyles} onClick={() => navigate(`/chat/${username}`)}>
+                                    Mensaje
+                                </Button>
+                            )}
                         </Box>
 
                         <Box sx={{ bgcolor: className === 'bgx-black' ? 'rgba(77, 77, 77, 0.5)' : 'rgba(255, 255, 255, 0.5)', width: '90%', margin: 'auto', borderRadius: '5px', boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>

@@ -73,9 +73,9 @@ export default function FeedContent({ token, query }) {
         mountComponent && <Box>
             {query ? null : <PostingBox token={token} handleFeedReload={handleFeedReload} />}
             <Box>
-                {query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px' }} variant="h3">No se encontraron resultados</Typography>}
+                {query && !loading && allPosts.length === 0 && <Typography className="feed-empty-message" variant="h5">No se encontraron publicaciones</Typography>}
 
-                {!query && !loading && allPosts.length === 0 && <Typography sx={{ color: 'white', mt: '20px', alignItems: 'center' }} variant="h3">Aun no hay publicaciones</Typography>}
+                {!query && !loading && allPosts.length === 0 && <Typography className="feed-empty-message" variant="h5">Aun no hay publicaciones</Typography>}
 
                 {allPosts.length === 0 && loading && (
                     <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 2 }}>

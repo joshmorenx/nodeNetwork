@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Box, Button, Input, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
 import { useMediaQuery } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,23 +25,6 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
     const isDesktop = useMediaQuery('(min-width: 900px)');
     const isTablet = useMediaQuery('(min-width: 426px) and (max-width: 899px)');
     const isMobile = useMediaQuery('(max-width: 423vw)');
-
-    const reactionTextStyles = {
-        fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '2.5vw',
-        marginLeft: '5px'
-    }
-
-    const popUpEditStyles = {
-        width: isDesktop ? '35rem' : isTablet ? '60%' : '95%',
-        borderRadius: '5px',
-        padding: '0.5%',
-        bgcolor: '#fadea7',
-        position: 'fixed',
-        top: '40%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 1002
-    }
 
     const handleKeyPress = (event) => {
         if (event.key === 'Escape') {
@@ -92,28 +75,34 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
     return (
         <Box className="posting-box-popup">
             <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1001, bgcolor: '#00000099' }} onClick={handleClosePostingBoxPopUp}></Box>
-            <Box className={className} sx={popUpEditStyles}>
+            <Box className={`feed-post-form ${className}`}>
 
-                <Box sx={{ border: '1px 1px 0 0 solid black', mb: '2%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant={isDesktop ? 'h4' : isTablet ? 'h6' : 'h7'} sx={{ fontWeight: 'bold' }} align='center' >Crear una publicación</Typography>
+                <Box className="feed-post-form-header">
+                    <Typography className="feed-post-form-title" align='center' >Crear una publicación</Typography>
+                    <CloseIcon className="feed-post-form-close" onClick={handleClosePostingBoxPopUp} />
                 </Box>
 
-                <Box sx={{ mr: 0, mb: 0, ml: 0 }}>
-                    <TextField
-                        className='bgx-white'
-                        multiline
-                        variant="filled"
-                        size="small"
-                        label="Escribe lo que piensas..."
-                        sx={{ width: '100%' }}
-                        rows={isDesktop ? 10 : isTablet ? 9 : 6}
-                        onChange={handleInputChange}
-                        value={postForm.content}
-                        id="content"
-                        name="content"
-                        inputProps={{ autoFocus: true }}
-                        required
-                    />
+                <TextField
+                    className='bgx-white'
+                    multiline
+                    variant="outlined"
+                    size="small"
+                    label="Escribe lo que piensas..."
+                    sx={{ width: '100%' }}
+                    rows={isDesktop ? 9 : isTablet ? 8 : 5}
+                    onChange={handleInputChange}
+                    value={postForm.content}
+                    id="content"
+                    name="content"
+                    inputProps={{ autoFocus: true }}
+                    required
+                />
+
+                <Box className="feed-post-form-count-wrap">
+                    <Typography className="feed-post-form-count">
+                        {postForm.content.length} caracteres
+                    </Typography>
+                    {!postForm.content && <Typography className="feed-post-form-hint">Escribe algo para publicar...</Typography>}
                 </Box>
 
                 <Box sx={{ display: 'none', justifyContent: 'center', alignItems: 'center', mt: 2 }}>
@@ -139,29 +128,34 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
                 <Box>
                     <input style={{ display: 'none' }} id='imagefile' type='file' onChange={handleImageChange} accept=".jpg, .jpeg, .png, .jfif, .raw" />
                     {selectedImageUrl && (
-                        <Box sx={{ display: 'inline-flex', alignItems: 'top', mt: 2, width: '100%', border: '1px solid gray' }}>
-                            <CloseIcon onClick={clearInput} sx={{ bgcolor: 'red', cursor: 'pointer' }} />
-                            <img src={selectedImageUrl} style={{ width: '10%', height: 'auto' }} />
+                        <Box className="feed-post-form-preview">
+                            <CloseIcon onClick={clearInput} />
+                            <img src={selectedImageUrl} alt="vista previa de la imagen" />
                         </Box>
                     )}
                 </Box>
 
-                <Box sx={{ display: 'inline-flex', justifyContent: 'center', mt: 2, width: '100%' }}>
+                <Box className="feed-post-form-actions">
 
-                    <Link onClick={openFileSelector} sx={{ color: 'blueviolet', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon fontSize='small' /> {
-                        !selectedImageFile ? 'Añadir una imagen' : 'imagen añadida'} </Link>
+                    <Button className="feed-post-form-action" onClick={openFileSelector}>
+                        <CollectionsIcon /> {!selectedImageFile ? 'Añadir una imagen' : 'Imagen añadida ✓'}
+                    </Button>
 
-                    <Link onClick={getGeoLocation} sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación </Link>
+                    <Button className="feed-post-form-action feed-post-form-action-location" onClick={getGeoLocation}>
+                        <LocationOnIcon /> Añadir una ubicación
+                    </Button>
 
                 </Box>
 
-                <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
+                {error && <Typography className="feed-post-form-error">No se pudo publicar, inténtalo de nuevo.</Typography>}
+
+                <Box className="feed-post-form-submit">
                     {!postForm.content ?
-                        <Button size="small" fullWidth>
+                        <Button size="small" fullWidth className="feed-post-form-submit-btn">
                             Publicar
                         </Button> :
-                        <Button disabled={loading} sx={{ color: 'white' }} onClick={() => sendRequest(selectedImageFile)} variant="contained" size="small" fullWidth>
-                            {!loading ? 'Publicar' : <CircularProgress size={'3vw'} sx={{ color: 'white' }} />}
+                        <Button disabled={loading} onClick={() => sendRequest(selectedImageFile)} variant="contained" size="small" fullWidth className="feed-post-form-submit-btn">
+                            {!loading ? 'Publicar' : <CircularProgress size={'2rem'} sx={{ color: 'white' }} />}
                         </Button>
                     }
                 </Box>

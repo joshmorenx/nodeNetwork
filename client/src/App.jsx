@@ -9,6 +9,7 @@ import Posts from './routes/Posts.jsx';
 import Follows from './routes/Follows.jsx';
 import Search from './routes/Search.jsx';
 import Gallery from './routes/Gallery.jsx';
+import Chat from './routes/Chat.jsx';
 import NotFound from './routes/NotFound.jsx';
 import Reset from './routes/Reset.jsx';
 import Cookies from 'js-cookie';
@@ -28,6 +29,7 @@ export const App = () => {
             <Route path="/follows/:username?" element={cookieToken ? <Follows token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="/search/:query?" element={cookieToken ? <Search token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="/gallery/:username?" element={cookieToken ? <Gallery token={cookieToken} /> : <Navigate to="/" />} />
+            <Route path="/chat/:username?" element={cookieToken ? <Chat token={cookieToken} /> : <Navigate to="/" />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/reset/:token?" element={<Reset />} />
         </Routes>

@@ -1,6 +1,7 @@
-import { Avatar, Box, Button, Link, Menu, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Link, Menu, MenuItem, Stack, TextField, Typography, Snackbar, Alert } from "@mui/material";
 import { useState, useEffect } from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ShareIcon from '@mui/icons-material/Share';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -35,6 +36,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
     const [currentDislikes, setCurrentDislikes] = useState(0);
     const [currentComments, setCurrentComments] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [shareOpen, setShareOpen] = useState(false);
     const open = Boolean(anchorEl);
     const { sendDoUndo_Like, sendDoUndo_Dislike, liked, disliked, errorLD, successLD, msgLD, setMsgLD, setSuccessLD, likes, dislikes } = useDoLikeOrDislike({ token })
     const { sendComment, handleCapture, newComment, messageComment, errorComment, successComment, setSuccessComment, newCurrentComments } = useCaptureAndSendComment({ token })
@@ -139,6 +141,37 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
         setCurrentComments(currentComments.filter(comment => comment.commentId !== commentId))
     }
 
+    const handleSharePost = async () => {
+        const shareUrl = (frontendUrl ? frontendUrl : window.location.origin) + '/posts/' + post.postId;
+
+        // Native share dialog when available (mobile/desktop), clipboard fallback otherwise
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Node Network',
+                    text: 'Mira esta publicación de ' + post.username + ' en Node Network',
+                    url: shareUrl
+                });
+            } catch (err) {
+                // el usuario canceló el diálogo de compartir; no mostrar feedback
+            }
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+        } catch (err) {
+            // Fallback para contextos sin API de portapapeles
+            const textarea = document.createElement('textarea');
+            textarea.value = shareUrl;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+        setShareOpen(true);
+    }
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress)
     }, [])
@@ -197,7 +230,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
 
     return (
         <>
-            <Box className={`${className} post-container-id-${post.postId} fadeIn`} sx={{ borderRadius: '1vw', p: isDesktop ? 5 : 1, border: '1px solid gray', mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
+            <Box className={`feed-post-card ${className} post-container-id-${post.postId} fadeIn`} sx={{ p: isDesktop ? 5 : 1, mt: '2%', mb: isDesktop ? '5%' : isTablet ? '5%' : '5%' }}>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
@@ -221,7 +254,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                             }
                         >
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar sx={avatarStyles} ><img src={image} /></Avatar></Link>
+                                <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none' }}><Avatar className="feed-avatar" sx={avatarStyles} ><img src={image} /></Avatar></Link>
                                 <Link href={`/profile/${post.username}`} sx={{ textDecoration: 'none', ":hover": { textDecoration: 'underline', fontWeight: 'bold' } }}>
                                     {/* <p>{post.firstName}</p> */}
                                     <Typography sx={userNameStyles}>{post.username}</Typography>
@@ -230,7 +263,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         </HtmlTooltip>
 
                         <Box sx={isDesktop ? { mt: '2%' } : { mt: '1%' }}>
-                            <Typography sx={{ bgcolor: 'black', color: 'white', pl: '6px', pr: '6px', pt: '6px', pb: '6px', border: '1px solid grey', borderRadius: '5px' }} style={reactionTextStyles}>
+                            <Typography className="feed-date-chip" sx={{ mt: '2%' }} style={reactionTextStyles}>
                                 {/* {'creado el '+new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'America/Mexico_City' })} */}
                                 {'creado el ' + new Date(post.date_created).toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Mexico_City' })}
                             </Typography>
@@ -274,12 +307,12 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         </Box>}
                 </Box>
 
-                <Box sx={{ mb: '2%', mt: '2%', maxWidth: '100%', border: '1px solid grey', borderRadius: '5px', padding: '8px' }}>
+                <Box className="feed-post-content" sx={{ mb: '2%', mt: '2%', maxWidth: '100%' }}>
                     <Typography sx={{ wordWrap: 'break-word', whiteSpace: 'normal', multiline: true, textAlign: 'justify' }}>
                         {post.content}
                     </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box className="feed-post-images" sx={{ display: 'flex', justifyContent: 'center' }}>
                     {userImages !== undefined &&
                         userImages.map((elem, key) => (
                             <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy" />
@@ -287,7 +320,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                     }
                 </Box>
 
-                <Box sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
+                <Box className="feed-post-actions" sx={{ p: isDesktop ? 1 : 0, width: '100%' }}>
                     <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button onClick={likeThePost}>
                             <ThumbUpIcon sx={reactionIconStyles} /> <span className={className} style={reactionTextStyles}> Me Gusta <Badge sx={{ ml: 2 }} badgeContent={currentLikes > 0 ? currentLikes : '0'} color="primary"/> </span>
@@ -297,6 +330,9 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         </Button>
                         <Button onClick={() => toggleCommentBox(post.postId)}>
                             <AddCommentIcon sx={reactionIconStyles} color="warning" /> <span className={className} style={reactionTextStyles}> Comentar </span>
+                        </Button>
+                        <Button onClick={handleSharePost}>
+                            <ShareIcon sx={reactionIconStyles} color="primary" /> <span className={className} style={reactionTextStyles}> Compartir </span>
                         </Button>
                     </Stack>
                 </Box>
@@ -310,7 +346,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                         size="small"
                         label="comentar en la publicacion"
                         fullWidth
-                        className="bgx-white"
+                        className="bgx-white feed-comment-input"
                         value={comment}
                         onChange={handleChangeCapture}
                         InputProps={{
@@ -325,13 +361,23 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
 
                 {currentComments.length > 0 &&
                     <>
-                        <Typography>Comentarios</Typography>
+                        <Typography className="feed-comments-title">Comentarios</Typography>
                         {currentComments.map(comment => <Comments key={comment.commentId} comment={comment} token={token} handleRemoveCommentFromDOM={handleRemoveCommentFromDOM} />)}
                     </>
                 }
             </Box>
             {updatePost && <PopUpEdit token={token} post={post} setUpdatePost={setUpdatePost} type={'post'} />}
             <ImageViewer image={imgClickedPath} setImgClickedPath={setImgClickedPath} />
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={shareOpen}
+                autoHideDuration={2500}
+                onClose={() => setShareOpen(false)}
+            >
+                <Alert onClose={() => setShareOpen(false)} severity="success" variant="filled" sx={{ borderRadius: '12px', fontWeight: 500 }}>
+                    ¡Enlace copiado al portapapeles!
+                </Alert>
+            </Snackbar>
         </>
     )
 }
