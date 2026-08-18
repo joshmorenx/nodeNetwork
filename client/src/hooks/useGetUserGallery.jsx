@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 
 export default function useGetUserGallery({ token, username }) {
     const backendUrl = import.meta.env.VITE_BACKEND
-    const [userGallery, setUserGallery] = useState([]);  // Almacenar los blobs de las imágenes
+    const [userGallery, setUserGallery] = useState([]);  // Blobs de las imágenes
+    const [userVideos, setUserVideos] = useState([]);    // Blobs de los videos
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
@@ -14,7 +15,7 @@ export default function useGetUserGallery({ token, username }) {
         setError(null);
         setSuccess(false);
         try {
-            // Obtener los nombres de las imágenes
+            // Obtener los nombres de los archivos (imágenes y videos)
             const response = await axios.get(`${backendUrl}/api/getUserGallery`, {
                 params: {
                     username: username
@@ -24,7 +25,8 @@ export default function useGetUserGallery({ token, username }) {
                 }
             });
 
-            const imageFiles = response.data.galleryPictures;  
+            const imageFiles = response.data.galleryPictures || [];
+            const videoFiles = response.data.galleryVideos || [];
 
             // Convertir las imágenes a Blob
             const galleryBlobs = await Promise.all(
@@ -36,12 +38,25 @@ export default function useGetUserGallery({ token, username }) {
                         responseType: 'arraybuffer'  // Necesario para obtener los datos de imagen como buffer
                     });
                     const imageBlob = new Blob([imageResponse.data], { type: 'image/jpeg' });
-                    const imageObjectURL = URL.createObjectURL(imageBlob);
-                    return imageObjectURL;  // Devolvemos la URL creada para cada Blob
+                    return URL.createObjectURL(imageBlob);
                 })
             );
 
-            setUserGallery(galleryBlobs);  // Almacenar las imágenes Blob en el estado
+            // Convertir los videos a Blob (responseType 'blob' conserva el tipo MIME)
+            const videoBlobs = await Promise.all(
+                videoFiles.map(async (filename) => {
+                    const videoResponse = await axios.get(`${backendUrl}/api/public/uploads/users/${username}/gallery/${filename}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                        responseType: 'blob'
+                    });
+                    return URL.createObjectURL(videoResponse.data);
+                })
+            );
+
+            setUserGallery(galleryBlobs);
+            setUserVideos(videoBlobs);
             setSuccess(true);
         } catch (err) {
             setError(err.message || 'Error al obtener la galería');
@@ -57,5 +72,5 @@ export default function useGetUserGallery({ token, username }) {
         }
     }, [username]);
 
-    return { userGallery, isLoading, error, success, msg };
+    return { userGallery, userVideos, isLoading, error, success, msg };
 }

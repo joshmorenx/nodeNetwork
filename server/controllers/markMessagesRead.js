@@ -3,7 +3,7 @@ const Conversation = require("../models/Conversation.js");
 const Message = require("../models/Message.js");
 const Notifications = require("../models/Notifications.js");
 
-const markMessagesRead = async (req, res) => {
+const markMessagesRead = (io) => async (req, res) => {
     try {
         const { username } = req.usuario;
         const { username_from } = req.body;
@@ -18,7 +18,12 @@ const markMessagesRead = async (req, res) => {
         const conversation = await Conversation.findOne({ participants: { $all: [user._id, otherUser._id] } });
 
         if (conversation) {
-            await Message.updateMany({ conversationId: conversation._id, to: user._id, read: false }, { $set: { read: true } });
+            const result = await Message.updateMany({ conversationId: conversation._id, to: user._id, read: false }, { $set: { read: true } });
+
+            // Notificar al remitente en tiempo real para que actualice el "visto"
+            if (result.modifiedCount > 0) {
+                io.to(`user:${otherUser._id.toString()}`).emit('messagesRead', { conversationId: conversation._id, from: username });
+            }
         }
 
         // Marcar también como leídas las notificaciones de mensaje pendientes de ese usuario

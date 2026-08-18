@@ -112,7 +112,7 @@ app.use("/", permissionRoutes());
 app.use("/", staticRoutes());
 app.use("/", postRoutes(upload));
 app.use("/", relationshipRoutes());
-app.use("/", messageRoutes(io));
+app.use("/", messageRoutes(io, upload));
 
 // Middleware para manejar errores
 app.use((err, req, res, next) => {
@@ -120,8 +120,14 @@ app.use((err, req, res, next) => {
     res.status(500).send("Error interno del servidor");
 });
 
+// Presencia en tiempo real: userId -> { username, sockets: Set }
+const onlineUsers = new Map();
+
 // Configurar Socket.IO para escuchar cambios en la colección de notificaciones
 io.on('connection', (socket) => {
+
+    // Change streams de notificaciones asociados a este socket
+    socket.changeStreams = [];
 
     // Escuchar el nombre de usuario que el cliente envía
     socket.on('username', async (username) => {
@@ -139,6 +145,26 @@ io.on('connection', (socket) => {
             // Unir al socket a la sala del usuario para recibir mensajes privados en tiempo real
             socket.join(`user:${user._id.toString()}`);
 
+            // Registrar presencia en tiempo real
+            const userIdStr = user._id.toString();
+            socket.userId = userIdStr;
+            socket.username = username;
+            const wasOnline = onlineUsers.has(userIdStr);
+            if (!wasOnline) {
+                onlineUsers.set(userIdStr, { username, sockets: new Set() });
+            }
+            onlineUsers.get(userIdStr).sockets.add(socket.id);
+
+            // Enviar el snapshot de usuarios en línea al socket recién conectado
+            const onlineSnapshot = Array.from(onlineUsers.entries())
+                .filter(([, info]) => info.sockets.size > 0)
+                .map(([, info]) => info.username);
+            socket.emit('onlineUsers', onlineSnapshot);
+
+            if (!wasOnline) {
+                io.emit('userOnline', { userId: userIdStr, username });
+            }
+
             if (username) {
                 const notifications = await Notifications.find({ to: user._id }, {}, { sort: { notificationId: -1 } }).lean();
                 socket.emit("notifications", notifications)
@@ -154,10 +180,11 @@ io.on('connection', (socket) => {
             ];
 
             // Crear un changeStream con el pipeline filtrado por userId
-            // const changeStream = Notifications.watch(pipeline);
             const changeStream = Notifications.watch(pipeline);
             const changeStreamDelete = Notifications.watch();
             const changeStreamUpdate = Notifications.watch([], { fullDocument: 'updateLookup' });
+
+            socket.changeStreams.push(changeStream, changeStreamDelete, changeStreamUpdate);
 
             changeStream.on('change', (change) => {
                 if (change.operationType === 'insert') {
@@ -179,13 +206,33 @@ io.on('connection', (socket) => {
                     socket.emit('updateNotification', notification);
                 }
             });
-
-            // Limpiar el changeStream cuando el socket se desconecta
-            socket.on('disconnect', () => {
-                changeStream.close();
-            });
         } catch (error) {
             console.error('Error al obtener el usuario:', error);
+        }
+    });
+
+    // Limpiar change streams y bajar la presencia cuando el socket se desconecta.
+    // Registrado a nivel de conexión (no dentro del handler 'username') para que
+    // también se ejecute si el cliente se desconecta antes de terminar su registro.
+    socket.on('disconnect', () => {
+        if (Array.isArray(socket.changeStreams)) {
+            socket.changeStreams.forEach((changeStream) => {
+                try {
+                    Promise.resolve(changeStream.close()).catch(() => {});
+                } catch (error) {
+                    // Ignorar errores al cerrar
+                }
+            });
+        }
+
+        // Baja de presencia
+        if (socket.userId && onlineUsers.has(socket.userId)) {
+            const info = onlineUsers.get(socket.userId);
+            info.sockets.delete(socket.id);
+            if (info.sockets.size === 0) {
+                onlineUsers.delete(socket.userId);
+                io.emit('userOffline', { userId: socket.userId, username: socket.username });
+            }
         }
     });
 });

@@ -18,7 +18,7 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
         if(msg) console.log(msg);
     }, [msg]);
 
-    const sendRequest = async (image) => {
+    const sendRequest = async (image, video) => {
         setLoading(true);
         const formData = new FormData();
         formData.append('content', postForm.content);
@@ -30,6 +30,10 @@ export default function useCreateNewPost({ token, initialForm = {} }) {
 
         if (image) {
             formData.append('image', image);
+        }
+
+        if (video) {
+            formData.append('video', video);
         }
 
         await axios.post(`${backendUrl}/api/createNewPost/`, formData,{

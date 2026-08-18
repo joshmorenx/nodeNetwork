@@ -2,6 +2,7 @@ const User = require("../models/User.js");
 const Posts = require("../models/Posts.js");
 const Comments = require("../models/Comments.js");
 const Notifications = require("../models/Notifications.js");
+const notifyMentions = require("../utils/notifyMentions.js");
 
 const addComment = async (req, res) => {
 
@@ -29,6 +30,8 @@ const addComment = async (req, res) => {
             if (user._id.equals(post.author) === false) {
                 await Notifications.create({ from: user._id, reason: "comment", to: post.author, postId: post._id, postIdNumber: post.postId, notificationId: latestNotification === null ? 1 : latestNotification.notificationId + 1, reason: "comment", description: `${user.username} comentó tu publicacion` });
             }
+
+            await notifyMentions({ fromUsername: username, content: content, post: post._id, postIdNumber: post.postId, descriptionSuffix: "te mencionó en un comentario" });
 
             const newCurrentComments = await Comments.find({ postId: post._id }).lean();
             res.json({

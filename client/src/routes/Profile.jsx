@@ -24,8 +24,10 @@ export default function Profile({ token }) {
     }, [user.username])
 
     useEffect(() => {
+        setLoading(true);
+        setGetSuccess(false);
         sendRequest();
-    }, []);
+    }, [username]);
 
     useEffect(() => {
         if (currentUsername && !username) {

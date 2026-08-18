@@ -51,7 +51,7 @@ export default function ProfileDisplayer({ token, username, currentUsername }) {
     useEffect(() => {
         sendRequest();
         checkFollowAlreadyExists();
-    }, [])
+    }, [username])
 
     useEffect(() => {
         username && getFollows(username)
