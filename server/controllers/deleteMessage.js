@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const User = require("../models/User.js");
 const Conversation = require("../models/Conversation.js");
 const Message = require("../models/Message.js");
@@ -28,6 +30,19 @@ const deleteMessage = (io) => async (req, res) => {
 
             if (elapsed > ONE_HOUR_MS) {
                 return res.status(403).json({ success: false, message: "Solo puedes eliminar para todos dentro de la primera hora" });
+            }
+
+            // Eliminar el archivo de video del chat si el mensaje tenía uno
+            if (message.video) {
+                const filename = message.video.split('/').pop();
+                const filePath = path.join(__dirname, `../public/uploads/users/${username}/chat/${filename}`);
+                try {
+                    if (fs.existsSync(filePath)) {
+                        fs.unlinkSync(filePath);
+                    }
+                } catch (err) {
+                    console.error('Error al eliminar el video del chat:', err);
+                }
             }
 
             await Message.findByIdAndDelete(messageId);

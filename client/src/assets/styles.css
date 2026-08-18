@@ -1605,6 +1605,21 @@ body {
   border-color: rgba(255, 255, 255, 0.12);
 }
 
+/* Nombre del remitente dentro de la burbuja (solo mensajes ajenos) */
+.chat-bubble-username {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #7c5dfa;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: text-decoration 0.15s ease;
+}
+
+.chat-bubble-username:hover {
+  text-decoration: underline;
+}
+
 .chat-bubble-time {
   font-size: 0.7rem;
   line-height: 1;
@@ -1612,6 +1627,20 @@ body {
   align-self: flex-end;
   margin-top: 3px;
   letter-spacing: 0.2px;
+}
+
+/* Recibos de lectura: ✓ enviado / ✓✓ azul leído */
+.chat-read {
+  margin-left: 6px;
+  font-size: 0.72rem;
+  line-height: 1;
+  letter-spacing: -2px;
+  opacity: 0.9;
+}
+
+.chat-read-seen {
+  color: #8fd0ff;
+  opacity: 1;
 }
 
 .chat-input-row {
@@ -1655,6 +1684,11 @@ body {
 .chat-input-row .chat-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
   border-color: #7c5dfa;
   border-width: 2px;
+}
+
+.chat-attach-btn {
+  color: #7c5dfa !important;
+  flex: none;
 }
 
 .chat-send-btn {

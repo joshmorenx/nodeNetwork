@@ -11,6 +11,7 @@ import { useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import '../assets/styles.css';
 import { Helmet } from 'react-helmet';
+import TrendingHashtags from '../components/TrendingHashtags.jsx';
 
 export default function Feed({ token }) {
     const className = useSelector((state) => state.className);
@@ -124,12 +125,7 @@ export default function Feed({ token }) {
                                     })
                                 }
                             </Box>
-                            <Box className={`feed-sidebar ${className}`} style={{ width: '100%', height: '100%', padding: '15px', marginTop: '15px' }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Typography className="feed-sidebar-title" sx={{ fontSize: '1.3vw', mt: '0' }}>Publicidad</Typography>
-                                </Box>
-                                <Link href="https://picsum.photos/id/237/500/500"><img src={`https://picsum.photos/id/237/500/500`} alt="anuncio" style={{ width: '100%', height: '100%' }} /></Link>
-                            </Box>
+                            <TrendingHashtags token={token} />
                         </Box>
 
                     </Box>

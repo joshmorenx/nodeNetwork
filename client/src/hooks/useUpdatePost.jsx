@@ -15,7 +15,7 @@ export default function useUpdatePost({ token, initialForm = {}, type }) {
         setPostForm({ ...postForm, [name]: value });
     }
 
-    const updatePost = async (image) => {
+    const updatePost = async (image, video) => {
         setLoading(true);
         const formData = new FormData();
         formData.append('post_id', postForm.id);
@@ -28,6 +28,10 @@ export default function useUpdatePost({ token, initialForm = {}, type }) {
 
         if (image) {
             formData.append('image', image);
+        }
+
+        if (video) {
+            formData.append('video', video);
         }
 
         await axios.put(type === 'post' ? `${backendUrl}/api/updatePost/` : `${backendUrl}/api/comment/`, formData,{

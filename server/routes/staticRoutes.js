@@ -26,6 +26,16 @@ const staticRoutes = () => {
         }
     });
 
+    // Ruta para obtener videos enviados en el chat
+    router.get('/api/public/uploads/users/:username/chat/:filename', verifyToken, (req, res) => {
+        const { username, filename } = req.params;
+        try {
+            res.sendFile(path.resolve(__dirname, '../public/uploads/users', username, 'chat', filename));
+        } catch (error) {
+            res.status(500).send('Error al obtener el video del chat');
+        }
+    });
+
     // Nueva ruta para obtener los nombres de los archivos de la galería del usuario
     router.get('/api/getUserGallery', verifyToken, (req, res) => {
         const { username } = req.query;
@@ -38,11 +48,12 @@ const staticRoutes = () => {
                     return res.status(500).send('Error al leer los archivos de la galería');
                 }
 
-                // Filtramos solo los archivos de imagen
+                // Filtramos los archivos de imagen y de video
                 const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file));
+                const videoFiles = files.filter(file => /\.(mp4|webm|mov|m4v|ogg)$/i.test(file));
 
-                // Devolvemos los nombres de las imágenes
-                res.json({ galleryPictures: imageFiles });
+                // Devolvemos los nombres de las imágenes y los videos
+                res.json({ galleryPictures: imageFiles, galleryVideos: videoFiles });
             });
         } catch (error) {
             res.status(500).send('Error al obtener la galería del usuario');

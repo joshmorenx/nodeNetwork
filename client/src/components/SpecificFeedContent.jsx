@@ -30,9 +30,19 @@ export default function SpecificFeedContent({ token, username, currentUsername, 
     };
 
     useEffect(() => {
+        // Reiniciar el estado al cambiar de usuario para no mostrar publicaciones ajenas
+        setPosts([]);
+        setAllPosts([]);
+        setTotalCount(0);
+        setLoadedPostsCount(5);
+        setSuccess(false);
+        setError(null);
+        setMsg(null);
+        setLoading(false);
+        setMountComponent(false);
         sendRequest(query);
         setMountComponent(true);
-    }, []);
+    }, [username]);
 
     useEffect(() => {
         mountComponent && sendRequest(query);

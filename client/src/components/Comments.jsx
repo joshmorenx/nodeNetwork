@@ -17,6 +17,7 @@ import useDeleteComment from '../hooks/useDeleteComment';
 import PopUpEdit from './PopUpEdit.jsx';
 import useGetProfileImage from '../hooks/useGetProfileImage';
 import Badge from '@mui/material/Badge';
+import ContentText from './ContentText.jsx';
 
 export default function Comments({ comment, token, handleRemoveCommentFromDOM }) {
     const [updatePost, setUpdatePost] = useState(false);
@@ -148,7 +149,7 @@ export default function Comments({ comment, token, handleRemoveCommentFromDOM })
                     </Box>}
             </Box>
             <Box sx={{ alignItems: 'center', border: '1px solid grey', borderRadius: '1vw', margin: '8px', padding: '8px' }}>
-                <Typography variant="body2"> {comment.content} </Typography>
+                <Typography variant="body2"> <ContentText content={comment.content} /> </Typography>
             </Box>
             <Stack direction="row" sx={{ display: 'flex', gap: '10vw' }}>
                 <Button onClick={setCommentLike}>

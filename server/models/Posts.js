@@ -10,6 +10,7 @@ const PostSchema = new Schema({
     latitude: { type: Number },
     longitude: { type: Number },
     images: [{ type: String }],
+    videos: [{ type: String }],
     date_created: { type: Date, default: Date.now() },
     date_updated: { type: Date, default: Date.now() },
 });
