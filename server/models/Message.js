@@ -6,6 +6,7 @@ const MessageSchema = new Schema({
     from: { type: Schema.Types.ObjectId, ref: "User" },
     to: { type: Schema.Types.ObjectId, ref: "User" },
     content: { type: String },
+    video: { type: String },
     read: { type: Boolean, default: false },
     hiddenFor: [{ type: Schema.Types.ObjectId, ref: "User" }], // usuarios que ocultaron el mensaje
     date_created: { type: Date, default: Date.now },

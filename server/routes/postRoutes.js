@@ -15,6 +15,7 @@ const getSinglePost = require("../controllers/getSinglePost.js");
 const deleteComment = require("../controllers/deleteComment.js");
 const updateComment = require("../controllers/updateComment.js");
 const updateReadNotification = require("../controllers/updateReadNotification.js");
+const getTrendingHashtags = require("../controllers/getTrendingHashtags.js");
 
 // /api/updateComment/
 
@@ -22,8 +23,9 @@ const postRoutes = (upload) => {
 
     router.use(verifyToken);
 
-    router.post('/api/createNewPost/', upload.single('image'), createPost);
+    router.post('/api/createNewPost/', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'video', maxCount: 1 }]), createPost);
     router.get('/api/getPosts/', getPosts);
+    router.get('/api/trendingHashtags/', getTrendingHashtags);
     router.get('/api/getSpecificPosts/:username/', getSpecificPosts)
     router.post('/api/likeOrDislike/', setLikeOrDislike);
     router.post('/api/comment/', addComment)
@@ -33,7 +35,7 @@ const postRoutes = (upload) => {
     router.post('/api/comment/like/', commentLike)
     router.post('/api/comment/dislike/', commentDislike)
     router.delete('/api/deletePost/', deletePost);
-    router.put('/api/updatePost/', upload.single('image'), updatePost);
+    router.put('/api/updatePost/', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'video', maxCount: 1 }]), updatePost);
     router.get('/api/getSinglePost/', getSinglePost)
     router.put('/api/updateReadNotification/', updateReadNotification)
 

@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Link, Menu, MenuItem, Stack, TextField, Typography, Snackbar, Alert } from "@mui/material";
+import { Avatar, Box, Button, Link, Menu, MenuItem, Stack, TextField, Typography, Snackbar, Alert, CircularProgress } from "@mui/material";
 import { useState, useEffect } from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ShareIcon from '@mui/icons-material/Share';
@@ -10,6 +10,8 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 import useDoLikeOrDislike from '../hooks/useDoLikeOrDislike.jsx';
 import useCaptureAndSendComment from '../hooks/useCaptureAndSendComment.jsx';
 import Comments from "./Comments.jsx";
+import ContentText from "./ContentText.jsx";
+import MentionTextField from "./MentionTextField.jsx";
 import { InputAdornment } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,6 +25,7 @@ import ImageViewer from "./ImageViewer.jsx";
 import { useSelector } from "react-redux";
 import useGetProfileImage from '../hooks/useGetProfileImage';
 import useGetGalleryImage from '../hooks/useGetGalleryImage';
+import useGetPostVideo from '../hooks/useGetPostVideo.jsx';
 import '../assets/styles.css';
 import Badge from '@mui/material/Badge';
 
@@ -50,6 +53,7 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
     const [userImages, setUserImages] = useState([])
     const { image, imageError } = useGetProfileImage({ id: post.username })
     const { galleryImage, getGalleryImage } = useGetGalleryImage({ username: post.username })
+    const { videoUrl, posterUrl, videoError, loading: videoLoading, getVideo } = useGetPostVideo({ username: post.username })
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -217,6 +221,12 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
     }, [post.username, post.images]);
 
     useEffect(() => {
+        if (post.username && post.videos !== undefined && post.videos.length > 0) {
+            getVideo(post.videos[0].slice(post.videos[0].indexOf('gallery') + 'gallery/'.length))
+        }
+    }, [post.username, post.videos]);
+
+    useEffect(() => {
         if (galleryImage) {
             images.push(galleryImage)
         }
@@ -308,11 +318,75 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                 </Box>
 
                 <Box className="feed-post-content" sx={{ mb: '2%', mt: '2%', maxWidth: '100%' }}>
-                    <Typography sx={{ wordWrap: 'break-word', whiteSpace: 'normal', multiline: true, textAlign: 'justify' }}>
-                        {post.content}
+                    <Typography sx={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap', multiline: true, textAlign: 'justify' }}>
+                        <ContentText content={post.content} />
                     </Typography>
                 </Box>
-                <Box className="feed-post-images" sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box className="feed-post-images" sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                    {post.videos && post.videos.length > 0 && (
+                        <Box sx={{ width: '100%', maxWidth: isDesktop || isTablet ? '75%' : '100%', display: 'flex', justifyContent: 'center' }}>
+                            {/* Caja de anclaje con proporción 16:9: fija el tamaño del post durante toda la carga */}
+                            <Box
+                                sx={{
+                                    position: 'relative',
+                                    width: '100%',
+                                    aspectRatio: '16 / 9',
+                                    maxHeight: '480px',
+                                    borderRadius: '14px',
+                                    background: 'rgba(124, 93, 250, 0.06)'
+                                }}
+                            >
+                                {/* La portada (primer fotograma) rellena la caja sin cambiar su tamaño */}
+                                {posterUrl && (
+                                    <img
+                                        src={posterUrl}
+                                        alt="Vista previa del video"
+                                        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', borderRadius: '14px', background: '#000', boxShadow: '0 8px 20px -10px rgba(0, 0, 0, 0.35)' }}
+                                    />
+                                )}
+                                {/* Pantalla de carga transparente encima de la portada mientras se descarga */}
+                                {videoLoading && !videoUrl && (
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: 1,
+                                            borderRadius: '14px',
+                                            background: 'rgba(0, 0, 0, 0.35)'
+                                        }}
+                                    >
+                                        <CircularProgress size={32} sx={{ color: '#fff' }} />
+                                        <Typography sx={{ color: '#fff', fontSize: '0.85rem' }}>Cargando video...</Typography>
+                                    </Box>
+                                )}
+                                {/* El video se superpone exactamente sobre la portada: mismas dimensiones, sin saltos */}
+                                {videoUrl && (
+                                    <video
+                                        controls
+                                        autoPlay
+                                        muted
+                                        playsInline
+                                        preload="metadata"
+                                        src={videoUrl}
+                                        poster={posterUrl || undefined}
+                                        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', borderRadius: '14px', background: '#000', boxShadow: '0 8px 20px -10px rgba(0, 0, 0, 0.35)' }}
+                                    />
+                                )}
+                            </Box>
+                        </Box>
+                    )}
+                    {post.videos && post.videos.length > 0 && videoError && !videoUrl && (
+                        <Typography sx={{ color: '#dc2626', fontSize: '0.85rem', mt: 1 }}>
+                            No se pudo cargar el video
+                        </Typography>
+                    )}
                     {userImages !== undefined &&
                         userImages.map((elem, key) => (
                             <img onClick={handleImageClicked} style={{ maxWidth: isDesktop || isTablet ? '75%' : '100%' }} key={key} src={elem} alt="imagen alternativa" onError={(e) => e.target.src = "https://via.placeholder.com/200x200/ffffff/000000?text=Imagen+No+Disponible&size=30"} loading="lazy" />
@@ -338,15 +412,16 @@ export default function PostedContent({ token, post, handleFeedReload, isolated 
                 </Box>
 
                 <Box id={"comment-box-" + post.postId} className={"hidden comment-box-" + post.postId}>
-                    <TextField
+                    <MentionTextField
+                        token={token}
                         sx={{ borderRadius: '5px', mt: '2%', mb: '2%' }}
                         required
                         multiline
                         variant="outlined"
                         size="small"
                         label="comentar en la publicacion"
-                        fullWidth
                         className="bgx-white feed-comment-input"
+                        name="comment"
                         value={comment}
                         onChange={handleChangeCapture}
                         InputProps={{

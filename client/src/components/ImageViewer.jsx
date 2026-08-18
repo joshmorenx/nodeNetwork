@@ -5,16 +5,21 @@ import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-export default function ImageViewer({ image, setImgClickedPath }) {
+export default function ImageViewer({ image, video, setImgClickedPath }) {
     const [img, setImg] = useState(null)
+    const [vid, setVid] = useState(null)
 
     useEffect(() => {
         setImg(image)
     }, [image])
 
+    useEffect(() => {
+        setVid(video)
+    }, [video])
+
     // Bloquear el scroll de la página mientras el visor está abierto
     useEffect(() => {
-        if (img) {
+        if (img || vid) {
             document.body.style.overflow = 'hidden'
         } else {
             document.body.style.overflow = ''
@@ -22,10 +27,11 @@ export default function ImageViewer({ image, setImgClickedPath }) {
         return () => {
             document.body.style.overflow = ''
         }
-    }, [img])
+    }, [img, vid])
 
     const handleClose = () => {
         setImg(null)
+        setVid(null)
         setImgClickedPath(null)
     }
 
@@ -43,23 +49,36 @@ export default function ImageViewer({ image, setImgClickedPath }) {
     // Render at document.body level so no parent stacking context can
     // trap the viewer below other overlays; its z-index then competes globally
     return (
-        img && createPortal(
+        (img || vid) && createPortal(
             <>
                 <Box className="feed-image-viewer-backdrop" onClick={handleClose} />
                 <Box className="feed-image-viewer">
-                    <Box className="feed-image-viewer-close" onClick={handleClose} role="button" aria-label="Cerrar imagen">
+                    <Box className="feed-image-viewer-close" onClick={handleClose} role="button" aria-label="Cerrar">
                         <CloseIcon />
                     </Box>
-                    <img className="feed-image-viewer-img" src={img} alt="" />
-                    <a
-                        className="feed-image-viewer-open"
-                        href={img}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <OpenInNewIcon fontSize="small" />
-                        <span>Ver original</span>
-                    </a>
+                    {vid ? (
+                        <video
+                            className="feed-image-viewer-img"
+                            src={vid}
+                            controls
+                            autoPlay
+                            playsInline
+                            alt=""
+                        />
+                    ) : (
+                        <>
+                            <img className="feed-image-viewer-img" src={img} alt="" />
+                            <a
+                                className="feed-image-viewer-open"
+                                href={img}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <OpenInNewIcon fontSize="small" />
+                                <span>Ver original</span>
+                            </a>
+                        </>
+                    )}
                 </Box>
             </>,
             document.body
@@ -69,5 +88,6 @@ export default function ImageViewer({ image, setImgClickedPath }) {
 
 ImageViewer.propTypes = {
     image: PropTypes.string,
+    video: PropTypes.string,
     setImgClickedPath: PropTypes.func
 }

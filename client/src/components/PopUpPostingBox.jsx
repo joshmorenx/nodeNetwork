@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CollectionsIcon from '@mui/icons-material/Collections';
+import VideoFileIcon from '@mui/icons-material/VideoFile';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Box, Button, TextField, Typography } from "@mui/material";
 import useCreateNewPost from '../hooks/useCreateNewPost.jsx';
@@ -8,10 +9,13 @@ import { useMediaQuery } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
+import MentionTextField from './MentionTextField.jsx';
 
 export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, handleFeedReload }) {
     const [selectedImageFile, setSelectedImageFile] = useState(null); // Default image file
     const [selectedImageUrl, setSelectedImageUrl] = useState(null); // Default image URL
+    const [selectedVideoFile, setSelectedVideoFile] = useState(null); // Video file
+    const [selectedVideoUrl, setSelectedVideoUrl] = useState(null); // Video URL de vista previa
     const [imageOver, setImageOver] = useState(false);
     const { sendRequest, msg, error, success, handleInputChange, postForm, loading } = useCreateNewPost({
         token, initialForm: {
@@ -49,15 +53,36 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
         document.getElementById('imagefile').click()
     }
 
+    const openVideoSelector = () => {
+        document.getElementById('videofile').click()
+    }
+
     const handleImageChange = (event) => {
         setSelectedImageFile(event.target.files[0])
         setSelectedImageUrl(URL.createObjectURL(event.target.files[0]))
+        // Solo un archivo multimedia por publicación
+        setSelectedVideoFile(null)
+        setSelectedVideoUrl(null)
+    }
+
+    const handleVideoChange = (event) => {
+        setSelectedVideoFile(event.target.files[0])
+        setSelectedVideoUrl(URL.createObjectURL(event.target.files[0]))
+        // Solo un archivo multimedia por publicación
+        setSelectedImageFile(null)
+        setSelectedImageUrl(null)
     }
 
     const clearInput = () => {
         document.getElementById('imagefile').value = null
         setSelectedImageFile(null)
         setSelectedImageUrl(null)
+    }
+
+    const clearVideoInput = () => {
+        document.getElementById('videofile').value = null
+        setSelectedVideoFile(null)
+        setSelectedVideoUrl(null)
     }
 
     useEffect(() => {
@@ -82,7 +107,8 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
                     <CloseIcon className="feed-post-form-close" onClick={handleClosePostingBoxPopUp} />
                 </Box>
 
-                <TextField
+                <MentionTextField
+                    token={token}
                     className='bgx-white'
                     multiline
                     variant="outlined"
@@ -127,6 +153,13 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
                 </Box>
                 <Box>
                     <input style={{ display: 'none' }} id='imagefile' type='file' onChange={handleImageChange} accept=".jpg, .jpeg, .png, .jfif, .raw" />
+                    <input style={{ display: 'none' }} id='videofile' type='file' onChange={handleVideoChange} accept=".mp4, .webm, .mov, .m4v, .ogg" />
+                    {selectedVideoUrl && (
+                        <Box className="feed-post-form-preview">
+                            <CloseIcon onClick={clearVideoInput} />
+                            <video controls src={selectedVideoUrl} style={{ display: 'block', width: '100%', maxHeight: 280, borderRadius: 14, background: '#000' }} />
+                        </Box>
+                    )}
                     {selectedImageUrl && (
                         <Box className="feed-post-form-preview">
                             <CloseIcon onClick={clearInput} />
@@ -139,6 +172,10 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
 
                     <Button className="feed-post-form-action" onClick={openFileSelector}>
                         <CollectionsIcon /> {!selectedImageFile ? 'Añadir una imagen' : 'Imagen añadida ✓'}
+                    </Button>
+
+                    <Button className="feed-post-form-action" onClick={openVideoSelector}>
+                        <VideoFileIcon /> {!selectedVideoFile ? 'Añadir un video' : 'Video añadido ✓'}
                     </Button>
 
                     <Button className="feed-post-form-action feed-post-form-action-location" onClick={getGeoLocation}>
@@ -154,7 +191,7 @@ export default function PopUpPostingBox({ token, handleClosePostingBoxPopUp, han
                         <Button size="small" fullWidth className="feed-post-form-submit-btn">
                             Publicar
                         </Button> :
-                        <Button disabled={loading} onClick={() => sendRequest(selectedImageFile)} variant="contained" size="small" fullWidth className="feed-post-form-submit-btn">
+                        <Button disabled={loading} onClick={() => sendRequest(selectedImageFile, selectedVideoFile)} variant="contained" size="small" fullWidth className="feed-post-form-submit-btn">
                             {!loading ? 'Publicar' : <CircularProgress size={'2rem'} sx={{ color: 'white' }} />}
                         </Button>
                     }

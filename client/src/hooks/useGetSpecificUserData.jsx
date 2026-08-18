@@ -8,6 +8,8 @@ export default function useGetSpecificUserData({ token, username }) {
     const [err, setErr] = useState(null);
 
     const sendRequest = async () => {
+        setSuccess(false);
+        setErr(null);
         await axios.get(`${backendUrl}/api/getSpecificUserData/${username}`,{
             headers: {
                 Authorization: `Bearer ${token}`

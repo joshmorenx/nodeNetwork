@@ -8,12 +8,12 @@ const markMessagesRead = require("../controllers/markMessagesRead.js");
 const deleteMessage = require("../controllers/deleteMessage.js");
 const deleteConversation = require("../controllers/deleteConversation.js");
 
-const messageRoutes = (io) => {
+const messageRoutes = (io, upload) => {
 
     router.get('/api/conversations/', verifyToken, getConversations);
     router.get('/api/messages/:username', verifyToken, getMessages);
-    router.post('/api/messages/', verifyToken, sendMessage(io));
-    router.put('/api/messages/read/', verifyToken, markMessagesRead);
+    router.post('/api/messages/', verifyToken, upload.single('video'), sendMessage(io));
+    router.put('/api/messages/read/', verifyToken, markMessagesRead(io));
     router.delete('/api/messages/:messageId', verifyToken, deleteMessage(io));
     router.delete('/api/conversations/:conversationId', verifyToken, deleteConversation);
 

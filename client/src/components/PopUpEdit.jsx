@@ -1,8 +1,8 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import CollectionsIcon from '@mui/icons-material/Collections';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import VideoFileIcon from '@mui/icons-material/VideoFile';
+import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import useUpdatePost from '../hooks/useUpdatePost.jsx';
 import { useMediaQuery } from '@mui/material';
@@ -10,6 +10,8 @@ import { CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 export default function PopUpEdit({ token, post, setUpdatePost, type }) {
+    const [selectedVideoFile, setSelectedVideoFile] = useState(null);
+    const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
     const className = useSelector((state) => state.className);
     const { postForm, msg, error, success, setSuccess, handleInputChange, updatePost, updatedPost, setUpdatedPost, loading } = useUpdatePost({
         token, initialForm: {
@@ -44,6 +46,21 @@ export default function PopUpEdit({ token, post, setUpdatePost, type }) {
             setUpdatePost(false);
         }
     }, [success])
+
+    const openVideoSelector = () => {
+        document.getElementById('edit-videofile').click()
+    }
+
+    const handleVideoChange = (event) => {
+        setSelectedVideoFile(event.target.files[0])
+        setSelectedVideoUrl(URL.createObjectURL(event.target.files[0]))
+    }
+
+    const clearVideoInput = () => {
+        document.getElementById('edit-videofile').value = null
+        setSelectedVideoFile(null)
+        setSelectedVideoUrl(null)
+    }
 
     return (
         <Box className="posting-box-popup">
@@ -90,17 +107,29 @@ export default function PopUpEdit({ token, post, setUpdatePost, type }) {
                     />
                 </Box>
 
-                {/* <Box sx={{ display: 'inline-flex', justifyContent: 'center', mt: 2, width: '100%' }}>
-                    <Link sx={{ color: 'blueviolet', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><CollectionsIcon fontSize='small' /> Añadir una imagen/video</Link>
-                    <Link sx={{ color: 'orangered', fontSize: isDesktop ? '1vw' : isTablet ? '2vw' : '3vw' }} width={'100%'} textAlign={'center'} href="#"><LocationOnIcon /> Añadir una ubicación</Link>
-                </Box> */}
+                {type === 'post' && (
+                    <Box sx={{ mt: 2 }}>
+                        <input style={{ display: 'none' }} id='edit-videofile' type='file' onChange={handleVideoChange} accept=".mp4, .webm, .mov, .m4v, .ogg" />
+
+                        {selectedVideoUrl && (
+                            <Box className="feed-post-form-preview">
+                                <CloseIcon onClick={clearVideoInput} />
+                                <video controls src={selectedVideoUrl} style={{ display: 'block', width: '100%', maxHeight: 280, borderRadius: 14, background: '#000' }} />
+                            </Box>
+                        )}
+
+                        <Button className="feed-post-form-action" onClick={openVideoSelector} sx={{ width: '100%' }}>
+                            <VideoFileIcon /> {selectedVideoFile ? 'Video nuevo añadido ✓' : (post.videos && post.videos.length > 0 ? 'Reemplazar video actual' : 'Añadir un video')}
+                        </Button>
+                    </Box>
+                )}
 
                 <Box sx={{ mt: 2, mr: 1, mb: 1, ml: 1 }}>
                     {!postForm.content ?
                         <Button size="small" fullWidth>
                             Actualizar
                         </Button> :
-                        <Button disabled={loading} sx={{ color: 'white' }} onClick={() => updatePost()} variant="contained" size="small" fullWidth>
+                        <Button disabled={loading} sx={{ color: 'white' }} onClick={() => updatePost(undefined, selectedVideoFile)} variant="contained" size="small" fullWidth>
                             {!loading ? 'Actualizar' : <CircularProgress size={'3vw'} sx={{ color: 'white' }} />}
                         </Button>
                     }
